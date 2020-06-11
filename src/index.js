@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "react-bootstrap";
-import { Header } from "./Screens";
+import { Header } from "./components/common";
 import store from "./store";
 import Routes from "./routes";
 
@@ -12,6 +12,7 @@ import "font-awesome/css/font-awesome.min.css";
 import "bootstrap";
 import "bootstrap/dist/js/bootstrap.js";
 import * as serviceWorker from "./serviceWorker";
+import './global.scss';
 
 ReactDOM.render(
   <Provider store={store}>

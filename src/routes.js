@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Switch, Route, BrowserRouter, withRouter } from "react-router-dom";
-import { ManageStreamProcessor } from "./Screens";
+import { ManageStreamProcessor } from "./containers";
 
 class Routes extends Component {
   constructor(props) {

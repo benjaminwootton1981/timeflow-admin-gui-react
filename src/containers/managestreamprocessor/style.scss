@@ -1,0 +1,107 @@
+.mainContainer {
+  padding: 0 10%;
+}
+
+.Valuecard {
+  background: #ffffff;
+  /* Field Shadow */
+
+  box-shadow: 0px 6px 12px rgba(164, 109, 255, 0.1);
+  border-radius: 15px;
+  width: 370px;
+}
+
+.valueHeader {
+  background: linear-gradient(228.39deg, #803c8a 16.56%, #ffcdce 274.83%);
+  border-radius: 15px 15px 0px 0px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.headerTitle {
+  font-family: "Helvetica Neue";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: white;
+}
+
+.cardBody {
+}
+
+.cardItem {
+  text-align: center;
+  margin-top: 5px;
+}
+
+.smallItem {
+  width: 48%;
+}
+
+.rowContent {
+  display: flex;
+  justify-content: space-between;
+}
+
+.itemTitle {
+  font-family: "Helvetica Neue";
+  font-size: 12px;
+  line-height: 14px;
+  color: #828282;
+}
+
+.cardInput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 10px;
+  background: #f5f5f5;
+  /* border color */
+
+  border: 1px solid #d1c5da;
+  box-sizing: border-box;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.redOutline {
+  /* Red error inside field */
+
+  background: #fff5f5;
+  /* Delete color */
+
+  border: 1px solid #eb5656 !important;
+  color: #eb5656;
+}
+
+.border-line {
+  border: 1px solid rgba(209, 197, 218, 0.5);
+  transform: rotate(180deg);
+}
+
+.cardFooter {
+  button {
+    background: #ffffff;
+    border: 1px solid #803c8a;
+    border-radius: 5px;
+  }
+}
+
+/*Common*/
+.padding-10 {
+  padding: 10px;
+}
+
+/*Color*/
+
+.purple {
+  color: #803c8a;
+}
+
+.danger {
+  color: #eb5656;
+}
