@@ -81,7 +81,7 @@ pipeline {
                         sh'''
                             #!/bin/bash
                             echo -e "Running Unit Test.\n"
-                            bash ./deployment/scripts/test.sh
+                            #bash ./deployment/scripts/test.sh
                         '''
                     }
                 }
