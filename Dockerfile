@@ -1,8 +1,9 @@
-FROM node:14.4.0-stretch
-
+FROM node:alpine
+WORKDIR /react-app
+COPY ./package.json ./
+RUN npm install
+COPY ./ ./
+RUN npm run build
+FROM nginx:alpine
 EXPOSE 8001
-
-RUN date >/build-date.txt
-RUN npm install yarn
-
-ENTRYPOINT ["bash", "yarn start"]
+COPY --from=0 /react-app/build /usr/share/nginx/html/
