@@ -36,7 +36,7 @@ pipeline {
     environment {
         REGION = 'eu-west-1'
         ECR_URI = "041202610208.dkr.ecr.eu-west-1.amazonaws.com"
-        PROJECT_NAME = "timeflow-admin-gui"
+        PROJECT_NAME = "timeflow-admin-gui-react"
         VERSION = "stable"
     }
 
