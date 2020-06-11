@@ -1,3 +1,5 @@
+# timeflow-admin-gui-react
+
 FROM node:alpine
 WORKDIR /react-app
 COPY ./package.json ./
