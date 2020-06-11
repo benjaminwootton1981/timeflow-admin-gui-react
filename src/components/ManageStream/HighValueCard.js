@@ -8,6 +8,7 @@ class HighValueCard extends Component {
   }
 
   render() {
+    const item = this.props.post;
     return (
       <div className="Valuecard">
         <div className="valueHeader">
@@ -16,7 +17,7 @@ class HighValueCard extends Component {
         <div className="cardBody padding-10">
           <div className="cardItem">
             <span className="itemTitle">Stream Processor Type</span>
-            <span className="cardInput">Timeflow-Native</span>
+            <span className="cardInput">{item.display_name}</span>
           </div>
           <div className="cardItem rowContent">
             <div className="cardItem smallItem">

@@ -1,1 +1,1 @@
-export const GET_CARD = "GET_CARD";
+export const GET_STREAMS = "GET_STREAMS";
