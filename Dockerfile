@@ -9,4 +9,4 @@ RUN npm run build
 FROM nginx:alpine
 COPY nginx.conf /etc/nginx/
 EXPOSE 8001
-COPY ./react-app/build /usr/share/nginx/html
+COPY ./build/* /usr/share/nginx/html/
