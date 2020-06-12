@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route, BrowserRouter, withRouter } from "react-router-dom";
-import { ManageStreamProcessor } from "./containers";
+import { Switch, BrowserRouter, withRouter } from "react-router-dom";
 import StreamprocessorRoute from "./containers/streamprocessor/streamprocessor.route";
 
 class Routes extends Component {
@@ -15,7 +14,6 @@ class Routes extends Component {
       return (
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" component={ManageStreamProcessor} />
             <StreamprocessorRoute />
           </Switch>
         </BrowserRouter>

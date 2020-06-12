@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "react-bootstrap";
-import { Header } from "./components/common";
 import store from "./store";
 import Routes from "./routes";
 
@@ -16,7 +15,6 @@ import './global.scss';
 
 ReactDOM.render(
   <Provider store={store}>
-    <Header />
     <BrowserRouter>
       <ThemeProvider>
         <Routes />
