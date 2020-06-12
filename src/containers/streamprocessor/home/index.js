@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { HighValueCard } from "../../components";
-import { getStreams } from "../../store/actions/serviceAction";
+import { HighValueCard } from "../../../components";
+import { getStreams } from "../../../store/actions/serviceAction";
 import './style.scss';
 
 class ManageStreamProcessor extends Component {

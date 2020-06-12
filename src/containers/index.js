@@ -1,4 +1,4 @@
-import ManageStreamProcessor from './managestreamprocessor';
+import ManageStreamProcessor from './streamprocessor/home';
 
 export {
     ManageStreamProcessor
