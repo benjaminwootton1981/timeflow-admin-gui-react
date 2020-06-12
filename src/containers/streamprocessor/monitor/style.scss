@@ -17,6 +17,12 @@
     .MuiTab-wrapper {
       text-transform: capitalize;
     }
+    .span {
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 20px;
+      color: #803C8A !important;
+    }
   }
 
   .MuiAppBar-root {
@@ -187,6 +193,9 @@
 }
 .inboud_event_chart_total .pie-wrapper .label {
   background: linear-gradient(263.7deg, #803C8A 16.56%, #FFCDCE 274.83%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .inboud_event_chart_total .pie-wrapper {
@@ -194,31 +203,39 @@
 }
 
 .content_charts {
+  width: 400px;
+  height: 150px;
 }
 
 .content_charts_nav {
   display: flex;
   padding: 20px 0;
-}
 
-.content_charts_nav li:first-child {
-  border-right: 1px solid #803C8A;
-}
+  li {
+    padding: 0 11px;
+    line-height: 16px;
+  }
 
-.content_charts_nav > li > a {
-  font-family: Helvetica Neue, sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 13px;
-  line-height: 16px;
-  color: #803C8A;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  opacity: 0.5;
-}
+  li:first-child {
+    border-right: 1px solid #803C8A;
+  }
 
-.content_charts_nav > li > a.active {
-  opacity: 1;
+  li > a {
+    font-family: Helvetica Neue, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 16px;
+    color: #803C8A;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    opacity: 0.5;
+    text-decoration: none;
+
+    &.active {
+      opacity: 1;
+    }
+  }
 }
 
 .content_charts_nav > li > a:focus, .content_charts_nav > li > a:hover {

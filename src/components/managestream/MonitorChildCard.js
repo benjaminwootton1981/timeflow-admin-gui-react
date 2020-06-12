@@ -1,9 +1,13 @@
 import React from 'react';
+import MonitorLineChart from "./MonitorLineChart";
 
-export default function MonitorChildCard() {
+export default function MonitorChildCard({
+    parent,
+    title
+}) {
     return (
         <div className="monitor__body_tab_child">
-            <span className="monitor__body_tab_child_header">Inbound Event</span>
+            <span className="monitor__body_tab_child_header">{title}</span>
             <div className="monitor__body_tab_child_content">
                 <div className="row">
                     <div className="col-md-6 content_status">
@@ -43,22 +47,22 @@ export default function MonitorChildCard() {
                     <div className="col-md-6 content_charts">
                         <ul className="nav content_charts_nav">
                             <li className="active">
-                                <a href="#inbound-events-chart" data-toggle="tab" className="active">Events
+                                <a href={`#${parent}-events-chart`} data-toggle="tab" className="active">Events
                                     Processed</a>
                             </li>
                             <li>
-                                <a href="#inbound-data-chart" data-toggle="tab">Data Processed</a>
+                                <a href={`#${parent}-data-chart`} data-toggle="tab">Data Processed</a>
                             </li>
                         </ul>
                         <div className="tab-content">
-                            <div className="tab-pane active" id="inbound-events-chart">
+                            <div className="tab-pane active" id={`#${parent}-events-chart`}>
                                 <div className="content_chart">
-                                    <canvas id="inboundEventsByChart" width="400" height="200"></canvas>
+                                    <MonitorLineChart />
                                 </div>
                             </div>
-                            <div className="tab-pane" id="inbound-data-chart">
+                            <div className="tab-pane" id={`#${parent}-data-chart`}>
                                 <div className="content_chart">
-                                    <canvas id="inboundDataByChart" width="400" height="200"></canvas>
+                                    <MonitorLineChart />
                                 </div>
                             </div>
                         </div>
