@@ -14,7 +14,7 @@ class Routes extends Component {
     if (this.state.isAuth) {
       return (
           <AppLayout>
-            <BrowserRouter>
+            <BrowserRouter basename={"/react"}>
               <Switch>
                 <Route exact path='/react/' component={ManageStreamProcessor} />
                 <Route path='/react/monitor' component={MonitorStreamProcessor} />
