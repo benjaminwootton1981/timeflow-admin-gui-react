@@ -16,9 +16,10 @@ class TopHeader extends Component {
             <ul>
               <li className="main-nav__item">
                 <a className="main-nav__link" href="#">
-                                <span>
-                                    <img src={MenuIconProjectSVG} alt="Project" />
-                                </span>Project</a>
+                  <span>
+                      <img src={MenuIconProjectSVG} alt="Project" />
+                  </span>Project
+                </a>
                 <div className="submenu__wrapper">
                   <ul className="submenu">
                     <li className="submenu__item">
@@ -37,24 +38,12 @@ class TopHeader extends Component {
                 <div className="submenu__wrapper">
                   <ul className="submenu">
                     <li className="submenu__item">
-                      <div className="submenu__disabled grayout">
-                        Search
-                      </div>
-                      <div className="submenu__disabled grayout">
-                        Import
-                      </div>
-                      <div className="submenu__disabled grayout">
-                        Extract
-                      </div>
-                      <div className="submenu__disabled grayout">
-                        Simulate
-                      </div>
-                      <div className="submenu__disabled grayout">
-                        API Connection Details
-                      </div>
-                      <div className="submenu__disabled grayout">
-                        Timeflow Connector
-                      </div>
+                      <a className="submenu__link" href="#">Search</a>
+                      <a className="submenu__link" href="#">Import</a>
+                      <a className="submenu__link" href="#">Extract</a>
+                      <a className="submenu__link" href="#">Simulate</a>
+                      <a className="submenu__link" href="#">API Connection Details</a>
+                      <a className="submenu__link" href="#">Timeflow Connector</a>
                     </li>
                   </ul>
                 </div>
@@ -72,9 +61,6 @@ class TopHeader extends Component {
                     </li>
                     <li className="submenu__item">
                       <a className="submenu__link" href="#">Event Streams</a>
-                      <div className="submenu__disabled grayout">
-                        Event Streams
-                      </div>
                       <li className="submenu__item">
                         <a className="submenu__link" href="#">Stream Processors</a>
                       </li>
@@ -116,16 +102,10 @@ class TopHeader extends Component {
                                 </span>Reporting</a>
                 <div className="submenu__wrapper">
                   <ul className="submenu">
-                    <li className="submenu__item submenu__disabled grayout">
-                      <div className="submenu__disabled grayout">
-                        Reports
-                      </div>
-                      <div className="submenu__disabled grayout">
-                        Metrics & KPIs
-                      </div>
-                      <div className="submenu__disabled grayout">
-                        Searches
-                      </div>
+                    <li className="submenu__item">
+                      <a className="submenu__link" href="#">Reports</a>
+                      <a className="submenu__link" href="#">Metrics & KPIs</a>
+                      <a className="submenu__link" href="#">Searches</a>
                     </li>
                   </ul>
                 </div>
