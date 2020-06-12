@@ -17,7 +17,7 @@ class Routes extends Component {
             <BrowserRouter basename={"/react"}>
               <Switch>
                 <Route exact path='/' component={ManageStreamProcessor} />
-                <Route path='/monitor' component={MonitorStreamProcessor} />
+                <Route exact path='/monitor' component={MonitorStreamProcessor} />
               </Switch>
             </BrowserRouter>
           </AppLayout>
