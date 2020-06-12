@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {Switch, BrowserRouter, withRouter, Route} from "react-router-dom";
-import ManageStreamProcessor from "./containers/streamprocessor/home";
-import MonitorStreamProcessor from "./containers/streamprocessor/monitor";
+import { ManageStreamProcessor, MonitorStreamProcessor } from "./containers/streamprocessor";
 import AppLayout from "./components/layouts/app.layout";
 
 class Routes extends Component {
@@ -17,8 +16,8 @@ class Routes extends Component {
           <AppLayout>
             <BrowserRouter>
               <Switch>
-                <Route exact path='/streamprocessors' component={ManageStreamProcessor} />
-                <Route path='/streamprocessors/monitor' component={MonitorStreamProcessor} />
+                <Route exact path='/' component={ManageStreamProcessor} />
+                <Route path='/monitor' component={MonitorStreamProcessor} />
               </Switch>
             </BrowserRouter>
           </AppLayout>
