@@ -32,7 +32,7 @@ function ManageStreamProcessor(props) {
                 ))}
             </div>
             <div className="dashboard__footer">
-                <a className="btn" href={`/projects/${props.match.params.id}/streamprocessors`}>
+                <a className="btn" href={`/projects/${props.match.params.id}/streamprocessors/new`}>
                     Add Stream Processor
                 </a>
                 <a className="btn create__group" href="#create-groupd-modal" id="create_ground" rel="modal:open">
