@@ -42,7 +42,7 @@ function ManageSimulation(props) {
                 )
             }
             <div className="dashboard__footer">
-                <a className="btn" href={`/projects/${props.match.params.id}/simulations`}>
+                <a className="btn" href={`/projects/${props.match.params.id}/simulations/new`}>
                     Add Simulation
                 </a>
                 {

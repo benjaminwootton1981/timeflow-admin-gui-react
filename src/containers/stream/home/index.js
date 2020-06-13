@@ -42,7 +42,7 @@ function ManageStream(props) {
                 )
             }
             <div className="dashboard__footer">
-                <a className="btn" href={`/projects/${props.match.params.id}/streams`}>
+                <a className="btn" href={`/projects/${props.match.params.id}/streams/new`}>
                     Add Stream
                 </a>
                 {
