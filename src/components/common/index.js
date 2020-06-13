@@ -1,1 +1,3 @@
-export { default as Header } from './header';
+import TabPanel from "./TabPanel";
+
+export { TabPanel };

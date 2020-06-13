@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Switch, BrowserRouter, withRouter } from "react-router-dom";
-import StreamprocessorRoute from "./containers/streamprocessor/streamprocessor.route";
+import {Switch, BrowserRouter, withRouter, Route} from "react-router-dom";
+import { ManageStreamProcessor, MonitorStreamProcessor } from "./containers/streamprocessor";
+import AppLayout from "./components/layouts/app.layout";
 
 class Routes extends Component {
   constructor(props) {
@@ -12,11 +13,14 @@ class Routes extends Component {
   render() {
     if (this.state.isAuth) {
       return (
-        <BrowserRouter>
-          <Switch>
-            <StreamprocessorRoute />
-          </Switch>
-        </BrowserRouter>
+          <AppLayout>
+            <BrowserRouter basename={"/react"}>
+              <Switch>
+                <Route exact path='/' component={ManageStreamProcessor} />
+                <Route exact path='/monitor' component={MonitorStreamProcessor} />
+              </Switch>
+            </BrowserRouter>
+          </AppLayout>
       );
     } else {
     }

@@ -1155,6 +1155,7 @@ main {
     color: #803C8A;
     text-align: center;
     margin-bottom: 50px;
+    margin-top: 50px;
 }
 .dashboard__cards {
     display: flex;
