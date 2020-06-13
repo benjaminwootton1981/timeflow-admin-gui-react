@@ -56,31 +56,31 @@ export default function TopHeader() {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="#">Event Definitions</a>
+                    <a className="submenu__link" href="/projects/XXXX/schemas">Event Definitions</a>
                   </li>
                   <li className="submenu__item">
-                    <a className="submenu__link" href="#">Event Streams</a>
+                    <a className="submenu__link" href="/projects/XXXX/streams">Event Streams</a>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Stream Processors</a>
+                      <a className="submenu__link" href="/projects/XXXX/streamprocessors">Stream Processors</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Saved Searches</a>
+                      <a className="submenu__link" href="/projects/XXXX/searches">Saved Searches</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Metrics & KPIs</a>
+                      <a className="submenu__link" href="/projects/XXXX/kpis">Metrics & KPIs</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Functions</a>
+                      <a className="submenu__link" href="/projects/XXXX/functions">Functions</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Reports</a>
+                      <a className="submenu__link" href="/projects/XXXX/analysis">Reports</a>
                     </li>
 
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Timelines</a>
+                      <a className="submenu__link" href="/projects/XXXX/timelines">Timelines</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Data Dictionaries</a>
+                      <a className="submenu__link" href="/projects/XXXX/datadictionaries">Data Dictionaries</a>
                     </li>
                   </li>
 
