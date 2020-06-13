@@ -16,3 +16,20 @@
 .wrapper {
   width: 1200px;
 }
+
+.btn {
+  background: #803C8A;
+  box-shadow: 4px 4px 10px rgba(128, 60, 138, 0.22);
+  border-radius: 73px;
+  font-family: Helvetica Neue, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  max-width: 236px;
+  margin: auto;
+  color: white;
+}

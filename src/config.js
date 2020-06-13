@@ -1,4 +1,4 @@
-export const API_URL = "http://52.213.90.209/api/v1/";
+export const API_URL = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL + "/api/v1/" : "/api/v1/";
 export const DEVELOPER_KEY =
   "6ec27af68aa057caf4e39622e16b518a9be2e669a15aca73fd77abd229923dab";
 export const PROJECT_KEY =

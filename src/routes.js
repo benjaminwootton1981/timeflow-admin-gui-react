@@ -20,19 +20,19 @@ class Routes extends Component {
                 <Route exact path='/monitor' component={MonitorStreamProcessor} /> */}
 
                 # Access From Django - Streams Index Page - /react/projects/9/streams/
-                <Route exact path='/projects/9/streams/' component={ManageStreamProcessor} />
+                <Route exact path='/projects/:id/streams/' component={ManageStreamProcessor} />
 
                 # Access From Django - Simulations Index Page - /react/projects/9/simulations/
-                <Route exact path='/projects/9/simulations/' component={ManageStreamProcessor} />
+                <Route exact path='/projects/:id/simulations/' component={ManageStreamProcessor} />
 
                 # Access From Django - Stream Processors Index Page - /react/projects/9/streamprocessors/
-                <Route exact path='/projects/9/streamprocessors/' component={ManageStreamProcessor} />
+                <Route exact path='/projects/:id/streamprocessors/' component={ManageStreamProcessor} />
 
                 # Access From React - Stream Processors Monitor Page 
-                <Route exact path='/projects/9/streamprocessors/1/monitor' component={MonitorStreamProcessor} />
+                <Route exact path='/projects/:id/streamprocessors/:processor_id/monitor' component={MonitorStreamProcessor} />
 
                 # Access From React - Stream Processors New/Edit Page
-                <Route exact path='/projects/9/streamprocessors/new' component={NewStreamProcessor} />
+                <Route exact path='/projects/:id/streamprocessors/new' component={NewStreamProcessor} />
 
               </Switch>
             </BrowserRouter>

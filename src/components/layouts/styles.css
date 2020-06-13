@@ -747,7 +747,7 @@ body {
     min-height: 100vh;
     font-family: Helvetica Neue, sans-serif;
     font-style: normal;
-    background-color: #F5F6FD;
+    background-color: #F5F6FD !important;
     background-image: url("../../assets/body_background.png");
     background-repeat: no-repeat;
     background-position: center 133px;
@@ -768,6 +768,7 @@ img {
     padding-left: 15px;
     padding-right: 15px;
     margin: auto;
+    margin-top: 50px;
 }
 
 .assets {
@@ -1155,7 +1156,6 @@ main {
     color: #803C8A;
     text-align: center;
     margin-bottom: 50px;
-    margin-top: 50px;
 }
 .dashboard__cards {
     display: flex;
@@ -1164,6 +1164,24 @@ main {
 }
 .dashboard__footer {
     text-align: center;
+    margin-top: 0 !important;
+    padding: 41px 0;
+    position: relative;
+}
+
+.dashboard__footer .create__group {
+    position: absolute;
+    right: 0;
+    top: 41px;
+}
+
+.dashboard__footer .create__group:hover span {
+    color: #FFFFFF;
+}
+
+.dashboard__footer .create__group span {
+    font-family: Helvetica Neue, sans-serif;
+    font-style: normal;
 }
 
 .new-item {

@@ -1,9 +1,9 @@
 import { GET_STREAMS } from "../constants";
-import { API_URL, PROJECT_KEY, DEVELOPER_KEY } from "../../config";
+import { API_URL } from "../../config";
 
-export const getStreams = () => {
+export const getStreams = (project_id) => {
   return dispatch => {
-    let url = `${API_URL}streams/?developer_key=${DEVELOPER_KEY}&project_key=${PROJECT_KEY}`;
+    let url = `${API_URL}streams/?project=${project_id}`;
     fetch(url, {
       method: "GET",
       headers: {
@@ -13,7 +13,7 @@ export const getStreams = () => {
       .catch(err => {
         console.log(err);
       })
-      .then(res => res.json())
+      .then(res => res && res.json())
       .then(result => {
         dispatch(_getStreams(result));
       });
