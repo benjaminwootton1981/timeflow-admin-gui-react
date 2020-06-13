@@ -18,8 +18,10 @@ class Routes extends Component {
           <AppLayout>
             <BrowserRouter basename={"/react"}>
               <Switch>
-                {/* <Route exact path='/' component={ManageStreamProcessor} />
-                <Route exact path='/monitor' component={MonitorStreamProcessor} /> */}
+                {/* <Route exact path='/' component={ManageStreamProcessor} /> */}
+
+
+                <Route exact path='/projects/:id/streamprocessors/:streamprocessor_id/monitor/' component={MonitorStreamProcessor} />
 
                 # Access From Django - Streams Index Page - /react/projects/9/streams/
                 <Route exact path='/projects/:id/streams/' component={ManageStream} />
