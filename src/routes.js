@@ -15,9 +15,9 @@ class Routes extends Component {
   render() {
     if (this.state.isAuth) {
       return (
-          <AppLayout>
             <BrowserRouter basename={"/react"}>
-              <Switch>
+              <AppLayout>
+                <Switch>
                 {/* <Route exact path='/' component={ManageStreamProcessor} /> */}
 
 
@@ -39,8 +39,8 @@ class Routes extends Component {
                 <Route exact path='/projects/:id/streamprocessors/new' component={NewStreamProcessor} />
 
               </Switch>
+              </AppLayout>
             </BrowserRouter>
-          </AppLayout>
       );
     } else {
     }
