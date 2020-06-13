@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import {Switch, BrowserRouter, withRouter, Route} from "react-router-dom";
 import { ManageStreamProcessor, MonitorStreamProcessor, NewStreamProcessor } from "./containers/streamprocessor";
+import { ManageStream } from "./containers/stream";
+import { ManageSimulation } from "./containers/simulation";
 import AppLayout from "./components/layouts/app.layout";
 
 class Routes extends Component {
@@ -20,10 +22,10 @@ class Routes extends Component {
                 <Route exact path='/monitor' component={MonitorStreamProcessor} /> */}
 
                 # Access From Django - Streams Index Page - /react/projects/9/streams/
-                <Route exact path='/projects/:id/streams/' component={ManageStreamProcessor} />
+                <Route exact path='/projects/:id/streams/' component={ManageStream} />
 
                 # Access From Django - Simulations Index Page - /react/projects/9/simulations/
-                <Route exact path='/projects/:id/simulations/' component={ManageStreamProcessor} />
+                <Route exact path='/projects/:id/simulations/' component={ManageSimulation} />
 
                 # Access From Django - Stream Processors Index Page - /react/projects/9/streamprocessors/
                 <Route exact path='/projects/:id/streamprocessors/' component={ManageStreamProcessor} />

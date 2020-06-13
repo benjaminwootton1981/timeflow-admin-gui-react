@@ -2,51 +2,51 @@ import React, { useState, useEffect } from "react";
 import { HighValueCard } from "../../../components";
 import './style.scss';
 import {connect} from "react-redux";
-import {getStreamProcessors} from "../../../store/actions/serviceAction";
-import EmptyStreamProcessorSVG from '../../../assets/empty-streamprocessor.svg';
+import {getSimulations} from "../../../store/actions/serviceAction";
+import EmptySimultionsSVG from '../../../assets/empty-simulations.svg';
 
-function ManageStreamProcessor(props) {
+function ManageSimulation(props) {
 
-  const [streams, setStreams] = useState([
+  const [simulations, setSimulations] = useState([
       {display_name: "Test User1"},
       {display_name: "Test User2"},
       {display_name: "Test User3"},
   ]);
 
   useEffect(() => {
-      props.onGetStreamProcessors(props.match.params.id);
+      props.onGetSimulations(props.match.params.id);
   }, [])
 
   useEffect(() => {
-      setStreams(props.streams)
-  }, [props.streams])
+      setSimulations(props.simulations)
+  }, [props.simulations])
 
     return (
         <div className="wrapper">
             <h2 className="project-name">Project: Customer Value Examination</h2>
-            <h2 className="dashboard__header">Manage Stream Processors</h2>
+            <h2 className="dashboard__header">Manage Simulations</h2>
             <div className="rowContent">
-                {streams &&
-                streams.length > 0 &&
-                streams.map(item => (
+                {simulations &&
+                simulations.length > 0 &&
+                simulations.map(item => (
                     <HighValueCard post={item} itemIdx={item.id} key={item.id} />
                 ))}
             </div>
             {
-                streams.length === 0 && (
+                simulations.length === 0 && (
                     <div className="empty">
-                        <span className="empty__text">No stream processors are available.</span>
-                        <img src={EmptyStreamProcessorSVG} width="155" height="134" alt="no data"
+                        <span className="empty__text">No simulations are available.</span>
+                        <img src={EmptySimultionsSVG} width="155" height="134" alt="no data"
                              className="empty__image" />
                     </div>
                 )
             }
             <div className="dashboard__footer">
-                <a className="btn" href={`/projects/${props.match.params.id}/streamprocessors/new`}>
-                    Add Stream Processor
+                <a className="btn" href={`/projects/${props.match.params.id}/simulations`}>
+                    Add Simulation
                 </a>
                 {
-                    streams.length !== 0 && (
+                    simulations.length !== 0 && (
                         <a className="btn create__group" href="#create-groupd-modal" id="create_ground" rel="modal:open">
                             <span>+ Create a Group</span>
                         </a>
@@ -59,14 +59,14 @@ function ManageStreamProcessor(props) {
 
 const mapStateToProps = state => {
     return {
-        streams: state.ServiceReducer.streamprocessors
+        simulations: state.ServiceReducer.simulations
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGetStreamProcessors: (id) => {
-            dispatch(getStreamProcessors(id));
+        onGetSimulations: (id) => {
+            dispatch(getSimulations(id));
         }
     };
 };
@@ -74,4 +74,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ManageStreamProcessor);
+)(ManageSimulation);
