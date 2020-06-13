@@ -18,7 +18,7 @@
 }
 
 .btn {
-  background: #803C8A;
+  background: #803c8a;
   box-shadow: 4px 4px 10px rgba(128, 60, 138, 0.22);
   border-radius: 73px;
   font-family: Helvetica Neue, sans-serif;
@@ -32,4 +32,44 @@
   max-width: 236px;
   margin: auto;
   color: white;
+}
+
+.btn-outline {
+  background: white !important;
+  color: #803c8a !important;
+  border: 2px #803c8a solid !important;
+  margin: unset !important;
+}
+
+.bottom-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.marginLeft-20 {
+  margin-left: 20px !important;
+}
+
+.modal-title {
+  color: #803c8a;
+  font-size: 18px;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-backdrop {
+  background-color: #803c8a !important;
+}
+
+.modal-content {
+  background-color: #f5f6fd !important;
+}
+
+.modal-header {
+  border-bottom: unset !important;
+}
+
+.modal-footer {
+  border-top: unset !important;
 }
