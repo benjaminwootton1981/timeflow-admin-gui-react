@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import {Switch, BrowserRouter, withRouter, Route} from "react-router-dom";
 import { ManageStreamProcessor, MonitorStreamProcessor, NewStreamProcessor } from "./containers/streamprocessor";
+import { ManageStream } from "./containers/stream";
+import { ManageSimulation } from "./containers/simulation";
 import AppLayout from "./components/layouts/app.layout";
 
 class Routes extends Component {
@@ -13,17 +15,19 @@ class Routes extends Component {
   render() {
     if (this.state.isAuth) {
       return (
-          <AppLayout>
             <BrowserRouter basename={"/react"}>
-              <Switch>
-                {/* <Route exact path='/' component={ManageStreamProcessor} />
-                <Route exact path='/monitor' component={MonitorStreamProcessor} /> */}
+              <AppLayout>
+                <Switch>
+                {/* <Route exact path='/' component={ManageStreamProcessor} /> */}
+
+
+                <Route exact path='/projects/:id/streamprocessors/:streamprocessor_id/monitor/' component={MonitorStreamProcessor} />
 
                 # Access From Django - Streams Index Page - /react/projects/9/streams/
-                <Route exact path='/projects/:id/streams/' component={ManageStreamProcessor} />
+                <Route exact path='/projects/:id/streams/' component={ManageStream} />
 
                 # Access From Django - Simulations Index Page - /react/projects/9/simulations/
-                <Route exact path='/projects/:id/simulations/' component={ManageStreamProcessor} />
+                <Route exact path='/projects/:id/simulations/' component={ManageSimulation} />
 
                 # Access From Django - Stream Processors Index Page - /react/projects/9/streamprocessors/
                 <Route exact path='/projects/:id/streamprocessors/' component={ManageStreamProcessor} />
@@ -35,8 +39,8 @@ class Routes extends Component {
                 <Route exact path='/projects/:id/streamprocessors/new' component={NewStreamProcessor} />
 
               </Switch>
+              </AppLayout>
             </BrowserRouter>
-          </AppLayout>
       );
     } else {
     }

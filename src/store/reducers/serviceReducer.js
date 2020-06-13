@@ -1,7 +1,9 @@
-import { GET_STREAMS } from "../constants";
+import { GET_STREAMS, GET_STREAMPROCESSORS, GET_SIMULATIONS } from "../constants";
 
 const initialState = {
-  streams: []
+  streams: [],
+  streamprocessors: [],
+  simulations: [],
 };
 
 export default function ServiceReducer(state = initialState, action) {
@@ -10,6 +12,16 @@ export default function ServiceReducer(state = initialState, action) {
       return {
         ...state,
         streams: action.result
+      };
+    case GET_STREAMPROCESSORS:
+      return {
+        ...state,
+        streamprocessors: action.result
+      };
+    case GET_SIMULATIONS:
+      return {
+        ...state,
+        simulations: action.result
       };
     default:
       return state;

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+
+import { withRouter } from 'react-router-dom';
 
 import MenuIconProjectSVG from "../../assets/design/main-nav/menu_icon_project.svg";
 import MenuIconDataSVG from "../../assets/design/main-nav/menu_icon_data.svg";
@@ -8,7 +10,14 @@ import MenuIconReportingSVG from "../../assets/design/main-nav/menu_icon_reporti
 import MenuIconWorkflowSVG from "../../assets/design/main-nav/menu_icon_workflow.svg";
 import MenuIconHelpSVG from "../../assets/design/main-nav/menu_icon_help.svg";
 
-export default function TopHeader() {
+function TopHeader(props) {
+  const [id, setId] = useState(0);
+
+  useEffect(() => {
+    let id = props.location.pathname.split('/')[2];
+    setId(id);
+  }, []);
+
   return (
       <div className="header__top">
         <nav className="main-nav">
@@ -22,8 +31,8 @@ export default function TopHeader() {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="#">Details</a>
-                    <a className="submenu__link" href="#">Collaborators</a>
+                    <a className="submenu__link" href={`/projects/${id}/details`}>Details</a>
+                    <a className="submenu__link" href={`/projects/${id}/collaboration`}>Collaborators</a>
                   </li>
                 </ul>
               </div>
@@ -37,12 +46,12 @@ export default function TopHeader() {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="#">Search</a>
-                    <a className="submenu__link" href="#">Import</a>
-                    <a className="submenu__link" href="#">Extract</a>
-                    <a className="submenu__link" href="#">Simulate</a>
-                    <a className="submenu__link" href="#">API Connection Details</a>
-                    <a className="submenu__link" href="#">Timeflow Connector</a>
+                    <a className="submenu__link" href="/projects/XXXX/searches/search">Search</a>
+                    <a className="submenu__link" href="/projects/XXXX/integration/import">Import</a>
+                    <a className="submenu__link" href="/projects/2/searches/extract">Extract</a>
+                    <a className="submenu__link" href="/projects/XXXX/simulate">Simulate</a>
+                    <a className="submenu__link" href="/projects/XXXX/api_endpoints">API Connection Details</a>
+                    <a className="submenu__link" href="/projects/XXXX/integration">Timeflow Connector</a>
                   </li>
                 </ul>
               </div>
@@ -56,31 +65,31 @@ export default function TopHeader() {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="#">Event Definitions</a>
+                    <a className="submenu__link" href="/projects/XXXX/schemas">Event Definitions</a>
                   </li>
                   <li className="submenu__item">
-                    <a className="submenu__link" href="#">Event Streams</a>
+                    <a className="submenu__link" href="/projects/XXXX/streams">Event Streams</a>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Stream Processors</a>
+                      <a className="submenu__link" href="/projects/XXXX/streamprocessors">Stream Processors</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Saved Searches</a>
+                      <a className="submenu__link" href="/projects/XXXX/searches">Saved Searches</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Metrics & KPIs</a>
+                      <a className="submenu__link" href="/projects/XXXX/kpis">Metrics & KPIs</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Functions</a>
+                      <a className="submenu__link" href="/projects/XXXX/functions">Functions</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Reports</a>
+                      <a className="submenu__link" href="/projects/XXXX/analysis">Reports</a>
                     </li>
 
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Timelines</a>
+                      <a className="submenu__link" href="/projects/XXXX/timelines">Timelines</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="#">Data Dictionaries</a>
+                      <a className="submenu__link" href="/projects/XXXX/datadictionaries">Data Dictionaries</a>
                     </li>
                   </li>
 
@@ -102,9 +111,9 @@ export default function TopHeader() {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="#">Reports</a>
-                    <a className="submenu__link" href="#">Metrics & KPIs</a>
-                    <a className="submenu__link" href="#">Searches</a>
+                    <a className="submenu__link" href="/projects/XXXX/analysis/list">Reports</a>
+                    <a className="submenu__link" href="/projects/XXXX/streamprocessors/kpis/current">Metrics & KPIs</a>
+                    <a className="submenu__link" href="/projects/XXXX/searches/list">Searches</a>
                   </li>
                 </ul>
               </div>
@@ -133,10 +142,9 @@ export default function TopHeader() {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="#">Guides</a>
+                    <a className="submenu__link" href="/help">Guides</a>
                     <a className="submenu__link"
-                       href="http://timeflow.systems/timeflow-labs-new" target="_blank">Timeflow
-                      Labs</a>
+                       href="http://timeflow.systems/timeflow-labs-new" target="http://timeflow.systes/timeflow-labs-new">Timeflow Labs</a>
                     <a className="submenu__link" href="http://timeflow.systems/"
                        target="_blank">Timeflow Homepage</a>
                   </li>
@@ -148,3 +156,5 @@ export default function TopHeader() {
       </div>
   );
 }
+
+export default withRouter(TopHeader)

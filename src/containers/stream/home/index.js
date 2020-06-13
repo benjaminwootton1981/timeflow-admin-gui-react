@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { HighValueCard } from "../../../components";
 import './style.scss';
 import {connect} from "react-redux";
-import {getStreamProcessors} from "../../../store/actions/serviceAction";
-import EmptyStreamProcessorSVG from '../../../assets/empty-streamprocessor.svg';
+import {getStreams} from "../../../store/actions/serviceAction";
+import EmptyStreamsSVG from '../../../assets/empty-streams.svg';
 
-function ManageStreamProcessor(props) {
+function ManageStream(props) {
 
   const [streams, setStreams] = useState([
       {display_name: "Test User1"},
@@ -14,7 +14,7 @@ function ManageStreamProcessor(props) {
   ]);
 
   useEffect(() => {
-      props.onGetStreamProcessors(props.match.params.id);
+      props.onGetStreams(props.match.params.id);
   }, [])
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function ManageStreamProcessor(props) {
     return (
         <div className="wrapper">
             <h2 className="project-name">Project: Customer Value Examination</h2>
-            <h2 className="dashboard__header">Manage Stream Processors</h2>
+            <h2 className="dashboard__header">Manage Streams</h2>
             <div className="rowContent">
                 {streams &&
                 streams.length > 0 &&
@@ -35,15 +35,15 @@ function ManageStreamProcessor(props) {
             {
                 streams.length === 0 && (
                     <div className="empty">
-                        <span className="empty__text">No stream processors are available.</span>
-                        <img src={EmptyStreamProcessorSVG} width="155" height="134" alt="no data"
+                        <span className="empty__text">No streams are available.</span>
+                        <img src={EmptyStreamsSVG} width="155" height="134" alt="no data"
                              className="empty__image" />
                     </div>
                 )
             }
             <div className="dashboard__footer">
-                <a className="btn" href={`/projects/${props.match.params.id}/streamprocessors/new`}>
-                    Add Stream Processor
+                <a className="btn" href={`/projects/${props.match.params.id}/streams/new`}>
+                    Add Stream
                 </a>
                 {
                     streams.length !== 0 && (
@@ -59,14 +59,14 @@ function ManageStreamProcessor(props) {
 
 const mapStateToProps = state => {
     return {
-        streams: state.ServiceReducer.streamprocessors
+        streams: state.ServiceReducer.streams
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGetStreamProcessors: (id) => {
-            dispatch(getStreamProcessors(id));
+        onGetStreams: (id) => {
+            dispatch(getStreams(id));
         }
     };
 };
@@ -74,4 +74,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ManageStreamProcessor);
+)(ManageStream);
