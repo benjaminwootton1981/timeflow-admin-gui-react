@@ -22,8 +22,8 @@ export default function TopHeader() {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="#">Details</a>
-                    <a className="submenu__link" href="#">Collaborators</a>
+                    <a className="submenu__link" href="/projects/XXXX/details">Details</a>
+                    <a className="submenu__link" href="/projects/XXXX/collaboration">Collaborators</a>
                   </li>
                 </ul>
               </div>
@@ -37,12 +37,12 @@ export default function TopHeader() {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="#">Search</a>
-                    <a className="submenu__link" href="#">Import</a>
-                    <a className="submenu__link" href="#">Extract</a>
-                    <a className="submenu__link" href="#">Simulate</a>
-                    <a className="submenu__link" href="#">API Connection Details</a>
-                    <a className="submenu__link" href="#">Timeflow Connector</a>
+                    <a className="submenu__link" href="/projects/XXXX/searches/search">Search</a>
+                    <a className="submenu__link" href="/projects/XXXX/integration/import">Import</a>
+                    <a className="submenu__link" href="/projects/2/searches/extract">Extract</a>
+                    <a className="submenu__link" href="/projects/XXXX/simulate">Simulate</a>
+                    <a className="submenu__link" href="/projects/XXXX/api_endpoints">API Connection Details</a>
+                    <a className="submenu__link" href="/projects/XXXX/integration">Timeflow Connector</a>
                   </li>
                 </ul>
               </div>
