@@ -102,9 +102,9 @@ export default function TopHeader() {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="#">Reports</a>
-                    <a className="submenu__link" href="#">Metrics & KPIs</a>
-                    <a className="submenu__link" href="#">Searches</a>
+                    <a className="submenu__link" href="/projects/XXXX/analysis/list">Reports</a>
+                    <a className="submenu__link" href="/projects/XXXX/streamprocessors/kpis/current">Metrics & KPIs</a>
+                    <a className="submenu__link" href="/projects/XXXX/searches/list">Searches</a>
                   </li>
                 </ul>
               </div>
@@ -133,10 +133,9 @@ export default function TopHeader() {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="#">Guides</a>
+                    <a className="submenu__link" href="/help">Guides</a>
                     <a className="submenu__link"
-                       href="http://timeflow.systems/timeflow-labs-new" target="_blank">Timeflow
-                      Labs</a>
+                       href="http://timeflow.systems/timeflow-labs-new" target="http://timeflow.systes/timeflow-labs-new">Timeflow Labs</a>
                     <a className="submenu__link" href="http://timeflow.systems/"
                        target="_blank">Timeflow Homepage</a>
                   </li>
