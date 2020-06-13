@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {Switch, BrowserRouter, withRouter, Route} from "react-router-dom";
-import { ManageStreamProcessor, MonitorStreamProcessor } from "./containers/streamprocessor";
+import { ManageStreamProcessor, MonitorStreamProcessor, NewStreamProcessor } from "./containers/streamprocessor";
 import AppLayout from "./components/layouts/app.layout";
 
 class Routes extends Component {
@@ -32,7 +32,7 @@ class Routes extends Component {
                 <Route exact path='/projects/9/streamprocessors/1/monitor' component={MonitorStreamProcessor} />
 
                 # Access From React - Stream Processors New/Edit Page
-                {/* <Route exact path='/projects/9/streamprocessors/new' component={NewMonitorStreamProcessor} /> */}
+                <Route exact path='/projects/9/streamprocessors/new' component={NewStreamProcessor} />
 
               </Switch>
             </BrowserRouter>

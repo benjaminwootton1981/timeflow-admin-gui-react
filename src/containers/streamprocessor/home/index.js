@@ -21,7 +21,10 @@ class ManageStreamProcessor extends Component {
     return (
       <div className="mainContainer">
         <h6>Project: Customer Value Examination</h6>
-        <h2>Manage Stream Processors</h2>
+        <div className="wrapper">
+            <h2 className="dashboard__header">Manage Stream Processors</h2>
+        </div>
+
         <div className="rowContent">
           {streams &&
             streams.length > 0 &&
