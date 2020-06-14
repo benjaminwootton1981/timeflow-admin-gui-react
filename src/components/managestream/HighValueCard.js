@@ -17,7 +17,7 @@ class HighValueCard extends Component {
         <div className="cardBody padding-10">
           <div className="cardItem rowContent">
             <div className="cardItem smallItem">
-              <span className="itemTitle">Request Replicas</span>
+              <span className="itemTitle">Requested Replicas</span>
               <span className="cardInput">2</span>
             </div>
             <div className="cardItem smallItem">
