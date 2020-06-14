@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { HighValueCard } from "../../../components";
+import { StreamValueCard } from "../../../components";
 import './style.scss';
 import {connect} from "react-redux";
 import {getStreams} from "../../../store/actions/serviceAction";
@@ -29,7 +29,7 @@ function ManageStream(props) {
                 {streams &&
                 streams.length > 0 &&
                 streams.map(item => (
-                    <HighValueCard post={item} itemIdx={item.id} key={item.id} />
+                    <StreamValueCard post={item} itemIdx={item.id} key={item.id} />
                 ))}
             </div>
             {

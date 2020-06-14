@@ -48,7 +48,7 @@
   font-weight: bold;
   line-height: 20px;
   color: white;
-  background-color: #803c8a;
+  background-color: #803C8A;
   box-shadow: 4px 4px 10px rgba(128, 60, 138, 0.22);
   border-radius: 24px;
   cursor: pointer;
@@ -808,7 +808,7 @@ img {
   padding-left: 15px;
   padding-right: 15px;
   margin: auto;
-  margin-top: 50px;
+  margin-top: 60px;
 }
 
 .assets {
@@ -1200,7 +1200,7 @@ main {
   /* font-family: Helvetica Neue, sans-serif; */
   font-style: normal;
   font-weight: bold;
-  font-size: 32px;
+  font-size: 30px;
   line-height: 37px;
   color: #803c8a;
   text-align: center;
@@ -1757,6 +1757,7 @@ main {
   font-weight: bold;
   font-size: 18px;
   line-height: 145%;
+  margin-bottom: 0;
 }
 
 #reports-summary {
@@ -2297,4 +2298,134 @@ main {
 .streamProcessorCardContainer {
   margin-left: -15px;
   margin-right: -2px;
+}
+
+/*HighValueCard*/
+
+.Valuecard {
+  background: #ffffff;
+  /* Field Shadow */
+
+  box-shadow: 0px 6px 12px rgba(164, 109, 255, 0.1);
+  border-radius: 15px;
+  width: 370px;
+  margin: 15px;
+}
+
+.Valuecard:nth-child(3n-2):not(:last-child){
+  margin-left: 0;
+}
+
+.rowContent {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+}
+
+.cardBody .grid {
+  display: grid;
+  grid-gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.valueHeader {
+  text-align: center;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 44px;
+  background: linear-gradient(228.39deg, #803C8A 15.56%, #FFCDCE 274.83%);
+  color: white;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  margin-bottom: 0;
+}
+
+.cardBody {
+  padding: 15px;
+}
+
+.cardItem {
+  text-align: center;
+}
+
+.itemTitle {
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+  color: #828282;
+}
+
+.cardInput {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  margin-bottom: 20px;
+  font-family: Helvetica Neue, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 14px;
+  border: 1px solid #D1C5DA;
+  border-radius: 5px;
+  background: #F5F5F5;
+  box-sizing: border-box;
+}
+
+.cardInput[data-header] {
+  margin-top: 25px;
+}
+
+.cardInput[data-header]:before {
+  content: attr(data-header);
+  display: block;
+  width: 100%;
+  position: absolute;
+  top: -25px;
+  left: 0;
+  text-align: center;
+  font-family: Helvetica Neue, sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+  color: #828282;
+}
+
+.redOutline {
+  /* Red error inside field */
+
+  background: #fff5f5;
+  /* Delete color */
+
+  border: 1px solid #eb5656 !important;
+  color: #eb5656;
+}
+
+.border-line {
+  border: 1px solid rgba(209, 197, 218, 0.5);
+  transform: rotate(180deg);
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-top: 1px solid rgba(209, 197, 218, 0.5);
+}
+
+.cardFooter button {
+  display: block;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #803C8A;
+  border-radius: 5px;
+  background-color: white;
+  background-position: center center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  box-sizing: border-box;
+  color: white;
 }
