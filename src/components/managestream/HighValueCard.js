@@ -12,13 +12,9 @@ class HighValueCard extends Component {
     return (
       <div className="Valuecard">
         <div className="valueHeader">
-          <span className="headerTitle">High Value Customers 3</span>
+          <span className="headerTitle">{item.display_name}</span>
         </div>
         <div className="cardBody padding-10">
-          <div className="cardItem">
-            <span className="itemTitle">Stream Processor Type</span>
-            <span className="cardInput">{item.display_name}</span>
-          </div>
           <div className="cardItem rowContent">
             <div className="cardItem smallItem">
               <span className="itemTitle">Request Replicas</span>
