@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-class StepCard extends Component {
+class NewStepCard extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -9,7 +9,7 @@ class StepCard extends Component {
 
   render() {
     return (
-      <div className="stepCard">
+      <div className="newStepCard">
         <i className="fa fa-upload fa-3x purple padding-10"></i>
         <div>
           <p className="purple">Simple Filter Step</p>
@@ -28,4 +28,4 @@ const mapDispatchToProps = dispatch => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StepCard);
+export default connect(mapStateToProps, mapDispatchToProps)(NewStepCard);

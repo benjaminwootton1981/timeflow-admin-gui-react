@@ -5,7 +5,7 @@ import Tabs from "@material-ui/core/Tabs";
 import AppBar from "@material-ui/core/AppBar";
 import { TabPanel } from "../../../components/common";
 import { Modal } from "react-bootstrap";
-import { StepCard } from "../../../components";
+import { NewStepCard, StreamProcessorCard } from "../../../components";
 function a11yProps(index) {
   return {
     id: `scrollable-auto-tab-${index}`,
@@ -16,6 +16,12 @@ function a11yProps(index) {
 export default function MonitorStreamProcessor() {
   const [tab, setTab] = useState(0);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [inputValues, setInputValues] = useState({
+    processorName: "",
+    processorNum: 1,
+    processorDesc: ""
+  });
+
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
   };
@@ -28,20 +34,54 @@ export default function MonitorStreamProcessor() {
     setModalVisible(false);
   };
 
+  const handleChange = event => {
+    const { name, value } = event.target;
+    setInputValues({ ...inputValues, [name]: value });
+  };
+
   return (
     <div className="wrapper">
       <h2 className="dashboard__header">New Stream Processor</h2>
+      <div className="row">
+        <div style={{ width: "50%" }}>
+          <input
+            type="text"
+            name="processorName"
+            placeholder="Stream Processor Name"
+            value={inputValues.processorName}
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="processorNum"
+            style={{ marginTop: "1%" }}
+            value={inputValues.processorNum}
+            onChange={handleChange}
+          />
+        </div>
+        <textarea
+          type="text"
+          name="processorDesc"
+          placeholder="Stream Processor Description"
+          style={{ width: "48%", marginLeft: "1%" }}
+          value={inputValues.processorDesc}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="marginTop-20">
+        <StreamProcessorCard />
+      </div>
       <div className="bottom-left">
-        <a
+        {/* <a
           className="btn btn-outline"
           href="#create-groupd-modal"
           id="new_step"
           rel="modal:open"
         >
           <span>+ New step</span>
-        </a>
+        </a> */}
         <button
-          className="btn btn-outline marginLeft-20"
+          className="btn btn-outline marginLeft-20 marginTop-20"
           href="#"
           id="add_new_step"
           rel="modal:open"
@@ -55,22 +95,21 @@ export default function MonitorStreamProcessor() {
         centered
         size="lg"
         show={isModalVisible}
-        backdrop="static"
         onHide={hideModal}
       >
         <Modal.Header closeButton>
           <Modal.Title className="modal-title">Add A New Step</Modal.Title>
         </Modal.Header>
         <Modal.Body className="row">
-          <StepCard />
-          <StepCard />
-          <StepCard />
-          <StepCard />
-          <StepCard />
-          <StepCard />
-          <StepCard />
-          <StepCard />
-          <StepCard />
+          <NewStepCard />
+          <NewStepCard />
+          <NewStepCard />
+          <NewStepCard />
+          <NewStepCard />
+          <NewStepCard />
+          <NewStepCard />
+          <NewStepCard />
+          <NewStepCard />
         </Modal.Body>
         <Modal.Footer>
           <a
