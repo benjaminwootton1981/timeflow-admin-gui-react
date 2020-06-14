@@ -46,12 +46,12 @@ function TopHeader(props) {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="/projects/${id}/searches/search">Search</a>
-                    <a className="submenu__link" href="/projects/${id}/integration/import">Import</a>
-                    <a className="submenu__link" href="/projects/${id}/searches/extract">Extract</a>
-                    <a className="submenu__link" href="/projects/${id}/simulate">Simulate</a>
-                    <a className="submenu__link" href="/projects/${id}/api_endpoints">API Connection Details</a>
-                    <a className="submenu__link" href="/projects/${id}/integration">Timeflow Connector</a>
+                    <a className="submenu__link" href={`/projects/${id}/searches/search`}>Search</a>
+                    <a className="submenu__link" href={`/projects/${id}/integration/import`}>Import</a>
+                    <a className="submenu__link" href={`/projects/${id}/searches/extract`}>Extract</a>
+                    <a className="submenu__link" href={`/projects/${id}/simulate`}>Simulate</a>
+                    <a className="submenu__link" href={`/projects/${id}/api_endpoints`}>API Connection Details</a>
+                    <a className="submenu__link" href={`/projects/${id}/integration`}>Timeflow Connector</a>
                   </li>
                 </ul>
               </div>
@@ -65,31 +65,31 @@ function TopHeader(props) {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="/projects/${id}/schemas">Event Definitions</a>
+                    <a className="submenu__link" href={`/projects/${id}/schemas`}>Event Definitions</a>
                   </li>
                   <li className="submenu__item">
-                    <a className="submenu__link" href="/projects/${id}/streams">Event Streams</a>
+                    <a className="submenu__link" href={`/projects/${id}/streams`}>Event Streams</a>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="/projects/${id}/streamprocessors">Stream Processors</a>
+                      <a className="submenu__link" href={`/projects/${id}/streamprocessors`}>Stream Processors</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="/projects/${id}/searches">Saved Searches</a>
+                      <a className="submenu__link" href={`/projects/${id}/searches`}>Saved Searches</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="/projects/${id}/kpis">Metrics & KPIs</a>
+                      <a className="submenu__link" href={`/projects/${id}/kpis`}>Metrics & KPIs</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="/projects/${id}/functions">Functions</a>
+                      <a className="submenu__link" href={`/projects/${id}/functions`}>Functions</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="/projects/${id}/analysis">Reports</a>
+                      <a className="submenu__link" href={`/projects/${id}/analysis`}>Reports</a>
                     </li>
 
                     <li className="submenu__item">
-                      <a className="submenu__link" href="/projects/${id}/timelines">Timelines</a>
+                      <a className="submenu__link" href={`/projects/${id}/timelines`}>Timelines</a>
                     </li>
                     <li className="submenu__item">
-                      <a className="submenu__link" href="/projects/${id}/datadictionaries">Data Dictionaries</a>
+                      <a className="submenu__link" href={`/projects/${id}/datadictionaries`}>Data Dictionaries</a>
                     </li>
                   </li>
 
@@ -111,9 +111,9 @@ function TopHeader(props) {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="/projects/${id}/analysis/list">Reports</a>
-                    <a className="submenu__link" href="/projects/${id}/streamprocessors/kpis/current">Metrics & KPIs</a>
-                    <a className="submenu__link" href="/projects/${id}/searches/list">Searches</a>
+                    <a className="submenu__link" href={`/projects/${id}/analysis/list`}>Reports</a>
+                    <a className="submenu__link" href={`/projects/${id}/streamprocessors/kpis/current`}>Metrics & KPIs</a>
+                    <a className="submenu__link" href={`/projects/${id}/searches/list`}>Searches</a>
                   </li>
                 </ul>
               </div>
@@ -127,8 +127,7 @@ function TopHeader(props) {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link"
-                       href="#">Inbox</a>
+                    <a className="submenu__link" href="/account/XXXXXX/workflow">Inbox</a>
                   </li>
                 </ul>
               </div>
