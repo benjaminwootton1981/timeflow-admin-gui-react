@@ -10,10 +10,11 @@ class NewStepCard extends Component {
   render() {
     return (
       <div className="newStepCard">
-        <i className="fa fa-upload fa-3x purple padding-10"></i>
+        {/* <i className="fa fa-upload fa-3x purple padding-10"></i> */}
+        <div className="icon--addstep"></div>
         <div>
-          <p className="purple">Simple Filter Step</p>
-          <p>Description for simle filter step card</p>
+          <span className="addstep-label">Simple Filter Step</span>
+          <p className="addstep-desc">Description for simle filter step card</p>
         </div>
       </div>
     );

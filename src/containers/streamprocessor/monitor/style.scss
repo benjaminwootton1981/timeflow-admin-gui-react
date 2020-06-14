@@ -4,12 +4,12 @@
     width: 163px;
     height: 45px;
     border-radius: 5px 5px 0px 0px;
-    background: #D1C5DA;
+    background: #d1c5da;
     margin: 0 1px;
 
     &.Mui-selected {
-      background: linear-gradient(249.07deg, #803C8A 16.56%, #FFCDCE 274.83%);
-      color: #FFFFFF;
+      background: linear-gradient(249.07deg, #803c8a 16.56%, #ffcdce 274.83%);
+      color: #ffffff;
     }
     &:focus {
       outline: none;
@@ -21,7 +21,7 @@
       font-weight: bold;
       font-size: 16px;
       line-height: 20px;
-      color: #803C8A !important;
+      color: #803c8a !important;
     }
   }
 
@@ -30,11 +30,9 @@
     background: transparent;
     text-transform: unset !important;
   }
-
-
 }
 .monitor__tabs {
-  border-bottom: 1px solid #803C8A;
+  border-bottom: 1px solid #803c8a;
   padding: 0 132px;
 }
 .monitor__tabs_scroll {
@@ -55,7 +53,7 @@
   height: 12px;
   left: 20px;
   top: 17px;
-  border: 1.52px solid #803C8A;
+  border: 1.52px solid #803c8a;
   box-sizing: border-box;
   transform: rotate(-45deg);
   content: "" !important;
@@ -75,7 +73,7 @@
   height: 12px;
   right: 20px;
   top: 17px;
-  border: 1.52px solid #803C8A;
+  border: 1.52px solid #803c8a;
   box-sizing: border-box;
   transform: rotate(-45deg);
   content: "" !important;
@@ -92,22 +90,21 @@
   height: 45px;
   padding: 0 !important;
   text-align: center;
-  background: #D1C5DA;
+  background: #d1c5da;
   border-radius: 5px 5px 0 0;
   font-family: Helvetica Neue, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 16px !important;
-  color: #803C8A !important;
+  color: #803c8a !important;
   margin: 0 1px;
   line-height: 45px !important;
 }
 .monitor__tabs_scroll .scroll_tab_inner span.tab_selected {
-  background: linear-gradient(249.07deg, #803C8A 16.56%, #FFCDCE 274.83%);
-  color: #FFFFFF !important;
+  background: linear-gradient(249.07deg, #803c8a 16.56%, #ffcdce 274.83%);
+  color: #ffffff !important;
 }
 .monitor__body {
-
 }
 .monitor__body_tab {
   display: none;
@@ -120,7 +117,7 @@
 .monitor__body_tab_child_header {
   width: 100%;
   height: 45px;
-  background: linear-gradient(200.66deg, #803C8A 16.56%, #FFCDCE 274.83%);
+  background: linear-gradient(200.66deg, #803c8a 16.56%, #ffcdce 274.83%);
   border-radius: 5px 5px 0px 0px;
   display: block;
   line-height: 45px;
@@ -129,11 +126,11 @@
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .monitor__body_tab_child_content {
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 6px 12px rgba(164, 109, 255, 0.1);
   border-radius: 0px 0px 5px 5px;
 }
@@ -151,7 +148,7 @@
   padding-bottom: 19px;
 }
 .content_status_col.border_right {
-  border-right: 1px solid #D1C5DA;
+  border-right: 1px solid #d1c5da;
 }
 .content_status_amount {
   font-family: Helvetica Neue, sans-serif;
@@ -159,7 +156,7 @@
   font-weight: bold;
   font-size: 40px;
   line-height: 49px;
-  color: #803C8A;
+  color: #803c8a;
 }
 .content_status_amount span {
   font-style: normal;
@@ -173,7 +170,7 @@
   font-weight: bold;
   font-size: 13px;
   line-height: 16px;
-  color: #503B53;
+  color: #503b53;
 }
 .inboud_event_chart_total {
   font-size: 133px;
@@ -189,10 +186,10 @@
   transform: rotate(150deg);
 }
 .inboud_event_chart_total .pie-wrapper.progress-90 .pie .half-circle {
-  border-color: #D1C5DA;
+  border-color: #d1c5da;
 }
 .inboud_event_chart_total .pie-wrapper .label {
-  background: linear-gradient(263.7deg, #803C8A 16.56%, #FFCDCE 274.83%);
+  background: linear-gradient(263.7deg, #803c8a 16.56%, #ffcdce 274.83%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -217,7 +214,7 @@
   }
 
   li:first-child {
-    border-right: 1px solid #803C8A;
+    border-right: 1px solid #803c8a;
   }
 
   li > a {
@@ -226,7 +223,7 @@
     font-weight: bold;
     font-size: 13px;
     line-height: 16px;
-    color: #803C8A;
+    color: #803c8a;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     opacity: 0.5;
@@ -238,7 +235,8 @@
   }
 }
 
-.content_charts_nav > li > a:focus, .content_charts_nav > li > a:hover {
+.content_charts_nav > li > a:focus,
+.content_charts_nav > li > a:hover {
   background-color: transparent !important;
 }
 
@@ -250,25 +248,19 @@
   text-align: center;
 }
 
-
 .set-size {
-
   font-size: 10em;
-
 }
 
 .charts-container:after {
-
   clear: both;
 
   content: "";
 
   display: table;
-
 }
 
 .pie-wrapper {
-
   height: 1em;
 
   width: 1em;
@@ -278,17 +270,13 @@
   margin: 15px;
 
   position: relative;
-
 }
 
-.pie-wrapper:nth-child(3n+1) {
-
+.pie-wrapper:nth-child(3n + 1) {
   clear: both;
-
 }
 
 .pie-wrapper .pie {
-
   height: 100%;
 
   width: 100%;
@@ -300,11 +288,9 @@
   position: absolute;
 
   top: 0;
-
 }
 
 .pie-wrapper .pie .half-circle {
-
   height: 100%;
 
   width: 100%;
@@ -320,11 +306,9 @@
   position: absolute;
 
   top: 0;
-
 }
 
 .pie-wrapper .label {
-
   background: #34495e;
 
   border-radius: 50%;
@@ -350,23 +334,19 @@
   text-align: center;
 
   top: 0.4em;
-
 }
 
 .pie-wrapper .label .smaller {
-
   color: #bdc3c7;
 
-  font-size: .45em;
+  font-size: 0.45em;
 
   padding-bottom: 20px;
 
   vertical-align: super;
-
 }
 
 .pie-wrapper .shadow {
-
   height: 100%;
 
   width: 100%;
@@ -374,168 +354,116 @@
   border: 0.1em solid #bdc3c7;
 
   border-radius: 50%;
-
 }
 
 .pie-wrapper.style-2 .label {
-
   background: none;
 
   color: #7f8c8d;
-
 }
 
 .pie-wrapper.style-2 .label .smaller {
-
   color: #bdc3c7;
-
 }
 
 .pie-wrapper.progress-30 .pie .right-side {
-
   display: none;
-
 }
 
 .pie-wrapper.progress-30 .pie .half-circle {
-
   border-color: #3498db;
-
 }
 
 .pie-wrapper.progress-30 .pie .left-side {
-
   transform: rotate(108deg);
-
 }
 
 .pie-wrapper.progress-60 .pie {
-
   clip: rect(auto, auto, auto, auto);
-
 }
 
 .pie-wrapper.progress-60 .pie .right-side {
-
   transform: rotate(180deg);
-
 }
 
 .pie-wrapper.progress-60 .pie .half-circle {
-
   border-color: #9b59b6;
-
 }
 
 .pie-wrapper.progress-60 .pie .left-side {
-
   transform: rotate(216deg);
-
 }
 
 .pie-wrapper.progress-90 .pie {
-
   clip: rect(auto, auto, auto, auto);
-
 }
 
 .pie-wrapper.progress-90 .pie .right-side {
-
   transform: rotate(180deg);
-
 }
 
 .pie-wrapper.progress-90 .pie .half-circle {
-
   border-color: #e67e22;
-
 }
 
 .pie-wrapper.progress-90 .pie .left-side {
-
   transform: rotate(324deg);
-
 }
 
 .pie-wrapper.progress-45 .pie .right-side {
-
   display: none;
-
 }
 
 .pie-wrapper.progress-45 .pie .half-circle {
-
   border-color: #1abc9c;
-
 }
 
 .pie-wrapper.progress-45 .pie .left-side {
-
   transform: rotate(162deg);
-
 }
 
 .pie-wrapper.progress-75 .pie {
-
   clip: rect(auto, auto, auto, auto);
-
 }
 
 .pie-wrapper.progress-75 .pie .right-side {
-
   transform: rotate(180deg);
-
 }
 
 .pie-wrapper.progress-75 .pie .half-circle {
-
   border-color: #8e44ad;
-
 }
 
 .pie-wrapper.progress-75 .pie .left-side {
-
   transform: rotate(270deg);
-
 }
 
 .pie-wrapper.progress-95 .pie {
-
   clip: rect(auto, auto, auto, auto);
-
 }
 
 .pie-wrapper.progress-95 .pie .right-side {
-
   transform: rotate(180deg);
-
 }
 
 .pie-wrapper.progress-95 .pie .half-circle {
-
   border-color: #e74c3c;
-
 }
 
 .pie-wrapper.progress-95 .pie .left-side {
-
   transform: rotate(342deg);
-
 }
 
 .pie-wrapper--solid {
-
   border-radius: 50%;
 
   overflow: hidden;
-
 }
 
 .pie-wrapper--solid:before {
-
   border-radius: 0 100% 100% 0%;
 
-  content: '';
+  content: "";
 
   display: block;
 
@@ -544,55 +472,38 @@
   margin-left: 50%;
 
   transform-origin: left;
-
 }
 
 .pie-wrapper--solid .label {
-
   background: transparent;
-
 }
 
 .pie-wrapper--solid.progress-65 {
-
   background: linear-gradient(to right, #e67e22 50%, #34495e 50%);
-
 }
 
 .pie-wrapper--solid.progress-65:before {
-
   background: #e67e22;
 
   transform: rotate(126deg);
-
 }
 
 .pie-wrapper--solid.progress-25 {
-
   background: linear-gradient(to right, #9b59b6 50%, #34495e 50%);
-
 }
 
 .pie-wrapper--solid.progress-25:before {
-
   background: #34495e;
 
   transform: rotate(-270deg);
-
 }
 
 .pie-wrapper--solid.progress-88 {
-
   background: linear-gradient(to right, #3498db 50%, #34495e 50%);
-
 }
 
 .pie-wrapper--solid.progress-88:before {
-
   background: #3498db;
 
   transform: rotate(43.2deg);
-
 }
-
-

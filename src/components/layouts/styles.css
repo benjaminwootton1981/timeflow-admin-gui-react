@@ -63,11 +63,36 @@
   opacity: 50%;
   cursor: default;
 }
+.icon--addstep {
+  color: #803c8a;
+  background-color: #f5f6fd;
+  background-image: url("../../assets/add-step-icon.svg");
+  width: 58px;
+  height: 58px;
+  margin: 15px;
+}
+.addstep-label {
+  /* font-family: Helvetica Neue; */
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+  color: #803c8a;
+}
+
+.addstep-desc {
+  /* font-family: Helvetica Neue; */
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 145%;
+}
 .btn--step {
   color: #803c8a;
   border: 2px solid #803c8a;
   background-color: #f5f6fd;
 }
+
 .btn--step:hover {
   color: #803c8a;
   background-color: #f2edff;
@@ -268,7 +293,7 @@ textarea {
   border: 1px solid #d1c5da;
   border-radius: 5px;
   outline: none;
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
   font-style: normal;
   font-weight: normal;
   font-size: 13px;
@@ -1169,12 +1194,13 @@ main {
 .dashboard {
   margin-bottom: 100px;
 }
+
 .dashboard__header,
 .stat-entry .stat-value {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
   font-style: normal;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 32px;
   line-height: 37px;
   color: #803c8a;
   text-align: center;
@@ -1245,8 +1271,9 @@ main {
 }
 .new-item__body {
   text-align: center;
-  margin-bottom: 46px;
+  /* margin-bottom: 46px; */
 }
+
 .new-item__footer {
   margin-top: 45px;
   padding-top: 25px;
@@ -1293,12 +1320,24 @@ main {
 }
 .new-item__step th,
 .table-styled th {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
   font-style: normal;
   font-weight: normal;
   font-size: 13px;
   line-height: 145%;
   color: #ffffff;
+}
+.new-item__step td {
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+}
+
+.step {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px !important;
 }
 .new-item__step tr:first-child,
 .table-styled tr:first-child {
@@ -2123,7 +2162,7 @@ main {
   font-family: Helvetica Neue, sans-serif;
 }
 .reportAddpp .modal-dialog h2 {
-  font-family: "Helvetica Neue";
+  font-family: "'Helvetica Neue'";
   font-style: normal;
   font-weight: bold;
   font-size: 30px;
@@ -2237,7 +2276,7 @@ main {
   max-width: 236px;
   margin-top: 36px;
   border: none;
-  font-family: "Helvetica Neue";
+  font-family: "'Helvetica Neue'";
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
@@ -2253,4 +2292,9 @@ main {
   display: inline-block;
   text-align: center;
   width: 100%;
+}
+
+.streamProcessorCardContainer {
+  margin-left: -15px;
+  margin-right: -2px;
 }

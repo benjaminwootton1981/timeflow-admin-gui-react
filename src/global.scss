@@ -1,3 +1,21 @@
+body {
+  font-size: 13px;
+}
+@font-face {
+  font-family: Helvetica Neue;
+  font-style: normal;
+  font-weight: 400;
+
+  src: url("./assets/fonts/HelveticaNeue.ttf"); /* IE9 Compat Modes */
+  src: local(Helvetica Neue), local(Helvetica Neue),
+    url("./assets/fonts/HelveticaNeue.ttf") format("embedded-opentype"),
+    /* IE6-IE8 */ url("./assets/fonts/HelveticaNeue.ttf") format("woff2"),
+    /* Super Modern Browsers */ url("./assets/fonts/HelveticaNeue.ttf")
+      format("woff"),
+    /* Modern Browsers */ url("./assets/fonts/HelveticaNeue.ttf")
+      format("truetype");
+}
+
 /*Common*/
 .padding-10 {
   padding: 10px;
