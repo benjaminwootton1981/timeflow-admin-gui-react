@@ -514,7 +514,11 @@
   padding: 10px;
   display: flex;
   align-items: center;
-  width: 48%;
-  margin: 1%;
+  width: 46%;
+  margin: 2%;
   box-shadow: 4px 4px 10px rgba(128, 60, 138, 0.22);
+}
+
+.add-modal-body {
+  padding: 2.5rem !important;
 }

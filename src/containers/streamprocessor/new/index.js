@@ -238,7 +238,7 @@ export default function MonitorStreamProcessor() {
         <Modal.Header closeButton>
           <Modal.Title className="modal-title">Add A New Step</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="row">
+        <Modal.Body className="row add-modal-body">
           <NewStepCard />
           <NewStepCard />
           <NewStepCard />
