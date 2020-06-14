@@ -48,7 +48,7 @@ function ManageStreamProcessor(props) {
       <div className="dashboard__footer">
         <a
           className="btn"
-          href={`/projects/${props.match.params.id}/streamprocessors/new`}
+          href={`/react/projects/${props.match.params.id}/streamprocessors/new`}
         >
           Add Stream Processor
         </a>
