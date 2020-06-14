@@ -23,7 +23,7 @@ class StreamValueCard extends Component {
               <span className="cardInput" data-header="Number Of Errors">1</span>
             </div>
           </div>
-          <span className="cardInput redOutline" data-header="Status">Error</span>
+          <span className="cardInput greenOutline" data-header="Status">Not Deployed</span>
         </div>
         <div className="cardFooter">
           <a href={`/projects/${item.project}/streams/${item.id}/edit/`} className='edit'>

@@ -23,7 +23,7 @@ class StreamProcessorValueCard extends Component {
               <span className="cardInput" data-header="Actual Replicas">1</span>
             </div>
           </div>
-          <span className="cardInput redOutline" data-header="Status">Error</span>
+          <span className="cardInput greenOutline" data-header="Status">Not Deployed</span>
         </div>
         <div className="cardFooter">
           <a href={`/projects/${item.project}/streamprocessors/${item.id}/edit/`} className='edit'>

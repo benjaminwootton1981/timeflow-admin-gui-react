@@ -2402,6 +2402,12 @@ main {
   color: #eb5656;
 }
 
+.greenOutline {
+  color: #009495;
+  border: 1px solid #48C1D3 !important;
+  background: #F3FFFF;
+}
+
 .border-line {
   border: 1px solid rgba(209, 197, 218, 0.5);
   transform: rotate(180deg);
