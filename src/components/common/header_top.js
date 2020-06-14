@@ -49,7 +49,7 @@ function TopHeader(props) {
                     <a className="submenu__link" href={`/projects/${id}/searches/search`}>Search</a>
                     <a className="submenu__link" href={`/projects/${id}/integration/import`}>Import</a>
                     <a className="submenu__link" href={`/projects/${id}/searches/extract`}>Extract</a>
-                    <a className="submenu__link" href={`/projects/${id}/simulate`}>Simulate</a>
+                    <a className="submenu__link" href={`/react/projects/${id}/simulate`}>Simulate</a>
                     <a className="submenu__link" href={`/projects/${id}/api_endpoints`}>API Connection Details</a>
                     <a className="submenu__link" href={`/projects/${id}/integration`}>Timeflow Connector</a>
                   </li>
@@ -68,9 +68,9 @@ function TopHeader(props) {
                     <a className="submenu__link" href={`/projects/${id}/schemas`}>Event Definitions</a>
                   </li>
                   <li className="submenu__item">
-                    <a className="submenu__link" href={`/projects/${id}/streams`}>Event Streams</a>
+                    <a className="submenu__link" href={`/react/projects/${id}/streams`}>Event Streams</a>
                     <li className="submenu__item">
-                      <a className="submenu__link" href={`/projects/${id}/streamprocessors`}>Stream Processors</a>
+                      <a className="submenu__link" href={`/react/projects/${id}/streamprocessors`}>Stream Processors</a>
                     </li>
                     <li className="submenu__item">
                       <a className="submenu__link" href={`/projects/${id}/searches`}>Saved Searches</a>
