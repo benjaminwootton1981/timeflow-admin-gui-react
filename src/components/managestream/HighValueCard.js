@@ -33,24 +33,27 @@ class HighValueCard extends Component {
         <div className="border-line"></div>
         <div className="cardFooter rowContent padding-10">
           <button>
+            <!-- EDIT - Needs to go to - /projects/2/streamprocessors/3/edit/ -->
             <i className="fa fa-pencil purple"></i>
           </button>
           <button>
+            <!-- DUPLICATE -  Needs to go to - /projects/2/streamprocessors/3/duplicate/-->
             <i className="fa fa-window-restore purple"></i>
           </button>
           <button>
+            <!-- DEPLOY - Needs to go to - /projects/2/streamprocessors/3/run/ -->
             <i className="fa fa-paper-plane purple"></i>
           </button>
           <button>
+          <!-- STOP - Needs to go to - /projects/2/streamprocessors/3/stop/ -->
             <i className="fa fa-pause purple"></i>
           </button>
           <button>
-            <i className="fa fa-file-text purple"></i>
-          </button>
-          <button>
+          <!-- MONITOR - Needs to go to - /projects/2/streamprocessors/3/monitor/ -->
             <i className="fa fa-bar-chart purple"></i>
           </button>
           <button className="redOutline">
+            <!-- DELETE  Needs to go to - /projects/2/streamprocessors/3/delete/ -->
             <i className="fa fa-trash-o danger"></i>
           </button>
         </div>
