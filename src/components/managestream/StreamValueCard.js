@@ -26,30 +26,21 @@ class StreamValueCard extends Component {
           <span className="cardInput redOutline" data-header="Status">Error</span>
         </div>
         <div className="cardFooter">
-          <button>
-             {/*EDIT - Needs to go to - /projects/2/streamprocessors/3/edit/ -->*/}
-            <i className="fa fa-pencil purple"></i>
-          </button>
-          <button>
-             {/*DUPLICATE -  Needs to go to - /projects/2/streamprocessors/3/duplicate/-->*/}
-            <i className="fa fa-window-restore purple"></i>
-          </button>
-          <button>
-             {/*DEPLOY - Needs to go to - /projects/2/streamprocessors/3/run/ -->*/}
-            <i className="fa fa-paper-plane purple"></i>
-          </button>
-          <button>
-           {/*STOP - Needs to go to - /projects/2/streamprocessors/3/stop/ -->*/}
-            <i className="fa fa-pause purple"></i>
-          </button>
-          <button>
-           {/*MONITOR - Needs to go to - /projects/2/streamprocessors/3/monitor/ -->*/}
-            <i className="fa fa-bar-chart purple"></i>
-          </button>
-          <button className="redOutline">
-            {/*DELETE  Needs to go to - /projects/2/streamprocessors/3/delete/ -->*/}
-            <i className="fa fa-trash-o danger"></i>
-          </button>
+          <a href={`/projects/${item.project}/streams/${item.id}/edit/`} className='edit'>
+            <span className="helper">Edit</span>
+          </a>
+          <a href={`/projects/${item.project}/streams/${item.id}/monitor/`} className='monitor'>
+            <span className="helper">Monitor</span>
+          </a>
+          <a href={`/projects/${item.project}/streams/${item.id}/analyse/`} className='export'>
+            <span className="helper">Analyse</span>
+          </a>
+          <a href={`/projects/${item.project}/streams/${item.id}/reset/`} className='reset'>
+            <span className="helper">Reset</span>
+          </a>
+          <a href={`/projects/${item.project}/streams/${item.id}/delete/`} className='delete'>
+            <span className="helper">Delete</span>
+          </a>
         </div>
       </div>
     );

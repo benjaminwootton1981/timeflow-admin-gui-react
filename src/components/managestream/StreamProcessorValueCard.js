@@ -26,30 +26,30 @@ class StreamProcessorValueCard extends Component {
           <span className="cardInput redOutline" data-header="Status">Error</span>
         </div>
         <div className="cardFooter">
-          <button>
+          <a href={`/projects/${item.project}/streamprocessors/${item.id}/edit/`} className='edit'>
              {/*EDIT - Needs to go to - /projects/2/streamprocessors/3/edit/ -->*/}
-            <i className="fa fa-pencil purple"></i>
-          </button>
-          <button>
+            <span className="helper">Edit</span>
+          </a>
+          <a href={`/projects/${item.project}/streamprocessors/${item.id}/duplicate/`} className='duplicate'>
              {/*DUPLICATE -  Needs to go to - /projects/2/streamprocessors/3/duplicate/-->*/}
-            <i className="fa fa-window-restore purple"></i>
-          </button>
-          <button>
+            <span className="helper">Duplicate</span>
+          </a>
+          <a href={`/projects/${item.project}/streamprocessors/${item.id}/run/`} className='deploy'>
              {/*DEPLOY - Needs to go to - /projects/2/streamprocessors/3/run/ -->*/}
-            <i className="fa fa-paper-plane purple"></i>
-          </button>
-          <button>
+            <span className="helper">Deploy</span>
+          </a>
+          <a href={`/projects/${item.project}/streamprocessors/${item.id}/stop/`} className='pause'>
            {/*STOP - Needs to go to - /projects/2/streamprocessors/3/stop/ -->*/}
-            <i className="fa fa-pause purple"></i>
-          </button>
-          <button>
+            <span className="helper">Stop</span>
+          </a>
+          <a href={`/projects/${item.project}/streamprocessors/${item.id}/monitor/`} className='monitor'>
            {/*MONITOR - Needs to go to - /projects/2/streamprocessors/3/monitor/ -->*/}
-            <i className="fa fa-bar-chart purple"></i>
-          </button>
-          <button className="redOutline">
+            <span className="helper">Monitor</span>
+          </a>
+          <a href={`/projects/${item.project}/streamprocessors/${item.id}/delete/`} className='delete'>
             {/*DELETE  Needs to go to - /projects/2/streamprocessors/3/delete/ -->*/}
-            <i className="fa fa-trash-o danger"></i>
-          </button>
+            <span className="helper">Delete</span>
+          </a>
         </div>
       </div>
     );

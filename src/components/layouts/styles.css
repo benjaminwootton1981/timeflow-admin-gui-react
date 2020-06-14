@@ -2415,8 +2415,7 @@ main {
   border-top: 1px solid rgba(209, 197, 218, 0.5);
 }
 
-.cardFooter button {
-  display: block;
+.cardFooter a {
   position: relative;
   width: 40px;
   height: 40px;
@@ -2428,6 +2427,97 @@ main {
   cursor: pointer;
   box-sizing: border-box;
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.cardFooter a.edit {
+  background-image: url(../../assets/card_button/edit.svg);
+}
+
+.cardFooter a.duplicate {
+  background-image: url(../../assets/card_button/duplicate.svg);
+}
+
+.cardFooter a.deploy {
+  background-image: url(../../assets/card_button/deploy.svg);
+}
+
+.cardFooter a.pause {
+  background-image: url(../../assets/card_button/pause.svg);
+}
+
+.cardFooter a.monitor {
+  background-image: url(../../assets/card_button/monitor.svg);
+}
+
+.cardFooter a.delete {
+  background-image: url(../../assets/card_button/delete.svg);
+}
+
+.cardFooter a.export {
+  background-image: url(../../assets/card_button/export.svg);
+}
+
+.cardFooter a.reset {
+  background-image: url(../../assets/card_button/reset.svg);
+}
+
+.cardFooter .helper {
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  min-width: 44px;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  padding: 0 5px;
+  border: 1px solid #803C8A;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 16px;
+  color: #803C8A;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.11);
+  border-radius: 5px;
+  background: white;
+  z-index: 10;
+}
+
+.cardFooter .helper:before {
+  position: absolute;
+  top: -8px;
+  left: calc(50% - 8px);
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #803C8A;
+}
+
+.cardFooter .helper:after {
+  position: absolute;
+  top: -7px;
+  left: calc(50% - 8px);
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white;
+}
+
+.cardFooter a:hover {
+  color: white;
+  background-color: #FFF5F5;
+}
+
+.cardFooter a:hover .helper {
+  display: flex;
 }
 
 .dashboard__footer .create__group {
