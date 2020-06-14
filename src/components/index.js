@@ -1,4 +1,5 @@
 export { default as StreamValueCard } from "./managestream/StreamValueCard";
+export { default as SimulationValueCard } from "./managestream/SimulationValueCard";
 export { default as StreamProcessorValueCard } from "./managestream/StreamProcessorValueCard";
 export { default as OperationCard } from "./managestream/OperationCard";
 export { default as NewStepCard } from "./managestream/NewStepCard";

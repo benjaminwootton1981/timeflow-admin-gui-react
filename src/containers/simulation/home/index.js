@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StreamValueCard } from "../../../components";
+import { SimulationValueCard } from "../../../components";
 import './style.scss';
 import {connect} from "react-redux";
 import {getSimulations} from "../../../store/actions/serviceAction";
@@ -29,7 +29,7 @@ function ManageSimulation(props) {
                 {simulations &&
                 simulations.length > 0 &&
                 simulations.map(item => (
-                    <StreamValueCard post={item} itemIdx={item.id} key={item.id} />
+                    <SimulationValueCard post={item} itemIdx={item.id} key={item.id} />
                 ))}
             </div>
             {
