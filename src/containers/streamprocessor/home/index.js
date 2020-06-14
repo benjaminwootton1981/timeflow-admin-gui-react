@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StreamValueCard } from "../../../components";
+import { StreamProcessorValueCard } from "../../../components";
 import "./style.scss";
 import { connect } from "react-redux";
 import { getStreamProcessors } from "../../../store/actions/serviceAction";
@@ -28,7 +28,7 @@ function ManageStreamProcessor(props) {
         {streams &&
           streams.length > 0 &&
           streams.map(item => (
-            <StreamValueCard post={item} itemIdx={item.id} key={item.id} />
+            <StreamProcessorValueCard post={item} itemIdx={item.id} key={item.id} />
           ))}
       </div>
       {streams.length === 0 && (

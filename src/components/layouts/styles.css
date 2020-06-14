@@ -2429,3 +2429,22 @@ main {
   box-sizing: border-box;
   color: white;
 }
+
+.dashboard__footer .create__group {
+  position: absolute;
+  right: 0;
+  background: #F5F6FD;
+  border: 2px solid #803C8A;
+  box-sizing: border-box;
+  border-radius: 77px;
+}
+
+.dashboard__footer .create__group span {
+  font-family: Helvetica Neue, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  color: #803C8A;
+}
