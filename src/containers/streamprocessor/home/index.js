@@ -6,11 +6,7 @@ import { getStreamProcessors } from "../../../store/actions/serviceAction";
 import EmptyStreamProcessorSVG from "../../../assets/empty-streamprocessor.svg";
 
 function ManageStreamProcessor(props) {
-  const [streams, setStreams] = useState([
-    { display_name: "Test User1" },
-    { display_name: "Test User2" },
-    { display_name: "Test User3" }
-  ]);
+  const [streams, setStreams] = useState();
 
   useEffect(() => {
     props.onGetStreamProcessors(props.match.params.id);
@@ -19,6 +15,10 @@ function ManageStreamProcessor(props) {
   useEffect(() => {
     setStreams(props.streams);
   }, [props.streams]);
+
+  if (!streams){
+    return null
+  }
 
   return (streams &&
     <div className="wrapper">
