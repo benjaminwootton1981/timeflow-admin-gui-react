@@ -1,19 +1,19 @@
 body {
   font-size: 13px;
-  font-family: "Helvetica Neue", Helvetica, "Noto Sans", sans-serif;
+  font-family: Helvetica Neue, sans-serif;
 }
 @font-face {
-  font-family: Helvetica Neue;
+  font-family: Helvetica Neue, sans-serif;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
 
-  src: url("./assets/fonts/HelveticaNeue.ttf"); /* IE9 Compat Modes */
+  src: url("./assets/fonts/HelveticaNeueBd.ttf"); /* IE9 Compat Modes */
   src: local(Helvetica Neue), local(Helvetica Neue),
-    url("./assets/fonts/HelveticaNeue.ttf") format("embedded-opentype"),
+    url("./assets/fonts/HelveticaNeueBd.ttf") format("embedded-opentype"),
     /* IE6-IE8 */ url("./assets/fonts/HelveticaNeue.ttf") format("woff2"),
     /* Super Modern Browsers */ url("./assets/fonts/HelveticaNeue.ttf")
       format("woff"),
-    /* Modern Browsers */ url("./assets/fonts/HelveticaNeue.ttf")
+    /* Modern Browsers */ url("./assets/fonts/HelveticaNeueBd.ttf")
       format("truetype");
 }
 
@@ -30,10 +30,6 @@ body {
 
 .danger {
   color: #eb5656;
-}
-
-.wrapper {
-  width: 1200px;
 }
 
 .btn {

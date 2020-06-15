@@ -804,7 +804,7 @@ img {
 }
 
 .wrapper {
-  max-width: 1200px;
+  max-width: 1230px;
   padding-left: 15px;
   padding-right: 15px;
   margin: auto;
@@ -2316,10 +2316,15 @@ main {
   margin-left: 0;
 }
 
+.Valuecard:nth-child(3n) {
+  margin-right: 0;
+}
+
 .rowContent {
   display: flex;
   justify-content: center;
   margin-bottom: 100px;
+  flex-wrap: wrap;
 }
 
 .cardBody .grid {
