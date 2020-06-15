@@ -26,19 +26,19 @@ class StreamValueCard extends Component {
           <span className="cardInput greenOutline" data-header="Status">Not Deployed</span>
         </div>
         <div className="cardFooter">
-          <a href={`/projects/${item.project}/streams/${item.id}/edit/`} className='edit'>
+          <a href={`/projects/${item.project && item.project.id}/streams/${item.id}/edit/`} className='edit'>
             <span className="helper">Edit</span>
           </a>
-          <a href={`/projects/${item.project}/streams/${item.id}/monitor/`} className='monitor'>
+          <a href={`/projects/${item.project && item.project.id}/streams/${item.id}/monitor/`} className='monitor'>
             <span className="helper">Monitor</span>
           </a>
-          <a href={`/projects/${item.project}/streams/${item.id}/analyse/`} className='export'>
+          <a href={`/projects/${item.project && item.project.id}/streams/${item.id}/analyse/`} className='export'>
             <span className="helper">Analyse</span>
           </a>
-          <a href={`/projects/${item.project}/streams/${item.id}/reset/`} className='reset'>
+          <a href={`/projects/${item.project && item.project.id}/streams/${item.id}/reset/`} className='reset'>
             <span className="helper">Reset</span>
           </a>
-          <a href={`/projects/${item.project}/streams/${item.id}/delete/`} className='delete'>
+          <a href={`/projects/${item.project && item.project.id}/streams/${item.id}/delete/`} className='delete'>
             <span className="helper">Delete</span>
           </a>
         </div>
