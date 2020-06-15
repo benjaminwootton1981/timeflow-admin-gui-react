@@ -29,13 +29,13 @@ class StreamValueCard extends Component {
           <a href={`/projects/${item.project && item.project.id}/streams/${item.id}/edit/`} className='edit'>
             <span className="helper">Edit</span>
           </a>
-          <a href={`/projects/${item.project && item.project.id}/streams/${item.id}/monitor/`} className='monitor'>
+          <a href={`/projects/${item.project && item.project.id}/streams/${item.id}/monitor`} className='monitor'>
             <span className="helper">Monitor</span>
           </a>
-          <a href={`/projects/${item.project && item.project.id}/streams/${item.id}/analyse/`} className='export'>
+          <a href={`/projects/${item.project && item.project.id}/streams/${item.id}/analyse`} className='export'>
             <span className="helper">Analyse</span>
           </a>
-          <a href={`/projects/${item.project && item.project.id}/streams/${item.id}/reset/`} className='reset'>
+          <a href={`/projects/${item.project && item.project.id}/streams/${item.id}/reset`} className='reset'>
             <span className="helper">Reset</span>
           </a>
           <a href={`/projects/${item.project && item.project.id}/streams/${item.id}/delete/`} className='delete'>
