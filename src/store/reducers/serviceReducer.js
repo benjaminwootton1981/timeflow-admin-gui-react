@@ -1,4 +1,4 @@
-import { GET_STREAMS, GET_STREAMPROCESSORS, GET_SIMULATIONS } from "../constants";
+import {STREAMS}  from "../constants";
 
 const initialState = {
   streams: [],
@@ -8,21 +8,12 @@ const initialState = {
 
 export default function ServiceReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_STREAMS:
-      return {
-        ...state,
-        streams: action.result
-      };
-    case GET_STREAMPROCESSORS:
-      return {
-        ...state,
-        streamprocessors: action.result
-      };
-    case GET_SIMULATIONS:
-      return {
-        ...state,
-        simulations: action.result
-      };
+    case STREAMS.GET_STREAMS:
+      return {...state, streams: action.data};
+    case STREAMS.GET_STREAM_PROCESSORS:
+      return {...state, streamprocessors: action.data};
+    case STREAMS.GET_SIMULATIONS:
+      return {...state, simulations: action.data};
     default:
       return state;
   }
