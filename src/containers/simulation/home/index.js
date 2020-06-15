@@ -21,9 +21,9 @@ function ManageSimulation(props) {
       setSimulations(props.simulations)
   }, [props.simulations])
 
-    return (
+    return (simulations &&
         <div className="wrapper">
-            <h2 className="project-name">Project: Customer Value Examination</h2>
+            <h2 className="project-name">{simulations.length > 0 && simulations[0].project && simulations[0].project.name}</h2>
             <h2 className="dashboard__header">Manage Simulations</h2>
             <div className="rowContent">
                 {simulations &&
