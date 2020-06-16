@@ -1,9 +1,11 @@
 import React from "react";
 
-export const ButtonAdd = (props) => {
+export const Button = (props) => {
+    const typeColor = props.color === 'dark' ? '' : 'btn-outline';
+
     return (
         <div className="bottom-left marginVertical">
-            <button className="btn btn-outline marginLeft-20 marginTop-20"
+            <button className={`btn ${typeColor} marginLeft-20 marginTop-20`}
                     id="add_new_step"
             >
                 <span>{props.text}</span>

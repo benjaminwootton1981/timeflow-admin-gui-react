@@ -1,4 +1,4 @@
-import {CONSATNTS} from "../constants";
+import {CONSTANTS} from "../constants";
 import {
     getSimulationsRequest,
     getStreamProcessorsRequest,
@@ -9,7 +9,7 @@ export const getStreams = (project_id) => (dispatch) => {
     getStreamsRequest(project_id).then(resp => {
         debugger
         dispatch({
-            type:CONSATNTS.STREAMS.GET_STREAMS,
+            type:CONSTANTS.STREAMS.GET_STREAMS,
             data:resp
         });
     }).catch(err => {
@@ -21,7 +21,7 @@ export const getStreamProcessors = (project_id) => (dispatch)=> {
     return dispatch => {
         getStreamProcessorsRequest(project_id).then(result => {
             dispatch({
-                type: CONSATNTS.STREAMS.GET_STREAM_PROCESSORS,
+                type: CONSTANTS.STREAMS.GET_STREAM_PROCESSORS,
                 data:result
             });
         }).catch(err => {
@@ -34,7 +34,7 @@ export const getSimulations = (project_id) => {
     return dispatch => {
         getSimulationsRequest(project_id).then(result => {
             dispatch({
-                type: CONSATNTS.STREAMS.GET_SIMULATIONS,
+                type: CONSTANTS.STREAMS.GET_SIMULATIONS,
                 data:result});
         }).catch(err => {
                 console.log(err);

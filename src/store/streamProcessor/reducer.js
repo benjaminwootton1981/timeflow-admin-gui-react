@@ -1,16 +1,15 @@
-import {CONSATNTS} from "../constants";
+import {CONSTANTS} from "../constants";
 
 const initialState = {
-    addedSteps: [
-
-    ],
+    addedSteps: [],
 
 };
 
 export default function StreamProcessorReducer(state = initialState, action) {
     switch (action.type) {
-        case CONSATNTS.STREAMS.GET_STREAMS:
-            return {...state, streams: action.data};
+        case CONSTANTS.STREAMS.ADD_NEW_STEP:
+            const step = [...state.addedSteps, {'type': action.data}];
+            return {...state, addedSteps: step};
 
         default:
             return state;

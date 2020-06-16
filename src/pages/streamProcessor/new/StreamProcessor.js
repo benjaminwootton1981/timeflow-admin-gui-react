@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "./style.scss";
 import ModalNewStep from "../../../modals/streamProcessorModal/ModalNewStep";
-import {ButtonAdd} from "../../../components/buttons/Buttons";
+import {Button} from "../../../components/buttons/Buttons";
 import Step from "../../../components/streamProcessor/Step";
 import SchemaBlock from "../../../components/streamProcessor/SchemsBlock";
 import {connect} from "react-redux";
@@ -49,9 +49,11 @@ const StreamProcessor = (props) => {
         setInputValues({...inputValues, [name]: value});
     };
 
-    console.log('props', props)
     const {addedSteps} = props.itemStreamProcessor;
     const isAddedSteps = addedSteps.length !== 0;
+
+    console.log('addedSteps', addedSteps)
+    const acn = [{['type']: 'type1'}];
     return (
         <div className="wrapper">
             <h2 className="dashboard__header">New Stream Processor</h2>
@@ -89,7 +91,7 @@ const StreamProcessor = (props) => {
                                  polio={polio}
                     />
                     {
-                        isAddedSteps && addedSteps.map(() => {
+                        isAddedSteps && addedSteps.map((item) => {
                             return (
                                 <div className="newStep">
                                     <Step isInbound={false}/>
@@ -104,7 +106,9 @@ const StreamProcessor = (props) => {
                 </div>
             </div>
             <div onClick={() => toggleModal()}>
-                <ButtonAdd text={'+ Add New Step'}/>
+                <Button text={'+ Add New Step'}
+                        color={'white'}
+                />
             </div>
 
             <ModalNewStep hideModal={hideModal}

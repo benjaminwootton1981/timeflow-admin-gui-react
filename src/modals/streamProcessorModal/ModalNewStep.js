@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Modal} from "react-bootstrap";
 import {NewStepCard} from "../../components";
 import {connect} from "react-redux";
 import {addStep} from "../../store/streamProcessor/action";
+import {Button} from "../../components/buttons/Buttons";
 
 
 const ModalNewStep = (props) => {
@@ -20,6 +21,11 @@ const ModalNewStep = (props) => {
         {name: '', type: ''},
         {name: '', type: ''}
     ];
+    const [selectedStepType, setSelectedStepType] = useState('');
+    const addStep = (type) => {
+        props.addStep(type);
+        props.hideModal()
+    };
     return (
         <Modal
             aria-labelledby="contained-modal-title-vcenter"
@@ -34,23 +40,26 @@ const ModalNewStep = (props) => {
             <Modal.Body className="row add-modal-body stepType">
                 {fakeTypeStep.map(() => {
                     return (
-                        <div onClick={() => props.addStep('type1')}>
+                        <div onClick={() => setSelectedStepType('testType')}>
                             <NewStepCard/>
                         </div>
                     )
                 })}
             </Modal.Body>
             <Modal.Footer>
-                <a
-                    className="btn"
-                    href="#create-groupd-modal"
-                    id="new_step"
-                    rel="modal:open"
+                <div onClick={() => addStep(selectedStepType)}
+                     style={{width: '100%'}}
+                     className="horizontalCenter"
                 >
-                    <span>Add</span>
-                </a>
+                    <Button text={'Add'}
+                            color={'dark'}
+                    />
+                </div>
             </Modal.Footer>
         </Modal>
     )
 };
-export default connect({}, {addStep})(ModalNewStep)
+export default connect((state) => {
+    return {}
+
+}, {addStep})(ModalNewStep)

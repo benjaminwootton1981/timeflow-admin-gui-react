@@ -1,4 +1,4 @@
-import {CONSATNTS} from "../constants";
+import {CONSTANTS} from "../constants";
 import {
     getStreamsRequest
 } from "../../dall/axios";
@@ -7,7 +7,7 @@ export const getStreamsAbc = (project_id) => (dispatch) => {
     getStreamsRequest(project_id).then(resp => {
         debugger
         dispatch({
-            type: CONSATNTS.STREAMS.GET_STREAMS,
+            type: CONSTANTS.STREAMS.GET_STREAMS,
             data: resp
         });
     }).catch(err => {
@@ -16,7 +16,7 @@ export const getStreamsAbc = (project_id) => (dispatch) => {
 };
 
 export const addStep = (type) => ({
-    type: '',
+    type: CONSTANTS.STREAMS.ADD_NEW_STEP,
     data: type
 
 });

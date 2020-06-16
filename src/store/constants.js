@@ -1,8 +1,9 @@
-export const CONSATNTS = {
+export const CONSTANTS = {
     STREAMS: {
         GET_STREAMS: "GET_STREAMS",
         GET_STREAM_PROCESSORS: "GET_STREAM_PROCESSORS",
         GET_SIMULATIONS: "GET_SIMULATIONS",
+        ADD_NEW_STEP: 'ADD_NEW_STEP',
     },
 
 };
