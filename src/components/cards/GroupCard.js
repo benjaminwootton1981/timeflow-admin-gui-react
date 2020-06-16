@@ -14,6 +14,7 @@ export default function GroupCard(props) {
             <div className="content-empty">
                 <img src={DragDropGroup} alt="Drag Drop Select Empty" />
                 <p>Drag items here to add <br />them to the group</p>
+                <button className="btn create__group"><span>+ Add Items</span></button>
             </div>
         </div>
       </div>
