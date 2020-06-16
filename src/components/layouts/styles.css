@@ -2385,10 +2385,16 @@ main {
   color: #eb5656;
 }
 
-.greenOutline {
+.blueOutline {
   color: #009495;
   border: 1px solid #48C1D3 !important;
   background: #F3FFFF;
+}
+
+.greenOutline {
+  color: #008000;
+  border: 1px solid #3FD260;
+  background: #F5FFF6;
 }
 
 .border-line {
