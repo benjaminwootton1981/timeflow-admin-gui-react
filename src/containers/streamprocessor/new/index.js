@@ -239,15 +239,24 @@ export default function MonitorStreamProcessor() {
           <Modal.Title className="modal-title">Add A New Step</Modal.Title>
         </Modal.Header>
         <Modal.Body className="row add-modal-body">
-          <NewStepCard />
-          <NewStepCard />
-          <NewStepCard />
-          <NewStepCard />
-          <NewStepCard />
-          <NewStepCard />
-          <NewStepCard />
-          <NewStepCard />
-          <NewStepCard />
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
+          <NewStepCard title="TBC" description="TBC"/>
         </Modal.Body>
         <Modal.Footer>
           <a
