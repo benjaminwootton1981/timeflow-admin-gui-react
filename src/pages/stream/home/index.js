@@ -14,6 +14,7 @@ function ManageStream(props) {
         {display_name: "Test User2"},
         {display_name: "Test User3"},
     ]);
+    const [groups, setGroups] = useState([]);
 
     const [visibleModal, setVisibleModal] = useState(false)
 
@@ -25,12 +26,24 @@ function ManageStream(props) {
         setStreams(props.streams)
     }, [props.streams])
 
+    const createGroup = (name) => {
+        groups.push({
+            name
+        })
+        setGroups(groups)
+        setVisibleModal(false)
+    }
+
     return (streams &&
         <div className="wrapper">
             <h2 className="project-name">{streams.length > 0 && streams[0].project && streams[0].project.name}</h2>
             <h2 className="dashboard__header">Manage Streams</h2>
             <div className="rowContent">
-                <GroupCard />
+                {
+                    groups.map((group, index) => (
+                        <GroupCard key={`group-${index}`} item={group} />
+                    ))
+                }
                 {streams &&
                 streams.length > 0 &&
                 streams.map(item => (
@@ -59,7 +72,11 @@ function ManageStream(props) {
                 }
             </div>
 
-            <CreateGroupModal show={visibleModal} closeModal={() => setVisibleModal(false)} />
+            <CreateGroupModal
+                show={visibleModal}
+                closeModal={() => setVisibleModal(false)}
+                createGroup={createGroup}
+            />
         </div>
     );
 }

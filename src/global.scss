@@ -192,6 +192,14 @@ body {
   }
 }
 
+.group__card:nth-child(3n-2):not(:last-child) {
+  margin-left: 0;
+}
+
+.group__card:nth-child(3n) {
+  margin-right: 0;
+}
+
 //create group modal
 
 .create_group_modal {

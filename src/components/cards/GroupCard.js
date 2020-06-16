@@ -7,8 +7,8 @@ export default function GroupCard(props) {
   return (
       <div className="group__card">
         <h2 className="card__header">
-          Customer Operations Group
-          <img src={DragDropSelect} className="card__header-right" alt="Drag Drop Select" />
+            {props.item.name}
+            <img src={DragDropSelect} className="card__header-right" alt="Drag Drop Select" />
         </h2>
         <div className="card__body">
             <div className="content-empty">
