@@ -2,6 +2,7 @@ body {
   font-size: 13px;
   font-family: "Helvetica Neue", Helvetica, "Noto Sans", sans-serif;
 }
+
 @font-face {
   font-family: Helvetica Neue;
   font-style: normal;
@@ -9,12 +10,13 @@ body {
 
   src: url("./assets/fonts/HelveticaNeue.ttf"); /* IE9 Compat Modes */
   src: local(Helvetica Neue), local(Helvetica Neue),
-    url("./assets/fonts/HelveticaNeue.ttf") format("embedded-opentype"),
-    /* IE6-IE8 */ url("./assets/fonts/HelveticaNeue.ttf") format("woff2"),
-    /* Super Modern Browsers */ url("./assets/fonts/HelveticaNeue.ttf")
-      format("woff"),
-    /* Modern Browsers */ url("./assets/fonts/HelveticaNeue.ttf")
-      format("truetype");
+  url("./assets/fonts/HelveticaNeue.ttf") format("embedded-opentype"),
+    /* IE6-IE8 */
+  url("./assets/fonts/HelveticaNeue.ttf") format("woff2"),
+    /* Super Modern Browsers */
+  url("./assets/fonts/HelveticaNeue.ttf") format("woff"),
+    /* Modern Browsers */
+  url("./assets/fonts/HelveticaNeue.ttf") format("truetype");
 }
 
 /*Common*/
@@ -64,6 +66,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+.marginVertical {
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 
 .marginLeft-20 {

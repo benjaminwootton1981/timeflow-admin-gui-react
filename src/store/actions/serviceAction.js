@@ -17,7 +17,7 @@ export const getStreams = (project_id) => (dispatch) => {
     })
 };
 
-export const getStreamProcessors = (project_id) => ()=> {
+export const getStreamProcessors = (project_id) => (dispatch)=> {
     return dispatch => {
         getStreamProcessorsRequest(project_id).then(result => {
             dispatch({
