@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MonitorChildCard from "../../../components/managestream/MonitorChildCard";
+import MonitorChildCard from "../../../components/cards/MonitorChildCard";
 import StepConnectorSVG from '../../../assets/step_connector.svg';
 
 export default function MonitorContent() {
