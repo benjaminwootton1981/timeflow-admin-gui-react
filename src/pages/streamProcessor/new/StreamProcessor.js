@@ -5,7 +5,7 @@ import {ButtonAdd} from "../../../components/buttons/Buttons";
 import Step from "../../../components/streamProcessor/Step";
 import SchemaBlock from "../../../components/streamProcessor/SchemsBlock";
 import {connect} from "react-redux";
-import {addStep, getStreamsAbc} from "../../../store/streamProcessor/action";
+import {getStreamsAbc} from "../../../store/streamProcessor/action";
 
 
 function a11yProps(index) {
@@ -88,17 +88,20 @@ const StreamProcessor = (props) => {
                     <SchemaBlock togglePolio={togglePolio}
                                  polio={polio}
                     />
-                    {addedSteps.map(() => <div className="newStep">
-                        <Step isInbound={false}/>
-                        <SchemaBlock togglePolio={togglePolio}
-                                     polio={polio}
-                        />
-                    </div>)}
+                    {
+                        isAddedSteps && addedSteps.map(() => {
+                            return (
+                                <div className="newStep">
+                                    <Step isInbound={false}/>
+                                    <SchemaBlock togglePolio={togglePolio}
+                                                 polio={polio}
+                                    />
+                                </div>
+                            )
+                        })
+                    }
                     <Step isInbound={false}/>
-
                 </div>
-
-                {/* <StreamProcessorCard /> */}
             </div>
             <div onClick={() => toggleModal()}>
                 <ButtonAdd text={'+ Add New Step'}/>
@@ -116,4 +119,4 @@ export default connect((state) => {
         }
 
     },
-    {getStreamsAbc, addStep})(StreamProcessor)
+    {getStreamsAbc})(StreamProcessor)

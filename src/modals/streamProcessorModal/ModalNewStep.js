@@ -1,6 +1,8 @@
 import React from 'react'
 import {Modal} from "react-bootstrap";
 import {NewStepCard} from "../../components";
+import {connect} from "react-redux";
+import {addStep} from "../../store/streamProcessor/action";
 
 
 const ModalNewStep = (props) => {
@@ -32,7 +34,7 @@ const ModalNewStep = (props) => {
             <Modal.Body className="row add-modal-body stepType">
                 {fakeTypeStep.map(() => {
                     return (
-                        <div  onClick={() => alert('Hello')}>
+                        <div onClick={() => props.addStep('type1')}>
                             <NewStepCard/>
                         </div>
                     )
@@ -51,4 +53,4 @@ const ModalNewStep = (props) => {
         </Modal>
     )
 };
-export default ModalNewStep
+export default connect({}, {addStep})(ModalNewStep)
