@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from "react";
-import {StreamProcessorValueCard} from "../../../components";
+import {GroupCard, StreamProcessorValueCard} from "../../../components";
 import "./style.scss";
 import {connect} from "react-redux";
 import {getStreamProcessors} from "../../../store/actions/serviceAction";
 import EmptyStreamProcessorSVG from "../../../assets/empty-streamprocessor.svg";
+import CreateGroupModal from "../../../modals/CreateGroupModal";
 
 function ManageStreamProcessor(props) {
     const [streams, setStreams] = useState();
+    const [groups, setGroups] = useState([]);
+    const [visibleModal, setVisibleModal] = useState(false)
 
     useEffect(() => {
         props.onGetStreamProcessors(props.match.params.id);
@@ -15,6 +18,14 @@ function ManageStreamProcessor(props) {
     useEffect(() => {
         setStreams(props.streams);
     }, [props.streams]);
+
+    const createGroup = (name) => {
+        groups.push({
+            name
+        })
+        setGroups(groups)
+        setVisibleModal(false)
+    }
 
     if (!streams) {
         return <div className="dashboard__footer">
@@ -32,6 +43,11 @@ function ManageStreamProcessor(props) {
             <h2 className="project-name">{streams.length > 0 && streams[0].project && streams[0].project.name}</h2>
             <h2 className="dashboard__header">Manage Stream Processors</h2>
             <div className="rowContent">
+                {
+                    groups.map((group, index) => (
+                        <GroupCard key={`group-${index}`} item={group} />
+                    ))
+                }
                 {streams &&
                 streams.length > 0 &&
                 streams.map(item => (
@@ -60,16 +76,16 @@ function ManageStreamProcessor(props) {
                     Add Stream Processor
                 </a>
                 {streams.length !== 0 && (
-                    <a
-                        className="btn create__group"
-                        href="#create-groupd-modal"
-                        id="create_ground"
-                        rel="modal:open"
-                    >
+                    <button className="btn create__group" onClick={() => setVisibleModal(true)}>
                         <span>+ Create a Group</span>
-                    </a>
+                    </button>
                 )}
             </div>
+            <CreateGroupModal
+                show={visibleModal}
+                closeModal={() => setVisibleModal(false)}
+                createGroup={createGroup}
+            />
         </div>
     );
 }
