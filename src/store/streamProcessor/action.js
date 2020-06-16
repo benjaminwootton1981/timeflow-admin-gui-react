@@ -5,7 +5,6 @@ import {
 
 export const getStreamsAbc = (project_id) => (dispatch) => {
     getStreamsRequest(project_id).then(resp => {
-        debugger
         dispatch({
             type: CONSTANTS.STREAMS.GET_STREAMS,
             data: resp

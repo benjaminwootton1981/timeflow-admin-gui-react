@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from "react";
-import {StreamValueCard} from "../../../components";
-import './style.scss';
 import {connect} from "react-redux";
+import {StreamValueCard, GroupCard} from "../../../components";
 import {getStreams} from "../../../store/actions/serviceAction";
+
 import EmptyStreamsSVG from '../../../assets/empty-streams.svg';
+import './style.scss';
 
 function ManageStream(props) {
 
@@ -14,7 +15,6 @@ function ManageStream(props) {
     ]);
 
     useEffect(() => {
-        debugger
         props.onGetStreams(props.match.params.id);
     }, [])
 
@@ -27,6 +27,7 @@ function ManageStream(props) {
             <h2 className="project-name">{streams.length > 0 && streams[0].project && streams[0].project.name}</h2>
             <h2 className="dashboard__header">Manage Streams</h2>
             <div className="rowContent">
+                <GroupCard />
                 {streams &&
                 streams.length > 0 &&
                 streams.map(item => (
@@ -66,7 +67,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-    debugger
     return {
         onGetStreams: (id) => {
             dispatch(getStreams(id));

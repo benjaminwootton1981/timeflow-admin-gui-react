@@ -10,16 +10,5 @@ export const ax = axios.create({
         "Content-Type": "application/json",
     },
 });
-ax.interceptors.response.use(
-    function (response) {
-        return response;
-    },
-    function (error) {
-        if (error.response.status === 401) {
-            localStorage.clear();
-            window.location.reload();
-        }
-        return error.response;
-    }
-);
+
 

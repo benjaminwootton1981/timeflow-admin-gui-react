@@ -1,6 +1,19 @@
 // Api
 import {ax} from "./axios";
 
+// ax.interceptors.response.use(
+//     function (response) {
+//         return response;
+//     },
+//     function (error) {
+//         if (error.response.status === 401) {
+//             localStorage.clear();
+//             window.location.reload();
+//         }
+//         return error.response;
+//     }
+// );
+
 /**
  * @param project_id
  * @returns {Promise<data>}
