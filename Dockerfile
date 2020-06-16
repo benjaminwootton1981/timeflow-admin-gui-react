@@ -12,4 +12,4 @@ COPY nginx.conf /etc/nginx/
 EXPOSE 8001
 COPY --from=0 /react-app/build /usr/share/nginx/html/
 
-ENTRYPOINT ["bash", "entrypoint.sh"]
+#ENTRYPOINT ["bash", "entrypoint.sh"]
