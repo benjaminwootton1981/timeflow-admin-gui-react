@@ -2,6 +2,8 @@ import React from "react";
 
 
 const Step = (props) => {
+    const {item} = props;
+    console.log('item',item)
     return (
         <table className="new-item__step" id="steps-table">
             <tbody>
@@ -56,9 +58,12 @@ const Step = (props) => {
                         value="1"
                         className="ordering_new"
                     />
-                    {!props.isInbound && <button className="card-btn card-btn--delete js-delete">
-                        Delete
-                    </button>}
+                    {
+                        !props.isInbound &&
+                        <button onClick={() => alert('delete')} className="card-btn card-btn--delete js-delete">
+                            Delete
+                        </button>
+                    }
                 </td>
             </tr>
             </tbody>

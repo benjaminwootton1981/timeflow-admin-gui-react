@@ -15,9 +15,14 @@ export const getStreamsAbc = (project_id) => (dispatch) => {
     })
 };
 
-export const addStep = (type) => ({
+export const addStep = (name) => ({
     type: CONSTANTS.STREAMS.ADD_NEW_STEP,
-    data: type
+    data: name
+
+});
+export const deleteStep = (name) => ({
+    type: CONSTANTS.STREAMS.DELL_NEW_STEP,
+    data: name
 
 });
 

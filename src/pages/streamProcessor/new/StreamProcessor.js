@@ -94,7 +94,9 @@ const StreamProcessor = (props) => {
                         isAddedSteps && addedSteps.map((item) => {
                             return (
                                 <div className="newStep">
-                                    <Step isInbound={false}/>
+                                    <Step isInbound={false}
+                                          item={item}
+                                    />
                                     <SchemaBlock togglePolio={togglePolio}
                                                  polio={polio}
                                     />
