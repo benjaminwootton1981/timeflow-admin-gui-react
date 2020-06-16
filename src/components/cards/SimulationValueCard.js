@@ -10,14 +10,13 @@ class SimulationValueCard extends Component {
 
   render() {
     const item = this.props.post;
-    console.log(item);
     return (
       <div className="Valuecard">
         <h2 className="valueHeader">{item.name}</h2>
         <ReplicaInfo
           eventId={item.id}
           projectId={item.project && item.project.id}
-          userId={item.owning_user && item.owning_user.id}
+          userId={item.created_by && item.created_by.id}
           requestedReplicas={item.replicas}
           eventType={"simulation"}
         />

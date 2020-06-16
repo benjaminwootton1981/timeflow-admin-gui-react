@@ -7,11 +7,7 @@ import EmptySimultionsSVG from "../../../assets/empty-simulations.svg";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
 
 function ManageSimulation(props) {
-  const [simulations, setSimulations] = useState([
-    { display_name: "Test User1" },
-    { display_name: "Test User2" },
-    { display_name: "Test User3" },
-  ]);
+  const [simulations, setSimulations] = useState([]);
   const [groups, setGroups] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
 
