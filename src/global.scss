@@ -251,10 +251,20 @@ body {
     color: #803C8A;
     opacity: 1;
 
+    &:active {
+      outline: none;
+    }
+
     span {
       font-weight: 300;
       font-size: 1.4em;
       line-height: unset;
     }
   }
+}
+
+.modal.show {
+  display: flex !important;
+  text-align: center;
+  align-items: center;
 }
