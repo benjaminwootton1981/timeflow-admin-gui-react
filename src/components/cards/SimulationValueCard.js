@@ -18,7 +18,7 @@ class SimulationValueCard extends Component {
           projectId={item.project && item.project.id}
           userId={item.owning_user && item.owning_user.id}
           requestedReplicas={item.replicas}
-          type={"simulation"}
+          eventType={"simulation"}
         />
         <div className="cardFooter">
           <a

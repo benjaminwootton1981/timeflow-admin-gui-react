@@ -18,7 +18,7 @@ class StreamProcessorValueCard extends Component {
           projectId={item.project && item.project.id}
           userId={item.owning_user && item.owning_user.id}
           requestedReplicas={item.replicas}
-          type={"streamprocessor"}
+          eventType={"streamprocessor"}
         />
         <div className="cardFooter">
           <a
