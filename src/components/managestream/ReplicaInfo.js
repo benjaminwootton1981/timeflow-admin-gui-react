@@ -14,6 +14,7 @@ const ReplicaInfo = ({
   useEffect(() => {
     let socket;
     const webSocketUrl = process.env.REACT_APP_WEBSOCKET_SERVER;
+    console.log(webSocketUrl);
 
     if (webSocketUrl) {
       const socket = io(webSocketUrl);
