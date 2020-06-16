@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SimulationValueCard } from "../../../components";
+import {GroupCard, SimulationValueCard} from "../../../components";
 import './style.scss';
 import {connect} from "react-redux";
 import {getSimulations} from "../../../store/actions/serviceAction";
@@ -37,6 +37,11 @@ function ManageSimulation(props) {
             <h2 className="project-name">{simulations.length > 0 && simulations[0].project && simulations[0].project.name}</h2>
             <h2 className="dashboard__header">Manage Simulations</h2>
             <div className="rowContent">
+                {
+                    groups.map((group, index) => (
+                        <GroupCard key={`group-${index}`} item={group} />
+                    ))
+                }
                 {simulations &&
                 simulations.length > 0 &&
                 simulations.map(item => (
@@ -58,9 +63,9 @@ function ManageSimulation(props) {
                 </a>
                 {
                     simulations.length !== 0 && (
-                        <a className="btn create__group" href="#create-groupd-modal" id="create_ground" rel="modal:open">
+                        <button className="btn create__group" onClick={() => setVisibleModal(true)}>
                             <span>+ Create a Group</span>
-                        </a>
+                        </button>
                     )
                 }
             </div>

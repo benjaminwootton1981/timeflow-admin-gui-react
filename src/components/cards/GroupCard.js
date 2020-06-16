@@ -13,7 +13,7 @@ export default function GroupCard(props) {
         <div className="card__body">
             <div className="content-empty">
                 <img src={DragDropGroup} alt="Drag Drop Select Empty" />
-                <p>Drag items here to add <br />them to the group</p>
+                <p>No items in Group, <br />click on + add in new items.</p>
                 <button className="btn create__group"><span>+ Add Items</span></button>
             </div>
         </div>
