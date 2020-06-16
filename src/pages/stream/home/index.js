@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from "react";
-import {StreamValueCard} from "../../../components";
-import './style.scss';
 import {connect} from "react-redux";
+import {StreamValueCard, GroupCard} from "../../../components";
 import {getStreams} from "../../../store/actions/serviceAction";
+
 import EmptyStreamsSVG from '../../../assets/empty-streams.svg';
+import './style.scss';
+import CreateGroupModal from "../../../modals/CreateGroupModal";
 
 function ManageStream(props) {
 
@@ -12,6 +14,8 @@ function ManageStream(props) {
         {display_name: "Test User2"},
         {display_name: "Test User3"},
     ]);
+
+    const [visibleModal, setVisibleModal] = useState(false)
 
     useEffect(() => {
         props.onGetStreams(props.match.params.id);
@@ -26,10 +30,11 @@ function ManageStream(props) {
             <h2 className="project-name">{streams.length > 0 && streams[0].project && streams[0].project.name}</h2>
             <h2 className="dashboard__header">Manage Streams</h2>
             <div className="rowContent">
+                <GroupCard />
                 {streams &&
                 streams.length > 0 &&
                 streams.map(item => (
-                    <StreamValueCard post={item} itemIdx={item.id} key={item.id}/>
+                    <StreamValueCard post={item} itemIdx={item.id} key={item.id} />
                 ))}
             </div>
             {
@@ -47,13 +52,14 @@ function ManageStream(props) {
                 </a>
                 {
                     streams.length !== 0 && (
-                        <a className="btn create__group" href="#create-groupd-modal" id="create_ground"
-                           rel="modal:open">
+                        <button className="btn create__group" onClick={() => setVisibleModal(true)}>
                             <span>+ Create a Group</span>
-                        </a>
+                        </button>
                     )
                 }
             </div>
+
+            <CreateGroupModal show={visibleModal} closeModal={() => setVisibleModal(false)} />
         </div>
     );
 }
