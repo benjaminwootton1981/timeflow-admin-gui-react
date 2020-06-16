@@ -4,22 +4,33 @@ import './style.scss';
 import {connect} from "react-redux";
 import {getSimulations} from "../../../store/actions/serviceAction";
 import EmptySimultionsSVG from '../../../assets/empty-simulations.svg';
+import CreateGroupModal from "../../../modals/CreateGroupModal";
 
 function ManageSimulation(props) {
 
-  const [simulations, setSimulations] = useState([
+    const [simulations, setSimulations] = useState([
       {display_name: "Test User1"},
       {display_name: "Test User2"},
       {display_name: "Test User3"},
-  ]);
+    ]);
+    const [groups, setGroups] = useState([]);
+    const [visibleModal, setVisibleModal] = useState(false)
 
-  useEffect(() => {
+    useEffect(() => {
       props.onGetSimulations(props.match.params.id);
-  }, [])
+    }, [])
 
-  useEffect(() => {
-      setSimulations(props.simulations)
-  }, [props.simulations])
+    useEffect(() => {
+        setSimulations(props.simulations)
+    }, [props.simulations])
+
+    const createGroup = (name) => {
+        groups.push({
+            name
+        })
+        setGroups(groups)
+        setVisibleModal(false)
+    }
 
     return (simulations &&
         <div className="wrapper">
@@ -53,6 +64,12 @@ function ManageSimulation(props) {
                     )
                 }
             </div>
+
+            <CreateGroupModal
+                show={visibleModal}
+                closeModal={() => setVisibleModal(false)}
+                createGroup={createGroup}
+            />
         </div>
     );
 }

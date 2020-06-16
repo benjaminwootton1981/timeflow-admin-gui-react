@@ -15,7 +15,6 @@ function ManageStream(props) {
         {display_name: "Test User3"},
     ]);
     const [groups, setGroups] = useState([]);
-
     const [visibleModal, setVisibleModal] = useState(false)
 
     useEffect(() => {
