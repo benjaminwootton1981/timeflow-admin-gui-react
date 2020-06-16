@@ -10,6 +10,7 @@ class SimulationValueCard extends Component {
 
   render() {
     const item = this.props.post;
+    console.log(item);
     return (
       <div className="Valuecard">
         <h2 className="valueHeader">{item.name}</h2>
