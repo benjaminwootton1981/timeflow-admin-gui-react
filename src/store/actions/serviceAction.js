@@ -1,82 +1,48 @@
-import {GET_SIMULATIONS, GET_STREAMPROCESSORS, GET_STREAMS} from "../constants";
-import { API_URL } from "../../config";
+import {CONSTANTS} from "../constants";
+import {
+    getSimulationsRequest,
+    getStreamProcessorsRequest,
+    getStreamsRequest
+} from "../../dall/axios";
 
-export const getStreams = (project_id) => {
-  return dispatch => {
-    let url = `${API_URL}streams/?project=${project_id}`;
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .catch(err => {
-        console.log(err);
-      })
-      .then(res => res && res.json())
-      .then(result => {
-        dispatch(_getStreams(result));
-      });
-  };
-};
-
-export const _getStreams = result => {
-  return {
-    type: GET_STREAMS,
-    result
-  };
-};
-
-export const getStreamProcessors = (project_id) => {
-  return dispatch => {
-    let url = `${API_URL}streamprocessors/?project=${project_id}`;
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-        .catch(err => {
-          console.log(err);
-        })
-        .then(res => res && res.json())
-        .then(result => {
-          dispatch(_getStreamProcessors(result));
+export const getStreams = (project_id) => (dispatch) => {
+    getStreamsRequest(project_id).then(resp => {
+        debugger
+        dispatch({
+            type:CONSTANTS.STREAMS.GET_STREAMS,
+            data:resp
         });
-  };
+    }).catch(err => {
+        console.log(err);
+    })
 };
 
-export const _getStreamProcessors = result => {
-  return {
-    type: GET_STREAMPROCESSORS,
-    result
-  };
+export const getStreamProcessors = (project_id) => (dispatch)=> {
+    return dispatch => {
+        getStreamProcessorsRequest(project_id).then(result => {
+            dispatch({
+                type: CONSTANTS.STREAMS.GET_STREAM_PROCESSORS,
+                data:result
+            });
+        }).catch(err => {
+                console.log(err);
+            })
+    };
 };
 
 export const getSimulations = (project_id) => {
-  return dispatch => {
-    let url = `${API_URL}simulations/?project=${project_id}`;
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-        .catch(err => {
-          console.log(err);
-        })
-        .then(res => res && res.json())
-        .then(result => {
-          dispatch(_getSimulations(result));
-        });
-  };
+    return dispatch => {
+        getSimulationsRequest(project_id).then(result => {
+            dispatch({
+                type: CONSTANTS.STREAMS.GET_SIMULATIONS,
+                data:result});
+        }).catch(err => {
+                console.log(err);
+            })
+
+    };
 };
 
-export const _getSimulations = result => {
-  return {
-    type: GET_SIMULATIONS,
-    result
-  };
-};
+
 
 

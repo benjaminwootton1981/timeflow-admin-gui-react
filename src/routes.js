@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {Switch, BrowserRouter, withRouter, Route} from "react-router-dom";
-import { ManageStreamProcessor, MonitorStreamProcessor, NewStreamProcessor } from "./containers/streamprocessor";
+import { ManageStreamProcessor, MonitorStreamProcessor, NewStreamProcessor } from "./pages/streamProcessor";
 import { ManageStream } from "./containers/stream";
 import { ManageSimulation } from "./containers/simulation";
 import AppLayout from "./components/layouts/app.layout";
@@ -32,7 +32,7 @@ class Routes extends Component {
                 # Access From Django - Stream Processors Index Page - /react/projects/9/streamprocessors/
                 <Route exact path='/projects/:id/streamprocessors/' component={ManageStreamProcessor} />
 
-                # Access From React - Stream Processors Monitor Page 
+                # Access From React - Stream Processors Monitor Page
                 <Route exact path='/projects/:id/streamprocessors/:processor_id/monitor' component={MonitorStreamProcessor} />
 
                 # Access From React - Stream Processors New/Edit Page

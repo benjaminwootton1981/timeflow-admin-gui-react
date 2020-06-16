@@ -66,6 +66,11 @@ body {
   justify-content: flex-end;
 }
 
+.marginVertical {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
 .marginLeft-20 {
   margin-left: 20px !important;
 }
@@ -95,5 +100,11 @@ body {
 
 .modal-footer {
   border-top: unset !important;
+}
+
+//flex
+.horizontalCenter {
+  justify-content: center;
+  display: flex;
 }
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { StreamValueCard } from "../../../components";
+import React, {useState, useEffect} from "react";
+import {StreamValueCard} from "../../../components";
 import './style.scss';
 import {connect} from "react-redux";
 import {getStreams} from "../../../store/actions/serviceAction";
@@ -7,19 +7,20 @@ import EmptyStreamsSVG from '../../../assets/empty-streams.svg';
 
 function ManageStream(props) {
 
-  const [streams, setStreams] = useState([
-      {display_name: "Test User1"},
-      {display_name: "Test User2"},
-      {display_name: "Test User3"},
-  ]);
+    const [streams, setStreams] = useState([
+        {display_name: "Test User1"},
+        {display_name: "Test User2"},
+        {display_name: "Test User3"},
+    ]);
 
-  useEffect(() => {
-      props.onGetStreams(props.match.params.id);
-  }, [])
+    useEffect(() => {
+        debugger
+        props.onGetStreams(props.match.params.id);
+    }, [])
 
-  useEffect(() => {
-      setStreams(props.streams)
-  }, [props.streams])
+    useEffect(() => {
+        setStreams(props.streams)
+    }, [props.streams])
 
     return (streams &&
         <div className="wrapper">
@@ -29,7 +30,7 @@ function ManageStream(props) {
                 {streams &&
                 streams.length > 0 &&
                 streams.map(item => (
-                    <StreamValueCard post={item} itemIdx={item.id} key={item.id} />
+                    <StreamValueCard post={item} itemIdx={item.id} key={item.id}/>
                 ))}
             </div>
             {
@@ -37,7 +38,7 @@ function ManageStream(props) {
                     <div className="empty">
                         <span className="empty__text">No streams are available.</span>
                         <img src={EmptyStreamsSVG} width="155" height="134" alt="no data"
-                             className="empty__image" />
+                             className="empty__image"/>
                     </div>
                 )
             }
@@ -47,7 +48,8 @@ function ManageStream(props) {
                 </a>
                 {
                     streams.length !== 0 && (
-                        <a className="btn create__group" href="#create-groupd-modal" id="create_ground" rel="modal:open">
+                        <a className="btn create__group" href="#create-groupd-modal" id="create_ground"
+                           rel="modal:open">
                             <span>+ Create a Group</span>
                         </a>
                     )
@@ -64,6 +66,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
+    debugger
     return {
         onGetStreams: (id) => {
             dispatch(getStreams(id));
