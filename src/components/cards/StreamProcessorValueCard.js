@@ -14,10 +14,11 @@ class StreamProcessorValueCard extends Component {
       <div className="Valuecard">
         <h2 className="valueHeader">{item.name}</h2>
         <ReplicaInfo
-          streamProcessorId={item.id}
+          eventId={item.id}
           projectId={item.project && item.project.id}
           userId={item.owning_user && item.owning_user.id}
           requestedReplicas={item.replicas}
+          type={"streamprocessor"}
         />
         <div className="cardFooter">
           <a

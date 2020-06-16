@@ -7,12 +7,11 @@ import StreamProcessorValueCard from "./cards/StreamProcessorValueCard";
 import GroupCard from "./cards/GroupCard";
 
 export {
-    StreamValueCard,
-    SimulationValueCard,
-    StreamProcessorValueCard,
-    StreamProcessorCard,
-    OperationCard,
-    NewStepCard,
-    GroupCard
-}
-
+  StreamValueCard,
+  SimulationValueCard,
+  StreamProcessorValueCard,
+  StreamProcessorCard,
+  OperationCard,
+  NewStepCard,
+  GroupCard,
+};

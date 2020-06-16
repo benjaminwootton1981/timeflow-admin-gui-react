@@ -5,9 +5,10 @@ import classNames from "classnames";
 
 const ReplicaInfo = ({
   projectId,
-  streamProcessorId,
+  eventId,
   userId,
   requestedReplicas,
+  eventType,
 }) => {
   const [replicas, setReplicas] = useState(0);
 
@@ -22,26 +23,25 @@ const ReplicaInfo = ({
       const id = uuidv4();
       socket.on("connect", () => {
         // register for events
-        socket.emit("streamprocessors", {
+        const data = {
+          project_id: projectId,
+          user_id: userId,
+          [`${eventType}_id`]: eventId,
+        };
+
+        socket.emit(`${eventType}s`, {
           id,
-          data: {
-            project_id: projectId,
-            streamprocessor_id: streamProcessorId,
-            user_id: userId,
-          },
+          data,
         });
-        // socket.emit('simulations', {id, data:  {project_id: projectId, simulation_id: streamProcessorId, user_id: userId}});
       });
 
       // wait for reply
-      socket.on("streamprocessor-reply", (data) => {
+      socket.on(`${eventType}-reply`, (data) => {
         if (data.id === id) {
           setReplicas((replicas) => data.replicas || replicas);
         }
       });
-      socket.on("simulation-reply", (data) => {
-        console.log(data);
-      });
+
       socket.on("event-reply", (data) => {
         console.log(data);
       });
@@ -50,7 +50,7 @@ const ReplicaInfo = ({
     return () => {
       socket && socket.close();
     };
-  }, [projectId, streamProcessorId, userId]);
+  }, [projectId, eventId, userId, eventType]);
 
   return (
     <div>
