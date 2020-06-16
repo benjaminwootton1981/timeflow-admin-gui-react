@@ -41,10 +41,6 @@ const ReplicaInfo = ({
           setReplicas((replicas) => data.replicas || replicas);
         }
       });
-
-      socket.on("event-reply", (data) => {
-        console.log(data);
-      });
     }
 
     return () => {
