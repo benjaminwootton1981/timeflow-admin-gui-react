@@ -98,7 +98,7 @@ function TopHeader(props) {
             </li>
 
             <li className="main-nav__item">
-              <a href="#">
+              <a href="/">
                 <img className="logo-image" src={LogoSVG} width="120" height="56" alt="Timeflow" />
               </a>
             </li>

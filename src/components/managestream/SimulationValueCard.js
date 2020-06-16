@@ -26,19 +26,19 @@ class SimulationValueCard extends Component {
           <span className="cardInput greenOutline" data-header="Status">Not Deployed</span>
         </div>
         <div className="cardFooter">
-          <a href={`/projects/${item.project}/simulations/${item.id}/edit/`} className='edit'>
+          <a href={`/projects/${item.project && item.project.id}/simulations/${item.id}/edit/`} className='edit'>
             <span className="helper">Edit</span>
           </a>
-          <a href={`/projects/${item.project}/simulations/${item.id}/duplicate/`} className='duplicate'>
+          <a href={`/projects/${item.project && item.project.id}/simulations/${item.id}/duplicate/`} className='duplicate'>
             <span className="helper">Duplicate</span>
           </a>
-          <a href={`/projects/${item.project}/simulations/${item.id}/run/`} className='deploy'>
+          <a href={`/projects/${item.project && item.project.id}/simulations/${item.id}/run/`} className='deploy'>
             <span className="helper">Deploy</span>
           </a>
-          <a href={`/projects/${item.project}/simulations/${item.id}/stop/`} className='pause'>
+          <a href={`/projects/${item.project && item.project.id}/simulations/${item.id}/stop/`} className='pause'>
             <span className="helper">Stop</span>
           </a>
-          <a href={`/projects/${item.project}/simulations/${item.id}/delete/`} className='delete'>
+          <a href={`/projects/${item.project && item.project.id}/simulations/${item.id}/delete/`} className='delete'>
             <span className="helper">Delete</span>
           </a>
         </div>

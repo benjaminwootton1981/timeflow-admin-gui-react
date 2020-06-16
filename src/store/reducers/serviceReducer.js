@@ -1,9 +1,9 @@
 import {CONSTANTS} from "../constants";
 
 const initialState = {
-  streams: [],
-  streamprocessors: [],
-  simulations: [],
+  streams: null,
+  streamprocessors: null,
+  simulations: null,
 };
 
 export default function ServiceReducer(state = initialState, action) {

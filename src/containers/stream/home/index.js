@@ -22,9 +22,9 @@ function ManageStream(props) {
         setStreams(props.streams)
     }, [props.streams])
 
-    return (
+    return (streams &&
         <div className="wrapper">
-            <h2 className="project-name">Project: Customer Value Examination</h2>
+            <h2 className="project-name">{streams.length > 0 && streams[0].project && streams[0].project.name}</h2>
             <h2 className="dashboard__header">Manage Streams</h2>
             <div className="rowContent">
                 {streams &&

@@ -1,22 +1,20 @@
 body {
   font-size: 13px;
-  font-family: "Helvetica Neue", Helvetica, "Noto Sans", sans-serif;
+  font-family: Helvetica Neue, sans-serif;
 }
-
 @font-face {
-  font-family: Helvetica Neue;
+  font-family: Helvetica Neue, sans-serif;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
 
-  src: url("./assets/fonts/HelveticaNeue.ttf"); /* IE9 Compat Modes */
+  src: url("./assets/fonts/HelveticaNeueBd.ttf"); /* IE9 Compat Modes */
   src: local(Helvetica Neue), local(Helvetica Neue),
-  url("./assets/fonts/HelveticaNeue.ttf") format("embedded-opentype"),
-    /* IE6-IE8 */
-  url("./assets/fonts/HelveticaNeue.ttf") format("woff2"),
-    /* Super Modern Browsers */
-  url("./assets/fonts/HelveticaNeue.ttf") format("woff"),
-    /* Modern Browsers */
-  url("./assets/fonts/HelveticaNeue.ttf") format("truetype");
+    url("./assets/fonts/HelveticaNeueBd.ttf") format("embedded-opentype"),
+    /* IE6-IE8 */ url("./assets/fonts/HelveticaNeue.ttf") format("woff2"),
+    /* Super Modern Browsers */ url("./assets/fonts/HelveticaNeue.ttf")
+      format("woff"),
+    /* Modern Browsers */ url("./assets/fonts/HelveticaNeueBd.ttf")
+      format("truetype");
 }
 
 /*Common*/
@@ -34,25 +32,25 @@ body {
   color: #eb5656;
 }
 
-.wrapper {
-  width: 1200px;
-}
-
 .btn {
-  background: #803c8a;
-  box-shadow: 4px 4px 10px rgba(128, 60, 138, 0.22);
-  border-radius: 73px;
-  font-family: Helvetica Neue, sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 20px;
-  display: flex;
+  display: inline-flex;
+  justify-content: center;
   align-items: center;
-  text-align: center;
-  max-width: 236px;
-  margin: auto;
+  border: none;
+  outline: none;
+  height: 48px;
+  min-width: 150px;
+  padding: 0 32px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
   color: white;
+  background-color: #803C8A;
+  box-shadow: 4px 4px 10px rgba(128, 60, 138, 0.22);
+  border-radius: 24px;
+  cursor: pointer;
+  text-decoration: none;
+  box-sizing: border-box;
 }
 
 .btn-outline {

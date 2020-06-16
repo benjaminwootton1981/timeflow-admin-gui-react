@@ -42,7 +42,6 @@
   border: none;
   outline: none;
   height: 48px;
-  min-width: 150px;
   padding: 0 32px;
   font-size: 16px;
   font-weight: bold;
@@ -804,11 +803,12 @@ img {
 }
 
 .wrapper {
-  max-width: 1200px;
+  max-width: 1230px;
   padding-left: 15px;
   padding-right: 15px;
   margin: auto;
   margin-top: 60px;
+  margin-bottom: 20px;
 }
 
 .assets {
@@ -2172,27 +2172,6 @@ main {
   margin-top: 0px;
   margin-bottom: 50px;
 }
-.reportAddpp .btn,
-.btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  outline: none;
-  height: 48px;
-  min-width: 150px;
-  padding: 0 32px;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 20px;
-  color: white;
-  background-color: #803c8a;
-  box-shadow: 4px 4px 10px rgba(128, 60, 138, 0.22);
-  border-radius: 24px;
-  cursor: pointer;
-  text-decoration: none;
-  box-sizing: border-box;
-}
 .reportAddpp.modal .close {
   position: absolute;
   right: 13px;
@@ -2274,7 +2253,6 @@ main {
   border-radius: 73px;
   height: 48px;
   width: 100%;
-  max-width: 236px;
   margin-top: 36px;
   border: none;
   font-family: "'Helvetica Neue'";
@@ -2316,10 +2294,15 @@ main {
   margin-left: 0;
 }
 
+.Valuecard:nth-child(3n) {
+  margin-right: 0;
+}
+
 .rowContent {
   display: flex;
   justify-content: center;
   margin-bottom: 100px;
+  flex-wrap: wrap;
 }
 
 .cardBody .grid {
