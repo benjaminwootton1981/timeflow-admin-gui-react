@@ -1,4 +1,6 @@
 import React from "react";
+import {connect} from "react-redux";
+import {deleteStep} from "../../store/streamProcessor/action";
 
 
 const Step = (props) => {
@@ -60,7 +62,8 @@ const Step = (props) => {
                     />
                     {
                         !props.isInbound &&
-                        <button onClick={() => alert('delete')} className="card-btn card-btn--delete js-delete">
+                        <button onClick={() => props.deleteStep(item.name)}
+                                className="card-btn card-btn--delete js-delete">
                             Delete
                         </button>
                     }
@@ -70,4 +73,6 @@ const Step = (props) => {
         </table>
     )
 };
-export default Step
+export default connect((state) => {
+    return {}
+}, {deleteStep})(Step)

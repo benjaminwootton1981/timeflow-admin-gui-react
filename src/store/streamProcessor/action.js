@@ -1,11 +1,11 @@
 import {CONSTANTS} from "../constants";
 import {
+    // getStepTypeRequest,
     getStreamsRequest
 } from "../../data-layer/api";
 
 export const getStreamsAbc = (project_id) => (dispatch) => {
     getStreamsRequest(project_id).then(resp => {
-        debugger
         dispatch({
             type: CONSTANTS.STREAMS.GET_STREAMS,
             data: resp
@@ -13,6 +13,16 @@ export const getStreamsAbc = (project_id) => (dispatch) => {
     }).catch(err => {
         console.log(err);
     })
+};
+export const getStepType = () => (dispatch) => {
+    // getStepTypeRequest().then(resp => {
+    //     dispatch({
+    //         type: CONSTANTS.STREAMS.GET_STEP_TYPE,
+    //         data: resp
+    //     });
+    // }).catch(err => {
+    //     console.log(err);
+    // })
 };
 
 export const addStep = (name) => ({

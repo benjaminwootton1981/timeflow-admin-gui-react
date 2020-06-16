@@ -14,7 +14,6 @@ function ManageStream(props) {
     ]);
 
     useEffect(() => {
-        debugger
         props.onGetStreams(props.match.params.id);
     }, [])
 
@@ -66,7 +65,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-    debugger
     return {
         onGetStreams: (id) => {
             dispatch(getStreams(id));

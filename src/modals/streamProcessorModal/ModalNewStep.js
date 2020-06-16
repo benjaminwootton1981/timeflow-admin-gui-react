@@ -8,18 +8,12 @@ import {Button} from "../../components/buttons/Buttons";
 
 const ModalNewStep = (props) => {
     const fakeTypeStep = [
-        {name: '', type: ''},
-        {name: '', type: ''},
-        {name: '', type: ''},
-        {name: '', type: ''},
-        {name: '', type: ''},
-        {name: '', type: ''},
-        {name: '', type: ''},
-        {name: '', type: ''},
-        {name: '', type: ''},
-        {name: '', type: ''},
-        {name: '', type: ''},
-        {name: '', type: ''}
+        {name: 'testType1', type: ''},
+        {name: 'testType2', type: ''},
+        {name: 'testType3', type: ''},
+        {name: 'testType4', type: ''},
+        {name: 'testType5', type: ''},
+
     ];
     const [selectedStepType, setSelectedStepType] = useState('');
     const addStep = (type) => {
@@ -38,9 +32,9 @@ const ModalNewStep = (props) => {
                 <Modal.Title className="modal-title">Add A New Step</Modal.Title>
             </Modal.Header>
             <Modal.Body className="row add-modal-body stepType">
-                {fakeTypeStep.map(() => {
+                {fakeTypeStep.map((stepType, index) => {
                     return (
-                        <div onClick={() => setSelectedStepType('testType')}>
+                        <div onClick={() => setSelectedStepType(`${stepType.name}`)}>
                             <NewStepCard/>
                         </div>
                     )

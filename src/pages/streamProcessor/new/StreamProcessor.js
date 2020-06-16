@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./style.scss";
 import ModalNewStep from "../../../modals/streamProcessorModal/ModalNewStep";
 import {Button} from "../../../components/buttons/Buttons";
 import Step from "../../../components/streamProcessor/Step";
 import SchemaBlock from "../../../components/streamProcessor/SchemsBlock";
 import {connect} from "react-redux";
-import {getStreamsAbc} from "../../../store/streamProcessor/action";
+import {getStepType, getStreamsAbc} from "../../../store/streamProcessor/action";
 
 
 function a11yProps(index) {
@@ -49,11 +49,15 @@ const StreamProcessor = (props) => {
         setInputValues({...inputValues, [name]: value});
     };
 
-    const {addedSteps} = props.itemStreamProcessor;
-    const isAddedSteps = addedSteps.length !== 0;
+    // useEffect(() => {
+    //     props.getStepType();
+    // }, []);
+
+    const {addedSteps, stepTypes} = props.itemStreamProcessor;
+    console.log('PROPS', stepTypes);
+    const isAddedSteps = addedSteps && addedSteps.length !== 0;
 
     console.log('addedSteps', addedSteps)
-    const acn = [{['type']: 'type1'}];
     return (
         <div className="wrapper">
             <h2 className="dashboard__header">New Stream Processor</h2>
@@ -91,7 +95,7 @@ const StreamProcessor = (props) => {
                                  polio={polio}
                     />
                     {
-                        isAddedSteps && addedSteps.map((item) => {
+                        isAddedSteps && addedSteps.map((item, i) => {
                             return (
                                 <div className="newStep">
                                     <Step isInbound={false}
@@ -121,8 +125,8 @@ const StreamProcessor = (props) => {
 };
 export default connect((state) => {
         return {
-            itemStreamProcessor: state.StreamProcessorReducer
+            itemStreamProcessor: state.StreamProcessorReducer,
         }
 
     },
-    {getStreamsAbc})(StreamProcessor)
+    {getStreamsAbc, getStepType})(StreamProcessor)

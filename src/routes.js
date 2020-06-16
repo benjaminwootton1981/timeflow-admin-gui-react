@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import {Switch, BrowserRouter, withRouter, Route} from "react-router-dom";
-import { ManageStreamProcessor, MonitorStreamProcessor, NewStreamProcessor } from "./pages/streamProcessor";
+import {  MonitorStreamProcessor, NewStreamProcessor } from "./pages/streamProcessor";
 import { ManageStream } from "./pages/stream";
 import { ManageSimulation } from "./pages/simulation";
 import AppLayout from "./components/layouts/app.layout";
+import ManageStreamProcessor from "./pages/streamProcessor/list";
 
 class Routes extends Component {
   constructor(props) {
