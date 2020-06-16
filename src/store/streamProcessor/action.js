@@ -1,7 +1,7 @@
 import {CONSTANTS} from "../constants";
 import {
     getStreamsRequest
-} from "../../dall/axios";
+} from "../../data-layer/api";
 
 export const getStreamsAbc = (project_id) => (dispatch) => {
     getStreamsRequest(project_id).then(resp => {

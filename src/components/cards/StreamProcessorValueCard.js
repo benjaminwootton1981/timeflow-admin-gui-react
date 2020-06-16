@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ReplicaInfo from "./ReplicaInfo";
+import ReplicaInfo from "../managestream/ReplicaInfo";
 
 class StreamProcessorValueCard extends Component {
   constructor(props) {

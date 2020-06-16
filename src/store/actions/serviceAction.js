@@ -3,7 +3,7 @@ import {
     getSimulationsRequest,
     getStreamProcessorsRequest,
     getStreamsRequest
-} from "../../dall/axios";
+} from "../../data-layer/api";
 
 export const getStreams = (project_id) => (dispatch) => {
     getStreamsRequest(project_id).then(resp => {
