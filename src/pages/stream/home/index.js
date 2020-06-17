@@ -6,12 +6,13 @@ import { getStreams } from "../../../store/actions/serviceAction";
 import EmptyStreamsSVG from "../../../assets/empty-streams.svg";
 import "./style.scss";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
+import CardBoardLayout from "../../../components/layouts/card-board.layout";
 
 function ManageStream(props) {
   const [streams, setStreams] = useState([
-    { display_name: "Test User1" },
-    { display_name: "Test User2" },
-    { display_name: "Test User3" },
+    { name: "test1", display_name: "Test User1", type: "stream" },
+    { name: "test2", display_name: "Test User2", type: "stream" },
+    { name: "test3", display_name: "Test User3", type: "stream" },
   ]);
   const [groups, setGroups] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
@@ -21,12 +22,16 @@ function ManageStream(props) {
   }, []);
 
   useEffect(() => {
-    setStreams(props.streams);
+    setStreams(props.streams && props.streams.map(stream => {
+        stream.type = "stream";
+        return stream;
+    }));
   }, [props.streams]);
 
   const createGroup = (name) => {
     groups.push({
       name,
+      type: 'group'
     });
     setGroups(groups);
     setVisibleModal(false);
@@ -40,14 +45,9 @@ function ManageStream(props) {
         </h2>
         <h2 className="dashboard__header">Manage Streams</h2>
         <div className="rowContent">
-          {groups.map((group, index) => (
-            <GroupCard key={`group-${index}`} item={group} />
-          ))}
-          {streams &&
-            streams.length > 0 &&
-            streams.map((item) => (
-              <StreamValueCard post={item} itemIdx={item.id} key={item.id} />
-            ))}
+          {
+              <CardBoardLayout id="manage-stream-board" items={groups.concat(streams)} />
+          }
         </div>
         {streams.length === 0 && (
           <div className="empty">

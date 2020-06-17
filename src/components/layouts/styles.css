@@ -2287,22 +2287,10 @@ main {
   box-shadow: 0px 6px 12px rgba(164, 109, 255, 0.1);
   border-radius: 15px;
   width: 370px;
-  margin: 15px;
 }
 
-.Valuecard:nth-child(3n-2):not(:last-child){
-  margin-left: 0;
-}
-
-.Valuecard:nth-child(3n) {
-  margin-right: 0;
-}
 
 .rowContent {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 100px;
-  flex-wrap: wrap;
 }
 
 .cardBody .grid {
@@ -2532,4 +2520,26 @@ main {
   line-height: 20px;
   text-align: center;
   color: #803C8A;
+}
+
+
+/*card board drag and drop*/
+
+.card_board_container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+  flex-wrap: wrap;
+}
+
+.drag_card_container {
+  margin: 15px;
+}
+
+.drag_card_container:nth-child(3n-2):not(:last-child){
+  margin-left: 0;
+}
+
+.drag_card_container:nth-child(3n) {
+  margin-right: 0;
 }

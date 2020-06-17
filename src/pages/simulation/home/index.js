@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { getSimulations } from "../../../store/actions/serviceAction";
 import EmptySimultionsSVG from "../../../assets/empty-simulations.svg";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
+import CardBoardLayout from "../../../components/layouts/card-board.layout";
 
 function ManageSimulation(props) {
   const [simulations, setSimulations] = useState([]);
@@ -16,15 +17,19 @@ function ManageSimulation(props) {
   }, []);
 
   useEffect(() => {
-    setSimulations(props.simulations);
+    setSimulations(props.simulations && props.simulations.map(simulation => {
+        simulation.type = "simulation";
+        return simulation;
+    }));
   }, [props.simulations]);
 
   const createGroup = (name) => {
-    groups.push({
-      name,
-    });
-    setGroups(groups);
-    setVisibleModal(false);
+      groups.push({
+          name,
+          type: 'group'
+      });
+      setGroups(groups);
+      setVisibleModal(false);
   };
 
   return (
@@ -37,18 +42,9 @@ function ManageSimulation(props) {
         </h2>
         <h2 className="dashboard__header">Manage Simulations</h2>
         <div className="rowContent">
-          {groups.map((group, index) => (
-            <GroupCard key={`group-${index}`} item={group} />
-          ))}
-          {simulations &&
-            simulations.length > 0 &&
-            simulations.map((item) => (
-              <SimulationValueCard
-                post={item}
-                itemIdx={item.id}
-                key={item.id}
-              />
-            ))}
+            {
+                <CardBoardLayout id="manage-simulation-board" items={groups.concat(simulations)} />
+            }
         </div>
         {simulations.length === 0 && (
           <div className="empty">

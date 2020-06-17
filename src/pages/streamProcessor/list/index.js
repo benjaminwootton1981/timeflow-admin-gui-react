@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { getStreamProcessors } from "../../../store/actions/serviceAction";
 import EmptyStreamProcessorSVG from "../../../assets/empty-streamprocessor.svg";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
+import CardBoardLayout from "../../../components/layouts/card-board.layout";
 
 function ManageStreamProcessor(props) {
   const [streams, setStreams] = useState();
@@ -16,15 +17,19 @@ function ManageStreamProcessor(props) {
   }, []);
 
   useEffect(() => {
-    setStreams(props.streams);
+      setStreams(props.streams && props.streams.map(stream => {
+          stream.type = "streamprocessor";
+          return stream;
+      }));
   }, [props.streams]);
 
   const createGroup = (name) => {
-    groups.push({
-      name,
-    });
-    setGroups(groups);
-    setVisibleModal(false);
+      groups.push({
+          name,
+          type: 'group'
+      });
+      setGroups(groups);
+      setVisibleModal(false);
   };
 
   if (!streams) {
@@ -60,6 +65,9 @@ function ManageStreamProcessor(props) {
                 key={item.id}
               />
             ))}
+            {
+                <CardBoardLayout id="manage-stream-processor-board" items={groups.concat(streams)} />
+            }
         </div>
         {streams.length === 0 && (
           <div className="empty">
