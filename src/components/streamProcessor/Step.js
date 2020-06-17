@@ -1,11 +1,29 @@
-import React from "react";
+import React, {useState} from "react";
 import {connect} from "react-redux";
 import {deleteStep} from "../../store/streamProcessor/action";
 
 
 const Step = (props) => {
-    const {item} = props;
-    console.log('item',item)
+    const {item, stepTypesData} = props;
+    const [fieldsKey, setFieldsKey] = useState(item.key);
+    const {step_types, step_types_data} = stepTypesData;
+    if (item) {
+        step_types.forEach((el, i) => {
+            if (el.name === item.name) {
+                step_types.unshift(...step_types.splice(i, 1));
+            }
+        });
+    }
+    const onChangeFields = (event) => {
+        setFieldsKey(event.target.value)
+
+    };
+    const checkFields = step_types_data[fieldsKey].fields ? step_types_data[fieldsKey].fields : [{
+        'name': '',
+        'value': ''
+    }];
+    console.log('fieldsKey', fieldsKey)
+    console.log('item', item)
     return (
         <table className="new-item__step" id="steps-table">
             <tbody>
@@ -28,11 +46,19 @@ const Step = (props) => {
                             name="steptype_new_0"
                             className="step"
                             data-step_id="new_0"
-                            onChange="stepTypeChanged(this)"
+                            onChange={(event) => onChangeFields(event)}
                         >
-                            <option value="{{ step_type }}">
-                                Inbound Event - Stream
-                            </option>
+                            {item &&
+                            <>
+                                {step_types.map((step) => {
+                                    return (
+                                        <option value={step.value}>
+                                            {step.name}
+                                        </option>
+                                    )
+                                })}
+                            </>
+                            }
                         </select>
                     </div>
                     <div className="add-selects" data-step_id="new_0">
@@ -44,11 +70,15 @@ const Step = (props) => {
                                 data-popover-body="{{ item.popover.bottom_text }}"
                                 data-popover-title="{{ item.popover.top_text }}"
                             >
-                                <option value="0">Please Select...</option>
-                                <option value="{{ topic.name }}">
-                                    topic.display_name
-                                </option>
-                                {/* <option value="{{ option.0 }}">{{ option.1 }}</option> */}
+                                {item && <>
+                                    {checkFields.map((el) => {
+                                        return (
+                                            <option value={el.name}>
+                                                {el.name}
+                                            </option>
+                                        )
+                                    })}
+                                </>}
                             </select>
                         </div>
                     </div>
@@ -74,5 +104,7 @@ const Step = (props) => {
     )
 };
 export default connect((state) => {
-    return {}
+    return {
+        stepTypesData: state.StreamProcessorReducer.stepTypes,
+    }
 }, {deleteStep})(Step)

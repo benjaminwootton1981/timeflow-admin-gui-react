@@ -1,0 +1,19 @@
+.bodyStepType {
+  display: flex;
+  flex-wrap: wrap;
+  height: 400px;
+  flex-direction: row;
+  overflow-y: auto;
+  overflow-x: hidden;
+  justify-content: space-between;
+  padding: (10px 25px 0 15px)
+}
+
+.step_type {
+  width: 48%;
+
+}
+
+.selected {
+  border: solid #8e44ad 1.5px;
+}

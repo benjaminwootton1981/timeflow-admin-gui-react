@@ -9,7 +9,11 @@ const initialState = {
 export default function StreamProcessorReducer(state = initialState, action) {
     switch (action.type) {
         case CONSTANTS.STREAMS.ADD_NEW_STEP:
-            const step = [...state.addedSteps, {'name': `${action.data}_${state.addedSteps.length}`}];
+            const step = [...state.addedSteps, {
+                'id': `${action.data.id}_${state.addedSteps.length}`,
+                'key': `${action.data.key}`,
+                'name': `${action.data.name}`
+            }];
             return {...state, addedSteps: step};
         case CONSTANTS.STREAMS.GET_STEP_TYPE:
             return {...state, stepTypes: action.data};
