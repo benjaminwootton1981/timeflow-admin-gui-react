@@ -23,7 +23,7 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
 
       // wait for reply
       socket.on(`event-reply`, (data) => {
-        console.log("Got Data " + data )
+        console.log("Got Data ", data);
         if (data) {
           setEventsProcessed((events) => data.events_processed || events);
           setBytesProcessed((bytes) => data.bytes_processed || bytes);
