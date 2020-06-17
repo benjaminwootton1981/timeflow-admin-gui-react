@@ -12,7 +12,6 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
     let socket;
     const webSocketUrl =
       "3.249.227.197:8888" || process.env.REACT_APP_WEBSOCKET_SERVER;
-    console.log(webSocketUrl);
 
     if (webSocketUrl) {
       const socket = io(webSocketUrl);
@@ -23,7 +22,6 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
 
       // wait for reply
       socket.on(`event-reply`, (data) => {
-        console.log("Got Data ", data);
         if (data) {
           setEventsProcessed((events) => data.events_processed || events);
           setBytesProcessed((bytes) => data.bytes_processed || bytes);

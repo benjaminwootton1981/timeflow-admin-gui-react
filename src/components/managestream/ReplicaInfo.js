@@ -16,7 +16,6 @@ const ReplicaInfo = ({
     let socket;
     const webSocketUrl =
       "3.249.227.197:8888" || process.env.REACT_APP_WEBSOCKET_SERVER;
-    console.log(webSocketUrl);
 
     if (webSocketUrl) {
       const socket = io(webSocketUrl);

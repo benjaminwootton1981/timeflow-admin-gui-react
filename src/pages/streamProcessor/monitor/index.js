@@ -39,16 +39,6 @@ export default function MonitorStreamProcessor(props) {
               aria-label="scrollable auto tabs example"
             >
               <Tab label="Overall" {...a11yProps(0)} />
-              <Tab label="Replica 1" {...a11yProps(1)} />
-              <Tab label="Replica 2" {...a11yProps(2)} />
-              <Tab label="Replica 3" {...a11yProps(3)} />
-              <Tab label="Replica 4" {...a11yProps(4)} />
-              <Tab label="Replica 5" {...a11yProps(5)} />
-              <Tab label="Replica 6" {...a11yProps(6)} />
-              <Tab label="Replica 7" {...a11yProps(7)} />
-              <Tab label="Replica 8" {...a11yProps(8)} />
-              <Tab label="Replica 9" {...a11yProps(9)} />
-              <Tab label="Replica 10" {...a11yProps(10)} />
             </Tabs>
           </AppBar>
         </div>
@@ -57,24 +47,6 @@ export default function MonitorStreamProcessor(props) {
             projectId={id}
             streamProcessorId={streamprocessor_id}
           />
-        </TabPanel>
-        <TabPanel value={tab} index={1}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={tab} index={2}>
-          Item Three
-        </TabPanel>
-        <TabPanel value={tab} index={3}>
-          Item Four
-        </TabPanel>
-        <TabPanel value={tab} index={4}>
-          Item Five
-        </TabPanel>
-        <TabPanel value={tab} index={5}>
-          Item Six
-        </TabPanel>
-        <TabPanel value={tab} index={6}>
-          Item Seven
         </TabPanel>
       </div>
     </div>
