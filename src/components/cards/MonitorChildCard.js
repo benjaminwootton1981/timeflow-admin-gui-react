@@ -1,12 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import MonitorLineChart from "./MonitorLineChart";
 import io from "socket.io-client";
+import {throttle} from "lodash"
 
 function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
   const [eventsProcessed, setEventsProcessed] = useState(0);
   const [bytesProcessed, setBytesProcessed] = useState(0);
   const [eventsPerSecond, setEventsPerSecond] = useState(0);
   const [bytesPerSecond, setBytesPerSecond] = useState(0);
+
+  const update = useCallback(throttle((data)=>{
+    if (data) {
+      setEventsProcessed((events) => data.events_processed || events);
+      setBytesProcessed((bytes) => data.bytes_processed || bytes);
+      setEventsPerSecond((eventsPS) => data.events_ps || eventsPS);
+      setBytesPerSecond((bytesPS) => data.bytes_ps || bytesPS);
+    }
+  }, 2000), []);
 
   useEffect(() => {
     let socket;
@@ -22,12 +32,7 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
 
       // wait for reply
       socket.on(`event-reply`, (data) => {
-        if (data) {
-          setEventsProcessed((events) => data.events_processed || events);
-          setBytesProcessed((bytes) => data.bytes_processed || bytes);
-          setEventsPerSecond((eventsPS) => data.events_ps || eventsPS);
-          setBytesPerSecond((bytesPS) => data.bytes_ps || bytesPS);
-        }
+        update(data)
       });
 
       // wait for reply
@@ -39,7 +44,7 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
     return () => {
       socket && socket.close();
     };
-  }, [projectId, streamProcessorId]);
+  }, [projectId, streamProcessorId, update]);
   return (
     <div className="monitor__body_tab_child">
       <span className="monitor__body_tab_child_header">{title}</span>
@@ -49,7 +54,7 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
             <div className="content_status_col border_right">
               <div className="inboud_event_chart_total">
                 <div className="pie-wrapper progress-90">
-                  <span className="label">{eventsPerSecond}</span>
+                  <span className="label">{bytesPerSecond}</span>
                   <div className="pie">
                     <div className="left-side half-circle"></div>
                     <div className="right-side half-circle"></div>
@@ -63,7 +68,7 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
             <div className="content_status_col">
               <div className="inboud_event_chart_total">
                 <div className="pie-wrapper progress-90">
-                  <span className="label">{bytesPerSecond}</span>
+                  <span className="label">{eventsPerSecond}</span>
                   <div className="pie">
                     <div className="left-side half-circle"></div>
                     <div className="right-side half-circle"></div>
