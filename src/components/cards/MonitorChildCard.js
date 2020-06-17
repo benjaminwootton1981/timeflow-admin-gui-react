@@ -29,6 +29,11 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
           setBytesPerSecond((bytesPS) => data.bytes_ps || bytesPS);
         }
       });
+
+      // wait for reply
+      socket.on(`message-reply`, (data) => {
+        console.log(data)
+      });
     }
 
     return () => {
@@ -80,7 +85,7 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
                 Events Processed
               </div>
               <div className="content_status_amount text-left">
-                {bytesProcessed / 1024} <span>kb</span>
+                {(bytesProcessed / 1024).toFixed(0)} <span>kb</span>
               </div>
               <div className="content_status_desc text-left">
                 Data Processed
