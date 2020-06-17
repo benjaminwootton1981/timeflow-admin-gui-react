@@ -58,7 +58,7 @@ class StreamProcessorValueCard extends Component {
             <span className="helper">Stop</span>
           </a>
           <a
-            href={`/projects/${
+            href={`/react/projects/${
               item.project && item.project.id
             }/streamprocessors/${item.id}/monitor/`}
             className="monitor"
