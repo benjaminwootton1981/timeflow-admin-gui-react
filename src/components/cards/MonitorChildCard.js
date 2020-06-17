@@ -16,7 +16,7 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
       setEventsPerSecond((eventsPS) => data.events_ps || eventsPS);
       setBytesPerSecond((bytesPS) => data.bytes_ps || bytesPS);
     }
-  }, 2000), []);
+  }, 1000), []);
 
   useEffect(() => {
     let socket;
