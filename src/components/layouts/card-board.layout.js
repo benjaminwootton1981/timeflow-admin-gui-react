@@ -104,19 +104,21 @@ export default function CardBoardLayout(props) {
 
     const onDragEnd = result => {
       const { destination, source, reason, combine } = result;
-      console.log(result);
 
         if (combine) {
             const { draggableId } = combine;
             // push selected item to child of destinated group item
             const group_item = items[draggableId.split('group-')[1]];
-            const merged_item = items[source.index];
-            group_item.childs.push(merged_item)
+            if (group_item) {
+                const merged_item = items[source.index];
+                group_item.childs.push(merged_item)
 
-            const entities = Object.assign([], items);
-            entities.splice(source.index, 1);
-            console.log(entities)
-            setItems(entities)
+                const entities = Object.assign([], items);
+                entities.splice(source.index, 1);
+                console.log(entities)
+                setItems(entities)
+            }
+
             return;
         }
 
@@ -133,11 +135,17 @@ export default function CardBoardLayout(props) {
         }
 
 
-        const entities = Object.assign([], items);
-        const quote = items[source.index];
-        entities.splice(source.index, 1);
-        entities.splice(destination.index, 0, quote);
-        setItems(entities)
+        if (source.droppableId.indexOf('group-drop-') > -1) {
+            const group = items[source.droppableId.split('group-')[1]];
+        } else {
+
+
+            const entities = Object.assign([], items);
+            const quote = items[source.index];
+            entities.splice(source.index, 1);
+            entities.splice(destination.index, 0, quote);
+            setItems(entities)
+        }
     };
 
     const onDragUpdate = result => {
@@ -145,9 +153,9 @@ export default function CardBoardLayout(props) {
         // if non-group card is going to combine with non-group card, disable combine
         const { combine } = result;
         if (combine) {
-            if ((result.draggableId.indexOf('group-') === -1) && combine.draggableId.indexOf('group-') === -1) {
-                setIsCombine(false);
-            }
+            // if ((result.draggableId.indexOf('group-') === -1) && combine.draggableId.indexOf('group-') === -1) {
+            //     setIsCombine(false);
+            // }
         }
 
         // if (result.destination && result.source.index === result.destination.index) {
