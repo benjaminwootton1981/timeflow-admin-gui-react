@@ -9,7 +9,7 @@ const App = ({children}) => {
 
     useEffect(() => {
         axios
-            .get(`${API_URL}/me`)
+            .get(`${API_URL}me`)
             .then(response => {
                 dispatch({type: CONSTANTS.GET_CURRENT_USER, payload: response.data})
             }).catch(e => {
