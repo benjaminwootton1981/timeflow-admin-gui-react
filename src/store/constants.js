@@ -7,5 +7,6 @@ export const CONSTANTS = {
         ADD_NEW_STEP: 'ADD_NEW_STEP',
         DELL_NEW_STEP: 'DELL_NEW_STEP',
     },
+    GET_CURRENT_USER: "GET_CURRENT_USER"
 
 };

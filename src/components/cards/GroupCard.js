@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Droppable, Draggable } from 'react-beautiful-dnd';
+import React, {useState} from "react";
+import {Droppable, Draggable} from 'react-beautiful-dnd';
 
 import DragDropGroup from '../../assets/group_drag_drop.svg';
 import DragDropSelect from '../../assets/group_drag_select.svg';
-import GroupChildsSVG from '../../assets/group_childs.svg';
-import PlayIconSVG from '../../assets/play_icon.svg';
+import GroupChildsSVG from '../../assets/group_drag_select.svg';
+import PlayIconSVG from '../../assets/group_drag_select.svg';
 
-const Item = ({ name, index }) => (
+const Item = ({name, index}) => (
     <Draggable key={name} draggableId={name} index={index}>
         {provided => {
             return (

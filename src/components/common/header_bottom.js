@@ -2,13 +2,16 @@ import React from 'react';
 
 import MenuAvatarSVG from "../../assets/design/submenu/menu_avatar.svg";
 import MenuLogOutSVG from "../../assets/design/submenu/menu_icon_logout.svg";
+import {useSelector} from "react-redux";
 
 export default function BottomHeader() {
+    const currentUser = useSelector(state => state.currentUser);
     return (
         <div className="header__bottom">
             <div className="user">
-                <img className="user__avatar" src={MenuAvatarSVG} alt="avatar" />
-                <a className="user__email" href="#"> First Name Last Name</a>
+                <img className="user__avatar" src={MenuAvatarSVG} alt="avatar"/>
+                <a className="user__email"
+                   href="#"> {currentUser && `${currentUser.first_name} ${currentUser.last_name}`}</a>
             </div>
             <nav className="second-nav">
                 <ul>

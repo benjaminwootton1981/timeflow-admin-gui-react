@@ -13,12 +13,13 @@ import "bootstrap/dist/js/bootstrap.js";
 import * as serviceWorker from "./serviceWorker";
 import './global.scss';
 import "antd/lib/notification/style/css";
+import App from "./App";
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <ThemeProvider>
-        <Routes />
+          <App><Routes/></App>
       </ThemeProvider>
     </BrowserRouter>
   </Provider>,
