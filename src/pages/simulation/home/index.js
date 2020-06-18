@@ -24,9 +24,12 @@ function ManageSimulation(props) {
   }, [props.simulations]);
 
   const createGroup = (name) => {
+      let index = groups.length;
       groups.push({
+          id: index + 1,
           name,
-          type: 'group'
+          type: 'group',
+          childs: []
       });
       setGroups(groups);
       setVisibleModal(false);

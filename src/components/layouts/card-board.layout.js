@@ -109,13 +109,16 @@ export default function CardBoardLayout(props) {
             const { draggableId } = combine;
             // push selected item to child of destinated group item
             const group_item = items[draggableId.split('group-')[1]];
-            const merged_item = items[source.index];
-            group_item.childs.push(merged_item)
+            if (group_item) {
+                const merged_item = items[source.index];
+                group_item.childs.push(merged_item)
 
-            const entities = Object.assign([], items);
-            entities.splice(source.index, 1);
-            console.log(entities)
-            setItems(entities)
+                const entities = Object.assign([], items);
+                entities.splice(source.index, 1);
+                console.log(entities)
+                setItems(entities)
+            }
+
             return;
         }
 
@@ -150,9 +153,9 @@ export default function CardBoardLayout(props) {
         // if non-group card is going to combine with non-group card, disable combine
         const { combine } = result;
         if (combine) {
-            if ((result.draggableId.indexOf('group-') === -1) && combine.draggableId.indexOf('group-') === -1) {
-                setIsCombine(false);
-            }
+            // if ((result.draggableId.indexOf('group-') === -1) && combine.draggableId.indexOf('group-') === -1) {
+            //     setIsCombine(false);
+            // }
         }
 
         // if (result.destination && result.source.index === result.destination.index) {
