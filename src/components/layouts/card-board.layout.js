@@ -104,7 +104,6 @@ export default function CardBoardLayout(props) {
 
     const onDragEnd = result => {
       const { destination, source, reason, combine } = result;
-      console.log(result);
 
         if (combine) {
             const { draggableId } = combine;
@@ -133,11 +132,17 @@ export default function CardBoardLayout(props) {
         }
 
 
-        const entities = Object.assign([], items);
-        const quote = items[source.index];
-        entities.splice(source.index, 1);
-        entities.splice(destination.index, 0, quote);
-        setItems(entities)
+        if (source.droppableId.indexOf('group-drop-') > -1) {
+            const group = items[source.droppableId.split('group-')[1]];
+        } else {
+
+
+            const entities = Object.assign([], items);
+            const quote = items[source.index];
+            entities.splice(source.index, 1);
+            entities.splice(destination.index, 0, quote);
+            setItems(entities)
+        }
     };
 
     const onDragUpdate = result => {

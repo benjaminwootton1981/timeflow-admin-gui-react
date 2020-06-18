@@ -58,7 +58,7 @@ export default function GroupCard({item, index}) {
                       </div>
                   )
               }
-              <Droppable droppableId={`group-${item.id}`} isDropDisabled={false} style={{ zIndex: 100 }}>
+              <Droppable droppableId={`group-drop-${index}`} isDropDisabled={false} style={{ zIndex: 100 }}>
                   {provided => (
                       <div className="group__card_content" {...provided.droppableProps} ref={provided.innerRef}>
                           {
