@@ -12,6 +12,7 @@ import "bootstrap";
 import "bootstrap/dist/js/bootstrap.js";
 import * as serviceWorker from "./serviceWorker";
 import './global.scss';
+import "antd/lib/notification/style/css";
 
 ReactDOM.render(
   <Provider store={store}>

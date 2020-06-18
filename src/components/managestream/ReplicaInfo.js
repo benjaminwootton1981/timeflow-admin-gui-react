@@ -49,10 +49,14 @@ const ReplicaInfo = ({
         socket.on(`message-reply`, (data) => {
           if (data) {
             if (data.type === "info") {
-              notification.info(data.message);
+              notification.info({
+                message: 'Info',
+                description: data.message});
             }
             if (data.type === "error") {
-              notification.error(data.message);
+              notification.info({
+                message: 'Error',
+                description: data.message})
             }
           }
         });
@@ -63,6 +67,14 @@ const ReplicaInfo = ({
       socket && socket.close();
     };
   }, [projectId, eventId, userId, eventType]);
+
+  useEffect(()=>{
+    setTimeout(()=>{
+
+    }, [])
+
+    console.log("kk")
+  }, []);
 
   return (
     <div>

@@ -3,7 +3,6 @@ import MonitorLineChart from "./MonitorLineChart";
 import io from "socket.io-client";
 import { throttle } from "lodash";
 import { notification } from "antd";
-import "antd/lib/notification/style";
 
 function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
   const [eventsProcessed, setEventsProcessed] = useState(0);
@@ -44,10 +43,14 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
       socket.on(`message-reply`, (data) => {
         if (data) {
           if (data.type === "info") {
-            notification.info(data.message);
+            notification.info({
+              message: 'Info',
+              description: data.message});
           }
           if (data.type === "error") {
-            notification.error(data.message);
+            notification.info({
+              message: 'Error',
+              description: data.message})
           }
         }
       });
