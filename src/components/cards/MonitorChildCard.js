@@ -26,7 +26,7 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
   useEffect(() => {
     let socket;
     const webSocketUrl =
-      "63.34.163.101" || process.env.REACT_APP_WEBSOCKET_SERVER;
+      "63.34.163.101:8888" || process.env.REACT_APP_WEBSOCKET_SERVER;
 
     if (webSocketUrl) {
       const socket = io(webSocketUrl);
