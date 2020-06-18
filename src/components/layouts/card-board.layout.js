@@ -6,12 +6,14 @@ import {
 } from "react-beautiful-dnd";
 import invariant from 'tiny-invariant';
 import {GroupCard, SimulationValueCard, StreamValueCard, StreamProcessorValueCard} from "../index";
+import DragItem from "../drag-and-drop/DragItem";
 
 export default function CardBoardLayout(props) {
     const [items, setItems] = useState([]);
     const [selectedRowIds, setSelectedRowIds] = useState([]);
     const [draggingRowId, setDraggingRowId] = useState(null);
     const [reorderEnabled, setReorderEnabled] = useState(false);
+    const [isCombine, setIsCombine] = useState(true);
 
     useEffect(() => {
         setItems(props.items);
@@ -85,6 +87,12 @@ export default function CardBoardLayout(props) {
 
     const onDragStart = start => {
         const id = start.draggableId;
+
+        if (id.indexOf('group-') > -1)
+            setIsCombine(false);
+        else
+            setIsCombine(true);
+
         const selected = selectedRowIds.find(selectedId => selectedId === id)
 
         if (!selected) {
@@ -95,25 +103,56 @@ export default function CardBoardLayout(props) {
     };
 
     const onDragEnd = result => {
-      const { destination, source, reason } = result;
+      const { destination, source, reason, combine } = result;
+      console.log(result);
 
-      if (!destination || reason === 'CANCEL') {
-        setDraggingRowId(null);
-        return;
-      }
+        if (combine) {
+            const { draggableId } = combine;
+            // push selected item to child of destinated group item
+            const group_item = items[draggableId.split('group-')[1]];
+            const merged_item = items[source.index];
+            group_item.childs.push(merged_item)
 
-      if (
-        destination.droppableId === source.droppableId &&
-        destination.index === source.index
-      ) {
-        return;
-      }
+            const entities = Object.assign([], items);
+            entities.splice(source.index, 1);
+            console.log(entities)
+            setItems(entities)
+            return;
+        }
 
-      const entities = Object.assign([], items);
-      const quote = items[source.index];
-      entities.splice(source.index, 1);
-      entities.splice(destination.index, 0, quote);
-      setItems(entities)
+        if (!destination || reason === 'CANCEL') {
+            setDraggingRowId(null);
+            return;
+        }
+
+        if (
+            destination.droppableId === source.droppableId &&
+            destination.index === source.index
+        ) {
+            return;
+        }
+
+
+        const entities = Object.assign([], items);
+        const quote = items[source.index];
+        entities.splice(source.index, 1);
+        entities.splice(destination.index, 0, quote);
+        setItems(entities)
+    };
+
+    const onDragUpdate = result => {
+        console.log(result);
+        // if non-group card is going to combine with non-group card, disable combine
+        const { combine } = result;
+        if (combine) {
+            if ((result.draggableId.indexOf('group-') === -1) && combine.draggableId.indexOf('group-') === -1) {
+                setIsCombine(false);
+            }
+        }
+
+        // if (result.destination && result.source.index === result.destination.index) {
+        //     setIsCombine(true);
+        // }
     };
 
     const unselect = () => {
@@ -151,48 +190,29 @@ export default function CardBoardLayout(props) {
         <DragDropContext
             onDragStart={onDragStart}
             onDragEnd={onDragEnd}
+            onDragUpdate={onDragUpdate}
         >
             <Droppable droppableId={props.id}
                        type="COLUMN"
-                       direction="horizontal">
+                       direction="horizontal"
+                       ignoreContainerClipping={true}
+                       isCombineEnabled={isCombine}>
                 {
                     (provided, snapshot) => (
                         <div className="card_board_container"
                              ref={provided.innerRef}
                              {...provided.droppableProps}>
                             {
-                                items.map((item, index) => (
-                                    <Draggable
-                                        draggableId={item.name}
-                                        index={index}
-                                        key={item.name}
-                                    >
-                                        {(provided, snapshot) => (
-                                            <div className="drag_card_container"
-                                                 ref={provided.innerRef}
-                                                 {...provided.draggableProps}
-                                                 {...provided.dragHandleProps}
-                                                 style={getItemStyle(
-                                                     snapshot.isDragging,
-                                                     provided.draggableProps.style
-                                                 )}
-                                            >
-                                                {item.type === 'group' && (
-                                                    <GroupCard item={item} />
-                                                )}
-                                                {item.type === 'stream' && (
-                                                    <StreamValueCard post={item} itemIdx={item.id} />
-                                                )}
-                                                {item.type === 'simulation' && (
-                                                    <SimulationValueCard post={item} itemIdx={item.id} />
-                                                )}
-                                                {item.type === 'streamprocessor' && (
-                                                    <StreamProcessorValueCard post={item} itemIdx={item.id} />
-                                                )}
-                                            </div>
-                                        )}
-                                    </Draggable>
-                                ))
+                                items.map((item, index) => {
+                                    if (item.type === "group") {
+                                        return (
+                                            <GroupCard item={item} index={index} />
+                                        )
+                                    } else
+                                        return (
+                                            <DragItem item={item} index={index} />
+                                        )
+                                })
                             }
                             {provided.placeholder}
                         </div>

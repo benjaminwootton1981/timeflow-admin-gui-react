@@ -1216,6 +1216,7 @@ main {
   margin-top: 0 !important;
   padding: 41px 0;
   position: relative;
+  border-top: 1px solid #803C8A;
 }
 
 .dashboard__footer .create__group {
