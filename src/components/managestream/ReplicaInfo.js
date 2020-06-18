@@ -15,7 +15,7 @@ const ReplicaInfo = ({
   useEffect(() => {
     let socket;
     const webSocketUrl =
-      "34.249.52.215:8888" || process.env.REACT_APP_WEBSOCKET_SERVER;
+      "63.34.163.101:8888" || process.env.REACT_APP_WEBSOCKET_SERVER;
 
     if (webSocketUrl) {
       const socket = io(webSocketUrl);
@@ -40,6 +40,10 @@ const ReplicaInfo = ({
           setReplicas((replicas) => data.replicas || replicas);
         }
       });
+
+      if (eventType === "simulation"){
+        socket.emit("events-register", `${userId}${eventId}${projectId}`)
+      }
     }
 
     return () => {

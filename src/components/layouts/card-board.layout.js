@@ -152,7 +152,9 @@ export default function CardBoardLayout(props) {
             onDragStart={onDragStart}
             onDragEnd={onDragEnd}
         >
-            <Droppable droppableId={props.id}>
+            <Droppable droppableId={props.id}
+                       type="COLUMN"
+                       direction="horizontal">
                 {
                     (provided, snapshot) => (
                         <div className="card_board_container"
