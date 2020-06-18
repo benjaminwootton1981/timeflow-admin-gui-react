@@ -27,27 +27,10 @@ export default function MonitorStreamProcessor(props) {
     <div className="wrapper">
       <h2 className="dashboard__header">Monitor Stream Processor</h2>
       <div className="monitor">
-        <div className="monitor__tabs">
-          <AppBar position="static" color="default">
-            <Tabs
-              value={tab}
-              onChange={handleTabChange}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="scrollable"
-              scrollButtons="auto"
-              aria-label="scrollable auto tabs example"
-            >
-              <Tab label="Overall" {...a11yProps(0)} />
-            </Tabs>
-          </AppBar>
-        </div>
-        <TabPanel value={tab} index={0}>
-          <MonitorContent
+        <MonitorContent
             projectId={id}
             streamProcessorId={streamprocessor_id}
-          />
-        </TabPanel>
+        />
       </div>
     </div>
   );

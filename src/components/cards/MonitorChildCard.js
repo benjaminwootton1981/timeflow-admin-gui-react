@@ -66,7 +66,7 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
             <div className="content_status_col border_right">
               <div className="inboud_event_chart_total">
                 <div className="pie-wrapper progress-90">
-                  <span className="label">{bytesPerSecond}</span>
+                  <span className="label">{(bytesPerSecond/1024).toFixed(0)}</span>
                   <div className="pie">
                     <div className="left-side half-circle"></div>
                     <div className="right-side half-circle"></div>
