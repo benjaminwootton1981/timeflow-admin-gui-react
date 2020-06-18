@@ -49,7 +49,7 @@ function TopHeader(props) {
                     <a className="submenu__link" href={`/projects/${id}/searches/search`}>Search</a>
                     <a className="submenu__link" href={`/projects/${id}/integration/import`}>Import</a>
                     <a className="submenu__link" href={`/projects/${id}/searches/extract`}>Extract</a>
-                    <a className="submenu__link" href={`/react/projects/${id}/simulate`}>Simulate</a>
+                    <a className="submenu__link" href={`/react/projects/${id}/simulations/`}>Simulate</a>
                     <a className="submenu__link" href={`/projects/${id}/api_endpoints`}>API Connection Details</a>
                     <a className="submenu__link" href={`/projects/${id}/integration`}>Timeflow Connector</a>
                   </li>
