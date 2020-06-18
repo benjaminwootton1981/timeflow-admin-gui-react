@@ -68,13 +68,6 @@ const ReplicaInfo = ({
     };
   }, [projectId, eventId, userId, eventType]);
 
-  useEffect(()=>{
-    setTimeout(()=>{
-
-    }, [])
-
-    console.log("kk")
-  }, []);
 
   return (
     <div>

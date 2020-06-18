@@ -31,6 +31,7 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
       const socket = io(webSocketUrl);
       socket.on("connect", () => {
         // register for events: register with projectId and streamprocessorId
+        console.log(projectId, streamProcessorId)
         socket.emit("events-register", `${projectId}${streamProcessorId}`);
       });
 
@@ -52,6 +53,8 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
               message: 'Error',
               description: data.message})
           }
+
+          console.log(data.message)
         }
       });
     }
