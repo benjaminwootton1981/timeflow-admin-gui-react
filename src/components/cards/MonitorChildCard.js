@@ -1,7 +1,9 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import MonitorLineChart from "./MonitorLineChart";
 import io from "socket.io-client";
-import {throttle} from "lodash"
+import { throttle } from "lodash";
+import { notification } from "antd";
+import "antd/lib/notification/style";
 
 function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
   const [eventsProcessed, setEventsProcessed] = useState(0);
@@ -9,14 +11,17 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
   const [eventsPerSecond, setEventsPerSecond] = useState(0);
   const [bytesPerSecond, setBytesPerSecond] = useState(0);
 
-  const update = useCallback(throttle((data)=>{
-    if (data) {
-      setEventsProcessed((events) => data.events_processed || events);
-      setBytesProcessed((bytes) => data.bytes_processed || bytes);
-      setEventsPerSecond((eventsPS) => data.events_ps || eventsPS);
-      setBytesPerSecond((bytesPS) => data.bytes_ps || bytesPS);
-    }
-  }, 1000), []);
+  const update = useCallback(
+    throttle((data) => {
+      if (data) {
+        setEventsProcessed((events) => data.events_processed || events);
+        setBytesProcessed((bytes) => data.bytes_processed || bytes);
+        setEventsPerSecond((eventsPS) => data.events_ps || eventsPS);
+        setBytesPerSecond((bytesPS) => data.bytes_ps || bytesPS);
+      }
+    }, 1000),
+    []
+  );
 
   useEffect(() => {
     let socket;
@@ -32,12 +37,19 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
 
       // wait for reply
       socket.on(`event-reply`, (data) => {
-        update(data)
+        update(data);
       });
 
       // wait for reply
       socket.on(`message-reply`, (data) => {
-        console.log(data)
+        if (data) {
+          if (data.type === "info") {
+            notification.info(data.message);
+          }
+          if (data.type === "error") {
+            notification.error(data.message);
+          }
+        }
       });
     }
 
