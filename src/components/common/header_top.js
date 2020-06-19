@@ -9,8 +9,10 @@ import LogoSVG from "../../assets/design/logo.svg";
 import MenuIconReportingSVG from "../../assets/design/main-nav/menu_icon_reporting.svg";
 import MenuIconWorkflowSVG from "../../assets/design/main-nav/menu_icon_workflow.svg";
 import MenuIconHelpSVG from "../../assets/design/main-nav/menu_icon_help.svg";
+import {useSelector} from "react-redux";
 
 function TopHeader(props) {
+  const currentUser = useSelector(state => state.currentUser) || {};
   const [id, setId] = useState(0);
 
   useEffect(() => {
@@ -127,7 +129,7 @@ function TopHeader(props) {
               <div className="submenu__wrapper">
                 <ul className="submenu">
                   <li className="submenu__item">
-                    <a className="submenu__link" href="/account/XXXXXX/workflow">Inbox</a>
+                    <a className="submenu__link" href={`"/account/${currentUser.id}/workflow`}>Inbox</a>
                   </li>
                 </ul>
               </div>

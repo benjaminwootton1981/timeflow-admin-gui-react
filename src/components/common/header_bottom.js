@@ -5,7 +5,7 @@ import MenuLogOutSVG from "../../assets/design/submenu/menu_icon_logout.svg";
 import {useSelector} from "react-redux";
 
 export default function BottomHeader() {
-    const currentUser = useSelector(state => state.currentUser);
+    const currentUser = useSelector(state => state.currentUser) || {};
     return (
         <div className="header__bottom">
             <div className="user">
