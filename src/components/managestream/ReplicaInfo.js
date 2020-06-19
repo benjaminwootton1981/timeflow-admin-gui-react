@@ -48,16 +48,9 @@ const ReplicaInfo = ({
         // wait for reply
         socket.on(`message-reply`, (data) => {
           if (data) {
-            if (data.type === "info") {
-              notification.info({
-                message: 'Info',
-                description: data.message});
-            }
-            if (data.type === "error") {
-              notification.error({
-                message: 'Error',
-                description: data.message})
-            }
+            notification[data.type]({
+              message: 'Info',
+              description: data.message});
           }
         });
       }
