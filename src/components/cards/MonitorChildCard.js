@@ -80,7 +80,7 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
                 </div>
               </div>
               <div className="content_status_desc">
-                Bytes <br /> Per Second
+                KB <br /> Per Second
               </div>
             </div>
             <div className="content_status_col">
