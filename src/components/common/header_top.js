@@ -122,17 +122,17 @@ function TopHeader(props) {
             </li>
 
             <li className="main-nav__item">
-              <a className="main-nav__link" href="#">
+              <a className="main-nav__link" href={`/account/${currentUser.id}/workflow/`}>
                                  <span>
                                     <img src={MenuIconWorkflowSVG} alt="Workflow" />
                                 </span>Workflow</a>
-              <div className="submenu__wrapper">
-                <ul className="submenu">
-                  <li className="submenu__item">
-                    <a className="submenu__link" href={`"/account/${currentUser.id}/workflow`}>Inbox</a>
-                  </li>
-                </ul>
-              </div>
+              {/*<div className="submenu__wrapper">*/}
+              {/*  <ul className="submenu">*/}
+              {/*    <li className="submenu__item">*/}
+              {/*      <a className="submenu__link" href={``}>Inbox</a>*/}
+              {/*    </li>*/}
+              {/*  </ul>*/}
+              {/*</div>*/}
             </li>
 
             <li className="main-nav__item">
