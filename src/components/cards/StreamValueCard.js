@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../../config";
 
-const StreamValueCard = ({ item }) => {
+const StreamValueCard = ({ post: item }) => {
   const [events, setEvents] = useState(0);
 
   useEffect(() => {
