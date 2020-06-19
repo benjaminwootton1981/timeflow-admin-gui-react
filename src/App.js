@@ -19,7 +19,7 @@ const App = ({ children }) => {
   useEffect(() => {
     let socket;
     const webSocketUrl =
-      "54.77.136.131:8888" || process.env.REACT_APP_WEBSOCKET_SERVER;
+      "3.249.141.169:8888" || process.env.REACT_APP_WEBSOCKET_SERVER;
 
     if (webSocketUrl && userId) {
       const socket = io(webSocketUrl);
