@@ -13,4 +13,4 @@ EXPOSE 8001
 COPY --from=0 /react-app/build /usr/share/nginx/html/
 
 #Need to start NGINX by calling original entrypoint well, then this to replace variables....
-#ENTRYPOINT ["bash", "entrypoint.sh"]
+ENTRYPOINT ["bash", "entrypoint.sh"]

@@ -16,3 +16,4 @@ then
    sed -i -e 's|SUPERSET_URL_PLACEHOLDER|http://'"${SUPERSET_URL}"'|' ./src/components/common/header_bottom.html
 fi
  
+ /docker-entrypoint.sh
