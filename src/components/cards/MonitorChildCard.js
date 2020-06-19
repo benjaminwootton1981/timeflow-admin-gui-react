@@ -49,7 +49,7 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
               description: data.message});
           }
           if (data.type === "error") {
-            notification.info({
+            notification.error({
               message: 'Error',
               description: data.message})
           }
