@@ -6,7 +6,7 @@ const StreamValueCard = ({ item }) => {
   const [events, setEvents] = useState(0);
 
   useEffect(() => {
-    if (item.id) {
+    if (item) {
       axios
         .get(`${API_URL}stream_events`, { params: { stream: item.id } })
         .then((response) => {
@@ -16,7 +16,11 @@ const StreamValueCard = ({ item }) => {
           console.log(e);
         });
     }
-  }, [item.id]);
+  }, [item]);
+
+  if (!item){
+    return null
+  }
 
   return (
     <div className="Valuecard">
