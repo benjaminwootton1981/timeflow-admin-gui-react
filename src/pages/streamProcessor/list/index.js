@@ -17,22 +17,25 @@ function ManageStreamProcessor(props) {
   }, []);
 
   useEffect(() => {
-      setStreams(props.streams && props.streams.map(stream => {
+    setStreams(
+      props.streams &&
+        props.streams.map((stream) => {
           stream.type = "streamprocessor";
           return stream;
-      }));
+        })
+    );
   }, [props.streams]);
 
   const createGroup = (name) => {
-      let index = groups.length;
-      groups.push({
-          id: index + 1,
-          name,
-          type: 'group',
-          childs: []
-      });
-      setGroups(groups);
-      setVisibleModal(false);
+    let index = groups.length;
+    groups.push({
+      id: index + 1,
+      name,
+      type: "group",
+      childs: [],
+    });
+    setGroups(groups);
+    setVisibleModal(false);
   };
 
   if (!streams) {
@@ -68,9 +71,12 @@ function ManageStreamProcessor(props) {
                 key={item.id}
               />
             ))}
-            {
-                <CardBoardLayout id="manage-stream-processor-board" items={groups.concat(streams)} />
-            }
+          {
+            <CardBoardLayout
+              id="manage-stream-processor-board"
+              items={groups.concat(streams)}
+            />
+          }
         </div>
         {streams.length === 0 && (
           <div className="empty">

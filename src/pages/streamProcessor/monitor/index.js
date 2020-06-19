@@ -27,10 +27,7 @@ export default function MonitorStreamProcessor(props) {
     <div className="wrapper">
       <h2 className="dashboard__header">Monitor Stream Processor</h2>
       <div className="monitor">
-        <MonitorContent
-            projectId={id}
-            streamProcessorId={streamprocessor_id}
-        />
+        <MonitorContent projectId={id} streamProcessorId={streamprocessor_id} />
       </div>
     </div>
   );

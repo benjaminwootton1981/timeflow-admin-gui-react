@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
-import {notification} from "antd";
 
 const ReplicaInfo = ({
   projectId,
@@ -41,26 +40,12 @@ const ReplicaInfo = ({
           setReplicas((replicas) => data.replicas || replicas);
         }
       });
-
-      if (eventType === "simulation"){
-        socket.emit("events-register", `${userId}${eventId}${projectId}`)
-
-        // wait for reply
-        socket.on(`message-reply`, (data) => {
-          if (data) {
-            notification[data.type]({
-              message: 'Info',
-              description: data.message});
-          }
-        });
-      }
     }
 
     return () => {
       socket && socket.close();
     };
   }, [projectId, eventId, userId, eventType]);
-
 
   return (
     <div>
