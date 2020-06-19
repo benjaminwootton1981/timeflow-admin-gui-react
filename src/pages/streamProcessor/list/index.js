@@ -56,18 +56,6 @@ function ManageStreamProcessor(props) {
         </h2>
         <h2 className="dashboard__header">Manage Stream Processors</h2>
         <div className="rowContent">
-          {groups.map((group, index) => (
-            <GroupCard key={`group-${index}`} item={group} />
-          ))}
-          {streams &&
-            streams.length > 0 &&
-            streams.map((item) => (
-              <StreamProcessorValueCard
-                post={item}
-                itemIdx={item.id}
-                key={item.id}
-              />
-            ))}
             {
                 <CardBoardLayout id="manage-stream-processor-board" items={groups.concat(streams)} />
             }
