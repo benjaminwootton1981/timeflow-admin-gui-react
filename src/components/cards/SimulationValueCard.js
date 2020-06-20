@@ -7,16 +7,16 @@ const SimulationValueCard = ({ post: item }) => {
   const handleAction = (action) => {
     return api.post(`simulation_action/${action}`, {
       project_id: item.project && item.project.id,
-      streamprocessor_id: item.id,
+      simulation_id: item.id,
     });
   };
   const handleRun = () => {
     handleAction("run").then((response) => {
       const status = response.data.status;
 
-      if (status !== "success") {
+      if (status === "failed") {
         notification.error({
-          message: "Simulation deployment failed.",
+          message: response.data.reason || "Simulation deployment failed.",
         });
       }
     });
@@ -26,9 +26,9 @@ const SimulationValueCard = ({ post: item }) => {
     handleAction("stop").then((response) => {
       const status = response.data.status;
 
-      if (status !== "success") {
+      if (status === "failed") {
         notification.error({
-          message: "Simulation Stop failed, try again.",
+          message: response.data.reason || "Simulation Stop failed, try again.",
         });
       }
     });
