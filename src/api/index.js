@@ -1,4 +1,6 @@
 import Cookies from "js-cookie";
+import axios from "axios";
+import { API_URL } from "../config";
 
 const csrftoken = Cookies.get("csrftoken");
 const api = axios.create({
