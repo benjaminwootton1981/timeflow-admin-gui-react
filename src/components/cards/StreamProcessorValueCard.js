@@ -1,15 +1,7 @@
 import React from "react";
 import ReplicaInfo from "../managestream/ReplicaInfo";
-import axios from "axios";
-import { API_URL } from "../../config";
 import { notification } from "antd";
-import Cookies from "js-cookie";
-
-const csrftoken = Cookies.get("csrftoken");
-const api = axios.create({
-  baseURL: API_URL,
-  headers: { "X-CSRFToken": csrftoken },
-});
+import api from "../../api";
 
 const StreamProcessorValueCard = ({ post: item }) => {
   const handleAction = (action) => {
