@@ -5,31 +5,49 @@ import { API_URL } from "../../config";
 import { notification } from "antd";
 import Cookies from "js-cookie";
 
-const StreamProcessorValueCard = ({ post: item }) => {
-  const handleRun = () => {
-    const csrftoken = Cookies.get("csrftoken");
-    axios
-      .post(
-        `${API_URL}streamprocessor_action/run`,
-        {
-          project_id: item.project && item.project.id,
-          streamprocessor_id: item.id,
-        },
-        { headers: { "X-CSRFToken": csrftoken } }
-      )
-      .then((response) => {
-        const status = response.data.status;
+const csrftoken = Cookies.get("csrftoken");
+const api = axios.create({
+  baseURL: API_URL,
+  headers: { "X-CSRFToken": csrftoken },
+});
 
-        if (status === "success") {
-          notification.success({
-            message: "Stream Processor deployed successfully",
-          });
-        } else {
-          notification.error({
-            message: "Stream Processor deployment failed.",
-          });
-        }
-      });
+const StreamProcessorValueCard = ({ post: item }) => {
+  const handleAction = (action) => {
+    return api.post(`streamprocessor_action/${action}`, {
+      project_id: item.project && item.project.id,
+      streamprocessor_id: item.id,
+    });
+  };
+  const handleRun = () => {
+    handleAction("run").then((response) => {
+      const status = response.data.status;
+
+      if (status === "success") {
+        notification.success({
+          message: "Stream Processor deployed successfully",
+        });
+      } else {
+        notification.error({
+          message: "Stream Processor deployment failed.",
+        });
+      }
+    });
+  };
+
+  const handleStop = () => {
+    handleAction("stop").then((response) => {
+      const status = response.data.status;
+
+      if (status === "success") {
+        notification.success({
+          message: "Stream Processor stopped",
+        });
+      } else {
+        notification.error({
+          message: "Stream Processor Stop failed, try again.",
+        });
+      }
+    });
   };
   return (
     <div className="Valuecard">
@@ -64,15 +82,10 @@ const StreamProcessorValueCard = ({ post: item }) => {
           {/*DEPLOY - Needs to go to - /projects/2/streamprocessors/3/run/ -->*/}
           <span className="helper">Deploy</span>
         </button>
-        <a
-          href={`/projects/${
-            item.project && item.project.id
-          }/streamprocessors/${item.id}/stop/`}
-          className="pause"
-        >
+        <button className="pause" onClick={handleStop}>
           {/*STOP - Needs to go to - /projects/2/streamprocessors/3/stop/ -->*/}
           <span className="helper">Stop</span>
-        </a>
+        </button>
         <a
           href={`/react/projects/${
             item.project && item.project.id

@@ -2437,6 +2437,10 @@ main {
   background-image: url(../../assets/card_button/pause.svg);
 }
 
+.cardFooter button.pause {
+  background-image: url(../../assets/card_button/pause.svg);
+}
+
 .cardFooter a.monitor {
   background-image: url(../../assets/card_button/monitor.svg);
 }
