@@ -3,14 +3,20 @@ import ReplicaInfo from "../managestream/ReplicaInfo";
 import axios from "axios";
 import { API_URL } from "../../config";
 import { notification } from "antd";
+import Cookies from "js-cookie";
 
 const StreamProcessorValueCard = ({ post: item }) => {
   const handleRun = () => {
+    const csrftoken = Cookies.get("csrftoken");
     axios
-      .post(`${API_URL}streamprocessor_action/run`, {
-        project_id: item.project && item.project.id,
-        streamprocessor_id: item.id,
-      })
+      .post(
+        `${API_URL}streamprocessor_action/run`,
+        {
+          project_id: item.project && item.project.id,
+          streamprocessor_id: item.id,
+        },
+        { headers: { "X-CSRFToken": csrftoken } }
+      )
       .then((response) => {
         const status = response.data.status;
 

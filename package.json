@@ -15,6 +15,7 @@
     "font-awesome": "^4.7.0",
     "husky": "^4.2.5",
     "jquery": "^3.5.1",
+    "js-cookie": "^2.2.1",
     "lint-staged": "^10.2.11",
     "lodash": "^4.17.15",
     "node-sass": "^4.14.1",
@@ -43,9 +44,9 @@
     "extends": "react-app"
   },
   "husky": {
-        "hooks": {
-       "pre-commit": "lint-staged"
-      }
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "browserslist": {
     "production": [
@@ -60,8 +61,8 @@
     ]
   },
   "lint-staged": {
-       "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write"
-     ]
-   }
+    ]
+  }
 }
