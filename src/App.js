@@ -55,7 +55,7 @@ const App = ({ children }) => {
       });
 
     axios
-      .get(`${API_URL}websocket_server/`)
+      .get(`${API_URL}site_configuration/`)
       .then((response) => {
         const websocketServer = response.data.websocket_server;
         setWebSocketServer(websocketServer);
