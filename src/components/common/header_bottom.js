@@ -26,7 +26,7 @@ export default function BottomHeader() {
           <li className="second-nav__item">
             <a
               className="second-nav__link"
-              href={config.pivot_url}
+              href={`http://${config.pivot_url}`}
               target="_blank"
             >
               Pivot Reporting
@@ -35,7 +35,7 @@ export default function BottomHeader() {
           <li className="second-nav__item">
             <a
               className="second-nav__link"
-              href={config.superset_url}
+              href={`http://${config.superset_url}`}
               target="_blank"
             >
               Superset Reporting
