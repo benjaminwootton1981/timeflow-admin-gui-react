@@ -5,7 +5,6 @@ import { API_URL } from "./config";
 import { CONSTANTS } from "./store/constants";
 import { notification } from "antd";
 import io from "socket.io-client";
-import { capitalize } from "lodash";
 
 notification.config({
   duration: 10,
@@ -31,8 +30,7 @@ const App = ({ children }) => {
       socket.on(`message-reply`, (data) => {
         if (data) {
           notification[data.type]({
-            message: capitalize(data.type),
-            description: data.message,
+            message: data.message,
           });
         }
       });
