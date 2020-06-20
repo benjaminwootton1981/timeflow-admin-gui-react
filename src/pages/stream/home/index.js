@@ -22,10 +22,13 @@ function ManageStream(props) {
   }, []);
 
   useEffect(() => {
-    setStreams(props.streams && props.streams.map(stream => {
-        stream.type = "stream";
-        return stream;
-    }));
+    setStreams(
+      props.streams &&
+        props.streams.map((stream) => {
+          stream.type = "stream";
+          return stream;
+        })
+    );
   }, [props.streams]);
 
   const createGroup = (name) => {
@@ -33,12 +36,11 @@ function ManageStream(props) {
     groups.push({
       id: index + 1,
       name,
-      type: 'group',
-      childs: []
+      type: "group",
+      childs: [],
     });
     setGroups(groups);
     setVisibleModal(false);
-
   };
 
   return (
@@ -50,7 +52,10 @@ function ManageStream(props) {
         <h2 className="dashboard__header">Manage Streams</h2>
         <div className="rowContent">
           {
-              <CardBoardLayout id="manage-stream-board" items={groups.concat(streams)} />
+            <CardBoardLayout
+              id="manage-stream-board"
+              items={groups.concat(streams)}
+            />
           }
         </div>
         {streams.length === 0 && (

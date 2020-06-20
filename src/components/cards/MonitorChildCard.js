@@ -25,28 +25,18 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
   useEffect(() => {
     let socket;
     const webSocketUrl =
-      "54.77.136.131:8888" || process.env.REACT_APP_WEBSOCKET_SERVER;
+      "3.249.141.169:8888" || process.env.REACT_APP_WEBSOCKET_SERVER;
 
     if (webSocketUrl) {
       const socket = io(webSocketUrl);
       socket.on("connect", () => {
         // register for events: register with projectId and streamprocessorId
-        console.log(projectId, streamProcessorId)
         socket.emit("events-register", `${projectId}${streamProcessorId}`);
       });
 
       // wait for reply
       socket.on(`event-reply`, (data) => {
         update(data);
-      });
-
-      // wait for reply
-      socket.on(`message-reply`, (data) => {
-        if (data) {
-          notification[data.type]({
-            message: 'Info',
-            description: data.message});
-        }
       });
     }
 
@@ -63,7 +53,9 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
             <div className="content_status_col border_right">
               <div className="inboud_event_chart_total">
                 <div className="pie-wrapper progress-90">
-                  <span className="label">{(bytesPerSecond/1024).toFixed(0)}</span>
+                  <span className="label">
+                    {(bytesPerSecond / 1024).toFixed(0)}
+                  </span>
                   <div className="pie">
                     <div className="left-side half-circle"></div>
                     <div className="right-side half-circle"></div>

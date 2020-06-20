@@ -17,22 +17,25 @@ function ManageSimulation(props) {
   }, []);
 
   useEffect(() => {
-    setSimulations(props.simulations && props.simulations.map(simulation => {
-        simulation.type = "simulation";
-        return simulation;
-    }));
+    setSimulations(
+      props.simulations &&
+        props.simulations.map((simulation) => {
+          simulation.type = "simulation";
+          return simulation;
+        })
+    );
   }, [props.simulations]);
 
   const createGroup = (name) => {
-      let index = groups.length;
-      groups.push({
-          id: index + 1,
-          name,
-          type: 'group',
-          childs: []
-      });
-      setGroups(groups);
-      setVisibleModal(false);
+    let index = groups.length;
+    groups.push({
+      id: index + 1,
+      name,
+      type: "group",
+      childs: [],
+    });
+    setGroups(groups);
+    setVisibleModal(false);
   };
 
   return (
@@ -45,9 +48,12 @@ function ManageSimulation(props) {
         </h2>
         <h2 className="dashboard__header">Manage Simulations</h2>
         <div className="rowContent">
-            {
-                <CardBoardLayout id="manage-simulation-board" items={groups.concat(simulations)} />
-            }
+          {
+            <CardBoardLayout
+              id="manage-simulation-board"
+              items={groups.concat(simulations)}
+            />
+          }
         </div>
         {simulations.length === 0 && (
           <div className="empty">
