@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
+import { useSelector } from "react-redux";
 
 const ReplicaInfo = ({
   projectId,
@@ -11,14 +12,13 @@ const ReplicaInfo = ({
   eventType,
 }) => {
   const [replicas, setReplicas] = useState(0);
+  const websocketServer = useSelector((state) => state.websocketServer);
 
   useEffect(() => {
     let socket;
-    const webSocketUrl =
-      "3.249.141.169:8888" || process.env.REACT_APP_WEBSOCKET_SERVER;
 
-    if (webSocketUrl) {
-      const socket = io(webSocketUrl);
+    if (websocketServer) {
+      const socket = io(websocketServer);
       const id = uuidv4();
       socket.on("connect", () => {
         // register for events
@@ -45,7 +45,7 @@ const ReplicaInfo = ({
     return () => {
       socket && socket.close();
     };
-  }, [projectId, eventId, userId, eventType]);
+  }, [projectId, eventId, userId, eventType, websocketServer]);
 
   return (
     <div>

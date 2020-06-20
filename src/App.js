@@ -14,15 +14,14 @@ notification.config({
 const App = ({ children }) => {
   const dispatch = useDispatch();
   const [user, setUser] = useState();
+  const [websocketServer, setWebSocketServer] = useState();
   const userId = user && user.id;
 
   useEffect(() => {
     let socket;
-    const webSocketUrl =
-      "3.249.141.169:8888" || process.env.REACT_APP_WEBSOCKET_SERVER;
 
-    if (webSocketUrl && userId) {
-      const socket = io(webSocketUrl);
+    if (websocketServer && userId) {
+      const socket = io(websocketServer);
       socket.on("connect", () => {
         //  register for events
         socket.emit("events-register", `CURRENT_USER_${userId}`);
@@ -42,7 +41,7 @@ const App = ({ children }) => {
     return () => {
       socket && socket.close();
     };
-  }, [userId]);
+  }, [userId, websocketServer]);
 
   useEffect(() => {
     axios
@@ -50,6 +49,20 @@ const App = ({ children }) => {
       .then((response) => {
         setUser(response.data);
         dispatch({ type: CONSTANTS.GET_CURRENT_USER, payload: response.data });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    axios
+      .get(`${API_URL}websocket_server/`)
+      .then((response) => {
+        const websocketServer = response.data.websocket_server;
+        setWebSocketServer(websocketServer);
+        dispatch({
+          type: CONSTANTS.GET_WEBSOCKET_SERVER,
+          payload: websocketServer,
+        });
       })
       .catch((e) => {
         console.log(e);

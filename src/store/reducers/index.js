@@ -10,10 +10,18 @@ const userReducer = (state = null, action) => {
 
   return state;
 };
+
+const websocketServerReducer = (state = "", action) => {
+  if (action.type === CONSTANTS.GET_WEBSOCKET_SERVER) {
+    return action.payload;
+  }
+  return state;
+};
 const RootReducer = combineReducers({
   ServiceReducer,
   StreamProcessorReducer,
   currentUser: userReducer,
+  websocketServer: websocketServerReducer,
 });
 
 export default RootReducer;

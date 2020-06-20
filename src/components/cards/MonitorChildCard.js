@@ -2,13 +2,14 @@ import React, { useCallback, useEffect, useState } from "react";
 import MonitorLineChart from "./MonitorLineChart";
 import io from "socket.io-client";
 import { throttle } from "lodash";
-import { notification } from "antd";
+import { useSelector } from "react-redux";
 
 function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
   const [eventsProcessed, setEventsProcessed] = useState(0);
   const [bytesProcessed, setBytesProcessed] = useState(0);
   const [eventsPerSecond, setEventsPerSecond] = useState(0);
   const [bytesPerSecond, setBytesPerSecond] = useState(0);
+  const websocketServer = useSelector((state) => state.websocketServer);
 
   const update = useCallback(
     throttle((data) => {
@@ -24,11 +25,9 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
 
   useEffect(() => {
     let socket;
-    const webSocketUrl =
-      "3.249.141.169:8888" || process.env.REACT_APP_WEBSOCKET_SERVER;
 
-    if (webSocketUrl) {
-      const socket = io(webSocketUrl);
+    if (websocketServer) {
+      const socket = io(websocketServer);
       socket.on("connect", () => {
         // register for events: register with projectId and streamprocessorId
         socket.emit("events-register", `${projectId}${streamProcessorId}`);
@@ -43,7 +42,7 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
     return () => {
       socket && socket.close();
     };
-  }, [projectId, streamProcessorId, update]);
+  }, [projectId, streamProcessorId, update, websocketServer]);
   return (
     <div className="monitor__body_tab_child">
       <span className="monitor__body_tab_child_header">{title}</span>
