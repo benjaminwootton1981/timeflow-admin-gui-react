@@ -26,6 +26,12 @@ const SimulationValueCard = ({ post: item }) => {
     handleAction("stop").then((response) => {
       const status = response.data.status;
 
+      if (status === "success") {
+        notification.success({
+          message: "Simulation Stopped",
+        });
+      }
+
       if (status === "failed") {
         notification.error({
           message: response.data.reason || "Simulation Stop failed, try again.",
