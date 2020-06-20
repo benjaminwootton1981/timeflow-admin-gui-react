@@ -12,7 +12,7 @@ const ReplicaInfo = ({
   eventType,
 }) => {
   const [replicas, setReplicas] = useState(0);
-  const websocketServer = useSelector((state) => state.websocketServer);
+  const websocketServer = useSelector((state) => state.config.websocket_server);
 
   useEffect(() => {
     let socket;

@@ -5,11 +5,12 @@ import { throttle } from "lodash";
 import { useSelector } from "react-redux";
 
 function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
+  const websocketServer = useSelector((state) => state.config.websocket_server);
+
   const [eventsProcessed, setEventsProcessed] = useState(0);
   const [bytesProcessed, setBytesProcessed] = useState(0);
   const [eventsPerSecond, setEventsPerSecond] = useState(0);
   const [bytesPerSecond, setBytesPerSecond] = useState(0);
-  const websocketServer = useSelector((state) => state.websocketServer);
 
   const update = useCallback(
     throttle((data) => {

@@ -58,8 +58,8 @@ const App = ({ children }) => {
         const websocketServer = response.data.websocket_server;
         setWebSocketServer(websocketServer);
         dispatch({
-          type: CONSTANTS.GET_WEBSOCKET_SERVER,
-          payload: websocketServer,
+          type: CONSTANTS.GET_CONFIG,
+          payload: response.data,
         });
       })
       .catch((e) => {

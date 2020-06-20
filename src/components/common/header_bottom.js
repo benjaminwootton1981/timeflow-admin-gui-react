@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 export default function BottomHeader() {
   const currentUser = useSelector((state) => state.currentUser) || {};
+  const config = useSelector((state) => state.config);
   return (
     <div className="header__bottom">
       <div className="user">
@@ -25,7 +26,7 @@ export default function BottomHeader() {
           <li className="second-nav__item">
             <a
               className="second-nav__link"
-              href="PIVOT_URL_PLACEHOLDER"
+              href={config.pivot_url}
               target="_blank"
             >
               Pivot Reporting
@@ -34,7 +35,7 @@ export default function BottomHeader() {
           <li className="second-nav__item">
             <a
               className="second-nav__link"
-              href="SUPERSET_URL_PLACEHOLDER"
+              href={config.superset_url}
               target="_blank"
             >
               Superset Reporting

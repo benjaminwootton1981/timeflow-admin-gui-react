@@ -11,8 +11,8 @@ const userReducer = (state = null, action) => {
   return state;
 };
 
-const websocketServerReducer = (state = "", action) => {
-  if (action.type === CONSTANTS.GET_WEBSOCKET_SERVER) {
+const configReducer = (state = {}, action) => {
+  if (action.type === CONSTANTS.GET_CONFIG) {
     return action.payload;
   }
   return state;
@@ -21,7 +21,7 @@ const RootReducer = combineReducers({
   ServiceReducer,
   StreamProcessorReducer,
   currentUser: userReducer,
-  websocketServer: websocketServerReducer,
+  config: configReducer,
 });
 
 export default RootReducer;
