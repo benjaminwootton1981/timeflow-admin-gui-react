@@ -5,7 +5,7 @@ import MenuLogOutSVG from "../../assets/design/submenu/menu_icon_logout.svg";
 import { useSelector } from "react-redux";
 
 export default function BottomHeader() {
-  const currentUser = useSelector((state) => state.currentUser) || {};
+  const currentUser = useSelector((state) => state.currentUser);
   const config = useSelector((state) => state.config);
   return (
     <div className="header__bottom">
@@ -44,7 +44,11 @@ export default function BottomHeader() {
 
           <nav className="main-nav">
             <li className="main-nav__item">
-              <a className="second-nav__link" href="DRUID_URL_PLACEHOLDER">
+              <a
+                className="second-nav__link"
+                href={`http://${config.druid_url}`}
+                target="_blank"
+              >
                 Druid Console
               </a>
             </li>
