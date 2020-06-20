@@ -1,5 +1,3 @@
 import ManageStream from "./home";
 
-export {
-    ManageStream
-}
+export { ManageStream };

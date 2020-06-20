@@ -47,7 +47,7 @@
   font-weight: bold;
   line-height: 20px;
   color: white;
-  background-color: #803C8A;
+  background-color: #803c8a;
   box-shadow: 4px 4px 10px rgba(128, 60, 138, 0.22);
   border-radius: 24px;
   cursor: pointer;
@@ -1216,7 +1216,7 @@ main {
   margin-top: 0 !important;
   padding: 41px 0;
   position: relative;
-  border-top: 1px solid #803C8A;
+  border-top: 1px solid #803c8a;
 }
 
 .dashboard__footer .create__group {
@@ -2290,7 +2290,6 @@ main {
   width: 370px;
 }
 
-
 .rowContent {
 }
 
@@ -2306,7 +2305,7 @@ main {
   font-weight: 500;
   font-size: 16px;
   line-height: 44px;
-  background: linear-gradient(228.39deg, #803C8A 15.56%, #FFCDCE 274.83%);
+  background: linear-gradient(228.39deg, #803c8a 15.56%, #ffcdce 274.83%);
   color: white;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
@@ -2339,9 +2338,9 @@ main {
   font-weight: normal;
   font-style: normal;
   font-size: 14px;
-  border: 1px solid #D1C5DA;
+  border: 1px solid #d1c5da;
   border-radius: 5px;
-  background: #F5F5F5;
+  background: #f5f5f5;
   box-sizing: border-box;
 }
 
@@ -2376,14 +2375,14 @@ main {
 
 .blueOutline {
   color: #009495;
-  border: 1px solid #48C1D3 !important;
-  background: #F3FFFF;
+  border: 1px solid #48c1d3 !important;
+  background: #f3ffff;
 }
 
 .greenOutline {
   color: #008000;
-  border: 1px solid #3FD260;
-  background: #F5FFF6;
+  border: 1px solid #3fd260;
+  background: #f5fff6;
 }
 
 .border-line {
@@ -2403,7 +2402,7 @@ main {
   position: relative;
   width: 40px;
   height: 40px;
-  border: 1px solid #803C8A;
+  border: 1px solid #803c8a;
   border-radius: 5px;
   background-color: white;
   background-position: center center;
@@ -2460,11 +2459,11 @@ main {
   align-items: center;
   height: 30px;
   padding: 0 5px;
-  border: 1px solid #803C8A;
+  border: 1px solid #803c8a;
   font-size: 13px;
   font-weight: bold;
   line-height: 16px;
-  color: #803C8A;
+  color: #803c8a;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.11);
   border-radius: 5px;
   background: white;
@@ -2480,7 +2479,7 @@ main {
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-bottom: 8px solid #803C8A;
+  border-bottom: 8px solid #803c8a;
 }
 
 .cardFooter .helper:after {
@@ -2497,7 +2496,7 @@ main {
 
 .cardFooter a:hover {
   color: white;
-  background-color: #FFF5F5;
+  background-color: #fff5f5;
 }
 
 .cardFooter a:hover .helper {
@@ -2507,8 +2506,8 @@ main {
 .dashboard__footer .create__group {
   position: absolute;
   right: 0;
-  background: #F5F6FD;
-  border: 2px solid #803C8A;
+  background: #f5f6fd;
+  border: 2px solid #803c8a;
   box-sizing: border-box;
   border-radius: 77px;
 }
@@ -2520,9 +2519,8 @@ main {
   font-size: 16px;
   line-height: 20px;
   text-align: center;
-  color: #803C8A;
+  color: #803c8a;
 }
-
 
 /*card board drag and drop*/
 
@@ -2537,7 +2535,7 @@ main {
   margin: 15px;
 }
 
-.drag_card_container:nth-child(3n-2):not(:last-child){
+.drag_card_container:nth-child(3n-2):not(:last-child) {
   margin-left: 0;
 }
 

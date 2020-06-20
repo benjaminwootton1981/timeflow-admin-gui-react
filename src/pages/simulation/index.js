@@ -1,5 +1,3 @@
 import ManageSimulation from "./home";
 
-export {
-    ManageSimulation
-}
+export { ManageSimulation };

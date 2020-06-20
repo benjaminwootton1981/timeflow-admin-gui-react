@@ -1,8 +1,5 @@
-import {CONSTANTS} from "../constants";
-import {
-    getStepTypeRequest,
-    getStreamsRequest
-} from "../../data-layer/api";
+import { CONSTANTS } from "../constants";
+import { getStepTypeRequest, getStreamsRequest } from "../../data-layer/api";
 
 export const getStreamsAbc = (project_id) => (dispatch) => {
   getStreamsRequest(project_id)
@@ -17,26 +14,23 @@ export const getStreamsAbc = (project_id) => (dispatch) => {
     });
 };
 export const getStepType = () => (dispatch) => {
-    getStepTypeRequest().then(resp => {
-        dispatch({
-            type: CONSTANTS.STREAMS.GET_STEP_TYPE,
-            data: resp.data
-        });
-    }).catch(err => {
-        console.log(err);
+  getStepTypeRequest()
+    .then((resp) => {
+      dispatch({
+        type: CONSTANTS.STREAMS.GET_STEP_TYPE,
+        data: resp.data,
+      });
     })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 export const addStep = (items) => ({
-    type: CONSTANTS.STREAMS.ADD_NEW_STEP,
-    data: items
-
+  type: CONSTANTS.STREAMS.ADD_NEW_STEP,
+  data: items,
 });
 export const deleteStep = (name) => ({
-    type: CONSTANTS.STREAMS.DELL_NEW_STEP,
-    data: name
-
+  type: CONSTANTS.STREAMS.DELL_NEW_STEP,
+  data: name,
 });
-
-
-

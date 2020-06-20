@@ -59,9 +59,12 @@ function ManageStreamProcessor(props) {
         </h2>
         <h2 className="dashboard__header">Manage Stream Processors</h2>
         <div className="rowContent">
-            {
-                <CardBoardLayout id="manage-stream-processor-board" items={groups.concat(streams)} />
-            }
+          {
+            <CardBoardLayout
+              id="manage-stream-processor-board"
+              items={groups.concat(streams)}
+            />
+          }
         </div>
         {streams.length === 0 && (
           <div className="empty">

@@ -18,8 +18,8 @@ const StreamValueCard = ({ post: item }) => {
     }
   }, [item]);
 
-  if (!item){
-    return null
+  if (!item) {
+    return null;
   }
 
   return (

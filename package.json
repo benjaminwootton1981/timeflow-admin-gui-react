@@ -13,10 +13,13 @@
     "bootstrap": "^4.5.0",
     "classnames": "^2.2.6",
     "font-awesome": "^4.7.0",
+    "husky": "^4.2.5",
     "jquery": "^3.5.1",
+    "lint-staged": "^10.2.11",
     "lodash": "^4.17.15",
     "node-sass": "^4.14.1",
     "popper.js": "^1.16.1",
+    "prettier": "2.0.5",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-bootstrap": "^1.0.1",
@@ -39,6 +42,11 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "husky": {
+        "hooks": {
+       "pre-commit": "lint-staged"
+      }
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -50,5 +58,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "lint-staged": {
+       "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+     ]
+   }
 }
