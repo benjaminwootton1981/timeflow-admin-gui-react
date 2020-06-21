@@ -1,40 +1,70 @@
 import React from "react";
-import CanvasJSReact from "../../assets/canvasjs/canvasjs.react";
-let CanvasJSChart = CanvasJSReact.CanvasJSChart;
+import { Line } from "react-chartjs-2";
+import { takeRight } from "lodash";
 
-export default function MonitorLineChart() {
-  const options = {
-    animationEnabled: true,
-    exportEnabled: true,
-    theme: "light1", // "light1", "dark1", "dark2"
-    axisY: {
-      title: "Quantity",
-      includeZero: true,
-    },
-    axisX: {
-      interval: 1,
-    },
-    data: [
+export default function MonitorLineChart({ dataPoints, chartType }) {
+  const events = takeRight(dataPoints, 6).map((dataPoint) => {
+    return dataPoint.data;
+  });
+  const data = {
+    labels: takeRight(dataPoints, 6).map((dataPoint) => dataPoint.label),
+    datasets: [
       {
-        type: "line",
-        toolTipContent: "{y}",
-        dataPoints: [
-          { x: 0, y: 1000 },
-          { x: 1, y: 9052 },
-          { x: 2, y: 1128 },
-          { x: 3, y: 7631 },
-          { x: 4, y: 2121 },
-          { x: 5, y: 6329 },
-        ],
+        label: chartType,
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "#803c8a",
+        borderCapStyle: "butt",
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: "miter",
+        pointBorderColor: "#803c8a",
+        pointBackgroundColor: "#fff",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 5,
+        pointHitRadius: 10,
+        data: events,
       },
     ],
   };
 
   return (
     <div>
-      <CanvasJSChart
-        options={options}
-        containerProps={{ width: "100%", height: 200 }}
+      <Line
+        data={data}
+        options={{
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 6,
+                },
+              },
+            ],
+            xAxes: [
+              {
+                type: "time",
+                time: {
+                  unit: "second",
+                  displayFormats: {
+                    second: "HH:mm:ss",
+                  },
+                },
+                ticks: {
+                  source: "labels",
+                  maxTicksLimit: 6,
+                },
+              },
+            ],
+          },
+        }}
+        height={120}
       />
     </div>
   );

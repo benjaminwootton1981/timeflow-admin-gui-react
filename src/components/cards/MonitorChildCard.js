@@ -3,6 +3,7 @@ import MonitorLineChart from "./MonitorLineChart";
 import io from "socket.io-client";
 import { throttle } from "lodash";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
   const websocketServer = useSelector((state) => state.config.websocket_server);
@@ -11,6 +12,11 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
   const [bytesProcessed, setBytesProcessed] = useState(0);
   const [eventsPerSecond, setEventsPerSecond] = useState(0);
   const [bytesPerSecond, setBytesPerSecond] = useState(0);
+
+  const [chartType, setChartType] = useState("event");
+
+  const [eventDataPoints, setEventDataPoints] = useState([]);
+  const [bytesDataPoints, setBytesDataPoints] = useState([]);
 
   const update = useCallback(
     throttle((data) => {
@@ -21,6 +27,22 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
         setBytesPerSecond((bytesPS) => data.bytes_ps || bytesPS);
       }
     }, 1000),
+    []
+  );
+
+  const updateDataPoints = useCallback(
+    throttle((data) => {
+      if (data) {
+        setEventDataPoints((dataPoints) => [
+          ...dataPoints,
+          { label: moment(), data: data.events_processed },
+        ]);
+        setBytesDataPoints((dataPoints) => [
+          ...dataPoints,
+          { label: moment(), data: (data.bytes_processed / 1024).toFixed(0) },
+        ]);
+      }
+    }, 2000),
     []
   );
 
@@ -37,13 +59,14 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
       // wait for reply
       socket.on(`event-reply`, (data) => {
         update(data);
+        updateDataPoints(data);
       });
     }
 
     return () => {
       socket && socket.close();
     };
-  }, [projectId, streamProcessorId, update, websocketServer]);
+  }, [projectId, streamProcessorId, update, websocketServer, updateDataPoints]);
   return (
     <div className="monitor__body_tab_child">
       <span className="monitor__body_tab_child_header">{title}</span>
@@ -100,31 +123,28 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
           </div>
           <div className="col-md-6 content_charts">
             <ul className="nav content_charts_nav">
-              <li className="active">
-                <a
-                  href={`#${parent}-events-chart`}
-                  data-toggle="tab"
-                  className="active"
-                >
+              <li onClick={() => setChartType("event")}>
+                <span data-toggle="tab" className="active">
                   Events Processed
-                </a>
+                </span>
               </li>
-              <li>
-                <a href={`#${parent}-data-chart`} data-toggle="tab">
-                  Data Processed
-                </a>
+              <li onClick={() => setChartType("bytes")}>
+                <span data-toggle="tab">Data Processed</span>
               </li>
             </ul>
             <div className="tab-content">
-              <div className="tab-pane active" id={`#${parent}-events-chart`}>
-                <div className="content_chart">
-                  <MonitorLineChart />
-                </div>
-              </div>
-              <div className="tab-pane" id={`#${parent}-data-chart`}>
-                <div className="content_chart">
-                  <MonitorLineChart />
-                </div>
+              <div className="content_chart">
+                {chartType === "event" ? (
+                  <MonitorLineChart
+                    dataPoints={eventDataPoints}
+                    chartType={"Events"}
+                  />
+                ) : (
+                  <MonitorLineChart
+                    dataPoints={bytesDataPoints}
+                    chartType={"Data"}
+                  />
+                )}
               </div>
             </div>
           </div>

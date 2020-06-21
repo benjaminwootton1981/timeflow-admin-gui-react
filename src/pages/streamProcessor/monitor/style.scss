@@ -217,7 +217,8 @@
     border-right: 1px solid #803c8a;
   }
 
-  li > a {
+  li > a,
+  li > span {
     font-family: Helvetica Neue, sans-serif;
     font-style: normal;
     font-weight: bold;
@@ -228,6 +229,7 @@
     padding-bottom: 0 !important;
     opacity: 0.5;
     text-decoration: none;
+    cursor: pointer;
 
     &.active {
       opacity: 1;
