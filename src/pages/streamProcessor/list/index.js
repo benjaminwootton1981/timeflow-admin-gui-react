@@ -13,7 +13,7 @@ function ManageStreamProcessor(props) {
   const [visibleModal, setVisibleModal] = useState(false);
   useEffect(() => {
     // props.getStreamProcessors(props.match.params.id);
-    props.getStreamProcessors(2);
+    props.getStreamProcessors(props.match.params.id);
   }, []);
 
   useEffect(() => {}, [props.streams.streamprocessors]);
