@@ -200,6 +200,7 @@ export default function CardBoardLayout(props) {
             {...provided.droppableProps}
           >
             {items.map((item, index) => {
+              if (!item) return null;
               if (item.type === "group") {
                 return <GroupCard item={item} index={index} />;
               } else return <DragItem item={item} index={index} />;
