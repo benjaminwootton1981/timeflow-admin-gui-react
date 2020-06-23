@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import EmptyStreamProcessorSVG from "../../../assets/empty-streamprocessor.svg";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
 import CardBoardLayout from "../../../components/layouts/card-board.layout";
-import { getStreamProcessors } from "../../../store/streamProcessor/action";
+import { getStreamProcessors } from "../../../store/actions/serviceAction";
 
 function ManageStreamProcessor(props) {
   const [streams, setStreams] = useState(props.streams.streamprocessors);
