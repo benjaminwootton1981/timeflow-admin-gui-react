@@ -1,27 +1,246 @@
 import { CONSTANTS } from "../constants";
+import { setValueStep } from "./setValueStep";
 
 const initialState = {
-  addedSteps: [],
-  stepTypes: [],
+  // addedSteps: [],
+  stepData: [],
+  stepsStreamProcessor: [],
+  inboundChoice: [],
+  streams: [],
+  schemas: [],
+  actualSchema: [],
+  setStepsStreamProcessor: [],
 };
 
 export default function StreamProcessorReducer(state = initialState, action) {
   switch (action.type) {
     case CONSTANTS.STREAMS.ADD_NEW_STEP:
-      const step = [
-        ...state.addedSteps,
-        {
-          id: `${action.data.id}_${state.addedSteps.length}`,
-          key: `${action.data.key}`,
-          name: `${action.data.name}`,
-        },
-      ];
-      return { ...state, addedSteps: step };
+      const steps = [...state.stepsStreamProcessor];
+      const newStep = setValueStep(action.data);
+      steps.push(newStep);
+      steps.forEach((el, i) => {
+        if (el.name === "Outbound Event") {
+          steps.push(...steps.splice(i, 1));
+        }
+      });
+      return { ...state, stepsStreamProcessor: steps };
+
     case CONSTANTS.STREAMS.GET_STEP_TYPE:
-      return { ...state, stepTypes: action.data };
+      return { ...state, stepData: action.data };
+
+    case "SFFS":
+      const abc = [...state.stepsStreamProcessor];
+      let elem = abc[action.data.index];
+      const writeData = { ...elem, [action.data.name]: action.data.value };
+
+      return { ...state, stepsStreamProcessor: writeData };
+
+    case CONSTANTS.STREAMS.FILTERED_SCHEMAS:
+      const filteredSchemas = [
+        ...state.schemas.filter((el) => el.name === action.data),
+      ];
+      return { ...state, actualSchema: filteredSchemas };
+
+    case CONSTANTS.STREAMS.GET_STREAMS:
+      return { ...state, streams: action.data };
+
+    case CONSTANTS.STREAMS.GET_SCHEMAS:
+      return { ...state, schemas: action.data };
+
+    // case CONSTANTS.STREAMS.SET_STEP:
+    //   const setStep = state.stepsStreamProcessor
+    //     .slice(0, action.index)
+    //     .concat([
+    //       {
+    //         ...state.stepsStreamProcessor[action.data.index],
+    //         notes: action.notes,
+    //       },
+    //     ])
+    //     .concat(state.stepsStreamProcessor.slice(action.data.index + 1));
+    //
+    //   return { ...state, setStepsStreamProcessor: action.data.step };
+
+    case CONSTANTS.STREAMS.CREATE_NEW_STREAM:
+      return {
+        ...state,
+        stepsStreamProcessor: [
+          {
+            id: null,
+            blocks: [],
+            name: "Inbound Event",
+            description: "",
+            variable_name: "",
+            variable_name_to: "",
+            variable_name_from: "",
+            event_field_name_from: "",
+            static_value_from: "",
+            destinations: "",
+            event_type: "",
+            add_field_name: "",
+            field_value: "",
+            remove_field_name: "",
+            copy_field_name: "",
+            destination_field_name: "",
+            rename_field_name: "",
+            new_field_name: "",
+            target_field_name: "",
+            select_field_name: "",
+            sum_fields: "",
+            steptype: "inbound",
+            ordering: 1,
+            topic: "",
+            field: null,
+            value: null,
+            event_field_name: null,
+            percent: null,
+            filter_value: null,
+            expression: null,
+            record_type: null,
+            lookup_field: null,
+            lookup_value: null,
+            search_name: null,
+            search_result_placement: null,
+            record: null,
+            category_name: null,
+            metric: null,
+            source: null,
+            destination: null,
+            template: null,
+            field_to_process: null,
+            file_path: null,
+            key_type: null,
+            key_type_from: null,
+            field_name: null,
+            offset_in_seconds: 0,
+            offset: "latest",
+            static_value: null,
+            last_event_type: null,
+            time_window: null,
+            last_events: null,
+            result_placement: null,
+            operator: null,
+            lookup_stream: null,
+            column_name: null,
+            url: null,
+            url_template: null,
+            field_list: null,
+            schedule: null,
+            poll_interval: null,
+            duration: null,
+            code: null,
+            timestamp_field_name: null,
+            dictionary_field_name: null,
+            data_dictionary_name: null,
+            adjust_field_name: null,
+            field_operation: null,
+            result_placement_numeric: null,
+            set_field_name: null,
+            keys_or_values: null,
+            path_to_events: null,
+            search_field_name: null,
+            formula: null,
+            function_name: null,
+            endpoint_name: null,
+            schedule_type: null,
+            lft: 1,
+            rght: 2,
+            tree_id: 1,
+            mptt_level: 0,
+            streamprocessor: 1,
+            parent: null,
+          },
+          {
+            id: null,
+            blocks: [],
+            name: "Outbound Event",
+            description: "",
+            variable_name: "",
+            variable_name_to: "",
+            variable_name_from: "",
+            event_field_name_from: "",
+            static_value_from: "",
+            destinations: "",
+            event_type: "",
+            add_field_name: "",
+            field_value: "",
+            remove_field_name: "",
+            copy_field_name: "",
+            destination_field_name: "",
+            rename_field_name: "",
+            new_field_name: "",
+            target_field_name: "",
+            select_field_name: "",
+            sum_fields: "",
+            steptype: "outbound",
+            ordering: 5,
+            topic: "1_1_asdasdasd",
+            field: null,
+            value: null,
+            event_field_name: null,
+            percent: null,
+            filter_value: null,
+            expression: null,
+            record_type: null,
+            lookup_field: null,
+            lookup_value: null,
+            search_name: null,
+            search_result_placement: null,
+            record: null,
+            category_name: null,
+            metric: null,
+            source: null,
+            destination: null,
+            template: null,
+            field_to_process: null,
+            file_path: null,
+            key_type: null,
+            key_type_from: null,
+            field_name: null,
+            offset_in_seconds: 0,
+            offset: "latest",
+            static_value: null,
+            last_event_type: null,
+            time_window: null,
+            last_events: null,
+            result_placement: null,
+            operator: null,
+            lookup_stream: null,
+            column_name: null,
+            url: null,
+            url_template: null,
+            field_list: null,
+            schedule: null,
+            poll_interval: null,
+            duration: null,
+            code: null,
+            timestamp_field_name: null,
+            dictionary_field_name: null,
+            data_dictionary_name: null,
+            adjust_field_name: null,
+            field_operation: null,
+            result_placement_numeric: null,
+            set_field_name: null,
+            keys_or_values: null,
+            path_to_events: null,
+            search_field_name: null,
+            formula: null,
+            function_name: null,
+            endpoint_name: null,
+            schedule_type: null,
+            lft: 1,
+            rght: 2,
+            tree_id: 5,
+            mptt_level: 0,
+            streamprocessor: 1,
+            parent: null,
+          },
+        ],
+      };
     case CONSTANTS.STREAMS.DELL_NEW_STEP:
-      let array = state.addedSteps.filter((n) => n.name !== action.data);
-      return { ...state, addedSteps: array };
+      let array = state.stepsStreamProcessor.filter(
+        (n, i) => i !== action.data
+      );
+      return { ...state, stepsStreamProcessor: array };
     default:
       return state;
   }

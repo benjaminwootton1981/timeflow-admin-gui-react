@@ -6,6 +6,7 @@ export const Button = (props) => {
   return (
     <div className="bottom-left marginVertical">
       <button
+        type={props.type}
         className={`btn ${typeColor} marginLeft-20 marginTop-20`}
         id="add_new_step"
       >

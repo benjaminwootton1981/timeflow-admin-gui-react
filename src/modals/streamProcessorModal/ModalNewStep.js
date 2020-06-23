@@ -9,8 +9,8 @@ import { Button } from "../../components/buttons/Buttons";
 const ModalNewStep = (props) => {
   const [selectedStepType, setSelectedStepType] = useState("");
   const [selectedStep, setSelectedStep] = useState(false);
-  const { stepTypes } = props.itemStreamProcessor;
-
+  const { stepData } = props.itemStreamProcessor;
+  const { step_types } = stepData;
   const addStep = (type) => {
     if (selectedStepType !== "") {
       props.addStep(type);
@@ -20,10 +20,16 @@ const ModalNewStep = (props) => {
       alert("please select a step type ");
     }
   };
-  const selectStep = (id, index) => {
-    setSelectedStepType(id);
+  const selectStep = (stepData, index) => {
+    setSelectedStepType(stepData);
     setSelectedStep(index);
   };
+
+  const filteredStepTypes = step_types.filter(
+    (el) =>
+      el.name.split(" ")[0] !== "Inbound" &&
+      el.name.split(" ")[0] !== "Outbound"
+  );
 
   return (
     <Modal
@@ -37,11 +43,14 @@ const ModalNewStep = (props) => {
         <Modal.Title className="modal-title">Add A New Step</Modal.Title>
       </Modal.Header>
       <div className="bodyStepType">
-        {stepTypes.step_types.map((step, index) => {
-          const id = { id: step.value, key: step.value, name: step.name };
+        {filteredStepTypes.map((step, index) => {
+          const stepData = { value: step.value, name: "steptype" };
           const selected = selectedStep === index ? "selected" : "";
           return (
-            <div className={`step_type`} onClick={() => selectStep(id, index)}>
+            <div
+              className={`step_type`}
+              onClick={() => selectStep(stepData, index)}
+            >
               <NewStepCard step={step} selected={selected} />
             </div>
           );
