@@ -10,7 +10,6 @@ import {
   getStepType,
   getStreams,
   newStreamProcessor,
-  setSteps,
 } from "../../../store/streamProcessor/action";
 import { useFormik } from "formik";
 import { setValueStep } from "../../../store/streamProcessor/setValueStep";
@@ -28,6 +27,7 @@ const StreamProcessor = (props) => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
   // const setStreamsSteps = (arr) => {
   //     props.setSteps(arr)
   // };
@@ -39,7 +39,6 @@ const StreamProcessor = (props) => {
   const hideModal = () => {
     setModalVisible(false);
   };
-
   const { stepsStreamProcessor } = props.itemsStepTypes;
   useEffect(() => {
     if (stepsStreamProcessor.length <= 0) {
@@ -49,8 +48,8 @@ const StreamProcessor = (props) => {
 
   useEffect(() => {
     props.getStepType();
-    props.getSchemas(2);
-    props.getStreams(2);
+    props.getSchemas(1);
+    props.getStreams(1);
 
     if (isNew) {
       props.newStreamProcessor();
@@ -66,17 +65,16 @@ const StreamProcessor = (props) => {
       processorDesc: "",
       items: stepsStreamProcessor.map((el, i) => {
         const includesKey = Object.keys(el);
-        let abc = {};
+        let initialObj = {};
         includesKey.forEach((elem) => {
-          const obj = { name: "name" };
-
-          return (abc = setValueStep(obj));
+          const obj = { name: elem, value: el[elem] };
+          return (initialObj = setValueStep(obj));
         });
-        return { name: el.name };
+        return initialObj;
       }),
     },
     onSubmit: (values) => {
-      alert("Pisa");
+      alert("in work");
     },
   });
 
@@ -114,7 +112,6 @@ const StreamProcessor = (props) => {
         <div className="marginTop-20 streamProcessorCardContainer">
           <div className="new-item__body">
             {stepsStreamProcessor.map((el, i, arr) => {
-              // console.log('EL', el)
               const isSchemaBlock = arr.length - 1 === i;
               const items = {
                 stepIndex: i,
@@ -167,5 +164,5 @@ export default connect(
       itemsStepTypes: state.StreamProcessorReducer,
     };
   },
-  { getStepType, newStreamProcessor, getSchemas, getStreams, setSteps }
+  { getStepType, newStreamProcessor, getSchemas, getStreams }
 )(StreamProcessor);

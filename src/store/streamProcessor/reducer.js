@@ -47,18 +47,18 @@ export default function StreamProcessorReducer(state = initialState, action) {
     case CONSTANTS.STREAMS.GET_SCHEMAS:
       return { ...state, schemas: action.data };
 
-    case CONSTANTS.STREAMS.SET_STEP:
-      const setStep = state.stepsStreamProcessor
-        .slice(0, action.index)
-        .concat([
-          {
-            ...state.stepsStreamProcessor[action.data.index],
-            notes: action.notes,
-          },
-        ])
-        .concat(state.stepsStreamProcessor.slice(action.data.index + 1));
-
-      return { ...state, setStepsStreamProcessor: action.data.step };
+    // case CONSTANTS.STREAMS.SET_STEP:
+    //   const setStep = state.stepsStreamProcessor
+    //     .slice(0, action.index)
+    //     .concat([
+    //       {
+    //         ...state.stepsStreamProcessor[action.data.index],
+    //         notes: action.notes,
+    //       },
+    //     ])
+    //     .concat(state.stepsStreamProcessor.slice(action.data.index + 1));
+    //
+    //   return { ...state, setStepsStreamProcessor: action.data.step };
 
     case CONSTANTS.STREAMS.CREATE_NEW_STREAM:
       return {

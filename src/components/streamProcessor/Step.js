@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import {
-  deleteStep,
-  getStreams,
-  setSteps,
-} from "../../store/streamProcessor/action";
+import { deleteStep, getStreams } from "../../store/streamProcessor/action";
 import InputTypeBlock from "./itemsStep/InputTypeBlock";
 import InputTypeSelect from "./itemsStep/InputTypeSelect";
 
@@ -21,9 +17,7 @@ const Step = (props) => {
     setFieldsKey(stepEl.steptype);
   }, [stepEl]);
 
-  useEffect(() => {
-    console.log("stepDataValue", stepDataValue);
-  }, [stepDataValue]);
+  useEffect(() => {}, [stepDataValue]);
   if (!step_types) {
     return false;
   }
@@ -172,5 +166,5 @@ export default connect(
       itemsStepTypes: state.StreamProcessorReducer,
     };
   },
-  { deleteStep, getStreams, setSteps }
+  { deleteStep, getStreams }
 )(Step);

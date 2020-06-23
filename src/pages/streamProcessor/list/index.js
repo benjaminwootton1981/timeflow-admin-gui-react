@@ -2,18 +2,18 @@ import React, { useState, useEffect } from "react";
 import { GroupCard, StreamProcessorValueCard } from "../../../components";
 import "./style.scss";
 import { connect } from "react-redux";
-import { getStreamProcessors } from "../../../store/actions/serviceAction";
 import EmptyStreamProcessorSVG from "../../../assets/empty-streamprocessor.svg";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
 import CardBoardLayout from "../../../components/layouts/card-board.layout";
+import { getStreamProcessors } from "../../../store/streamProcessor/action";
 
 function ManageStreamProcessor(props) {
   const [streams, setStreams] = useState(props.streams.streamprocessors);
   const [groups, setGroups] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
   useEffect(() => {
-    // props.getStreamProcessors(props.match.params.id);
     props.getStreamProcessors(props.match.params.id);
+    // props.getStreamProcessors(1);
   }, []);
 
   useEffect(() => {}, [props.streams.streamprocessors]);
@@ -58,7 +58,10 @@ function ManageStreamProcessor(props) {
         ))}
 
         {
-          // <CardBoardLayout id="manage-stream-processor-board" items={groups.concat(streams)}/>
+          <CardBoardLayout
+            id="manage-stream-processor-board"
+            items={groups.concat(streams)}
+          />
         }
       </div>
       {!isStreams && (
