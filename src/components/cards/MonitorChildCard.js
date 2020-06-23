@@ -18,8 +18,6 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
   const [eventDataPoints, setEventDataPoints] = useState([]);
   const [bytesDataPoints, setBytesDataPoints] = useState([]);
 
-  console.log(projectId, streamProcessorId);
-
   const update = useCallback(
     throttle((data) => {
       if (data) {
