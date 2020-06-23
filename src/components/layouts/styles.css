@@ -2674,7 +2674,8 @@ main {
   border-top: 1px solid rgba(209, 197, 218, 0.5);
 }
 
-.cardFooter a {
+.cardFooter a,
+.cardFooter button {
   position: relative;
   width: 40px;
   height: 40px;
@@ -2700,11 +2701,13 @@ main {
   background-image: url(../../assets/card_button/duplicate.svg);
 }
 
-.cardFooter a.deploy {
+.cardFooter a.deploy,
+.cardFooter button.deploy {
   background-image: url(../../assets/card_button/deploy.svg);
 }
 
-.cardFooter a.pause {
+.cardFooter a.pause,
+.cardFooter button.pause {
   background-image: url(../../assets/card_button/pause.svg);
 }
 
