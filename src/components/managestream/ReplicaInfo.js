@@ -14,6 +14,8 @@ const ReplicaInfo = ({
   const [replicas, setReplicas] = useState(0);
   const websocketServer = useSelector((state) => state.config.websocket_server);
 
+  console.log(projectId, eventId, userId, eventType);
+
   useEffect(() => {
     let socket;
 
