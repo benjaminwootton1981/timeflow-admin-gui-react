@@ -2,13 +2,26 @@ import { CONSTANTS } from "../constants";
 import {
   getSchemasRequest,
   getStepTypeRequest,
-  getStreamsRequest,
+  getStreamProcessorRequest,
+  getStreamRequest,
   setStepTypeRequest,
   setStreamProcessorRequest,
 } from "../../data-layer/api";
 
+export const getStreamProcessors = (project_id) => (dispatch) => {
+  getStreamProcessorRequest(project_id)
+    .then((result) => {
+      dispatch({
+        type: CONSTANTS.STREAMS.GET_STREAM_PROCESSORS,
+        data: result.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 export const getStreams = (project_id) => (dispatch) => {
-  getStreamsRequest(project_id)
+  getStreamRequest(project_id)
     .then((resp) => {
       dispatch({
         type: CONSTANTS.STREAMS.GET_STREAMS,
@@ -79,10 +92,10 @@ export const setSchemasId = (name) => ({
   data: name,
 });
 
-export const setSteps = (step, stepIndex) => ({
-  type: CONSTANTS.STREAMS.SET_STEP,
-  data: { step: step, stepIndex: stepIndex },
-});
+// export const setSteps = (step, stepIndex) => ({
+//   type: CONSTANTS.STREAMS.SET_STEP,
+//   data: { step: step, stepIndex: stepIndex },
+// });
 
 export const deleteStep = (name) => ({
   type: CONSTANTS.STREAMS.DELL_NEW_STEP,
