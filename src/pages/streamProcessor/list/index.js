@@ -8,23 +8,15 @@ import CreateGroupModal from "../../../modals/CreateGroupModal";
 import CardBoardLayout from "../../../components/layouts/card-board.layout";
 
 function ManageStreamProcessor(props) {
-  const [streams, setStreams] = useState();
+  const [streams, setStreams] = useState(props.streams.streamprocessors);
   const [groups, setGroups] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
-
   useEffect(() => {
-    props.onGetStreamProcessors(props.match.params.id);
+    // props.getStreamProcessors(props.match.params.id);
+    props.getStreamProcessors(2);
   }, []);
 
-  useEffect(() => {
-    setStreams(
-      props.streams &&
-        props.streams.map((stream) => {
-          stream.type = "streamprocessor";
-          return stream;
-        })
-    );
-  }, [props.streams]);
+  useEffect(() => {}, [props.streams.streamprocessors]);
 
   const createGroup = (name) => {
     let index = groups.length;
@@ -38,48 +30,52 @@ function ManageStreamProcessor(props) {
     setVisibleModal(false);
   };
 
-  if (!streams) {
-    return (
-      <div className="dashboard__footer">
-        <a
-          className="btn"
-          href={`/react/projects/${props.match.params.id}/streamprocessors/new`}
-        >
-          Add Stream Processor
-        </a>
-      </div>
-    );
+  if (!props.streams.streamprocessors) {
+    return false;
   }
 
+  const isStreams = props.streams.streamprocessors.length > 0;
   return (
-    streams && (
-      <div className="wrapper">
-        <h2 className="project-name">
-          {streams.length > 0 && streams[0].project && streams[0].project.name}
-        </h2>
-        <h2 className="dashboard__header">Manage Stream Processors</h2>
-        <div className="rowContent">
-          {
-            <CardBoardLayout
-              id="manage-stream-processor-board"
-              items={groups.concat(streams)}
-            />
-          }
-        </div>
-        {streams.length === 0 && (
-          <div className="empty">
-            <span className="empty__text">
-              No stream processors are available.
-            </span>
-            <img
-              src={EmptyStreamProcessorSVG}
-              width="155"
-              height="134"
-              alt="no data"
-              className="empty__image"
+    <div className="wrapper">
+      {/*<h2 className="project-name">*/}
+      {/*    {streams.length > 0 && streams[0].project && streams[0].project.name}*/}
+      {/*</h2>*/}
+
+      {/*<h2 className="dashboard__header">Manage Stream Processors</h2>*/}
+
+      <div className="rowContent">
+        {/*{groups.map((group, index) => (*/}
+        {/*    <GroupCard key={`group-${index}`} item={group}/>*/}
+        {/*))}*/}
+        {props.streams.streamprocessors.map((item) => (
+          <div style={{ margin: 20 }}>
+            <StreamProcessorValueCard
+              post={item}
+              itemIdx={item.id}
+              key={item.id}
             />
           </div>
-        )}
+        ))}
+
+        {
+          // <CardBoardLayout id="manage-stream-processor-board" items={groups.concat(streams)}/>
+        }
+      </div>
+      {!isStreams && (
+        <div className="empty">
+          <span className="empty__text">
+            No stream processors are available.
+          </span>
+          <img
+            src={EmptyStreamProcessorSVG}
+            width="155"
+            height="134"
+            alt="no data"
+            className="empty__image"
+          />
+        </div>
+      )}
+      {
         <div className="dashboard__footer">
           <a
             className="btn"
@@ -87,40 +83,30 @@ function ManageStreamProcessor(props) {
           >
             Add Stream Processor
           </a>
-          {streams.length !== 0 && (
+          {
             <button
               className="btn create__group"
               onClick={() => setVisibleModal(true)}
             >
               <span>+ Create a Group</span>
             </button>
-          )}
+          }
         </div>
-        <CreateGroupModal
-          show={visibleModal}
-          closeModal={() => setVisibleModal(false)}
-          createGroup={createGroup}
-        />
-      </div>
-    )
+      }
+      <CreateGroupModal
+        show={visibleModal}
+        closeModal={() => setVisibleModal(false)}
+        createGroup={createGroup}
+      />
+    </div>
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    streams: state.ServiceReducer.streamprocessors,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onGetStreamProcessors: (id) => {
-      dispatch(getStreamProcessors(id));
-    },
-  };
-};
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  (state) => {
+    return {
+      streams: state.ServiceReducer,
+    };
+  },
+  { getStreamProcessors }
 )(ManageStreamProcessor);

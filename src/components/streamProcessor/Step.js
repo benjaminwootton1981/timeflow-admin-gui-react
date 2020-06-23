@@ -1,31 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { deleteStep } from "../../store/streamProcessor/action";
+import {
+  deleteStep,
+  getStreams,
+  setSteps,
+} from "../../store/streamProcessor/action";
+import InputTypeBlock from "./itemsStep/InputTypeBlock";
+import InputTypeSelect from "./itemsStep/InputTypeSelect";
 
 const Step = (props) => {
-  const { item, stepTypesData } = props;
-  const [fieldsKey, setFieldsKey] = useState(item.key);
-  const { step_types, step_types_data } = stepTypesData;
-  if (item) {
-    step_types.forEach((el, i) => {
-      if (el.name === item.name) {
-        step_types.unshift(...step_types.splice(i, 1));
-      }
-    });
+  const { stepData, streams } = props.itemsStepTypes;
+  const { items } = props;
+  const { stepEl, stepIndex, lastStep } = items;
+  const { step_types, step_types_data } = stepData;
+
+  const [fieldsKey, setFieldsKey] = useState(stepEl.steptype);
+  const [stepDataValue, setStepDataValue] = useState(stepEl);
+
+  useEffect(() => {
+    setFieldsKey(stepEl.steptype);
+  }, [stepEl]);
+
+  useEffect(() => {
+    console.log("stepDataValue", stepDataValue);
+  }, [stepDataValue]);
+  if (!step_types) {
+    return false;
   }
-  const onChangeFields = (event) => {
-    setFieldsKey(event.target.value);
+  const onChangeFields = (e) => {
+    setFieldsKey(e.target.value);
   };
-  const checkFields = step_types_data[fieldsKey].fields
-    ? step_types_data[fieldsKey].fields
-    : [
-        {
-          name: "",
-          value: "",
-        },
-      ];
-  console.log("fieldsKey", fieldsKey);
-  console.log("item", item);
+  const setValueStep = (e) => {
+    // props.setSteps(stepDataValue, stepIndex);
+
+    let setValue;
+    if (!e.target) {
+      setValue = { ...stepDataValue, [e.name]: e.value };
+    } else {
+      setValue = { ...stepDataValue, [e.target.name]: e.target.value };
+    }
+    setStepDataValue(setValue);
+  };
+
+  let choicesFirstSelect = [];
+  const isFirst = stepIndex === 0;
+  if (stepIndex === 0) {
+    choicesFirstSelect = step_types.filter(
+      (el) => el.name.split(" ")[0] === "Inbound"
+    );
+  } else if (stepIndex === lastStep) {
+    choicesFirstSelect = step_types.filter(
+      (el) => el.name.split(" ")[0] === "Outbound"
+    );
+  } else {
+    choicesFirstSelect = step_types.filter(
+      (el) =>
+        el.name.split(" ")[0] !== "Inbound" &&
+        el.name.split(" ")[0] !== "Outbound"
+    );
+  }
+
   return (
     <table className="new-item__step" id="steps-table">
       <tbody>
@@ -37,45 +71,76 @@ const Step = (props) => {
         <tr>
           <td>
             <input
-              name="name_new_0"
-              value="Inbound Event"
+              name="name"
+              onChange={(e) => props.setFieldValue("name", e.target.value)}
+              value={props.values?.name || ""}
               className="required"
             />
           </td>
+
           <td>
             <div className="styled-select">
               <select
-                name="steptype_new_0"
+                name="steptype"
                 className="step"
-                data-step_id="new_0"
-                onChange={(event) => onChangeFields(event)}
+                data-step_id="new"
+                onChange={(event) => {
+                  onChangeFields(event);
+                  props.setFieldValue("steptype", event.target.value);
+                }}
               >
-                {item && (
+                {stepData.length !== 0 && (
                   <>
-                    {step_types.map((step) => {
-                      return <option value={step.value}>{step.name}</option>;
+                    {choicesFirstSelect.map((step, i) => {
+                      let initialName = 0;
+                      if (stepEl.steptype === step.value) {
+                        initialName = i;
+                      }
+                      return (
+                        <option selected={initialName} value={step.value}>
+                          {step.name}
+                        </option>
+                      );
                     })}
                   </>
                 )}
               </select>
             </div>
-            <div className="add-selects" data-step_id="new_0">
-              <div className="styled-select">
-                <select
-                  name="{{ item.name }}_new_0"
-                  className="form-control step"
-                  data-step_id="new_0"
-                  data-popover-body="{{ item.popover.bottom_text }}"
-                  data-popover-title="{{ item.popover.top_text }}"
-                >
-                  {item && (
-                    <>
-                      {checkFields.map((el) => {
-                        return <option value={el.name}>{el.name}</option>;
-                      })}
-                    </>
-                  )}
-                </select>
+            <div className="add-selects" data-step_id={`new_${stepIndex}`}>
+              <div>
+                {step_types_data &&
+                  step_types_data[fieldsKey].fields.map((elem) => {
+                    const typeElement = {
+                      select: (
+                        <InputTypeSelect
+                          onChange={setValueStep}
+                          streams={streams}
+                          elem={elem}
+                          setFieldValue={props.setFieldValue}
+                        />
+                      ),
+                      block: (
+                        <InputTypeBlock
+                          onChange={setValueStep}
+                          elem={elem}
+                          setFieldValue={props.setFieldValue}
+                        />
+                      ),
+                      text: (
+                        <input
+                          name={elem.name}
+                          onChange={(e) => {
+                            setValueStep(e);
+                            props.setFieldValue(elem.name, e.target.value);
+                          }}
+                          value={stepDataValue[elem.name]}
+                          className="required"
+                        />
+                      ),
+                    };
+                    const renderElem = typeElement[elem.input_type];
+                    return <div>{renderElem}</div>;
+                  })}
               </div>
             </div>
           </td>
@@ -86,9 +151,10 @@ const Step = (props) => {
               value="1"
               className="ordering_new"
             />
-            {!props.isInbound && (
+            {!isFirst && (
               <button
-                onClick={() => props.deleteStep(item.name)}
+                type={"button"}
+                onClick={() => props.deleteStep(stepIndex)}
                 className="card-btn card-btn--delete js-delete"
               >
                 Delete
@@ -103,8 +169,8 @@ const Step = (props) => {
 export default connect(
   (state) => {
     return {
-      stepTypesData: state.StreamProcessorReducer.stepTypes,
+      itemsStepTypes: state.StreamProcessorReducer,
     };
   },
-  { deleteStep }
+  { deleteStep, getStreams, setSteps }
 )(Step);

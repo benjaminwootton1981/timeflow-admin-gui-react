@@ -199,11 +199,11 @@ export default function CardBoardLayout(props) {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {items.map((item, index) => {
-              if (item.type === "group") {
-                return <GroupCard item={item} index={index} />;
-              } else return <DragItem item={item} index={index} />;
-            })}
+            {/*{items.map((item, index) => {*/}
+            {/*  if (item.type === "group") {*/}
+            {/*    return <GroupCard item={item} index={index} />;*/}
+            {/*  } else return <DragItem item={item} index={index} />;*/}
+            {/*})}*/}
             {provided.placeholder}
           </div>
         )}
