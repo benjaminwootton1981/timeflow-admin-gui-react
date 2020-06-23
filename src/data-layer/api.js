@@ -28,7 +28,7 @@ export const getStreamRequest = (project_id) =>
   ax.get(`stream/?project=${project_id}`);
 
 export const getStreamProcessorRequest = (project_id) =>
-  ax.get(`streamprocessor/?project=${project_id}`);
+  ax.get(`streamprocessors/?project=${project_id}`);
 
 export const getSimulationsRequest = (project_id) =>
   ax.get(`simulations/?project=${project_id}`);
