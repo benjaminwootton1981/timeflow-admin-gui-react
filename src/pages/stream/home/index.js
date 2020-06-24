@@ -74,7 +74,7 @@ function ManageStream(props) {
             />
           }
         </div>
-        {streams.length === 0 && (
+        {props.streams.length === 0 && (
           <div className="empty">
             <span className="empty__text">No streams are available.</span>
             <img
