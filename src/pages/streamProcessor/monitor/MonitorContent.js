@@ -8,14 +8,18 @@ export default function MonitorContent({ projectId, streamProcessorId }) {
 
   useEffect(() => {
     api
-      .get("streamprocessorstep/step-types")
+      .get("streamprocessorstep/", {
+        params: {
+          streamprocessor: streamProcessorId,
+        },
+      })
       .then((response) => {
-        setSteps(response.data.step_types);
+        setSteps(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [streamProcessorId]);
 
   return (
     <div className="monitor__body">
@@ -23,8 +27,7 @@ export default function MonitorContent({ projectId, streamProcessorId }) {
         return (
           <Fragment key={index}>
             <MonitorChildCard
-              key={step.value}
-              parent={step.value}
+              parent={step.steptype}
               title={step.name}
               projectId={projectId}
               streamProcessorId={streamProcessorId}
