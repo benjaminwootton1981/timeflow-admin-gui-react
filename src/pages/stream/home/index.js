@@ -37,7 +37,7 @@ function ManageStream(props) {
       setGroups([
         {
           id: 1,
-          name: "Streams Shared Within Your Organisation",
+          name: "Organisation Shared Streams",
           type: "group",
           childs: orgStreams,
         },
