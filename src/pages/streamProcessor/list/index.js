@@ -90,14 +90,14 @@ function ManageStreamProcessor(props) {
           >
             Add Stream Processor
           </a>
-          {
+          {isStreams && (
             <button
               className="btn create__group"
               onClick={() => setVisibleModal(true)}
             >
               <span>+ Create a Group</span>
             </button>
-          }
+          )}
         </div>
       }
       <CreateGroupModal
