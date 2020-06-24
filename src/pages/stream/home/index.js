@@ -60,7 +60,7 @@ function ManageStream(props) {
   };
 
   return (
-    streams && (
+    props.streams && (
       <div className="wrapper">
         <h2 className="project-name">
           {streams.length > 0 && streams[0].project && streams[0].project.name}
