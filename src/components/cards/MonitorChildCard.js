@@ -69,7 +69,9 @@ function MonitorChildCard({ parent, title, projectId, streamProcessorId }) {
   }, [projectId, streamProcessorId, update, websocketServer, updateDataPoints]);
   return (
     <div className="monitor__body_tab_child">
-      <span className="monitor__body_tab_child_header">{title}</span>
+      <span className="monitor__body_tab_child_header">
+        {title} ({parent})
+      </span>
       <div className="monitor__body_tab_child_content">
         <div className="row">
           <div className="col-md-6 content_status">
