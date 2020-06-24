@@ -38,7 +38,8 @@ function ManageStreamProcessor(props) {
   return (
     <div className="wrapper">
       <h2 className="project-name">
-          {streams.length > 0 && streams[0].project && streams[0].project.name}
+        Project Name Here
+          {/*  {streams.length > 0 && streams[0].project && streams[0].project.name} */}
       </h2>
 
       <h2 className="dashboard__header">Manage Stream Processors</h2>
