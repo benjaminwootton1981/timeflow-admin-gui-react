@@ -29,6 +29,18 @@ function ManageStream(props) {
           return stream;
         })
     );
+
+    if (props.streams) {
+      const orgStreams = props.streams.filter((stream) => stream.share);
+      setGroups([
+        {
+          id: 1,
+          name: "Organisation streams",
+          type: "group",
+          childs: orgStreams,
+        },
+      ]);
+    }
   }, [props.streams]);
 
   const createGroup = (name) => {
