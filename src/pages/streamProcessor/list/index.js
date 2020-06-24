@@ -37,11 +37,11 @@ function ManageStreamProcessor(props) {
   const isStreams = props.streams.streamprocessors.length > 0;
   return (
     <div className="wrapper">
-      {/*<h2 className="project-name">*/}
-      {/*    {streams.length > 0 && streams[0].project && streams[0].project.name}*/}
-      {/*</h2>*/}
+      <h2 className="project-name">
+          {streams.length > 0 && streams[0].project && streams[0].project.name}
+      </h2>
 
-      {/*<h2 className="dashboard__header">Manage Stream Processors</h2>*/}
+      <h2 className="dashboard__header">Manage Stream Processors</h2>
 
       <div className="rowContent">
         {/*{groups.map((group, index) => (*/}
