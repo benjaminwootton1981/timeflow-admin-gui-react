@@ -22,16 +22,18 @@ function ManageStream(props) {
   }, []);
 
   useEffect(() => {
-    setStreams(
-      props.streams &&
-        props.streams.map((stream) => {
-          stream.type = "stream";
-          return stream;
-        })
-    );
+    const addType = (stream) => {
+      stream.type = "stream";
+      return stream;
+    };
 
     if (props.streams) {
-      const orgStreams = props.streams.filter((stream) => stream.share);
+      const orgStreams = props.streams
+        .filter((stream) => stream.share)
+        .map(addType);
+      const streams = props.streams
+        .filter((stream) => !stream.share)
+        .map(addType);
       setGroups([
         {
           id: 1,
@@ -40,6 +42,8 @@ function ManageStream(props) {
           childs: orgStreams,
         },
       ]);
+
+      setStreams(streams);
     }
   }, [props.streams]);
 
