@@ -86,7 +86,10 @@ function ManageStream(props) {
             />
           </div>
         )}
-        <div className="dashboard__footer">
+        <div
+          className="dashboard__footer"
+          style={{ borderTop: props.streams.length === 0 ? "none" : undefined }}
+        >
           <a
             className="btn"
             href={`/projects/${props.match.params.id}/streams/new`}

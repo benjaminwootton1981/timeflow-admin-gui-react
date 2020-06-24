@@ -67,7 +67,10 @@ function ManageSimulation(props) {
             />
           </div>
         )}
-        <div className="dashboard__footer">
+        <div
+          className="dashboard__footer"
+          style={{ borderTop: simulations.length === 0 ? "none" : undefined }}
+        >
           <a
             className="btn"
             href={`/projects/${props.match.params.id}/simulations/new`}

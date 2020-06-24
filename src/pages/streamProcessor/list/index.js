@@ -80,7 +80,10 @@ function ManageStreamProcessor(props) {
         </div>
       )}
       {
-        <div className="dashboard__footer">
+        <div
+          className="dashboard__footer"
+          style={{ borderTop: !isStreams ? "none" : undefined }}
+        >
           <a
             className="btn"
             href={`/react/projects/${props.match.params.id}/streamprocessors/new`}
