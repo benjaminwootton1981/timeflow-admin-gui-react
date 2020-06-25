@@ -9,11 +9,7 @@ import CreateGroupModal from "../../../modals/CreateGroupModal";
 import CardBoardLayout from "../../../components/layouts/card-board.layout";
 
 function ManageStream(props) {
-  const [streams, setStreams] = useState([
-    { name: "test1", display_name: "Test User1", type: "stream" },
-    { name: "test2", display_name: "Test User2", type: "stream" },
-    { name: "test3", display_name: "Test User3", type: "stream" },
-  ]);
+  const [streams, setStreams] = useState([]);
   const [groups, setGroups] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
 
