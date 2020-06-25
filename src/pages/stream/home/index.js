@@ -38,7 +38,7 @@ function ManageStream(props) {
         setGroups([
           {
             id: 1,
-            name: "Organisation streams",
+            name: "Organisation Shared Streams",
             type: "group",
             childs: orgStreams,
           },
@@ -48,14 +48,7 @@ function ManageStream(props) {
       setStreams(streams);
     }
   }, [props.streams]);
-  setGroups([
-    {
-      id: 1,
-      name: "Organisation streams",
-      type: "group",
-      childs: orgStreams,
-    },
-  ]);
+
   const createGroup = (name) => {
     let index = groups.length;
     groups.push({
