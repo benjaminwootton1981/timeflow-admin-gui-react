@@ -6,15 +6,24 @@ import EmptyStreamProcessorSVG from "../../../assets/empty-streamprocessor.svg";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
 import CardBoardLayout from "../../../components/layouts/card-board.layout";
 import { getStreamProcessors } from "../../../store/streamProcessor/action";
+import api from "../../../api";
 
 function ManageStreamProcessor(props) {
   const [streams, setStreams] = useState(props.streams.streamprocessors);
   const [groups, setGroups] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
+  const [project, setProject] = useState({});
+  const projectId = props.match.params.id;
+
   useEffect(() => {
-    props.getStreamProcessors(props.match.params.id);
-    // props.getStreamProcessors(1);
-  }, []);
+    props.getStreamProcessors(projectId);
+  }, [projectId]);
+
+  useEffect(() => {
+    api.get(`projects/${projectId}`).then((response) => {
+      setProject(response.data);
+    });
+  }, [projectId]);
 
   useEffect(() => {}, [props.streams.streamprocessors]);
 
@@ -37,10 +46,7 @@ function ManageStreamProcessor(props) {
   const isStreams = props.streams.streamprocessors.length > 0;
   return (
     <div className="wrapper">
-      <h2 className="project-name">
-        Project Name Here
-        {/*  {streams.length > 0 && streams[0].project && streams[0].project.name} */}
-      </h2>
+      <h2 className="project-name">{project.name}</h2>
 
       <h2 className="dashboard__header">Manage Stream Processors</h2>
 
