@@ -2590,6 +2590,7 @@ main {
 
 .cardBody {
   padding: 15px;
+  position: relative;
 }
 
 .cardItem {

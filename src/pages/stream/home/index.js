@@ -6,7 +6,7 @@ import { getStreams } from "../../../store/actions/serviceAction";
 import EmptyStreamsSVG from "../../../assets/empty-streams.svg";
 import "./style.scss";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
-import CardBoardLayout from "../../../components/layouts/card-board.layout";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 function ManageStream(props) {
   const [streams, setStreams] = useState([]);
@@ -64,14 +64,40 @@ function ManageStream(props) {
           {streams.length > 0 && streams[0].project && streams[0].project.name}
         </h2>
         <h2 className="dashboard__header">Manage Streams</h2>
-        <div className="rowContent">
-          {
-            <CardBoardLayout
-              id="manage-stream-board"
-              items={groups.concat(streams)}
-            />
-          }
-        </div>
+        <DragDropContext onDragEnd={() => console.log("Drag ended")}>
+          <Droppable droppableId={"base"} direction={"horizontal"}>
+            {(provided) => {
+              return (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="streams"
+                >
+                  {streams.map((stream, index) => (
+                    <Draggable draggableId={stream.name} index={index}>
+                      {(provided, snapshot) => (
+                        <div
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                          {...provided.dragHandleProps}
+                        >
+                          <StreamValueCard
+                            post={stream}
+                            key={stream.id}
+                            isDragging={snapshot.isDragging}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  <div className={"streams-placeholder"}>
+                    {provided.placeholder}
+                  </div>
+                </div>
+              );
+            }}
+          </Droppable>
+        </DragDropContext>
         {props.streams.length === 0 && (
           <div className="empty">
             <span className="empty__text">No streams are available.</span>

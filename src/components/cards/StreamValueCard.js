@@ -1,9 +1,12 @@
 import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../../config";
+import DragIcon from "../../assets/drag-icon.svg";
 
-const StreamValueCard = ({ post: item }) => {
+const StreamValueCard = ({ post: item, isDragging }) => {
   const [events, setEvents] = useState(0);
+
+  console.log(isDragging);
 
   useEffect(() => {
     if (item) {
@@ -26,6 +29,11 @@ const StreamValueCard = ({ post: item }) => {
     <div className="Valuecard">
       <h2 className="valueHeader">{item.display_name}</h2>
       <div className="cardBody">
+        {isDragging && (
+          <div className="stream__dragging">
+            <img src={DragIcon} alt="" />
+          </div>
+        )}
         <div className="grid">
           <div className="cardItem smallItem">
             <span className="cardInput" data-header="Number Of Events">
