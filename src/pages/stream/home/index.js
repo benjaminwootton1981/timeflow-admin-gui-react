@@ -1,17 +1,88 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { StreamValueCard, GroupCard } from "../../../components";
+import { StreamValueCard } from "../../../components";
 import { getStreams } from "../../../store/actions/serviceAction";
 
 import EmptyStreamsSVG from "../../../assets/empty-streams.svg";
 import "./style.scss";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { omit, size } from "lodash";
+import DragDropSelect from "../../../assets/group_drag_select.svg";
+import GroupChildsSVG from "../../../assets/group_childs.svg";
+import DragDropGroup from "../../../assets/group_drag_drop.svg";
 
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import arrayMove from "array-move";
+
+const SortableItem = SortableElement(({ value, allGroups }) => {
+  const isGroup = !!allGroups[value];
+  if (isGroup) {
+    return <GroupCard group={value} streams={allGroups[value]} />;
+  }
+  return <StreamValueCard post={value} key={value.id} isDragging={false} />;
+});
+
+const SortableList = SortableContainer(({ items, allGroups }) => {
+  return (
+    <div className={"streams"}>
+      {items.map((value, index) => (
+        <SortableItem
+          key={`item-${value.name || value}`}
+          index={index}
+          value={value}
+          allGroups={allGroups}
+        />
+      ))}
+    </div>
+  );
+});
+
+export const GroupCard = ({ streams, group }) => {
+  return (
+    <div className="group__card drag_card_container">
+      <h2 className="card__header">
+        {group}
+        <img
+          src={DragDropSelect}
+          className="card__header-right"
+          alt="Drag Drop Select"
+        />
+      </h2>
+      <div className="card__body">
+        {streams.length > 0 && (
+          <div className="card__body_header">
+            <span>Running Streams</span>
+            <div className="right">
+              {streams.length}{" "}
+              <img src={GroupChildsSVG} className="green" alt="Child Count" />
+            </div>
+          </div>
+        )}
+        {size(streams) === 0 && (
+          <div className="content-empty">
+            <img src={DragDropGroup} alt="Drag Drop Select Empty" />
+            <p>
+              Drag items here to add <br />
+              them to the group.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 function ManageStream(props) {
   const [streams, setStreams] = useState([]);
-  const [groups, setGroups] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
+  const [allGroups, setAllGroups] = useState({ base: [], orgStreams: [] });
+
+  const [allItems, setAllItems] = useState([]);
+
+  useEffect(() => {
+    const groups = Object.keys(omit(allGroups, "base"));
+    setAllItems(allGroups.base.concat(groups));
+  }, [allGroups]);
 
   useEffect(() => {
     props.onGetStreams(props.match.params.id);
@@ -27,18 +98,14 @@ function ManageStream(props) {
       const orgStreams = props.streams
         .filter((stream) => stream.share)
         .map(addType);
+
       const streams = props.streams
         .filter((stream) => !stream.share)
         .map(addType);
+
+      setAllGroups((state) => ({ ...state, base: streams }));
+
       if (orgStreams.length) {
-        setGroups([
-          {
-            id: 1,
-            name: "Organisation Shared Streams",
-            type: "group",
-            childs: orgStreams,
-          },
-        ]);
       }
 
       setStreams(streams);
@@ -46,15 +113,12 @@ function ManageStream(props) {
   }, [props.streams]);
 
   const createGroup = (name) => {
-    let index = groups.length;
-    groups.push({
-      id: index + 1,
-      name,
-      type: "group",
-      childs: [],
-    });
-    setGroups(groups);
+    setAllGroups({ ...allGroups, [name]: [] });
     setVisibleModal(false);
+  };
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setAllItems(arrayMove(allItems, oldIndex, newIndex));
   };
 
   return (
@@ -64,40 +128,12 @@ function ManageStream(props) {
           {streams.length > 0 && streams[0].project && streams[0].project.name}
         </h2>
         <h2 className="dashboard__header">Manage Streams</h2>
-        <DragDropContext onDragEnd={() => console.log("Drag ended")}>
-          <Droppable droppableId={"base"} direction={"horizontal"}>
-            {(provided) => {
-              return (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  className="streams"
-                >
-                  {streams.map((stream, index) => (
-                    <Draggable draggableId={stream.name} index={index}>
-                      {(provided, snapshot) => (
-                        <div
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}
-                          {...provided.dragHandleProps}
-                        >
-                          <StreamValueCard
-                            post={stream}
-                            key={stream.id}
-                            isDragging={snapshot.isDragging}
-                          />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  <div className={"streams-placeholder"}>
-                    {provided.placeholder}
-                  </div>
-                </div>
-              );
-            }}
-          </Droppable>
-        </DragDropContext>
+        <SortableList
+          items={allItems}
+          onSortEnd={onSortEnd}
+          allGroups={allGroups}
+          axis={"xy"}
+        />
         {props.streams.length === 0 && (
           <div className="empty">
             <span className="empty__text">No streams are available.</span>
@@ -129,7 +165,6 @@ function ManageStream(props) {
             </button>
           )}
         </div>
-
         <CreateGroupModal
           show={visibleModal}
           closeModal={() => setVisibleModal(false)}

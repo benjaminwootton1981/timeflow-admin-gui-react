@@ -895,7 +895,7 @@ img {
 }
 
 .wrapper {
-  max-width: 1230px;
+  max-width: 1250px;
   padding-left: 15px;
   padding-right: 15px;
   margin: auto;
@@ -2812,7 +2812,7 @@ main {
 }
 
 .drag_card_container {
-  margin: 15px;
+  /*margin: 15px;*/
 }
 
 .drag_card_container:nth-child(3n-2):not(:last-child) {
