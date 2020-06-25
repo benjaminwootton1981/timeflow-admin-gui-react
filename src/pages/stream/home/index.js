@@ -15,28 +15,34 @@ import DragDropGroup from "../../../assets/group_drag_drop.svg";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 
-const SortableItem = SortableElement(({ value, allGroups }) => {
+const SortableItem = SortableElement(({ value, allGroups, isDragging }) => {
   const isGroup = !!allGroups[value];
   if (isGroup) {
     return <GroupCard group={value} streams={allGroups[value]} />;
   }
-  return <StreamValueCard post={value} key={value.id} isDragging={false} />;
-});
 
-const SortableList = SortableContainer(({ items, allGroups }) => {
   return (
-    <div className={"streams"}>
-      {items.map((value, index) => (
-        <SortableItem
-          key={`item-${value.name || value}`}
-          index={index}
-          value={value}
-          allGroups={allGroups}
-        />
-      ))}
-    </div>
+    <StreamValueCard post={value} key={value.id} isDragging={isDragging} />
   );
 });
+
+const SortableList = SortableContainer(
+  ({ items, allGroups, currentDragIndex }) => {
+    return (
+      <div className={"streams"}>
+        {items.map((value, index) => (
+          <SortableItem
+            key={`item-${value.name || value}`}
+            index={index}
+            value={value}
+            allGroups={allGroups}
+            isDragging={currentDragIndex === index}
+          />
+        ))}
+      </div>
+    );
+  }
+);
 
 export const GroupCard = ({ streams, group }) => {
   return (
@@ -78,6 +84,7 @@ function ManageStream(props) {
   const [allGroups, setAllGroups] = useState({ base: [], orgStreams: [] });
 
   const [allItems, setAllItems] = useState([]);
+  const [currentDragIndex, setCurrentDragIndex] = useState(-1);
 
   useEffect(() => {
     const groups = Object.keys(omit(allGroups, "base"));
@@ -119,6 +126,7 @@ function ManageStream(props) {
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setAllItems(arrayMove(allItems, oldIndex, newIndex));
+    setCurrentDragIndex(-1);
   };
 
   return (
@@ -133,6 +141,10 @@ function ManageStream(props) {
           onSortEnd={onSortEnd}
           allGroups={allGroups}
           axis={"xy"}
+          updateBeforeSortStart={({ index }) => {
+            setCurrentDragIndex(index);
+          }}
+          currentDragIndex={currentDragIndex}
         />
         {props.streams.length === 0 && (
           <div className="empty">

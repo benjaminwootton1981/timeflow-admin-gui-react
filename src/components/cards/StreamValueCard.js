@@ -6,8 +6,6 @@ import DragIcon from "../../assets/drag-icon.svg";
 const StreamValueCard = ({ post: item, isDragging }) => {
   const [events, setEvents] = useState(0);
 
-  console.log(isDragging);
-
   useEffect(() => {
     if (item) {
       axios
