@@ -19,7 +19,10 @@ export default function BottomHeader() {
       <nav className="second-nav">
         <ul>
           <li className="second-nav__item">
-            <a className="second-nav__link" href="#">
+            <a
+              className="second-nav__link"
+              href="/projects/TODO_ADD_ME/streamprocessors/all-logs/"
+            >
               All Logs
             </a>
           </li>
@@ -50,6 +53,18 @@ export default function BottomHeader() {
                 target="_blank"
               >
                 Druid Console
+              </a>
+            </li>
+          </nav>
+
+          <nav className="main-nav">
+            <li className="main-nav__item">
+              <a
+                className="second-nav__link"
+                href={`http://${config.jupyter_url}`}
+                target="_blank"
+              >
+                Jupyter Notebook
               </a>
             </li>
           </nav>
