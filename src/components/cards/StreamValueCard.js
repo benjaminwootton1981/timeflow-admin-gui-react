@@ -25,7 +25,7 @@ const StreamValueCard = ({ post: item, isDragging }) => {
 
   return (
     <div className="Valuecard">
-      <h2 className="valueHeader">{item.display_name}</h2>
+      <h2 className="valueHeader handle">{item.display_name}</h2>
       <div className="cardBody">
         {isDragging && (
           <div className="stream__dragging">

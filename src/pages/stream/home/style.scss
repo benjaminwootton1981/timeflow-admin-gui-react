@@ -51,3 +51,21 @@
 .sortable-ghost {
   opacity: 0;
 }
+
+.empty-list:after {
+  background-image: url("../../../assets/group_drag_drop.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "Drag items here to add \A them to the group.";
+  white-space: pre-wrap;
+  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.handle {
+  cursor: grab;
+}

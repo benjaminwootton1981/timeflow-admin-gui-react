@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { StreamValueCard } from "../../../components";
 import { getStreams } from "../../../store/actions/serviceAction";
@@ -6,47 +6,14 @@ import { getStreams } from "../../../store/actions/serviceAction";
 import EmptyStreamsSVG from "../../../assets/empty-streams.svg";
 import "./style.scss";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { omit, size } from "lodash";
+import { omit } from "lodash";
 import DragDropSelect from "../../../assets/group_drag_select.svg";
 import GroupChildsSVG from "../../../assets/group_childs.svg";
-import DragDropGroup from "../../../assets/group_drag_drop.svg";
-
-import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import arrayMove from "array-move";
 import { ReactSortable } from "react-sortablejs";
 import PlayIconSVG from "../../../assets/play_icon.svg";
+import classNames from "classnames";
 
-const SortableItem = SortableElement(({ value, allGroups, isDragging }) => {
-  const isGroup = !!allGroups[value];
-  if (isGroup) {
-    return <GroupCard group={value} streams={allGroups[value]} />;
-  }
-
-  return (
-    <StreamValueCard post={value} key={value.id} isDragging={isDragging} />
-  );
-});
-
-const SortableList = SortableContainer(
-  ({ items, allGroups, currentDragIndex }) => {
-    return (
-      <div className={"streams"}>
-        {items.map((value, index) => (
-          <SortableItem
-            key={`item-${value.name || value}`}
-            index={index}
-            value={value}
-            allGroups={allGroups}
-            isDragging={currentDragIndex === index}
-          />
-        ))}
-      </div>
-    );
-  }
-);
-
-export const GroupCard = ({ group, groups, allItems, setAllItems }) => {
+export const GroupCard = ({ group, allItems, setAllItems }) => {
   const [currentStreams, setCurrentStreams] = useState([]);
 
   useEffect(() => {
@@ -63,7 +30,7 @@ export const GroupCard = ({ group, groups, allItems, setAllItems }) => {
 
   return (
     <div className="group__card drag_card_container">
-      <h2 className="card__header">
+      <h2 className="card__header handle">
         {group}
         <img
           src={DragDropSelect}
@@ -85,7 +52,9 @@ export const GroupCard = ({ group, groups, allItems, setAllItems }) => {
         <ReactSortable
           list={currentStreams}
           setList={(list) => updateItems(list)}
-          className="group__card_content"
+          className={classNames("group__card_content", {
+            "empty-list": currentStreams.length === 0,
+          })}
           group={{
             name: group,
             pull: true,
@@ -109,6 +78,7 @@ export const GroupCard = ({ group, groups, allItems, setAllItems }) => {
     </div>
   );
 };
+
 function ManageStream(props) {
   const [streams, setStreams] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
@@ -118,21 +88,28 @@ function ManageStream(props) {
   });
 
   const [allItems, setAllItems] = useState([]);
-  const [currentDragIndex, setCurrentDragIndex] = useState(-1);
-  const groups = Object.keys(omit(allGroups, "base"));
+  const projectId = props.match.params.id;
 
-  useEffect(() => {
-    const mapped = allGroups.base.concat(groups).map((value, index) => ({
-      id: index + 1,
-      value,
-      streams: allGroups[value],
-    }));
-    setAllItems(mapped);
-  }, [allGroups]);
+  const getMapped = useCallback((allGroups) => {
+    const groups = Object.keys(omit(allGroups, "base"));
+    const mapped = [];
+    allGroups.base.concat(groups).forEach((value, index) => {
+      mapped.push({
+        id: value.id || value,
+        value,
+        streams: allGroups[value]?.map((value, index) => ({
+          id: value.id,
+          value,
+        })),
+      });
+    });
 
-  useEffect(() => {
-    props.onGetStreams(props.match.params.id);
+    return mapped;
   }, []);
+
+  useEffect(() => {
+    props.onGetStreams(projectId);
+  }, [projectId]);
 
   useEffect(() => {
     const addType = (stream) => {
@@ -149,26 +126,29 @@ function ManageStream(props) {
         .filter((stream) => !stream.share)
         .map(addType);
 
-      setAllGroups((state) => ({
-        ...state,
+      const newState = {
         base: streams,
-      }));
+      };
 
       if (orgStreams.length) {
+        newState.orgStreams = orgStreams;
       }
 
+      const mapped = getMapped(newState);
+      setAllGroups(newState);
+      setAllItems(mapped);
       setStreams(streams);
     }
-  }, [props.streams]);
+  }, [props.streams, getMapped]);
+
+  useEffect(() => {
+    const mapped = getMapped(allGroups);
+    setAllItems([...mapped]);
+  }, [allGroups, getMapped]);
 
   const createGroup = (name) => {
     setAllGroups({ ...allGroups, [name]: [] });
     setVisibleModal(false);
-  };
-
-  const onSortEnd = ({ oldIndex, newIndex }) => {
-    setAllItems(arrayMove(allItems, oldIndex, newIndex));
-    setCurrentDragIndex(-1);
   };
 
   return (
@@ -183,10 +163,10 @@ function ManageStream(props) {
           setList={setAllItems}
           className={"streams"}
           animation={200}
-          delayOnTouchStart={true}
-          delay={2}
           ghostClass="sortable-ghost"
-          group={{ name: "root", put: groups, pull: true }}
+          group={{ name: "root", put: true, pull: true }}
+          handle=".handle"
+          swapThreshold={0.5}
         >
           {allItems.map((item) => {
             const isGroup = !!allGroups[item.value];
@@ -194,9 +174,7 @@ function ManageStream(props) {
               return (
                 <div key={item.id} id={`group-${item.id}`}>
                   <GroupCard
-                    streams={item.streams}
                     group={item.value}
-                    groups={groups}
                     setAllGroups={setAllGroups}
                     allItems={allItems}
                     setAllItems={setAllItems}

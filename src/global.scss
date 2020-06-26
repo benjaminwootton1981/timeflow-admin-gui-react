@@ -118,6 +118,7 @@ body {
   .group__card_content {
     height: 100%;
     overflow: auto;
+    padding-bottom: 5rem;
   }
 
   .card__header {
@@ -144,6 +145,7 @@ body {
   .card__body {
     padding: 0;
     height: 271px;
+    overflow: hidden;
 
     .content-empty {
       width: 100%;
