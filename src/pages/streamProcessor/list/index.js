@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import EmptyStreamProcessorSVG from "../../../assets/empty-streamprocessor.svg";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
 import CardBoardLayout from "../../../components/layouts/card-board.layout";
-import { getStreamProcessors } from "../../../store/streamProcessor/action";
+import { getStreamProcessorsList } from "../../../store/streamProcessor/action";
 import api from "../../../api";
 
 function ManageStreamProcessor(props) {
@@ -14,10 +14,10 @@ function ManageStreamProcessor(props) {
   const [visibleModal, setVisibleModal] = useState(false);
   const [project, setProject] = useState({});
   const projectId = props.match.params.id;
-
   useEffect(() => {
-    props.getStreamProcessors(projectId);
-  }, [projectId]);
+    debugger;
+    props.getStreamProcessorsList(projectId);
+  }, [streams]);
 
   useEffect(() => {
     api.get(`projects/${projectId}`).then((response) => {
@@ -121,5 +121,5 @@ export default connect(
       streams: state.ServiceReducer,
     };
   },
-  { getStreamProcessors }
+  { getStreamProcessorsList }
 )(ManageStreamProcessor);

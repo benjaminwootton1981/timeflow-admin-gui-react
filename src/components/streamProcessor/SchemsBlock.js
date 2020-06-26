@@ -6,7 +6,7 @@ const SchemaBlock = (props) => {
   const togglePolio = () => {
     setPolio(!polio);
   };
-  if (props.schemas.length <= 0) {
+  if (props.schemas && props.schemas.length <= 0) {
     return false;
   }
   let schema = props.actualSchema[0];

@@ -4,8 +4,12 @@ import { connect } from "react-redux";
 
 const InputTypeBlock = (props) => {
   const { elem, actualSchema, schemas } = props;
-  const [value, SetValue] = useState("");
-  const [value2, SetValue2] = useState("");
+  const [firstSelect, SetFirstSelect] = useState({
+    value: "=",
+    key_type_from: "from_event",
+    key_type: "static_value",
+  });
+  const [secondSelect, SetSecondSelect] = useState("");
   if (schemas.length <= 0) {
     return false;
   }
@@ -14,61 +18,95 @@ const InputTypeBlock = (props) => {
     schema = props.schemas[0];
   }
 
-  const typeReturnEl = (e) => {
+  const typeReturnEl = (e, blockElem) => {
     props.setFieldValue(elem.name, e.target.value);
     props.onChange(e);
-    if (e.target.name === [e]) {
-      SetValue(e.target.value);
-    } else {
-      SetValue2(e.target.value);
-    }
-    // console.log('TARGET', e.target.value)
+    // console.log('E target', blockElem.name)
+    SetFirstSelect({ ...firstSelect, [blockElem.name]: e.target.value });
   };
+  console.log("firstSelect", firstSelect);
   return (
     <>
       <div className="container_block">
         {elem.fields.map((blockElem, i) => {
-          const zavisim = blockElem.related_to.field;
+          // console.log('blockElem',blockElem)
+          const isRelated =
+            Array.isArray(blockElem.related_to.value) &&
+            blockElem.related_to.value;
           let choices = blockElem.choices;
           if (blockElem.choices.length <= 0) {
             choices = schema.schemafield_set;
           }
-          const typeItem = {
-            "!=": "percent",
-            "<": "dfdsfs",
-          };
-          const test = typeItem[value];
+          const findeName =
+            isRelated &&
+            isRelated.find((item) => {
+              console.log("fields", elem.fields);
+              console.log("item", item);
+              return (
+                item === firstSelect["value"] ||
+                item === firstSelect["key_type"]
+              );
+            });
           return (
             <>
               {blockElem.input_type === "select" ? (
                 <>
-                  {!zavisim ? (
+                  {!isRelated ? (
                     <div className="styled-select">
-                      <select onChange={typeReturnEl} className="step">
+                      <select
+                        onChange={(e) => typeReturnEl(e, blockElem)}
+                        className="step"
+                      >
                         {choices.map((el) => {
                           const val0 = el.name === undefined ? el[0] : el.name;
                           const val1 = !el.name ? el[1] : el.name;
-
                           return <option value={val0}>{val1}</option>;
                         })}
                       </select>
                     </div>
                   ) : (
-                    <>{blockElem.name === test && <div>ZAVISIMOSTI</div>}</>
+                    <>
+                      {findeName && (
+                        <div className="styled-select">
+                          <select
+                            onChange={(e) => typeReturnEl(e, blockElem)}
+                            className="step"
+                          >
+                            {choices.map((el) => {
+                              const val0 =
+                                el.name === undefined ? el[0] : el.name;
+                              const val1 = !el.name ? el[1] : el.name;
+
+                              return <option value={val0}>{val1}</option>;
+                            })}
+                          </select>
+                        </div>
+                      )}
+                    </>
                   )}
                 </>
               ) : (
                 <>
-                  {!zavisim ? (
+                  {!isRelated ? (
                     <input
                       onChange={(e) => props.onChange(e)}
                       type="text"
                       name={blockElem.name}
-                      placeholder="Stream Processor Name"
-                      value={blockElem.name}
+                      placeholder="some text"
+                      value={""}
                     />
                   ) : (
-                    <>{<div>ZAVISIMOSTI</div>}</>
+                    <>
+                      {findeName && (
+                        <input
+                          onChange={(e) => props.onChange(e)}
+                          type="text"
+                          name={blockElem.name}
+                          placeholder="some text"
+                          value={""}
+                        />
+                      )}
+                    </>
                   )}
                 </>
               )}

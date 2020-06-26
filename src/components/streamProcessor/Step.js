@@ -53,7 +53,6 @@ const Step = (props) => {
         el.name.split(" ")[0] !== "Outbound"
     );
   }
-
   return (
     <table className="new-item__step" id="steps-table">
       <tbody>
