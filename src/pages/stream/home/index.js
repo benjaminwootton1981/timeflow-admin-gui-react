@@ -14,6 +14,8 @@ import DragDropGroup from "../../../assets/group_drag_drop.svg";
 
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
+import { ReactSortable } from "react-sortablejs";
+import PlayIconSVG from "../../../assets/play_icon.svg";
 
 const SortableItem = SortableElement(({ value, allGroups, isDragging }) => {
   const isGroup = !!allGroups[value];
@@ -44,7 +46,23 @@ const SortableList = SortableContainer(
   }
 );
 
-export const GroupCard = ({ streams, group }) => {
+export const GroupCard = ({
+  streams,
+  group,
+  groups,
+  allItems,
+  setAllItems,
+}) => {
+  const updateItems = (groupList) => {
+    const index = allItems.map((item) => item.value).indexOf(group);
+    allItems[index].streams = groupList;
+    setAllItems(allItems);
+  };
+
+  useEffect(() => {
+    setAllItems(allItems);
+  }, [allItems]);
+
   return (
     <div className="group__card drag_card_container">
       <h2 className="card__header">
@@ -65,15 +83,28 @@ export const GroupCard = ({ streams, group }) => {
             </div>
           </div>
         )}
-        {size(streams) === 0 && (
-          <div className="content-empty">
-            <img src={DragDropGroup} alt="Drag Drop Select Empty" />
-            <p>
-              Drag items here to add <br />
-              them to the group.
-            </p>
-          </div>
-        )}
+
+        <ReactSortable
+          list={streams}
+          setList={(list) => updateItems(list)}
+          className="group__card_content"
+          group={{
+            name: group,
+            pull: true,
+            put: ["root", ...groups],
+          }}
+          animation="150"
+          fallbackOnBody
+          swapThreshold="0.65"
+        >
+          {streams.map((item) => {
+            return (
+              <div className="tile-content" key={item.id}>
+                {item.value.display_name} <img src={PlayIconSVG} alt="Play" />
+              </div>
+            );
+          })}
+        </ReactSortable>
       </div>
     </div>
   );
@@ -81,14 +112,22 @@ export const GroupCard = ({ streams, group }) => {
 function ManageStream(props) {
   const [streams, setStreams] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
-  const [allGroups, setAllGroups] = useState({ base: [], orgStreams: [] });
+  const [allGroups, setAllGroups] = useState({
+    base: [],
+    orgStreams: [],
+  });
 
   const [allItems, setAllItems] = useState([]);
   const [currentDragIndex, setCurrentDragIndex] = useState(-1);
+  const groups = Object.keys(omit(allGroups, "base"));
 
   useEffect(() => {
-    const groups = Object.keys(omit(allGroups, "base"));
-    setAllItems(allGroups.base.concat(groups));
+    const mapped = allGroups.base.concat(groups).map((value, index) => ({
+      id: index + 1,
+      value,
+      streams: allGroups[value],
+    }));
+    setAllItems(mapped);
   }, [allGroups]);
 
   useEffect(() => {
@@ -110,7 +149,10 @@ function ManageStream(props) {
         .filter((stream) => !stream.share)
         .map(addType);
 
-      setAllGroups((state) => ({ ...state, base: streams }));
+      setAllGroups((state) => ({
+        ...state,
+        base: streams,
+      }));
 
       if (orgStreams.length) {
       }
@@ -136,17 +178,40 @@ function ManageStream(props) {
           {streams.length > 0 && streams[0].project && streams[0].project.name}
         </h2>
         <h2 className="dashboard__header">Manage Streams</h2>
-        <SortableList
-          items={allItems}
-          onSortEnd={onSortEnd}
-          allGroups={allGroups}
-          axis={"xy"}
-          updateBeforeSortStart={({ index }) => {
-            setCurrentDragIndex(index);
-          }}
-          currentDragIndex={currentDragIndex}
-          pressDelay={200}
-        />
+        <ReactSortable
+          list={allItems}
+          setList={setAllItems}
+          className={"streams"}
+          animation={200}
+          delayOnTouchStart={true}
+          delay={2}
+          ghostClass="sortable-ghost"
+          group={{ name: "root", put: groups, pull: true }}
+        >
+          {allItems.map((item) => {
+            const isGroup = !!allGroups[item.value];
+            if (isGroup) {
+              return (
+                <div key={item.id}>
+                  <GroupCard
+                    streams={item.streams}
+                    group={item.value}
+                    groups={groups}
+                    setAllGroups={setAllGroups}
+                    allItems={allItems}
+                    setAllItems={setAllItems}
+                  />
+                </div>
+              );
+            }
+
+            return (
+              <div key={item.id}>
+                <StreamValueCard post={item.value} isDragging={item.chosen} />
+              </div>
+            );
+          })}
+        </ReactSortable>
         {props.streams.length === 0 && (
           <div className="empty">
             <span className="empty__text">No streams are available.</span>

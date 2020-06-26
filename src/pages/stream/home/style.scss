@@ -21,6 +21,7 @@
   margin: 1rem 0;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 
   & > * {
     margin: 1rem;
@@ -45,4 +46,8 @@
     width: 35px;
     margin-bottom: 44px;
   }
+}
+
+.sortable-ghost {
+  opacity: 0;
 }
