@@ -57,7 +57,7 @@ export const GroupCard = ({ group, allItems, setAllItems }) => {
           })}
           group={{
             name: group,
-            pull: true,
+            pull: group !== "Organisation Shared Streams",
             put: (_, __, element) => {
               return !element.id.includes("group");
             },
@@ -84,7 +84,6 @@ function ManageStream(props) {
   const [visibleModal, setVisibleModal] = useState(false);
   const [allGroups, setAllGroups] = useState({
     base: [],
-    orgStreams: [],
   });
 
   const [allItems, setAllItems] = useState([]);
@@ -131,7 +130,7 @@ function ManageStream(props) {
       };
 
       if (orgStreams.length) {
-        newState.orgStreams = orgStreams;
+        newState["Organisation Shared Streams"] = orgStreams;
       }
 
       const mapped = getMapped(newState);
@@ -143,7 +142,7 @@ function ManageStream(props) {
 
   useEffect(() => {
     const mapped = getMapped(allGroups);
-    setAllItems([...mapped]);
+    setAllItems(mapped);
   }, [allGroups, getMapped]);
 
   const createGroup = (name) => {
