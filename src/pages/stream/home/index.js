@@ -145,6 +145,7 @@ function ManageStream(props) {
             setCurrentDragIndex(index);
           }}
           currentDragIndex={currentDragIndex}
+          pressDelay={200}
         />
         {props.streams.length === 0 && (
           <div className="empty">
