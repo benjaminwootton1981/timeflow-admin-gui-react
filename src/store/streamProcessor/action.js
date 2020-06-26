@@ -8,7 +8,9 @@ import {
   setStepTypeRequest,
   setStreamProcessorRequest,
   updateStepTypeRequest,
+  updateStreamProcessorInfoRequest,
 } from "../../data-layer/api";
+import { useHistory } from "react-router-dom";
 
 export const getStreamProcessorsList = (project_id) => (dispatch) => {
   getStreamProcessorListRequest(project_id)
@@ -70,20 +72,42 @@ export const createStreamProcessor = (dataStep) => (dispatch) => {
       console.log(err);
     });
 };
-export const saveStreamProcessor = (editStreamProcessor) => (dispatch) => {
+export const saveStreamProcessor = (editStreamProcessor, processorId) => (
+  dispatch
+) => {
   editStreamProcessor.items.forEach((step) => {
     const stringifyDataStep = JSON.stringify(step);
+    const streamProcessorInfo = editStreamProcessor;
+    delete streamProcessorInfo["items"];
+    const stringifyDataInfo = JSON.stringify(streamProcessorInfo);
     if (step["block"]) {
+      console.log("BLOCK");
     }
+    updateStreamProcessorInfoRequest(processorId, stringifyDataInfo)
+      .then((resp) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+
     if (step.id !== null) {
       updateStepTypeRequest(step.id, stringifyDataStep)
-        .then((resp) => {})
+        .then((resp) => {
+          if (resp.status === 200) {
+          } else {
+            alert(resp.data.streamprocessor[0]);
+          }
+        })
         .catch((err) => {
           console.log(err);
         });
     } else {
       setStepTypeRequest(stringifyDataStep)
-        .then((resp) => {})
+        .then((resp) => {
+          if (resp.status === 200) {
+          } else {
+            alert(resp.data.streamprocessor[0]);
+          }
+        })
         .catch((err) => {
           console.log(err);
         });

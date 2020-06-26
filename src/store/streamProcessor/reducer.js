@@ -19,9 +19,7 @@ export default function StreamProcessorReducer(state = initialState, action) {
       const newStep = setValueStep(action.data);
       steps.push(newStep);
       steps.forEach((el, i) => {
-        console.log("EL OUT", el);
         // const a = el.name('+')[0];
-
         if (el.steptype.includes("outbound")) {
           steps.push(...steps.splice(i, 1));
         }
@@ -30,13 +28,6 @@ export default function StreamProcessorReducer(state = initialState, action) {
 
     case CONSTANTS.STREAMS.GET_STEP_TYPE:
       return { ...state, stepData: action.data };
-
-    case "SFFS":
-      const abc = [...state.stepsStreamProcessor];
-      let elem = abc[action.data.index];
-      const writeData = { ...elem, [action.data.name]: action.data.value };
-
-      return { ...state, stepsStreamProcessor: writeData };
 
     case CONSTANTS.STREAMS.FILTERED_SCHEMAS:
       const filteredSchemas = [

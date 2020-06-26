@@ -24,12 +24,10 @@ const InputTypeBlock = (props) => {
     // console.log('E target', blockElem.name)
     SetFirstSelect({ ...firstSelect, [blockElem.name]: e.target.value });
   };
-  console.log("firstSelect", firstSelect);
   return (
     <>
       <div className="container_block">
         {elem.fields.map((blockElem, i) => {
-          // console.log('blockElem',blockElem)
           const isRelated =
             Array.isArray(blockElem.related_to.value) &&
             blockElem.related_to.value;
@@ -40,8 +38,6 @@ const InputTypeBlock = (props) => {
           const findeName =
             isRelated &&
             isRelated.find((item) => {
-              console.log("fields", elem.fields);
-              console.log("item", item);
               return (
                 item === firstSelect["value"] ||
                 item === firstSelect["key_type"]

@@ -11,6 +11,7 @@ const Step = (props) => {
   const { step_types, step_types_data } = stepData;
 
   const [fieldsKey, setFieldsKey] = useState(stepEl.steptype);
+
   const [stepDataValue, setStepDataValue] = useState(stepEl);
 
   useEffect(() => {

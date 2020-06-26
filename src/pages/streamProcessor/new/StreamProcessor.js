@@ -13,6 +13,7 @@ import {
   newStreamProcessor,
   createStreamProcessor,
   saveStreamProcessor,
+  getStreamProcessorsList,
 } from "../../../store/streamProcessor/action";
 import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
@@ -35,26 +36,40 @@ const StreamProcessor = (props) => {
 
   const projectId = props.match.params.id;
   const processorId = props.match.params.processor_id;
+  let defaultInfoProject = {
+    name: "",
+    description: "",
+    replicas: 1,
+    project: projectId,
+  };
   useEffect(() => {
+    props.getStreamProcessorsList(projectId);
     props.getStepType();
     props.getSchemas(projectId);
-    // props.getSchemas(2);
+    // props.getSchemas(3);
     props.getStreams(projectId);
-    // props.getStreams(2);
+    // props.getStreams(3);
+
     if (isNew) {
       props.newStreamProcessor();
     } else {
       props.getStreamProcessor(processorId);
     }
   }, []);
-  console.log("history", history);
+
+  if (!isNew && props.streams.streamprocessors !== null) {
+    defaultInfoProject = props.streams.streamprocessors.filter(
+      (item) => item.id === +processorId
+    );
+    defaultInfoProject = defaultInfoProject[0];
+  }
   let { values, setFieldValue, handleSubmit, handleChange } = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: "",
-      replicas: "1",
-      description: "",
-      project: 2,
+      name: defaultInfoProject.name,
+      description: defaultInfoProject.description,
+      replicas: defaultInfoProject.replicas,
+      project: defaultInfoProject.project,
       items: stepsStreamProcessor.map((el, i) => {
         return { ...el };
       }),
@@ -64,12 +79,20 @@ const StreamProcessor = (props) => {
         props.createStreamProcessor(values);
         history.push(`/projects/${projectId}/streamprocessors`);
       } else {
-        props.saveStreamProcessor(values);
+        props.saveStreamProcessor(values, processorId);
         history.push(`/projects/${projectId}/streamprocessors`);
       }
     },
   });
+
+  if (!defaultInfoProject) {
+    return false;
+  }
+
   // console.log('values STREAM - PROCESSOR', values)
+  if (!defaultInfoProject) {
+    return false;
+  }
   const title = isNew ? (
     <h2 className="dashboard__header">New Stream Processor</h2>
   ) : (
@@ -146,7 +169,12 @@ const StreamProcessor = (props) => {
           </div>
           <div style={{ border: "solid 0.3px #333333" }} />
           <div>
-            <Button type={"submit"} text={"submit"} color={"dark"} />
+            <Button
+              disabled={false}
+              type={"submit"}
+              text={"submit"}
+              color={"dark"}
+            />
           </div>
         </div>
         {isModalVisible && (
@@ -160,6 +188,7 @@ export default connect(
   (state) => {
     return {
       itemsStepTypes: state.StreamProcessorReducer,
+      streams: state.ServiceReducer,
     };
   },
   {
@@ -170,5 +199,6 @@ export default connect(
     createStreamProcessor,
     getStreamProcessor,
     saveStreamProcessor,
+    getStreamProcessorsList,
   }
 )(StreamProcessor);

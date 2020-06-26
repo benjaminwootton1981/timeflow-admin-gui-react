@@ -9,23 +9,22 @@ import { getStreamProcessorsList } from "../../../store/streamProcessor/action";
 import api from "../../../api";
 
 function ManageStreamProcessor(props) {
-  const [streams, setStreams] = useState(props.streams.streamprocessors);
+  const [streams, setStreams] = useState({});
   const [groups, setGroups] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
   const [project, setProject] = useState({});
   const projectId = props.match.params.id;
-  useEffect(() => {
-    debugger;
-    props.getStreamProcessorsList(projectId);
-  }, [streams]);
+  // const projectId = 3;
 
+  useEffect(() => {
+    props.getStreamProcessorsList(projectId);
+    setStreams(props.streams.streamprocessors);
+  }, [streams]);
   useEffect(() => {
     api.get(`projects/${projectId}`).then((response) => {
       setProject(response.data);
     });
   }, [projectId]);
-
-  useEffect(() => {}, [props.streams.streamprocessors]);
 
   const createGroup = (name) => {
     let index = groups.length;
