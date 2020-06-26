@@ -46,22 +46,20 @@ const SortableList = SortableContainer(
   }
 );
 
-export const GroupCard = ({
-  streams,
-  group,
-  groups,
-  allItems,
-  setAllItems,
-}) => {
+export const GroupCard = ({ group, groups, allItems, setAllItems }) => {
+  const [currentStreams, setCurrentStreams] = useState([]);
+
+  useEffect(() => {
+    const currentGroup = allItems.find((item) => item.value === group);
+    setCurrentStreams(currentGroup.streams);
+  }, [allItems]);
+
   const updateItems = (groupList) => {
     const index = allItems.map((item) => item.value).indexOf(group);
     allItems[index].streams = groupList;
+    setCurrentStreams(groupList);
     setAllItems(allItems);
   };
-
-  useEffect(() => {
-    setAllItems(allItems);
-  }, [allItems]);
 
   return (
     <div className="group__card drag_card_container">
@@ -74,30 +72,32 @@ export const GroupCard = ({
         />
       </h2>
       <div className="card__body">
-        {streams.length > 0 && (
+        {currentStreams.length > 0 && (
           <div className="card__body_header">
             <span>Running Streams</span>
             <div className="right">
-              {streams.length}{" "}
+              {currentStreams.length}{" "}
               <img src={GroupChildsSVG} className="green" alt="Child Count" />
             </div>
           </div>
         )}
 
         <ReactSortable
-          list={streams}
+          list={currentStreams}
           setList={(list) => updateItems(list)}
           className="group__card_content"
           group={{
             name: group,
             pull: true,
-            put: ["root", ...groups],
+            put: (_, __, element) => {
+              return !element.id.includes("group");
+            },
           }}
           animation="150"
           fallbackOnBody
-          swapThreshold="0.65"
+          swapThreshold={0.65}
         >
-          {streams.map((item) => {
+          {currentStreams.map((item) => {
             return (
               <div className="tile-content" key={item.id}>
                 {item.value.display_name} <img src={PlayIconSVG} alt="Play" />
@@ -192,7 +192,7 @@ function ManageStream(props) {
             const isGroup = !!allGroups[item.value];
             if (isGroup) {
               return (
-                <div key={item.id}>
+                <div key={item.id} id={`group-${item.id}`}>
                   <GroupCard
                     streams={item.streams}
                     group={item.value}
