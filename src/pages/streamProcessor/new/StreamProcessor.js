@@ -8,104 +8,102 @@ import { connect } from "react-redux";
 import {
   getSchemas,
   getStepType,
+  getStreamProcessor,
   getStreams,
   newStreamProcessor,
+  createStreamProcessor,
+  saveStreamProcessor,
 } from "../../../store/streamProcessor/action";
 import { useFormik } from "formik";
-import { setValueStep } from "../../../store/streamProcessor/setValueStep";
+import { useHistory } from "react-router-dom";
 
 const StreamProcessor = (props) => {
-  const [isNew, setIsNew] = useState(true);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [inputValues, setInputValues] = useState({
-    processorName: "Customer Value Examination",
-    processorNum: 1,
-    processorDesc: "",
-  });
+  let history = useHistory();
 
-  const { schemas } = props.itemsStepTypes;
+  const [isModalVisible, setModalVisible] = useState(false);
+
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
-  // const setStreamsSteps = (arr) => {
-  //     props.setSteps(arr)
-  // };
-  // const handleChange = event => {
-  //     const {name, value} = event.target;
-  //     setInputValues({...inputValues, [name]: value});
-  // };
+  const isNew = !props.match.params.processor_id;
 
   const hideModal = () => {
     setModalVisible(false);
   };
   const { stepsStreamProcessor } = props.itemsStepTypes;
-  useEffect(() => {
-    if (stepsStreamProcessor.length <= 0) {
-      return false;
-    }
-  }, []);
 
+  const projectId = props.match.params.id;
+  const processorId = props.match.params.processor_id;
   useEffect(() => {
     props.getStepType();
-    props.getSchemas(1);
-    props.getStreams(1);
-
+    props.getSchemas(projectId);
+    // props.getSchemas(2);
+    props.getStreams(projectId);
+    // props.getStreams(2);
     if (isNew) {
       props.newStreamProcessor();
-      setIsNew(false);
+    } else {
+      props.getStreamProcessor(processorId);
     }
   }, []);
-
+  console.log("history", history);
   let { values, setFieldValue, handleSubmit, handleChange } = useFormik({
     enableReinitialize: true,
     initialValues: {
-      processorName: "",
-      processorNum: "1",
-      processorDesc: "",
+      name: "",
+      replicas: "1",
+      description: "",
+      project: 2,
       items: stepsStreamProcessor.map((el, i) => {
-        const includesKey = Object.keys(el);
-        let initialObj = {};
-        includesKey.forEach((elem) => {
-          const obj = { name: elem, value: el[elem] };
-          return (initialObj = setValueStep(obj));
-        });
-        return initialObj;
+        return { ...el };
       }),
     },
     onSubmit: (values) => {
-      alert("in work");
+      if (isNew) {
+        props.createStreamProcessor(values);
+        history.push(`/projects/${projectId}/streamprocessors`);
+      } else {
+        props.saveStreamProcessor(values);
+        history.push(`/projects/${projectId}/streamprocessors`);
+      }
     },
   });
+  // console.log('values STREAM - PROCESSOR', values)
+  const title = isNew ? (
+    <h2 className="dashboard__header">New Stream Processor</h2>
+  ) : (
+    <h2 className="dashboard__header">Edit Stream Processor</h2>
+  );
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="wrapper">
-        <h2 className="dashboard__header">New Stream Processor</h2>
+        {title}
         <div className="row">
           <div style={{ width: "50%" }}>
             <input
               type="text"
-              name="processorName"
+              name="name"
               placeholder="Stream Processor Name"
-              value={values.processorName}
+              value={values.name}
               onChange={handleChange}
             />
             <input
               type="text"
-              name="processorNum"
+              name="replicas"
               style={{ marginTop: "1%" }}
-              value={values.processorNum}
+              value={values.replicas}
               onChange={handleChange}
             />
           </div>
           <textarea
             type="text"
-            name="processorDesc"
+            name="description"
             placeholder="Stream Processor Description"
             className="step"
             style={{ width: "48%", marginLeft: "1%" }}
-            value={values.processorDesc}
+            value={values.description}
             onChange={handleChange}
           />
         </div>
@@ -164,5 +162,13 @@ export default connect(
       itemsStepTypes: state.StreamProcessorReducer,
     };
   },
-  { getStepType, newStreamProcessor, getSchemas, getStreams }
+  {
+    getStepType,
+    newStreamProcessor,
+    getSchemas,
+    getStreams,
+    createStreamProcessor,
+    getStreamProcessor,
+    saveStreamProcessor,
+  }
 )(StreamProcessor);

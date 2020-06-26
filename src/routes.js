@@ -61,6 +61,12 @@ class Routes extends Component {
                 path="/projects/:id/streamprocessors/new"
                 component={NewStreamProcessor}
               />
+              # Access From React - Stream Processors Edit Page
+              <Route
+                exact
+                path="/projects/:id/streamprocessors/:processor_id/edit"
+                component={NewStreamProcessor}
+              />
             </Switch>
           </AppLayout>
         </BrowserRouter>

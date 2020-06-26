@@ -19,7 +19,10 @@ export default function StreamProcessorReducer(state = initialState, action) {
       const newStep = setValueStep(action.data);
       steps.push(newStep);
       steps.forEach((el, i) => {
-        if (el.name === "Outbound Event") {
+        console.log("EL OUT", el);
+        // const a = el.name('+')[0];
+
+        if (el.steptype.includes("outbound")) {
           steps.push(...steps.splice(i, 1));
         }
       });
@@ -46,6 +49,9 @@ export default function StreamProcessorReducer(state = initialState, action) {
 
     case CONSTANTS.STREAMS.GET_SCHEMAS:
       return { ...state, schemas: action.data };
+
+    case CONSTANTS.STREAMS.GET_STREAM_PROCESSOR:
+      return { ...state, stepsStreamProcessor: action.data };
 
     // case CONSTANTS.STREAMS.SET_STEP:
     //   const setStep = state.stepsStreamProcessor
