@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { GroupCard, SimulationValueCard } from "../../../components";
 import "./style.scss";
 import { connect } from "react-redux";
 import { getSimulations } from "../../../store/actions/serviceAction";
