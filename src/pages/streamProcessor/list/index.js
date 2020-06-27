@@ -4,72 +4,85 @@ import "./style.scss";
 import { connect } from "react-redux";
 import EmptyStreamProcessorSVG from "../../../assets/empty-streamprocessor.svg";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
-import CardBoardLayout from "../../../components/layouts/card-board.layout";
 import { getStreamProcessorsList } from "../../../store/streamProcessor/action";
 import api from "../../../api";
+import { getMapped } from "../../stream/home";
+import GroupView from "../../GroupView";
+import Sortable from "../../Sortable";
 
 function ManageStreamProcessor(props) {
-  const [streams, setStreams] = useState({});
-  const [groups, setGroups] = useState([]);
+  const [streamProcessors, setStreamProcessors] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
+
+  const [allGroups, setAllGroups] = useState({
+    base: [],
+  });
+  const [allItems, setAllItems] = useState([]);
+  const [openGroup, setOpenGroup] = useState();
+
   const [project, setProject] = useState({});
   const projectId = props.match.params.id;
-  // const projectId = 3;
 
   useEffect(() => {
     props.getStreamProcessorsList(projectId);
-    setStreams(props.streams.streamprocessors);
-  }, [streams]);
+  }, [projectId]);
+
   useEffect(() => {
     api.get(`projects/${projectId}`).then((response) => {
       setProject(response.data);
     });
   }, [projectId]);
 
+  useEffect(() => {
+    if (props.streamProcessors) {
+      const streamProcessors = props.streamProcessors;
+
+      const newState = {
+        base: streamProcessors,
+      };
+
+      const mapped = getMapped(newState, "streamprocessors");
+      setAllGroups(newState);
+      setAllItems(mapped);
+      setStreamProcessors(props.streamProcessors);
+    }
+  }, [props.streamProcessors]);
+
+  useEffect(() => {
+    const mapped = getMapped(allGroups, "streamprocessors");
+    setAllItems(mapped);
+  }, [allGroups]);
+
   const createGroup = (name) => {
-    let index = groups.length;
-    groups.push({
-      id: index + 1,
-      name,
-      type: "group",
-      childs: [],
-    });
-    setGroups(groups);
+    setAllGroups({ ...allGroups, [name]: [] });
     setVisibleModal(false);
   };
 
-  if (!props.streams.streamprocessors) {
-    return false;
+  if (openGroup) {
+    return (
+      <GroupView
+        name={openGroup.name}
+        items={openGroup.streamprocessors}
+        setOpenGroup={setOpenGroup}
+        ItemComponent={StreamProcessorValueCard}
+      />
+    );
   }
 
-  const isStreams = props.streams.streamprocessors.length > 0;
+  const isStreams = streamProcessors.length > 0;
   return (
     <div className="wrapper">
       <h2 className="project-name">{project.name}</h2>
 
       <h2 className="dashboard__header">Manage Stream Processors</h2>
-
-      <div className="rowContent">
-        {/*{groups.map((group, index) => (*/}
-        {/*    <GroupCard key={`group-${index}`} item={group}/>*/}
-        {/*))}*/}
-        {props.streams.streamprocessors.map((item) => (
-          <div style={{ margin: 20 }}>
-            <StreamProcessorValueCard
-              post={item}
-              itemIdx={item.id}
-              key={item.id}
-            />
-          </div>
-        ))}
-
-        {
-          <CardBoardLayout
-            id="manage-stream-processor-board"
-            items={groups.concat(streams)}
-          />
-        }
-      </div>
+      <Sortable
+        allItems={allItems}
+        setAllItems={setAllItems}
+        allGroups={allGroups}
+        setOpenGroup={setOpenGroup}
+        type={"streamprocessors"}
+        ItemComponent={StreamProcessorValueCard}
+      />
       {!isStreams && (
         <div className="empty">
           <span className="empty__text">
@@ -117,7 +130,7 @@ function ManageStreamProcessor(props) {
 export default connect(
   (state) => {
     return {
-      streams: state.ServiceReducer,
+      streamProcessors: state.ServiceReducer.streamprocessors,
     };
   },
   { getStreamProcessorsList }

@@ -2,8 +2,9 @@ import React from "react";
 import ReplicaInfo from "../managestream/ReplicaInfo";
 import { notification } from "antd";
 import api from "../../api";
+import DragIcon from "../../assets/drag-icon.svg";
 
-const StreamProcessorValueCard = ({ post: item }) => {
+const StreamProcessorValueCard = ({ post: item, isDragging }) => {
   const handleAction = (action) => {
     return api.post(`streamprocessor_action/${action}`, {
       project_id: item.project && item.project.id,
@@ -43,14 +44,21 @@ const StreamProcessorValueCard = ({ post: item }) => {
   };
   return (
     <div className="Valuecard">
-      <h2 className="valueHeader">{item.name}</h2>
-      <ReplicaInfo
-        eventId={item.id}
-        projectId={item.project && item.project.id}
-        userId={item.owning_user && item.owning_user.id}
-        requestedReplicas={item.replicas}
-        eventType={"streamprocessor"}
-      />
+      <h2 className="valueHeader handle">{item.name}</h2>
+      <div className="cardBody">
+        {isDragging && (
+          <div className="stream__dragging">
+            <img src={DragIcon} alt="" />
+          </div>
+        )}
+        <ReplicaInfo
+          eventId={item.id}
+          projectId={item.project && item.project.id}
+          userId={item.owning_user && item.owning_user.id}
+          requestedReplicas={item.replicas}
+          eventType={"streamprocessor"}
+        />
+      </div>
       <div className="cardFooter">
         <a
           href={`/projects/${
