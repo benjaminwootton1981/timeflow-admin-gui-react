@@ -1,10 +1,5 @@
 import React from "react";
 import "./style.scss";
-import Tab from "@material-ui/core/Tab";
-import Tabs from "@material-ui/core/Tabs";
-import AppBar from "@material-ui/core/AppBar";
-
-import { TabPanel } from "../../../components/common";
 import MonitorContent from "./MonitorContent";
 
 function a11yProps(index) {

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { GroupCard, StreamProcessorValueCard } from "../../../components";
+import React, { useEffect, useState } from "react";
+import { StreamProcessorValueCard } from "../../../components";
 import "./style.scss";
 import { connect } from "react-redux";
 import EmptyStreamProcessorSVG from "../../../assets/empty-streamprocessor.svg";

@@ -6,14 +6,14 @@ import Step from "../../../components/streamProcessor/Step";
 import SchemaBlock from "../../../components/streamProcessor/SchemsBlock";
 import { connect } from "react-redux";
 import {
+  createStreamProcessor,
   getSchemas,
   getStepType,
   getStreamProcessor,
+  getStreamProcessorsList,
   getStreams,
   newStreamProcessor,
-  createStreamProcessor,
   saveStreamProcessor,
-  getStreamProcessorsList,
 } from "../../../store/streamProcessor/action";
 import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";

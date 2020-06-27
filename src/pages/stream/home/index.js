@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { StreamValueCard } from "../../../components";
 import { getStreams } from "../../../store/actions/serviceAction";
@@ -7,8 +7,6 @@ import EmptyStreamsSVG from "../../../assets/empty-streams.svg";
 import "./style.scss";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
 import { omit } from "lodash";
-import { ReactSortable } from "react-sortablejs";
-import GroupCard from "../../GroupCard";
 import GroupView from "../../GroupView";
 import Sortable from "../../Sortable";
 
