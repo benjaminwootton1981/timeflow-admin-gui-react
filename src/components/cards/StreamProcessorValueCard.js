@@ -53,8 +53,8 @@ const StreamProcessorValueCard = ({ post: item, isDragging }) => {
         )}
         <ReplicaInfo
           eventId={item.id}
-          projectId={item.project && item.project.id}
-          userId={item.owning_user && item.owning_user.id}
+          projectId={item.project?.id}
+          userId={item.owning_user?.id}
           requestedReplicas={item.replicas}
           eventType={"streamprocessor"}
         />
