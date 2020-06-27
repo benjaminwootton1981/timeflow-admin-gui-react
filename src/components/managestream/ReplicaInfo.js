@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import io from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
@@ -48,36 +48,34 @@ const ReplicaInfo = ({
   }, [projectId, eventId, userId, eventType, websocketServer]);
 
   return (
-    <div>
-      <div className="cardBody">
-        <div className="grid">
-          <div className="cardItem smallItem">
-            <span className="cardInput" data-header="Requested Replicas">
-              {requestedReplicas}
-            </span>
-          </div>
-          <div className="cardItem smallItem">
-            <span className="cardInput" data-header="Actual Replicas">
-              {replicas}
-            </span>
-          </div>
+    <Fragment>
+      <div className="grid">
+        <div className="cardItem smallItem">
+          <span className="cardInput" data-header="Requested Replicas">
+            {requestedReplicas}
+          </span>
         </div>
-        <span
-          className={classNames("cardInput", {
-            greenOutline: requestedReplicas === replicas,
-            blueOutline: replicas === 0,
-            redOutline: requestedReplicas !== replicas,
-          })}
-          data-header="Status"
-        >
-          {requestedReplicas === replicas
-            ? "Healthy"
-            : replicas !== requestedReplicas
-            ? "Unhealthy"
-            : "Not deployed"}
-        </span>
+        <div className="cardItem smallItem">
+          <span className="cardInput" data-header="Actual Replicas">
+            {replicas}
+          </span>
+        </div>
       </div>
-    </div>
+      <span
+        className={classNames("cardInput", {
+          greenOutline: requestedReplicas === replicas,
+          blueOutline: replicas === 0,
+          redOutline: requestedReplicas !== replicas,
+        })}
+        data-header="Status"
+      >
+        {requestedReplicas === replicas
+          ? "Healthy"
+          : replicas !== requestedReplicas
+          ? "Unhealthy"
+          : "Not deployed"}
+      </span>
+    </Fragment>
   );
 };
 
