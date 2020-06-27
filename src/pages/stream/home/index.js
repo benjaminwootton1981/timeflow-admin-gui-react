@@ -11,6 +11,23 @@ import { ReactSortable } from "react-sortablejs";
 import GroupCard from "../GroupCard";
 import GroupView from "../GroupView";
 
+export const getMapped = (allGroups) => {
+  const groups = Object.keys(omit(allGroups, "base"));
+  const mapped = [];
+  allGroups.base.concat(groups).forEach((value, index) => {
+    mapped.push({
+      id: value.id || value,
+      value,
+      streams: allGroups[value]?.map((value, index) => ({
+        id: value.id,
+        value,
+      })),
+    });
+  });
+
+  return mapped;
+};
+
 function ManageStream(props) {
   const [streams, setStreams] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
@@ -22,41 +39,15 @@ function ManageStream(props) {
   const [openGroup, setOpenGroup] = useState();
   const projectId = props.match.params.id;
 
-  const getMapped = useCallback((allGroups) => {
-    const groups = Object.keys(omit(allGroups, "base"));
-    const mapped = [];
-    allGroups.base.concat(groups).forEach((value, index) => {
-      mapped.push({
-        id: value.id || value,
-        value,
-        streams: allGroups[value]?.map((value, index) => ({
-          id: value.id,
-          value,
-        })),
-      });
-    });
-
-    return mapped;
-  }, []);
-
   useEffect(() => {
     props.onGetStreams(projectId);
   }, [projectId]);
 
   useEffect(() => {
-    const addType = (stream) => {
-      stream.type = "stream";
-      return stream;
-    };
-
     if (props.streams) {
-      const orgStreams = props.streams
-        .filter((stream) => stream.share)
-        .map(addType);
+      const orgStreams = props.streams?.filter((stream) => stream.share);
 
-      const streams = props.streams
-        .filter((stream) => !stream.share)
-        .map(addType);
+      const streams = props.streams?.filter((stream) => !stream.share);
 
       const newState = {
         base: streams,
