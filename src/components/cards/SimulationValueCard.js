@@ -7,7 +7,7 @@ import DragIcon from "../../assets/drag-icon.svg";
 const SimulationValueCard = ({ post: item, isDragging }) => {
   const handleAction = (action) => {
     return api.post(`simulation_action/${action}`, {
-      project_id: item.project && item.project.id,
+      project_id: item.project?.id,
       simulation_id: item.id,
     });
   };
