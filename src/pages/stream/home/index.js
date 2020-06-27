@@ -13,7 +13,7 @@ import { ReactSortable } from "react-sortablejs";
 import PlayIconSVG from "../../../assets/play_icon.svg";
 import classNames from "classnames";
 
-export const GroupCard = ({ group, allItems, setAllItems }) => {
+export const GroupCard = ({ group, allItems, setAllItems, setOpenGroup }) => {
   const [currentStreams, setCurrentStreams] = useState([]);
 
   useEffect(() => {
@@ -36,6 +36,7 @@ export const GroupCard = ({ group, allItems, setAllItems }) => {
           src={DragDropSelect}
           className="card__header-right"
           alt="Drag Drop Select"
+          onClick={() => setOpenGroup({ name: group, streams: currentStreams })}
         />
       </h2>
       <div className="card__body">
@@ -79,6 +80,47 @@ export const GroupCard = ({ group, allItems, setAllItems }) => {
   );
 };
 
+const GroupView = ({ name, streams, setOpenGroup }) => {
+  const [currentStreams, setCurrentStreams] = useState([]);
+  useEffect(() => {
+    setCurrentStreams(streams);
+  }, [streams]);
+  return (
+    <div className="wrapper group">
+      <h2 className="project-name">Manage Streams</h2>
+      <h2 className="dashboard__header">{name}</h2>
+      <div className="group__toggles">
+        <button
+          className={"btn create__group"}
+          onClick={() => setOpenGroup(undefined)}
+        >
+          Go back
+        </button>
+      </div>
+      <ReactSortable
+        list={currentStreams}
+        setList={setCurrentStreams}
+        className={"streams"}
+        animation={200}
+        ghostClass="sortable-ghost"
+        group={{ name: "root", put: true, pull: true }}
+        handle=".handle"
+        swapThreshold={0.5}
+      >
+        {currentStreams.map((stream) => {
+          return (
+            <StreamValueCard
+              post={stream.value}
+              key={stream.value.id}
+              isDragging={stream.chosen}
+            />
+          );
+        })}
+      </ReactSortable>
+    </div>
+  );
+};
+
 function ManageStream(props) {
   const [streams, setStreams] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
@@ -87,6 +129,7 @@ function ManageStream(props) {
   });
 
   const [allItems, setAllItems] = useState([]);
+  const [openGroup, setOpenGroup] = useState();
   const projectId = props.match.params.id;
 
   const getMapped = useCallback((allGroups) => {
@@ -150,6 +193,16 @@ function ManageStream(props) {
     setVisibleModal(false);
   };
 
+  if (openGroup) {
+    return (
+      <GroupView
+        name={openGroup.name}
+        streams={openGroup.streams}
+        setOpenGroup={setOpenGroup}
+      />
+    );
+  }
+
   return (
     props.streams && (
       <div className="wrapper">
@@ -177,6 +230,7 @@ function ManageStream(props) {
                     setAllGroups={setAllGroups}
                     allItems={allItems}
                     setAllItems={setAllItems}
+                    setOpenGroup={setOpenGroup}
                   />
                 </div>
               );
