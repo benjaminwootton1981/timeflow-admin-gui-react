@@ -7,6 +7,7 @@ import CreateGroupModal from "../../../modals/CreateGroupModal";
 import { getMapped } from "../../stream/home";
 import SimulationValueCard from "../../../components/cards/SimulationValueCard";
 import Sortable from "../../Sortable";
+import GroupView from "../../GroupView";
 
 function ManageSimulation(props) {
   const [simulations, setSimulations] = useState([]);
@@ -47,6 +48,17 @@ function ManageSimulation(props) {
     setAllGroups({ ...allGroups, [name]: [] });
     setVisibleModal(false);
   };
+
+  if (openGroup) {
+    return (
+      <GroupView
+        name={openGroup.name}
+        items={openGroup.simulations}
+        setOpenGroup={setOpenGroup}
+        ItemComponent={SimulationValueCard}
+      />
+    );
+  }
 
   return (
     simulations && (

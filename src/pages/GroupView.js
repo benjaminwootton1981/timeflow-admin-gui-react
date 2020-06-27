@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
-import { StreamValueCard } from "../components";
 
-const GroupView = ({ name, streams, setOpenGroup }) => {
-  const [currentStreams, setCurrentStreams] = useState([]);
+const GroupView = ({ name, items, setOpenGroup, ItemComponent }) => {
+  const [currentItems, setCurrentItems] = useState([]);
 
   useEffect(() => {
-    setCurrentStreams(streams);
-  }, [streams]);
+    setCurrentItems(items);
+  }, [items]);
 
   return (
     <div className="wrapper group">
@@ -22,8 +21,8 @@ const GroupView = ({ name, streams, setOpenGroup }) => {
         </button>
       </div>
       <ReactSortable
-        list={currentStreams}
-        setList={setCurrentStreams}
+        list={currentItems}
+        setList={setCurrentItems}
         className={"streams"}
         animation={200}
         ghostClass="sortable-ghost"
@@ -31,9 +30,9 @@ const GroupView = ({ name, streams, setOpenGroup }) => {
         handle=".handle"
         swapThreshold={0.5}
       >
-        {currentStreams.map((stream) => {
+        {currentItems.map((stream) => {
           return (
-            <StreamValueCard
+            <ItemComponent
               post={stream.value}
               key={stream.value.id}
               isDragging={stream.chosen}

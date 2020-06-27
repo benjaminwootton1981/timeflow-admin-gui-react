@@ -11,12 +11,12 @@ const GroupCard = ({ group, allItems, setAllItems, setOpenGroup, type }) => {
 
   useEffect(() => {
     const currentGroup = allItems.find((item) => item.value === group);
-    setCurrentItems(currentGroup.streams);
-  }, [allItems]);
+    setCurrentItems(currentGroup[type]);
+  }, [allItems, type]);
 
   const updateItems = (groupList) => {
     const index = allItems.map((item) => item.value).indexOf(group);
-    allItems[index].streams = groupList;
+    allItems[index][type] = groupList;
     setCurrentItems(groupList);
     setAllItems(allItems);
   };

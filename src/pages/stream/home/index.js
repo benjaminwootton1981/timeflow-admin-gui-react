@@ -79,8 +79,9 @@ function ManageStream(props) {
     return (
       <GroupView
         name={openGroup.name}
-        streams={openGroup.streams}
+        items={openGroup.streams}
         setOpenGroup={setOpenGroup}
+        ItemComponent={StreamValueCard}
       />
     );
   }
