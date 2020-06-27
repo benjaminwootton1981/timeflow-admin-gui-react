@@ -10,7 +10,6 @@ import {
   updateStepTypeRequest,
   updateStreamProcessorInfoRequest,
 } from "../../data-layer/api";
-import { useHistory } from "react-router-dom";
 
 export const getStreamProcessorsList = (project_id) => (dispatch) => {
   getStreamProcessorListRequest(project_id)

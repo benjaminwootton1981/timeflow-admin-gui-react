@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import React from "react";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 
 import DragDropGroup from "../../assets/group_drag_drop.svg";
 import DragDropSelect from "../../assets/group_drag_select.svg";

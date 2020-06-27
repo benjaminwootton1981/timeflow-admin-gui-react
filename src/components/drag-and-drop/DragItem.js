@@ -4,7 +4,7 @@ import {
   StreamProcessorValueCard,
   StreamValueCard,
 } from "../index";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { Draggable } from "react-beautiful-dnd";
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   background: isDragging && "lightblue",

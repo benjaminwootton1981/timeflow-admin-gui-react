@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useDispatch, useStore } from "react-redux";
+import { useDispatch } from "react-redux";
 import { API_URL } from "./config";
 import { CONSTANTS } from "./store/constants";
 import { notification } from "antd";

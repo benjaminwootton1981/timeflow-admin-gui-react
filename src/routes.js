@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, BrowserRouter, withRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch, withRouter } from "react-router-dom";
 import {
   MonitorStreamProcessor,
   NewStreamProcessor,

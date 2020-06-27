@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import ReplicaInfo from "../managestream/ReplicaInfo";
 import api from "../../api";
 import { notification } from "antd";
