@@ -1,39 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { connect } from "react-redux";
 import { getSimulations } from "../../../store/actions/serviceAction";
 import EmptySimultionsSVG from "../../../assets/empty-simulations.svg";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
-import CardBoardLayout from "../../../components/layouts/card-board.layout";
+import { getMapped } from "../../stream/home";
+import SimulationValueCard from "../../../components/cards/SimulationValueCard";
+import Sortable from "../../Sortable";
 
 function ManageSimulation(props) {
   const [simulations, setSimulations] = useState([]);
-  const [groups, setGroups] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
+  const [allGroups, setAllGroups] = useState({
+    base: [],
+  });
+  const [allItems, setAllItems] = useState([]);
+  const [openGroup, setOpenGroup] = useState();
+
+  const projectId = props.match.params.id;
 
   useEffect(() => {
-    props.onGetSimulations(props.match.params.id);
-  }, []);
+    props.onGetSimulations(projectId);
+  }, [projectId]);
 
   useEffect(() => {
-    setSimulations(
-      props.simulations &&
-        props.simulations.map((simulation) => {
-          simulation.type = "simulation";
-          return simulation;
-        })
-    );
+    if (props.simulations) {
+      const simulations = props.simulations;
+
+      const newState = {
+        base: simulations,
+      };
+
+      const mapped = getMapped(newState, "simulations");
+      setAllGroups(newState);
+      setAllItems(mapped);
+      setSimulations(simulations);
+    }
   }, [props.simulations]);
 
+  useEffect(() => {
+    const mapped = getMapped(allGroups, "simulations");
+    setAllItems(mapped);
+  }, [allGroups]);
+
   const createGroup = (name) => {
-    let index = groups.length;
-    groups.push({
-      id: index + 1,
-      name,
-      type: "group",
-      childs: [],
-    });
-    setGroups(groups);
+    setAllGroups({ ...allGroups, [name]: [] });
     setVisibleModal(false);
   };
 
@@ -46,14 +57,14 @@ function ManageSimulation(props) {
             simulations[0].project.name}
         </h2>
         <h2 className="dashboard__header">Manage Simulations</h2>
-        <div className="rowContent">
-          {
-            <CardBoardLayout
-              id="manage-simulation-board"
-              items={groups.concat(simulations)}
-            />
-          }
-        </div>
+        <Sortable
+          allItems={allItems}
+          setAllItems={setAllItems}
+          allGroups={allGroups}
+          setOpenGroup={setOpenGroup}
+          type={"simulations"}
+          ItemComponent={SimulationValueCard}
+        />
         {simulations.length === 0 && (
           <div className="empty">
             <span className="empty__text">No simulations are available.</span>

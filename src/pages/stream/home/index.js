@@ -8,17 +8,18 @@ import "./style.scss";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
 import { omit } from "lodash";
 import { ReactSortable } from "react-sortablejs";
-import GroupCard from "../GroupCard";
-import GroupView from "../GroupView";
+import GroupCard from "../../GroupCard";
+import GroupView from "../../GroupView";
+import Sortable from "../../Sortable";
 
-export const getMapped = (allGroups) => {
+export const getMapped = (allGroups, type) => {
   const groups = Object.keys(omit(allGroups, "base"));
   const mapped = [];
   allGroups.base.concat(groups).forEach((value, index) => {
     mapped.push({
       id: value.id || value,
       value,
-      streams: allGroups[value]?.map((value, index) => ({
+      [type]: allGroups[value]?.map((value, index) => ({
         id: value.id,
         value,
       })),
@@ -45,9 +46,9 @@ function ManageStream(props) {
 
   useEffect(() => {
     if (props.streams) {
-      const orgStreams = props.streams?.filter((stream) => stream.share);
+      const orgStreams = props.streams.filter((stream) => stream.share);
 
-      const streams = props.streams?.filter((stream) => !stream.share);
+      const streams = props.streams.filter((stream) => !stream.share);
 
       const newState = {
         base: streams,
@@ -57,17 +58,17 @@ function ManageStream(props) {
         newState["Organisation Shared Streams"] = orgStreams;
       }
 
-      const mapped = getMapped(newState);
+      const mapped = getMapped(newState, "streams");
       setAllGroups(newState);
       setAllItems(mapped);
       setStreams(streams);
     }
-  }, [props.streams, getMapped]);
+  }, [props.streams]);
 
   useEffect(() => {
-    const mapped = getMapped(allGroups);
+    const mapped = getMapped(allGroups, "streams");
     setAllItems(mapped);
-  }, [allGroups, getMapped]);
+  }, [allGroups]);
 
   const createGroup = (name) => {
     setAllGroups({ ...allGroups, [name]: [] });
@@ -91,39 +92,14 @@ function ManageStream(props) {
           {streams.length > 0 && streams[0].project && streams[0].project.name}
         </h2>
         <h2 className="dashboard__header">Manage Streams</h2>
-        <ReactSortable
-          list={allItems}
-          setList={setAllItems}
-          className={"streams"}
-          animation={200}
-          ghostClass="sortable-ghost"
-          group={{ name: "root", put: true, pull: true }}
-          handle=".handle"
-          swapThreshold={0.5}
-        >
-          {allItems.map((item) => {
-            const isGroup = !!allGroups[item.value];
-            if (isGroup) {
-              return (
-                <div key={item.id} id={`group-${item.id}`}>
-                  <GroupCard
-                    group={item.value}
-                    setAllGroups={setAllGroups}
-                    allItems={allItems}
-                    setAllItems={setAllItems}
-                    setOpenGroup={setOpenGroup}
-                  />
-                </div>
-              );
-            }
-
-            return (
-              <div key={item.id}>
-                <StreamValueCard post={item.value} isDragging={item.chosen} />
-              </div>
-            );
-          })}
-        </ReactSortable>
+        <Sortable
+          allItems={allItems}
+          setAllItems={setAllItems}
+          allGroups={allGroups}
+          setOpenGroup={setOpenGroup}
+          type={"streams"}
+          ItemComponent={StreamValueCard}
+        />
         {props.streams.length === 0 && (
           <div className="empty">
             <span className="empty__text">No streams are available.</span>

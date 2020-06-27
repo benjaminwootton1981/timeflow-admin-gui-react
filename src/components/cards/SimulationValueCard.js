@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import ReplicaInfo from "../managestream/ReplicaInfo";
 import api from "../../api";
 import { notification } from "antd";
+import DragIcon from "../../assets/drag-icon.svg";
 
-const SimulationValueCard = ({ post: item }) => {
+const SimulationValueCard = ({ post: item, isDragging }) => {
   const handleAction = (action) => {
     return api.post(`simulation_action/${action}`, {
       project_id: item.project && item.project.id,
@@ -42,14 +43,21 @@ const SimulationValueCard = ({ post: item }) => {
 
   return (
     <div className="Valuecard">
-      <h2 className="valueHeader">{item.name}</h2>
-      <ReplicaInfo
-        eventId={item.id}
-        projectId={item.project && item.project.id}
-        userId={item.created_by && item.created_by.id}
-        requestedReplicas={item.replicas}
-        eventType={"simulation"}
-      />
+      <h2 className="valueHeader handle">{item.name}</h2>
+      <div className="cardBody">
+        {isDragging && (
+          <div className="stream__dragging">
+            <img src={DragIcon} alt="" />
+          </div>
+        )}
+        <ReplicaInfo
+          eventId={item.id}
+          projectId={item.project && item.project.id}
+          userId={item.created_by && item.created_by.id}
+          requestedReplicas={item.replicas}
+          eventType={"simulation"}
+        />
+      </div>
       <div className="cardFooter">
         <a
           href={`/projects/${item.project && item.project.id}/simulations/${

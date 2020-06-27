@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
-import { StreamValueCard } from "../../components";
+import { StreamValueCard } from "../components";
 
 const GroupView = ({ name, streams, setOpenGroup }) => {
   const [currentStreams, setCurrentStreams] = useState([]);
