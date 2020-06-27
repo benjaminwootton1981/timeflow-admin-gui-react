@@ -5,7 +5,6 @@ import api from "../../api";
 import DragIcon from "../../assets/drag-icon.svg";
 
 const StreamProcessorValueCard = ({ post: item, isDragging }) => {
-  console.log(item);
   const handleAction = (action) => {
     return api.post(`streamprocessor_action/${action}`, {
       project_id: item.project?.id,
