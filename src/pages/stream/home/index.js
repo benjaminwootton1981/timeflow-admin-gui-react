@@ -9,6 +9,7 @@ import CreateGroupModal from "../../../modals/CreateGroupModal";
 import { omit } from "lodash";
 import GroupView from "../../GroupView";
 import Sortable from "../../Sortable";
+import api from "../../../api";
 
 export const getMapped = (allGroups, type) => {
   const groups = Object.keys(omit(allGroups, "base"));
@@ -36,10 +37,18 @@ function ManageStream(props) {
 
   const [allItems, setAllItems] = useState([]);
   const [openGroup, setOpenGroup] = useState();
+
+  const [project, setProject] = useState({});
   const projectId = props.match.params.id;
 
   useEffect(() => {
     props.onGetStreams(projectId);
+  }, [projectId]);
+
+  useEffect(() => {
+    api.get(`projects/${projectId}`).then((response) => {
+      setProject(response.data);
+    });
   }, [projectId]);
 
   useEffect(() => {
@@ -87,9 +96,7 @@ function ManageStream(props) {
   return (
     props.streams && (
       <div className="wrapper">
-        <h2 className="project-name">
-          {streams.length > 0 && streams[0].project && streams[0].project.name}
-        </h2>
+        <h2 className="project-name">{project.name}</h2>
         <h2 className="dashboard__header">Manage Streams</h2>
         <Sortable
           allItems={allItems}

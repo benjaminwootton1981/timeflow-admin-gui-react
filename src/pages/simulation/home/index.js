@@ -8,6 +8,7 @@ import { getMapped } from "../../stream/home";
 import SimulationValueCard from "../../../components/cards/SimulationValueCard";
 import Sortable from "../../Sortable";
 import GroupView from "../../GroupView";
+import api from "../../../api";
 
 function ManageSimulation(props) {
   const [simulations, setSimulations] = useState([]);
@@ -18,10 +19,17 @@ function ManageSimulation(props) {
   const [allItems, setAllItems] = useState([]);
   const [openGroup, setOpenGroup] = useState();
 
+  const [project, setProject] = useState({});
   const projectId = props.match.params.id;
 
   useEffect(() => {
     props.onGetSimulations(projectId);
+  }, [projectId]);
+
+  useEffect(() => {
+    api.get(`projects/${projectId}`).then((response) => {
+      setProject(response.data);
+    });
   }, [projectId]);
 
   useEffect(() => {
@@ -63,11 +71,7 @@ function ManageSimulation(props) {
   return (
     simulations && (
       <div className="wrapper">
-        <h2 className="project-name">
-          {simulations.length > 0 &&
-            simulations[0].project &&
-            simulations[0].project.name}
-        </h2>
+        <h2 className="project-name">{project.name}</h2>
         <h2 className="dashboard__header">Manage Simulations</h2>
         <Sortable
           allItems={allItems}
