@@ -155,6 +155,10 @@ export const orderingStep = (type, stepIndex) => ({
   type: CONSTANTS.STREAMS.ORDERING_STEP,
   data: { type: type, stepIndex: stepIndex },
 });
+export const updateDataStreamProcessor = (localData) => ({
+  type: CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR,
+  data: localData,
+});
 
 export const deleteStep = (name) => ({
   type: CONSTANTS.STREAMS.DELL_NEW_STEP,

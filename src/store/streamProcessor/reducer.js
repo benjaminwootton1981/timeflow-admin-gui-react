@@ -44,6 +44,9 @@ export default function StreamProcessorReducer(state = initialState, action) {
     case CONSTANTS.STREAMS.GET_STREAM_PROCESSOR:
       return { ...state, stepsStreamProcessor: action.data };
 
+    case CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR:
+      return { ...state, stepsStreamProcessor: action.data };
+
     case CONSTANTS.STREAMS.ORDERING_STEP:
       let allSteps = [...state.stepsStreamProcessor];
 
