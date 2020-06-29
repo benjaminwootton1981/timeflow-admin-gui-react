@@ -7,7 +7,7 @@ import DragIcon from "../../assets/drag-icon.svg";
 const StreamProcessorValueCard = ({ post: item, isDragging }) => {
   const handleAction = (action) => {
     return api.post(`streamprocessor_action/${action}`, {
-      project_id: item.project?.id,
+      project_id: item.project?.id || item.project,
       streamprocessor_id: item.id,
     });
   };
@@ -53,8 +53,8 @@ const StreamProcessorValueCard = ({ post: item, isDragging }) => {
         )}
         <ReplicaInfo
           eventId={item.id}
-          projectId={item.project?.id}
-          userId={item.owning_user?.id}
+          projectId={item.project?.id || item.project}
+          userId={item.owning_user?.id || item.owning_user}
           requestedReplicas={item.replicas}
           eventType={"streamprocessor"}
         />
