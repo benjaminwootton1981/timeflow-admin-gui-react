@@ -55,8 +55,11 @@ const StreamProcessor = (props) => {
       props.getStreamProcessor(processorId);
     }
   }, []);
-  console.log("props.streams.streamprocessors", props.streams.streamprocessors);
 
+  // useEffect(() => {
+  // }, [stepsStreamProcessor]);
+  //
+  console.log("stepsStreamProcessor", stepsStreamProcessor);
   if (!isNew && props.streams.streamprocessors !== null) {
     defaultInfoProject = props.streams.streamprocessors.filter(
       (item) => item.id === +processorId
@@ -90,6 +93,7 @@ const StreamProcessor = (props) => {
     }
   }, [values]);
 
+  console.log("values STREAM - PROCESSOR", values);
   if (!defaultInfoProject) {
     return false;
   }
