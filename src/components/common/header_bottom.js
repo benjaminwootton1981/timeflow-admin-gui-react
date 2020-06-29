@@ -3,10 +3,15 @@ import React from "react";
 import MenuAvatarSVG from "../../assets/design/submenu/menu_avatar.svg";
 import MenuLogOutSVG from "../../assets/design/submenu/menu_icon_logout.svg";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 
 export default function BottomHeader() {
   const currentUser = useSelector((state) => state.currentUser);
   const config = useSelector((state) => state.config);
+  const history = useHistory();
+  const currentPath = history.location.pathname;
+  const projectId = currentPath.match("[0-9]+")?.[0];
+
   return (
     <div className="header__bottom">
       <div className="user">
@@ -21,7 +26,7 @@ export default function BottomHeader() {
           <li className="second-nav__item">
             <a
               className="second-nav__link"
-              href="/projects/TODO_ADD_ME/streamprocessors/all-logs/"
+              href={`/projects/${projectId}/streamprocessors/all-logs/`}
             >
               All Logs
             </a>
