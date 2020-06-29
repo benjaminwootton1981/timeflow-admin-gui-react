@@ -46,9 +46,7 @@ const StreamProcessor = (props) => {
     props.getStreamProcessorsList(projectId);
     props.getStepType();
     props.getSchemas(projectId);
-    // props.getSchemas(3);
     props.getStreams(projectId);
-    // props.getStreams(3);
 
     if (isNew) {
       props.newStreamProcessor();
@@ -57,6 +55,10 @@ const StreamProcessor = (props) => {
     }
   }, []);
 
+  // useEffect(() => {
+  // }, [stepsStreamProcessor]);
+  //
+  console.log("stepsStreamProcessor", stepsStreamProcessor);
   if (!isNew && props.streams.streamprocessors !== null) {
     defaultInfoProject = props.streams.streamprocessors.filter(
       (item) => item.id === +processorId
@@ -85,11 +87,7 @@ const StreamProcessor = (props) => {
     },
   });
 
-  if (!defaultInfoProject) {
-    return false;
-  }
-
-  // console.log('values STREAM - PROCESSOR', values)
+  console.log("values STREAM - PROCESSOR", values);
   if (!defaultInfoProject) {
     return false;
   }
@@ -132,11 +130,12 @@ const StreamProcessor = (props) => {
         </div>
         <div className="marginTop-20 streamProcessorCardContainer">
           <div className="new-item__body">
-            {stepsStreamProcessor.map((el, i, arr) => {
+            {values.items.map((el, i, arr) => {
               const isSchemaBlock = arr.length - 1 === i;
               const items = {
                 stepIndex: i,
                 lastStep: arr.length - 1,
+                isLastStep: arr.length - 1 === i,
                 stepEl: el,
               };
               const schemas = props.itemsStepTypes.schemas;

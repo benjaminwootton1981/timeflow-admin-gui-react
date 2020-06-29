@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { deleteStep, getStreams } from "../../store/streamProcessor/action";
+import {
+  deleteStep,
+  getStreams,
+  orderingStep,
+} from "../../store/streamProcessor/action";
 import InputTypeBlock from "./itemsStep/InputTypeBlock";
 import InputTypeSelect from "./itemsStep/InputTypeSelect";
 
 const Step = (props) => {
   const { stepData, streams } = props.itemsStepTypes;
   const { items } = props;
-  const { stepEl, stepIndex, lastStep } = items;
+  const { stepEl, stepIndex, lastStep, isLastStep } = items;
   const { step_types, step_types_data } = stepData;
 
   const [fieldsKey, setFieldsKey] = useState(stepEl.steptype);
@@ -40,18 +44,16 @@ const Step = (props) => {
   let choicesFirstSelect = [];
   const isFirst = stepIndex === 0;
   if (stepIndex === 0) {
-    choicesFirstSelect = step_types.filter(
-      (el) => el.name.split(" ")[0] === "Inbound"
+    choicesFirstSelect = step_types.filter((el) =>
+      el.value.includes("inbound")
     );
   } else if (stepIndex === lastStep) {
-    choicesFirstSelect = step_types.filter(
-      (el) => el.name.split(" ")[0] === "Outbound"
+    choicesFirstSelect = step_types.filter((el) =>
+      el.value.includes("outbound")
     );
   } else {
     choicesFirstSelect = step_types.filter(
-      (el) =>
-        el.name.split(" ")[0] !== "Inbound" &&
-        el.name.split(" ")[0] !== "Outbound"
+      (el) => !el.value.includes("inbound") && !el.value.includes("outbound")
     );
   }
   return (
@@ -138,7 +140,7 @@ const Step = (props) => {
               </div>
             </div>
           </td>
-          <td>
+          <td style={{ maxWidth: 250 }} className="new-item__actions">
             <input
               type="hidden"
               name="ordering_new_0"
@@ -146,13 +148,33 @@ const Step = (props) => {
               className="ordering_new"
             />
             {!isFirst && (
-              <button
-                type={"button"}
-                onClick={() => props.deleteStep(stepIndex)}
-                className="card-btn card-btn--delete js-delete"
-              >
-                Delete
-              </button>
+              <>
+                {!isLastStep && (
+                  <>
+                    <button
+                      type={"button"}
+                      onClick={() => props.orderingStep("down", stepIndex)}
+                      className="card-action arrow-bot js-down"
+                    >
+                      {""}
+                    </button>
+                    <button
+                      type={"button"}
+                      onClick={() => props.orderingStep("up", stepIndex)}
+                      className="card-action arrow-top js-up"
+                    >
+                      {""}
+                    </button>
+                  </>
+                )}
+                <button
+                  type={"button"}
+                  onClick={() => props.deleteStep(stepIndex)}
+                  className="card-btn card-btn--delete js-delete"
+                >
+                  Delete
+                </button>
+              </>
             )}
           </td>
         </tr>
@@ -166,5 +188,5 @@ export default connect(
       itemsStepTypes: state.StreamProcessorReducer,
     };
   },
-  { deleteStep, getStreams }
+  { deleteStep, getStreams, orderingStep }
 )(Step);

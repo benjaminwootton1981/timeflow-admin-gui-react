@@ -44,18 +44,24 @@ export default function StreamProcessorReducer(state = initialState, action) {
     case CONSTANTS.STREAMS.GET_STREAM_PROCESSOR:
       return { ...state, stepsStreamProcessor: action.data };
 
-    // case CONSTANTS.STREAMS.SET_STEP:
-    //   const setStep = state.stepsStreamProcessor
-    //     .slice(0, action.index)
-    //     .concat([
-    //       {
-    //         ...state.stepsStreamProcessor[action.data.index],
-    //         notes: action.notes,
-    //       },
-    //     ])
-    //     .concat(state.stepsStreamProcessor.slice(action.data.index + 1));
-    //
-    //   return { ...state, setStepsStreamProcessor: action.data.step };
+    case CONSTANTS.STREAMS.ORDERING_STEP:
+      let allSteps = [...state.stepsStreamProcessor];
+
+      const { type, stepIndex } = action.data;
+      const lastStep = state.stepsStreamProcessor.length - 1;
+      const firstStep = 0;
+      const typeOperator = type === "up" ? stepIndex - 1 : stepIndex + 1;
+
+      const swap = (arr, a, b) => {
+        arr[a] = arr.splice(b, 1, arr[a])[0];
+        allSteps = arr;
+      };
+
+      if (typeOperator !== lastStep && typeOperator !== firstStep) {
+        swap(allSteps, stepIndex, typeOperator);
+      }
+
+      return { ...state, stepsStreamProcessor: allSteps };
 
     case CONSTANTS.STREAMS.CREATE_NEW_STREAM:
       return {
@@ -170,7 +176,7 @@ export default function StreamProcessorReducer(state = initialState, action) {
             sum_fields: "",
             steptype: "outbound",
             ordering: 5,
-            topic: "1_1_asdasdasd",
+            topic: "",
             field: null,
             value: null,
             event_field_name: null,
@@ -228,7 +234,7 @@ export default function StreamProcessorReducer(state = initialState, action) {
             rght: 2,
             tree_id: 5,
             mptt_level: 0,
-            streamprocessor: 1,
+            streamprocessor: null,
             parent: null,
           },
         ],

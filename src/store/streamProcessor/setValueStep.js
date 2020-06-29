@@ -1,10 +1,9 @@
-// import { def } from "./defaultData";
-
 import { def } from "./defaultData";
 
 export const setValueStep = (data) => {
   const { name, value } = data;
-  const container = Object.assign(def, {});
+  const defObj = { ...def };
+  const container = Object.assign(defObj, {});
   container[name] = value;
   return container;
 };

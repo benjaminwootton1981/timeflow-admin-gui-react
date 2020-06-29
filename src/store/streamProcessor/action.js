@@ -148,10 +148,10 @@ export const setSchemasId = (name) => ({
   data: name,
 });
 
-// export const setSteps = (step, stepIndex) => ({
-//   type: CONSTANTS.STREAMS.SET_STEP,
-//   data: { step: step, stepIndex: stepIndex },
-// });
+export const orderingStep = (type, stepIndex) => ({
+  type: CONSTANTS.STREAMS.ORDERING_STEP,
+  data: { type: type, stepIndex: stepIndex },
+});
 
 export const deleteStep = (name) => ({
   type: CONSTANTS.STREAMS.DELL_NEW_STEP,
