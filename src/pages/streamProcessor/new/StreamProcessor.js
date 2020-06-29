@@ -14,6 +14,8 @@ import {
   getStreams,
   newStreamProcessor,
   saveStreamProcessor,
+  updateDataStreamProcessor,
+  updateStreamProcessors,
 } from "../../../store/streamProcessor/action";
 import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
@@ -55,10 +57,6 @@ const StreamProcessor = (props) => {
     }
   }, []);
 
-  // useEffect(() => {
-  // }, [stepsStreamProcessor]);
-  //
-  console.log("stepsStreamProcessor", stepsStreamProcessor);
   if (!isNew && props.streams.streamprocessors !== null) {
     defaultInfoProject = props.streams.streamprocessors.filter(
       (item) => item.id === +processorId
@@ -86,8 +84,12 @@ const StreamProcessor = (props) => {
       }
     },
   });
+  useEffect(() => {
+    if (JSON.stringify(stepsStreamProcessor) !== JSON.stringify(values.items)) {
+      props.updateDataStreamProcessor(values.items);
+    }
+  }, [values]);
 
-  console.log("values STREAM - PROCESSOR", values);
   if (!defaultInfoProject) {
     return false;
   }
@@ -199,5 +201,6 @@ export default connect(
     getStreamProcessor,
     saveStreamProcessor,
     getStreamProcessorsList,
+    updateDataStreamProcessor,
   }
 )(StreamProcessor);
