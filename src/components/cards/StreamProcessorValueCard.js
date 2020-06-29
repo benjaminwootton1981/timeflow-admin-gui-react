@@ -62,7 +62,7 @@ const StreamProcessorValueCard = ({ post: item, isDragging }) => {
       <div className="cardFooter">
         <a
           href={`/projects/${
-            item.project && item.project.id
+            item.project?.id || item.project
           }/streamprocessors/${item.id}/edit/`}
           className="edit"
         >
@@ -71,7 +71,7 @@ const StreamProcessorValueCard = ({ post: item, isDragging }) => {
         </a>
         <a
           href={`/projects/${
-            item.project && item.project.id
+            item.project?.id || item.project
           }/streamprocessors/${item.id}/duplicate/`}
           className="duplicate"
         >
@@ -88,7 +88,7 @@ const StreamProcessorValueCard = ({ post: item, isDragging }) => {
         </button>
         <a
           href={`/react/projects/${
-            item.project && item.project.id
+            item.project?.id || item.project
           }/streamprocessors/${item.id}/monitor/`}
           className="monitor"
         >
@@ -97,7 +97,7 @@ const StreamProcessorValueCard = ({ post: item, isDragging }) => {
         </a>
         <a
           href={`/projects/${
-            item.project && item.project.id
+            item.project?.id || item.project
           }/streamprocessors/${item.id}/delete/`}
           className="delete"
         >
