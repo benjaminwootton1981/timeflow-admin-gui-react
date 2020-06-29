@@ -137,7 +137,10 @@ function TopHeader(props) {
                     </a>
                   </li>
                   <li className="submenu__item">
-                    <a className="submenu__link" href={`/projects/${id}/kpis`}>
+                    <a
+                      className="submenu__link"
+                      href={`/projects/${id}/streamprocessors/kpis/`}
+                    >
                       Metrics & KPIs
                     </a>
                   </li>
