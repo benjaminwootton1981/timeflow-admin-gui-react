@@ -74,8 +74,11 @@ export const createStreamProcessor = (dataStep) => (dispatch) => {
 export const saveStreamProcessor = (editStreamProcessor, processorId) => (
   dispatch
 ) => {
-  editStreamProcessor.items.forEach((step) => {
-    const stringifyDataStep = JSON.stringify(step);
+  editStreamProcessor.items.forEach((step, i) => {
+    const addId = Object.assign(step, {});
+    addId["streamprocessor"] = processorId;
+    addId["ordering"] = i + 1;
+    const stringifyDataStep = JSON.stringify(addId);
     const streamProcessorInfo = editStreamProcessor;
     delete streamProcessorInfo["items"];
     const stringifyDataInfo = JSON.stringify(streamProcessorInfo);
@@ -102,7 +105,7 @@ export const saveStreamProcessor = (editStreamProcessor, processorId) => (
     } else {
       setStepTypeRequest(stringifyDataStep)
         .then((resp) => {
-          if (resp.status === 200) {
+          if (resp.status === 201) {
           } else {
             alert(resp.data.streamprocessor[0]);
           }
