@@ -7,6 +7,7 @@ import {
 } from "../../store/streamProcessor/action";
 import InputTypeBlock from "./itemsStep/InputTypeBlock";
 import InputTypeSelect from "./itemsStep/InputTypeSelect";
+import { useFormik } from "formik";
 
 const Step = (props) => {
   const { stepData, streams } = props.itemsStepTypes;
@@ -17,12 +18,27 @@ const Step = (props) => {
   const [fieldsKey, setFieldsKey] = useState(stepEl.steptype);
 
   const [stepDataValue, setStepDataValue] = useState(stepEl);
+  let { values, setFieldValue, handleSubmit, handleChange } = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      blocks: props.values.blocks.map((el, i) => {
+        return { ...el };
+      }),
+    },
+    onSubmit: (values) => {},
+  });
 
   useEffect(() => {
     setFieldsKey(stepEl.steptype);
   }, [stepEl]);
 
   useEffect(() => {}, [stepDataValue]);
+  useEffect(() => {
+    if (JSON.stringify(props.values) !== JSON.stringify(values.items)) {
+      // props.updateDataStreamProcessor(values.items);
+      props.setFieldValue("blocks", values.blocks);
+    }
+  }, [values]);
   if (!step_types) {
     return false;
   }
@@ -56,6 +72,7 @@ const Step = (props) => {
       (el) => !el.value.includes("inbound") && !el.value.includes("outbound")
     );
   }
+
   return (
     <table className="new-item__step" id="steps-table">
       <tbody>
@@ -116,11 +133,20 @@ const Step = (props) => {
                         />
                       ),
                       block: (
-                        <InputTypeBlock
-                          onChange={setValueStep}
-                          elem={elem}
-                          setFieldValue={props.setFieldValue}
-                        />
+                        <>
+                          {values.blocks.map((block, i) => {
+                            return (
+                              <InputTypeBlock
+                                values={props.values}
+                                onChange={setValueStep}
+                                elem={elem}
+                                setFieldValue={(name, e) =>
+                                  setFieldValue(`blocks.${i}.${name}`, e)
+                                }
+                              />
+                            );
+                          })}
+                        </>
                       ),
                       text: (
                         <input

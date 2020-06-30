@@ -2,24 +2,65 @@ import { CONSTANTS } from "../constants";
 import { setValueStep } from "./setValueStep";
 
 const initialState = {
-  // addedSteps: [],
   stepData: [],
   stepsStreamProcessor: [],
   inboundChoice: [],
   streams: [],
   schemas: [],
   actualSchema: [],
-  setStepsStreamProcessor: [],
 };
 
 export default function StreamProcessorReducer(state = initialState, action) {
   switch (action.type) {
     case CONSTANTS.STREAMS.ADD_NEW_STEP:
       const steps = [...state.stepsStreamProcessor];
-      const newStep = setValueStep(action.data);
+      const { step_types_data } = state.stepData;
+      const fillWithData = step_types_data[action.data.value].fields;
+      let newStep = setValueStep(action.data);
+      fillWithData.forEach((field) => {
+        Object.assign(newStep, {});
+        const nameValue = {
+          text: "name",
+          block: "fields",
+          select: "choices",
+        };
+        if (field.input_type === "block") {
+          let block = {};
+          field.fields.forEach((elBlock) => {
+            const nameValue = {
+              text: "name",
+              select: "choices",
+            };
+
+            //IN PROGRESS
+            let setSchemaValue = "";
+            if (elBlock.changes_schema_block === 1) {
+            }
+
+            Object.assign(block, {});
+            if (elBlock.input_type === "select") {
+              const valueSelect =
+                elBlock[nameValue[elBlock.input_type]].length > 0
+                  ? elBlock[nameValue[elBlock.input_type]][0][0]
+                  : elBlock[nameValue[elBlock.input_type]];
+              block[elBlock.name] = valueSelect;
+            } else {
+              block[elBlock.name] = elBlock[nameValue[elBlock.input_type]];
+            }
+          });
+          newStep["blocks"] = [block];
+        } else if (field.input_type === "select") {
+          const valueSelect =
+            field[nameValue[field.input_type]].length > 0
+              ? field[nameValue[field.input_type]][0][0]
+              : field[nameValue[field.input_type]];
+          newStep[field.name] = valueSelect;
+        } else {
+          newStep[field.name] = field[nameValue[field.input_type]];
+        }
+      });
       steps.push(newStep);
       steps.forEach((el, i) => {
-        // const a = el.name('+')[0];
         if (el.steptype.includes("outbound")) {
           steps.push(...steps.splice(i, 1));
         }

@@ -3,12 +3,13 @@ import "./blockStyles.scss";
 import { connect } from "react-redux";
 
 const InputTypeBlock = (props) => {
-  const { elem, actualSchema, schemas } = props;
-  const [firstSelect, SetFirstSelect] = useState({
+  const { elem, actualSchema, schemas, setFieldValue } = props;
+  const [valueSelect, SetValueSelect] = useState({
     value: "=",
     key_type_from: "from_event",
     key_type: "static_value",
   });
+
   const [secondSelect, SetSecondSelect] = useState("");
   if (schemas.length <= 0) {
     return false;
@@ -19,11 +20,11 @@ const InputTypeBlock = (props) => {
   }
 
   const typeReturnEl = (e, blockElem) => {
-    props.setFieldValue(elem.name, e.target.value);
+    setFieldValue(blockElem.name, e.target.value);
     props.onChange(e);
-    // console.log('E target', blockElem.name)
-    SetFirstSelect({ ...firstSelect, [blockElem.name]: e.target.value });
+    SetValueSelect({ ...valueSelect, [blockElem.name]: e.target.value });
   };
+
   return (
     <>
       <div className="container_block">
@@ -35,14 +36,20 @@ const InputTypeBlock = (props) => {
           if (blockElem.choices.length <= 0) {
             choices = schema.schemafield_set;
           }
-          const findeName =
-            isRelated &&
-            isRelated.find((item) => {
+          let isRender = false;
+          if (
+            blockElem.related_to.value &&
+            valueSelect[blockElem.related_to.field]
+          ) {
+            const foundElem = blockElem.related_to.value.filter((elem, i) => {
               return (
-                item === firstSelect["value"] ||
-                item === firstSelect["key_type"]
+                valueSelect[blockElem.related_to.field] ===
+                blockElem.related_to.value[i]
               );
             });
+            isRender = foundElem.length > 0;
+          }
+
           return (
             <>
               {blockElem.input_type === "select" ? (
@@ -50,6 +57,7 @@ const InputTypeBlock = (props) => {
                   {!isRelated ? (
                     <div className="styled-select">
                       <select
+                        name={blockElem.name}
                         onChange={(e) => typeReturnEl(e, blockElem)}
                         className="step"
                       >
@@ -62,9 +70,10 @@ const InputTypeBlock = (props) => {
                     </div>
                   ) : (
                     <>
-                      {findeName && (
+                      {isRender && (
                         <div className="styled-select">
                           <select
+                            name={blockElem.name}
                             onChange={(e) => typeReturnEl(e, blockElem)}
                             className="step"
                           >
@@ -85,21 +94,25 @@ const InputTypeBlock = (props) => {
                 <>
                   {!isRelated ? (
                     <input
-                      onChange={(e) => props.onChange(e)}
+                      onChange={(e) =>
+                        setFieldValue(blockElem.name, e.target.value)
+                      }
                       type="text"
                       name={blockElem.name}
                       placeholder="some text"
-                      value={""}
+                      value={props.values.block}
                     />
                   ) : (
                     <>
-                      {findeName && (
+                      {isRender && (
                         <input
-                          onChange={(e) => props.onChange(e)}
+                          onChange={(e) =>
+                            setFieldValue(blockElem.name, e.target.value)
+                          }
                           type="text"
                           name={blockElem.name}
                           placeholder="some text"
-                          value={""}
+                          value={props.values.block}
                         />
                       )}
                     </>

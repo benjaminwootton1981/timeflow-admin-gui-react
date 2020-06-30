@@ -18,6 +18,7 @@ const InputTypeSelect = (props) => {
       name: elem.name,
       value: e.target.value,
     };
+
     props.setFieldValue(elem.name, e.target.value);
     props.onChange(element);
     if (elem.name === "topic" || "record_type") {
@@ -26,7 +27,7 @@ const InputTypeSelect = (props) => {
   };
   return (
     <div className="styled-select">
-      <select onChange={setSchema} className="step">
+      <select name={elem.name} onChange={setSchema} className="step">
         {typeChoices.map((sel, i) => {
           const val0 = sel.name === undefined ? sel[0] : sel.display_name;
           const val1 = sel.name === undefined ? sel[1] : sel.display_name;
