@@ -162,11 +162,11 @@ export const updateDataStreamProcessor = (localData) => ({
 });
 export const updateDataInfo = (data, id) => {
   let items = {
+    id: +id,
+    project: data.project,
     name: data.name,
     description: data.description,
     replicas: data.replicas,
-    project: data.project,
-    id: id,
   };
   return {
     type: CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR_INFO,
