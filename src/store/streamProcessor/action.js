@@ -160,21 +160,21 @@ export const updateDataStreamProcessor = (localData) => ({
   type: CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR,
   data: localData,
 });
+export const updateDataInfo = (data, id) => {
+  let items = {
+    name: data.name,
+    description: data.description,
+    replicas: data.replicas,
+    project: data.project,
+    id: id,
+  };
+  return {
+    type: CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR_INFO,
+    data: items,
+  };
+};
 
 export const deleteStep = (name, step_id) => (dispatch) => {
-  export const updateDataInfo = (data, id) => {
-    let items = {
-      name: data.name,
-      description: data.description,
-      replicas: data.replicas,
-      project: data.project,
-      id: +id,
-    };
-    return {
-      type: CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR_INFO,
-      data: items,
-    };
-  };
   deleteStepRequest(step_id)
     .then((resp) => {
       dispatch({
