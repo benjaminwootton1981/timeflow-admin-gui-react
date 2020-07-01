@@ -14,6 +14,12 @@ export default function ServiceReducer(state = initialState, action) {
       return { ...state, streamprocessors: action.data };
     case CONSTANTS.STREAMS.GET_SIMULATIONS:
       return { ...state, simulations: action.data };
+    case CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR_INFO:
+      const filterStreamProcessors = state.streamprocessors.filter(
+        (streamProcessor) => streamProcessor.id !== +action.data.id
+      );
+      filterStreamProcessors.push(action.data);
+      return { ...state, streamprocessors: filterStreamProcessors };
     default:
       return state;
   }

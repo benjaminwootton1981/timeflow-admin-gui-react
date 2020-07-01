@@ -14,6 +14,7 @@ import {
   getStreams,
   newStreamProcessor,
   saveStreamProcessor,
+  updateDataInfo,
   updateDataStreamProcessor,
 } from "../../../store/streamProcessor/action";
 import { useFormik } from "formik";
@@ -27,8 +28,8 @@ const StreamProcessor = (props) => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
-  const isNew = !props.match.params.processor_id;
+  const processorId = props.match.params.processor_id;
+  const isNew = !processorId;
 
   const hideModal = () => {
     setModalVisible(false);
@@ -36,7 +37,6 @@ const StreamProcessor = (props) => {
   const { stepsStreamProcessor } = props.itemsStepTypes;
 
   const projectId = props.match.params.id;
-  const processorId = props.match.params.processor_id;
   let defaultInfoProject = {
     name: "",
     description: "",
@@ -56,10 +56,6 @@ const StreamProcessor = (props) => {
     }
   }, []);
 
-  // useEffect(() => {
-  // }, [stepsStreamProcessor]);
-  //
-  console.log("stepsStreamProcessor", stepsStreamProcessor);
   if (!isNew && props.streams.streamprocessors !== null) {
     defaultInfoProject = props.streams.streamprocessors.filter(
       (item) => item.id === +processorId
@@ -90,10 +86,9 @@ const StreamProcessor = (props) => {
   useEffect(() => {
     if (JSON.stringify(stepsStreamProcessor) !== JSON.stringify(values.items)) {
       props.updateDataStreamProcessor(values.items);
+      props.updateDataInfo(values, processorId);
     }
   }, [values]);
-
-  console.log("values STREAM - PROCESSOR", values);
   if (!defaultInfoProject) {
     return false;
   }
@@ -102,7 +97,6 @@ const StreamProcessor = (props) => {
   ) : (
     <h2 className="dashboard__header">Edit Stream Processor</h2>
   );
-
   return (
     <form onSubmit={handleSubmit}>
       <div className="wrapper">
@@ -206,5 +200,6 @@ export default connect(
     saveStreamProcessor,
     getStreamProcessorsList,
     updateDataStreamProcessor,
+    updateDataInfo,
   }
 )(StreamProcessor);
