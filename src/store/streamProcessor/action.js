@@ -1,5 +1,6 @@
 import { CONSTANTS } from "../constants";
 import {
+  deleteStepRequest,
   getSchemasRequest,
   getStepTypeRequest,
   getStreamProcessorListRequest,
@@ -160,10 +161,18 @@ export const updateDataStreamProcessor = (localData) => ({
   data: localData,
 });
 
-export const deleteStep = (name) => ({
-  type: CONSTANTS.STREAMS.DELL_NEW_STEP,
-  data: name,
-});
+export const deleteStep = (name, step_id) => (dispatch) => {
+  deleteStepRequest(step_id)
+    .then((resp) => {
+      dispatch({
+        type: CONSTANTS.STREAMS.DELL_NEW_STEP,
+        data: name,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 export const newStreamProcessor = () => ({
   type: CONSTANTS.STREAMS.CREATE_NEW_STREAM,
 });

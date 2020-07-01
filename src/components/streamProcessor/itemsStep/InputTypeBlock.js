@@ -10,7 +10,6 @@ const InputTypeBlock = (props) => {
     key_type: "static_value",
   });
 
-  const [secondSelect, SetSecondSelect] = useState("");
   if (schemas.length <= 0) {
     return false;
   }
@@ -24,24 +23,22 @@ const InputTypeBlock = (props) => {
     props.onChange(e);
     SetValueSelect({ ...valueSelect, [blockElem.name]: e.target.value });
   };
-
   return (
     <>
       <div className="container_block">
         {elem.fields.map((blockElem, i) => {
-          const isRelated =
-            Array.isArray(blockElem.related_to.value) &&
-            blockElem.related_to.value;
           let choices = blockElem.choices;
           if (blockElem.choices.length <= 0) {
             choices = schema.schemafield_set;
           }
           let isRender = false;
+          const isRelated = Array.isArray(blockElem.related_to.value);
+
           if (
             blockElem.related_to.value &&
             valueSelect[blockElem.related_to.field]
           ) {
-            const foundElem = blockElem.related_to.value.filter((elem, i) => {
+            const foundElem = blockElem.related_to.value.filter((el, i) => {
               return (
                 valueSelect[blockElem.related_to.field] ===
                 blockElem.related_to.value[i]
@@ -49,7 +46,6 @@ const InputTypeBlock = (props) => {
             });
             isRender = foundElem.length > 0;
           }
-
           return (
             <>
               {blockElem.input_type === "select" ? (
@@ -99,7 +95,7 @@ const InputTypeBlock = (props) => {
                       }
                       type="text"
                       name={blockElem.name}
-                      placeholder="some text"
+                      placeholder={blockElem.name}
                       value={props.values.block}
                     />
                   ) : (
@@ -111,7 +107,7 @@ const InputTypeBlock = (props) => {
                           }
                           type="text"
                           name={blockElem.name}
-                          placeholder="some text"
+                          placeholder={blockElem.name}
                           value={props.values.block}
                         />
                       )}

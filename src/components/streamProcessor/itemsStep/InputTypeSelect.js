@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { setSchemasId } from "../../../store/streamProcessor/action";
 
 const InputTypeSelect = (props) => {
-  const { elem, streams } = props;
+  const { elem, streams, isRelated, isRender } = props;
   if (!streams) {
     return false;
   }
@@ -18,24 +18,52 @@ const InputTypeSelect = (props) => {
       name: elem.name,
       value: e.target.value,
     };
-
     props.setFieldValue(elem.name, e.target.value);
     props.onChange(element);
     if (elem.name === "topic" || "record_type") {
       props.setSchemasId(e.target.value);
     }
   };
-  return (
-    <div className="styled-select">
-      <select name={elem.name} onChange={setSchema} className="step">
-        {typeChoices.map((sel, i) => {
-          const val0 = sel.name === undefined ? sel[0] : sel.display_name;
-          const val1 = sel.name === undefined ? sel[1] : sel.display_name;
 
-          return <option value={val0}>{val1}</option>;
-        })}
-      </select>
-    </div>
+  return (
+    <>
+      {!isRelated ? (
+        <div className="styled-select">
+          <select
+            name={elem.name}
+            onChange={(e) => setSchema(e, elem)}
+            className="step"
+          >
+            {typeChoices.map((sel, i) => {
+              const val0 = sel.name === undefined ? sel[0] : sel.display_name;
+              const val1 = sel.name === undefined ? sel[1] : sel.display_name;
+
+              return <option value={val0}>{val1}</option>;
+            })}
+          </select>
+        </div>
+      ) : (
+        <>
+          {isRender && (
+            <div className="styled-select">
+              <select
+                name={elem.name}
+                onChange={(e) => setSchema(e, elem)}
+                className="step"
+              >
+                {typeChoices.map((sel, i) => {
+                  const val0 =
+                    sel.name === undefined ? sel[0] : sel.display_name;
+                  const val1 =
+                    sel.name === undefined ? sel[1] : sel.display_name;
+                  return <option value={val0}>{val1}</option>;
+                })}
+              </select>
+            </div>
+          )}
+        </>
+      )}
+    </>
   );
 };
 export default connect(

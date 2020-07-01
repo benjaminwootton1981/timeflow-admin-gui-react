@@ -8,24 +8,32 @@ import {
 import InputTypeBlock from "./itemsStep/InputTypeBlock";
 import InputTypeSelect from "./itemsStep/InputTypeSelect";
 import { useFormik } from "formik";
+import InputTypeText from "./itemsStep/InputTypeText";
 
 const Step = (props) => {
   const { stepData, streams } = props.itemsStepTypes;
   const { items } = props;
   const { stepEl, stepIndex, lastStep, isLastStep } = items;
   const { step_types, step_types_data } = stepData;
-
+  const [valueSelect, SetValueSelect] = useState({
+    value: "=",
+    key_type_from: "from_event",
+    key_type: "static_value",
+    destinations: "event",
+    result_placement: "aggregate",
+    last_event_type: "time_window",
+  });
   const [fieldsKey, setFieldsKey] = useState(stepEl.steptype);
 
   const [stepDataValue, setStepDataValue] = useState(stepEl);
-  let { values, setFieldValue, handleSubmit, handleChange } = useFormik({
+
+  let { values, setFieldValue } = useFormik({
     enableReinitialize: true,
     initialValues: {
       blocks: props.values.blocks.map((el, i) => {
         return { ...el };
       }),
     },
-    onSubmit: (values) => {},
   });
 
   useEffect(() => {
@@ -33,6 +41,7 @@ const Step = (props) => {
   }, [stepEl]);
 
   useEffect(() => {}, [stepDataValue]);
+
   useEffect(() => {
     if (JSON.stringify(props.values) !== JSON.stringify(values.items)) {
       // props.updateDataStreamProcessor(values.items);
@@ -47,6 +56,7 @@ const Step = (props) => {
   };
   const setValueStep = (e) => {
     // props.setSteps(stepDataValue, stepIndex);
+    SetValueSelect({ ...valueSelect, [e.name]: e.value });
 
     let setValue;
     if (!e.target) {
@@ -72,7 +82,7 @@ const Step = (props) => {
       (el) => !el.value.includes("inbound") && !el.value.includes("outbound")
     );
   }
-
+  const block = values.blocks.length <= 0 ? [{}] : values.blocks;
   return (
     <table className="new-item__step" id="steps-table">
       <tbody>
@@ -123,9 +133,27 @@ const Step = (props) => {
               <div>
                 {step_types_data &&
                   step_types_data[fieldsKey].fields.map((elem) => {
+                    const isRelated = Array.isArray(elem.related_to.value);
+                    let isRender = false;
+                    if (
+                      elem.related_to.value &&
+                      valueSelect[elem.related_to.field]
+                    ) {
+                      const foundElem = elem.related_to.value.filter(
+                        (el, i) => {
+                          return (
+                            valueSelect[elem.related_to.field] ===
+                            elem.related_to.value[i]
+                          );
+                        }
+                      );
+                      isRender = foundElem.length > 0;
+                    }
                     const typeElement = {
                       select: (
                         <InputTypeSelect
+                          isRelated={isRelated}
+                          isRender={isRender}
                           onChange={setValueStep}
                           streams={streams}
                           elem={elem}
@@ -134,7 +162,7 @@ const Step = (props) => {
                       ),
                       block: (
                         <>
-                          {values.blocks.map((block, i) => {
+                          {block.map((block, i) => {
                             return (
                               <InputTypeBlock
                                 values={props.values}
@@ -149,19 +177,19 @@ const Step = (props) => {
                         </>
                       ),
                       text: (
-                        <input
-                          name={elem.name}
-                          onChange={(e) => {
-                            setValueStep(e);
-                            props.setFieldValue(elem.name, e.target.value);
-                          }}
-                          value={stepDataValue[elem.name]}
-                          className="required"
+                        <InputTypeText
+                          isRelated={isRelated}
+                          isRender={isRender}
+                          onChange={setValueStep}
+                          streams={streams}
+                          elem={elem}
+                          setFieldValue={props.setFieldValue}
+                          stepDataValue={stepDataValue}
                         />
                       ),
                     };
                     const renderElem = typeElement[elem.input_type];
-                    return <div>{renderElem}</div>;
+                    return <>{renderElem}</>;
                   })}
               </div>
             </div>
@@ -195,7 +223,7 @@ const Step = (props) => {
                 )}
                 <button
                   type={"button"}
-                  onClick={() => props.deleteStep(stepIndex)}
+                  onClick={() => props.deleteStep(stepIndex, props.values.id)}
                   className="card-btn card-btn--delete js-delete"
                 >
                   Delete

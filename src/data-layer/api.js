@@ -53,3 +53,6 @@ export const getStreamProcessorRequest = (id) =>
 
 export const getSchemasRequest = (project_id) =>
   ax.get(`schema/?project=${project_id}`);
+
+export const deleteStepRequest = (step_id) =>
+  ax.delete(`streamprocessorstep/${step_id}`);
