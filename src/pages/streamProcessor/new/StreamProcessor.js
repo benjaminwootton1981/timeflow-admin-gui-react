@@ -29,6 +29,8 @@ const StreamProcessor = (props) => {
     setModalVisible(!isModalVisible);
   };
   const processorId = props.match.params.processor_id;
+  const projectId = props.match.params.id;
+
   const isNew = !processorId;
 
   const hideModal = () => {
@@ -36,7 +38,6 @@ const StreamProcessor = (props) => {
   };
   const { stepsStreamProcessor } = props.itemsStepTypes;
 
-  const projectId = props.match.params.id;
   let defaultInfoProject = {
     name: "",
     description: "",

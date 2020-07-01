@@ -36,6 +36,14 @@ const Step = (props) => {
     },
   });
 
+  const addNewBlock = () => {
+    setFieldValue(`blocks.${values.blocks.length}.'id`, "null");
+  };
+  const deleteBlock = (index) => {
+    let array = values.blocks.filter((n, i) => i !== index);
+    setFieldValue(`blocks`, array);
+  };
+
   useEffect(() => {
     setFieldsKey(stepEl.steptype);
   }, [stepEl]);
@@ -53,10 +61,16 @@ const Step = (props) => {
   }
   const onChangeFields = (e) => {
     setFieldsKey(e.target.value);
+    const blockLength = values.blocks.length;
+    let blocksDell = values.blocks;
+    values.blocks.forEach((el, i) => {
+      if (blockLength !== 1) {
+        blocksDell.pop(blockLength);
+      }
+    });
   };
   const setValueStep = (e) => {
-    // props.setSteps(stepDataValue, stepIndex);
-    SetValueSelect({ ...valueSelect, [e.name]: e.value });
+    // SetValueSelect({...valueSelect, [e.name]: e.value});
 
     let setValue;
     if (!e.target) {
@@ -82,7 +96,7 @@ const Step = (props) => {
       (el) => !el.value.includes("inbound") && !el.value.includes("outbound")
     );
   }
-  const block = values.blocks.length <= 0 ? [{}] : values.blocks;
+
   return (
     <table className="new-item__step" id="steps-table">
       <tbody>
@@ -133,6 +147,10 @@ const Step = (props) => {
               <div>
                 {step_types_data &&
                   step_types_data[fieldsKey].fields.map((elem) => {
+                    let block = values.blocks;
+                    if (elem.input_type === "block") {
+                      // block = values.blocks.length <= 0 ? [{}] : values.blocks;
+                    }
                     const isRelated = Array.isArray(elem.related_to.value);
                     let isRender = false;
                     if (
@@ -164,23 +182,38 @@ const Step = (props) => {
                         <>
                           {block.map((block, i) => {
                             return (
-                              <InputTypeBlock
-                                values={props.values}
-                                onChange={setValueStep}
-                                elem={elem}
-                                setFieldValue={(name, e) =>
-                                  setFieldValue(`blocks.${i}.${name}`, e)
-                                }
-                              />
+                              <>
+                                <InputTypeBlock
+                                  deleteBlock={deleteBlock}
+                                  addNewBlock={addNewBlock}
+                                  values={props.values}
+                                  onChange={setValueStep}
+                                  elem={elem}
+                                  indexBlock={i}
+                                  setFieldValue={(name, e) =>
+                                    setFieldValue(`blocks.${i}.${name}`, e)
+                                  }
+                                />
+                              </>
                             );
                           })}
+                          {elem.input_type === "block" && (
+                            <div
+                              onClick={() => {
+                                addNewBlock();
+                              }}
+                              className="card-btn card-btn--add-filter new_field_block "
+                            >
+                              New Filter
+                            </div>
+                          )}
                         </>
                       ),
                       text: (
                         <InputTypeText
                           isRelated={isRelated}
                           isRender={isRender}
-                          onChange={setValueStep}
+                          // onChange={setValueStep}
                           streams={streams}
                           elem={elem}
                           setFieldValue={props.setFieldValue}

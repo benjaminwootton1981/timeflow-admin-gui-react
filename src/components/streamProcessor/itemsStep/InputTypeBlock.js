@@ -3,7 +3,7 @@ import "./blockStyles.scss";
 import { connect } from "react-redux";
 
 const InputTypeBlock = (props) => {
-  const { elem, actualSchema, schemas, setFieldValue } = props;
+  const { elem, indexBlock, schemas, setFieldValue } = props;
   const [valueSelect, SetValueSelect] = useState({
     value: "=",
     key_type_from: "from_event",
@@ -120,18 +120,14 @@ const InputTypeBlock = (props) => {
         })}
         <div className="block_delete">
           <button
-            onClick={() => props.deleteStep(props.i)}
+            type={"button"}
+            onClick={() => props.deleteBlock(indexBlock)}
             className="card-btn card-btn--delete js-delete min_width"
           >
             Delete
           </button>
         </div>
       </div>
-      {elem.input_type === "block" && (
-        <div className="card-btn card-btn--add-filter new_field_block ">
-          New Filter
-        </div>
-      )}
     </>
   );
 };

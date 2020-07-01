@@ -56,3 +56,12 @@ export const getSchemasRequest = (project_id) =>
 
 export const deleteStepRequest = (step_id) =>
   ax.delete(`streamprocessorstep/${step_id}`);
+
+export const recipient_listRequest = (step_id) =>
+  ax.get(`user/recipient-list/${step_id}`);
+
+export const datadictionaryRequest = (step_id) =>
+  ax.get(`datadictionary/${step_id}`);
+
+export const functionReqduest = (step_id) => ax.get(`function/${step_id}`);
+export const kpiReqduest = (step_id) => ax.get(`kpi/${step_id}`);

@@ -7,10 +7,7 @@ const InputTypeText = (props) => {
       {!isRelated ? (
         <input
           name={elem.name}
-          onChange={(e) => {
-            setValueStep(e);
-            props.setFieldValue(elem.name, e.target.value);
-          }}
+          onChange={(e) => props.setFieldValue(elem.name, e.target.value)}
           placeholder={elem.name}
           value={stepDataValue[elem.name]}
           className="required"
@@ -20,10 +17,7 @@ const InputTypeText = (props) => {
           {isRender && (
             <input
               name={elem.name}
-              onChange={(e) => {
-                setValueStep(e);
-                props.setFieldValue(elem.name, e.target.value);
-              }}
+              onChange={(e) => props.setFieldValue(elem.name, e.target.value)}
               placeholder={elem.name}
               value={stepDataValue[elem.name]}
               className="required"
