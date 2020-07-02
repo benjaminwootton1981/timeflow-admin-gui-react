@@ -1,6 +1,11 @@
 import { CONSTANTS } from "../constants";
 import {
   deleteStepRequest,
+  getDataDictionaryRequest,
+  getDatadictionaryRequest,
+  getFunctionRequest,
+  getKpiRequest,
+  getRecipientListRequest,
   getSchemasRequest,
   getStepTypeRequest,
   getStreamProcessorListRequest,
@@ -160,6 +165,10 @@ export const updateDataStreamProcessor = (localData) => ({
   type: CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR,
   data: localData,
 });
+export const addNewBlock = (localData) => ({
+  type: CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR,
+  data: localData,
+});
 export const updateDataInfo = (data, id) => {
   let items = {
     id: +id,
@@ -189,3 +198,52 @@ export const deleteStep = (name, step_id) => (dispatch) => {
 export const newStreamProcessor = () => ({
   type: CONSTANTS.STREAMS.CREATE_NEW_STREAM,
 });
+
+export const getRecipientList = () => (dispatch) => {
+  getRecipientListRequest()
+    .then((resp) => {
+      dispatch({
+        type: CONSTANTS.STREAMS.GET_RECIPIENT_LIST,
+        data: resp.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+export const getDataDictionary = (step_id) => (dispatch) => {
+  getDataDictionaryRequest(step_id)
+    .then((resp) => {
+      dispatch({
+        type: CONSTANTS.STREAMS.GET_DATA_DICTIONARY,
+        data: resp.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+export const getFunctionData = (step_id) => (dispatch) => {
+  getFunctionRequest(step_id)
+    .then((resp) => {
+      dispatch({
+        type: CONSTANTS.STREAMS.GET_FUNCTION,
+        data: resp.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+export const getKpi = (step_id) => (dispatch) => {
+  getKpiRequest(step_id)
+    .then((resp) => {
+      dispatch({
+        type: CONSTANTS.STREAMS.GET_KPI,
+        data: resp.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

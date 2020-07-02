@@ -7,6 +7,11 @@ import SchemaBlock from "../../../components/streamProcessor/SchemsBlock";
 import { connect } from "react-redux";
 import {
   createStreamProcessor,
+  getDataDictionary,
+  getFunction,
+  getFunctionData,
+  getKpi,
+  getRecipientList,
   getSchemas,
   getStepType,
   getStreamProcessor,
@@ -49,6 +54,10 @@ const StreamProcessor = (props) => {
     props.getStepType();
     props.getSchemas(projectId);
     props.getStreams(projectId);
+    props.getRecipientList();
+    props.getDataDictionary(projectId);
+    props.getFunctionData(projectId);
+    props.getKpi(projectId);
 
     if (isNew) {
       props.newStreamProcessor();
@@ -98,6 +107,7 @@ const StreamProcessor = (props) => {
   ) : (
     <h2 className="dashboard__header">Edit Stream Processor</h2>
   );
+  console.log("itemsStepTypes", props.itemsStepTypes);
   return (
     <form onSubmit={handleSubmit}>
       <div className="wrapper">
@@ -202,5 +212,9 @@ export default connect(
     getStreamProcessorsList,
     updateDataStreamProcessor,
     updateDataInfo,
+    getRecipientList,
+    getDataDictionary,
+    getFunctionData,
+    getKpi,
   }
 )(StreamProcessor);
