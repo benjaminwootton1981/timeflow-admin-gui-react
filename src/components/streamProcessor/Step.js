@@ -24,6 +24,7 @@ const Step = (props) => {
     last_event_type: "time_window",
   });
   const [fieldsKey, setFieldsKey] = useState(stepEl.steptype);
+  const [typeChoicesEndpoint, setTypeChoiceEndpoint] = useState([]);
 
   const [stepDataValue, setStepDataValue] = useState(stepEl);
 
@@ -45,6 +46,16 @@ const Step = (props) => {
   };
 
   useEffect(() => {
+    console.log("props.itemsStepTypes", props.itemsStepTypes);
+    if (props.itemsStepTypes["functions"].length > 0) {
+      const filtered = props.itemsStepTypes["function_endpoints"].filter(
+        (func) => +func.Function === +props.itemsStepTypes["functions"][0].id
+      );
+      const isFirstRenderEndpoint =
+        typeChoicesEndpoint.length <= 0 ? filtered : typeChoicesEndpoint;
+      setTypeChoiceEndpoint(isFirstRenderEndpoint);
+    }
+
     setFieldsKey(stepEl.steptype);
   }, [stepEl]);
 
@@ -52,7 +63,6 @@ const Step = (props) => {
 
   useEffect(() => {
     if (JSON.stringify(props.values) !== JSON.stringify(values.items)) {
-      // props.updateDataStreamProcessor(values.items);
       props.setFieldValue("blocks", values.blocks);
     }
   }, [values]);
@@ -96,7 +106,17 @@ const Step = (props) => {
       (el) => !el.value.includes("inbound") && !el.value.includes("outbound")
     );
   }
-
+  const changeFunctionEndpoints = (e, elem) => {
+    const index = e.target.selectedIndex;
+    const optionElement = e.target.childNodes[index];
+    const id = optionElement.getAttribute("id");
+    if (elem.is_need_fetch === "functions") {
+      const test_typeChoices = props.itemsStepTypes[
+        "function_endpoints"
+      ].filter((func) => +func.Function === +id);
+      setTypeChoiceEndpoint(test_typeChoices);
+    }
+  };
   return (
     <table className="new-item__step" id="steps-table">
       <tbody>
@@ -175,6 +195,8 @@ const Step = (props) => {
                           onChange={setValueStep}
                           streams={streams}
                           elem={elem}
+                          changeFunctionEndpoints={changeFunctionEndpoints}
+                          typeChoicesEndpoint={typeChoicesEndpoint}
                           setFieldValue={props.setFieldValue}
                         />
                       ),

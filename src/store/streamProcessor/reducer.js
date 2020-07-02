@@ -11,9 +11,10 @@ const initialState = {
   schemas: [],
   actualSchema: [],
   recipientList: [],
-  dataDictionary: [],
-  functionData: [],
+  data_dictionaries: [],
+  functions: [],
   kpiData: [],
+  function_endpoints: [],
 };
 
 export default function StreamProcessorReducer(state = initialState, action) {
@@ -98,13 +99,16 @@ export default function StreamProcessorReducer(state = initialState, action) {
       return { ...state, kpiData: action.data };
 
     case CONSTANTS.STREAMS.GET_DATA_DICTIONARY:
-      return { ...state, dataDictionary: action.data };
+      return { ...state, data_dictionaries: action.data };
 
     case CONSTANTS.STREAMS.GET_FUNCTION:
-      return { ...state, functionData: action.data };
+      return { ...state, functions: action.data };
 
     case CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR:
       return { ...state, stepsStreamProcessor: action.data };
+
+    case CONSTANTS.STREAMS.GET_FUNCTION_ENDPOINT:
+      return { ...state, function_endpoints: action.data };
 
     case CONSTANTS.STREAMS.ORDERING_STEP:
       let allSteps = [...state.stepsStreamProcessor];

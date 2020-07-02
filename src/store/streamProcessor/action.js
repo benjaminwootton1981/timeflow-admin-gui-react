@@ -3,6 +3,8 @@ import {
   deleteStepRequest,
   getDataDictionaryRequest,
   getDatadictionaryRequest,
+  getFunctionEndpoints,
+  getFunctionEndpointsRequest,
   getFunctionRequest,
   getKpiRequest,
   getRecipientListRequest,
@@ -240,6 +242,18 @@ export const getKpi = (step_id) => (dispatch) => {
     .then((resp) => {
       dispatch({
         type: CONSTANTS.STREAMS.GET_KPI,
+        data: resp.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+export const geFunctionEndpoint = () => (dispatch) => {
+  getFunctionEndpointsRequest()
+    .then((resp) => {
+      dispatch({
+        type: CONSTANTS.STREAMS.GET_FUNCTION_ENDPOINT,
         data: resp.data,
       });
     })

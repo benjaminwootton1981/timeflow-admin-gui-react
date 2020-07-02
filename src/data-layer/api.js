@@ -66,3 +66,5 @@ export const getFunctionRequest = (step_id) =>
   ax.get(`function/?project=${step_id}`);
 
 export const getKpiRequest = (step_id) => ax.get(`kpi/?project=${step_id}`);
+export const getFunctionEndpointsRequest = (step_id) =>
+  ax.get(`function-endpoint/`);
