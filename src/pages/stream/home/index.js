@@ -186,7 +186,7 @@ function ManageStream(props) {
           >
             Add Stream
           </a>
-          {streams.length !== 0 && (
+          {props.streams.length !== 0 && (
             <button
               className="btn create__group"
               onClick={() => setVisibleModal(true)}
