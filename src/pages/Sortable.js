@@ -28,6 +28,7 @@ const Sortable = ({
             <div key={item.id} id={`group-${item.id}`}>
               <GroupCard
                 group={item.value}
+                items={item[type]}
                 allItems={allItems}
                 setAllItems={setAllItems}
                 setOpenGroup={setOpenGroup}

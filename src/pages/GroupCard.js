@@ -6,8 +6,15 @@ import classNames from "classnames";
 import PlayIconSVG from "../assets/play_icon.svg";
 import { capitalize } from "lodash";
 
-const GroupCard = ({ group, allItems, setAllItems, setOpenGroup, type }) => {
-  const [currentItems, setCurrentItems] = useState([]);
+const GroupCard = ({
+  group,
+  items,
+  allItems,
+  setAllItems,
+  setOpenGroup,
+  type,
+}) => {
+  const [currentItems, setCurrentItems] = useState(items);
 
   useEffect(() => {
     const currentGroup = allItems.find((item) => item.value === group);

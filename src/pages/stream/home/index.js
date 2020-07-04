@@ -6,7 +6,7 @@ import { getStreams } from "../../../store/actions/serviceAction";
 import EmptyStreamsSVG from "../../../assets/empty-streams.svg";
 import "./style.scss";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
-import { omit } from "lodash";
+import { keyBy, omit } from "lodash";
 import GroupView from "../../GroupView";
 import Sortable from "../../Sortable";
 import api from "../../../api";
@@ -15,14 +15,16 @@ export const getMapped = (allGroups, type) => {
   const groups = Object.keys(omit(allGroups, "base"));
   const mapped = [];
   allGroups.base.concat(groups).forEach((value, index) => {
-    mapped.push({
+    const items = allGroups[value]?.map((value, index) => ({
+      id: value.id,
+      value,
+    }));
+    const mappedItem = {
       id: value.id || value,
       value,
-      [type]: allGroups[value]?.map((value, index) => ({
-        id: value.id,
-        value,
-      })),
-    });
+      [type]: items,
+    };
+    mapped.push(mappedItem);
   });
 
   return mapped;
@@ -40,6 +42,7 @@ function ManageStream(props) {
 
   const [project, setProject] = useState({});
   const projectId = props.match.params.id;
+  const [groups, setGroups] = useState([]);
 
   useEffect(() => {
     props.onGetStreams(projectId);
@@ -54,8 +57,9 @@ function ManageStream(props) {
   useEffect(() => {
     if (props.streams) {
       const orgStreams = props.streams.filter((stream) => stream.share);
-
-      const streams = props.streams.filter((stream) => !stream.share);
+      const streams = props.streams.filter(
+        (stream) => !stream.share && !stream.group
+      );
 
       const newState = {
         base: streams,
@@ -66,15 +70,32 @@ function ManageStream(props) {
       }
 
       const mapped = getMapped(newState, "streams");
-      setAllGroups(newState);
+      setAllGroups((state) => ({ ...state, ...newState }));
       setAllItems(mapped);
       setStreams(streams);
     }
   }, [props.streams]);
 
   useEffect(() => {
+    api.get("stream_groups").then((response) => {
+      const groups = response.data;
+      const groupMap = {};
+
+      groups.forEach((group) => {
+        groupMap[group.name] = group.streams;
+      });
+      setAllGroups((state) => ({
+        ...state,
+        ...groupMap,
+      }));
+    });
+  }, []);
+
+  useEffect(() => {
     const mapped = getMapped(allGroups, "streams");
     setAllItems(mapped);
+
+    console.log(allGroups, mapped);
   }, [allGroups]);
 
   const createGroup = (name) => {
