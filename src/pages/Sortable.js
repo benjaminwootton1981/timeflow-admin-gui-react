@@ -32,7 +32,7 @@ const Sortable = ({
         const group = allGroups[item.value];
         if (group) {
           return (
-            <div key={item.id} id={`group-${item.id}`}>
+            <div key={item.id} id={`group-${group.id}`}>
               <GroupCard
                 group={group}
                 items={item[type]}

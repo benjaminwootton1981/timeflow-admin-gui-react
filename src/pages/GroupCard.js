@@ -82,6 +82,7 @@ const GroupCard = ({
             name: group.name,
             pull: group.name !== "Organisation Shared Streams",
             put: (_, __, element) => {
+              console.log(element.id);
               return !element.id.includes("group");
             },
           }}
@@ -100,7 +101,7 @@ const GroupCard = ({
               <div
                 className="tile-content"
                 key={item.id}
-                id={`group-${type}-${item.value.id}`}
+                id={`gp-${type}-${item.value.id}`}
               >
                 {item.value.display_name || item.value.name}{" "}
                 <img src={PlayIconSVG} alt="Play" />

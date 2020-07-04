@@ -18,13 +18,11 @@ export const getMapped = (allGroups, type) => {
     const items = allGroups[value]?.map((value, index) => ({
       id: value.id,
       value,
-      [`is${type}`]: true,
     }));
     const mappedItem = {
       id: value.id || value,
       value,
       [type]: items,
-      [`is${type}`]: !!value.id,
     };
     mapped.push(mappedItem);
   });
@@ -112,21 +110,19 @@ function ManageStream(props) {
   }, [allGroups]);
 
   const createGroup = (name) => {
-    setAllGroups({ ...allGroups, [name]: [] });
-    setVisibleModal(false);
+    api
+      .post("stream_groups/", { name: name, created_by: 1 })
+      .then((response) => {
+        setGroups({ ...groups, [name]: response.data });
+        setAllGroups({ ...allGroups, [name]: [] });
+        setVisibleModal(false);
+      });
   };
 
   const onDragEnd = (streamId, sourceId, destinationId, newIndex) => {
     if (!streamId.includes("stream")) {
       return;
     }
-    console.log(
-      getId(streamId),
-      getId(sourceId),
-      getId(destinationId),
-      newIndex
-    );
-
     const reorderedStreams = getItems(allItems, "streams", null);
 
     api
