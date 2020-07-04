@@ -105,8 +105,6 @@ function ManageStream(props) {
   useEffect(() => {
     const mapped = getMapped(allGroups, "streams");
     setAllItems(mapped);
-
-    console.log(allGroups, mapped);
   }, [allGroups]);
 
   const createGroup = (name) => {
