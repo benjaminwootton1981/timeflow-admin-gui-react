@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { StreamValueCard } from "../../../components";
 import { getStreams } from "../../../store/actions/serviceAction";
@@ -6,7 +6,7 @@ import { getStreams } from "../../../store/actions/serviceAction";
 import EmptyStreamsSVG from "../../../assets/empty-streams.svg";
 import "./style.scss";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
-import { keyBy, omit } from "lodash";
+import { keyBy, omit, last } from "lodash";
 import GroupView from "../../GroupView";
 import Sortable from "../../Sortable";
 import api from "../../../api";
@@ -18,16 +18,28 @@ export const getMapped = (allGroups, type) => {
     const items = allGroups[value]?.map((value, index) => ({
       id: value.id,
       value,
+      [`is${type}`]: true,
     }));
     const mappedItem = {
       id: value.id || value,
       value,
       [type]: items,
+      [`is${type}`]: !!value.id,
     };
     mapped.push(mappedItem);
   });
 
   return mapped;
+};
+
+export const getId = (input) => {
+  return parseInt(last(input.split("-")));
+};
+
+export const getItems = (allItems, type, group) => {
+  return allItems
+    .filter((item) => !item[type])
+    .map((item, index) => ({ id: item.id, sort_order: index, group }));
 };
 
 function ManageStream(props) {
@@ -42,7 +54,7 @@ function ManageStream(props) {
 
   const [project, setProject] = useState({});
   const projectId = props.match.params.id;
-  const [groups, setGroups] = useState([]);
+  const [groups, setGroups] = useState({});
 
   useEffect(() => {
     props.onGetStreams(projectId);
@@ -88,6 +100,7 @@ function ManageStream(props) {
         ...state,
         ...groupMap,
       }));
+      setGroups(keyBy(groups, "name"));
     });
   }, []);
 
@@ -101,6 +114,29 @@ function ManageStream(props) {
   const createGroup = (name) => {
     setAllGroups({ ...allGroups, [name]: [] });
     setVisibleModal(false);
+  };
+
+  const onDragEnd = (streamId, sourceId, destinationId, newIndex) => {
+    if (!streamId.includes("stream")) {
+      return;
+    }
+    console.log(
+      getId(streamId),
+      getId(sourceId),
+      getId(destinationId),
+      newIndex
+    );
+
+    const reorderedStreams = getItems(allItems, "streams", null);
+
+    api
+      .post(`streams/reorder/`, {
+        id: getId(streamId),
+        group: !getId(destinationId) ? null : getId(destinationId),
+        sort_order: newIndex,
+        items: reorderedStreams,
+      })
+      .then((response) => console.log(response.data));
   };
 
   if (openGroup) {
@@ -122,10 +158,11 @@ function ManageStream(props) {
         <Sortable
           allItems={allItems}
           setAllItems={setAllItems}
-          allGroups={allGroups}
+          allGroups={groups}
           setOpenGroup={setOpenGroup}
           type={"streams"}
           ItemComponent={StreamValueCard}
+          onDragEnd={onDragEnd}
         />
         {props.streams.length === 0 && (
           <div className="empty">

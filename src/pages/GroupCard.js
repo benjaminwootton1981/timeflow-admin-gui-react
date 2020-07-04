@@ -5,6 +5,8 @@ import { ReactSortable } from "react-sortablejs";
 import classNames from "classnames";
 import PlayIconSVG from "../assets/play_icon.svg";
 import { capitalize } from "lodash";
+import api from "../api";
+import { getItems, getId } from "./stream/home";
 
 const GroupCard = ({
   group,
@@ -17,26 +19,46 @@ const GroupCard = ({
   const [currentItems, setCurrentItems] = useState(items);
 
   useEffect(() => {
-    const currentGroup = allItems.find((item) => item.value === group);
+    const currentGroup = allItems.find((item) => item.value === group.name);
     setCurrentItems(currentGroup[type]);
   }, [allItems, type]);
 
   const updateItems = (groupList) => {
-    const index = allItems.map((item) => item.value).indexOf(group);
+    // find the original group and update it with the new list
+    const index = allItems.map((item) => item.value).indexOf(group.name);
     allItems[index][type] = groupList;
     setCurrentItems(groupList);
     setAllItems(allItems);
   };
 
+  const onDragEnd = (streamId, sourceId, destinationId, newIndex) => {
+    if (!streamId.includes("stream")) {
+      return;
+    }
+
+    const reorderedItems = getItems(currentItems, type, group.id);
+
+    api
+      .post(`${type}/reorder/`, {
+        id: getId(streamId),
+        group: !getId(destinationId) ? null : getId(destinationId),
+        sort_order: newIndex,
+        items: reorderedItems,
+      })
+      .then((response) => console.log(response.data));
+  };
+
   return (
     <div className="group__card drag_card_container">
       <h2 className="card__header handle">
-        {group}
+        {group.name}
         <img
           src={DragDropSelect}
           className="card__header-right"
           alt="Drag Drop Select"
-          onClick={() => setOpenGroup({ name: group, [type]: currentItems })}
+          onClick={() =>
+            setOpenGroup({ name: group.name, [type]: currentItems })
+          }
         />
       </h2>
       <div className="card__body">
@@ -57,8 +79,8 @@ const GroupCard = ({
             "empty-list": currentItems.length === 0,
           })}
           group={{
-            name: group,
-            pull: group !== "Organisation Shared Streams",
+            name: group.name,
+            pull: group.name !== "Organisation Shared Streams",
             put: (_, __, element) => {
               return !element.id.includes("group");
             },
@@ -66,10 +88,20 @@ const GroupCard = ({
           animation="150"
           fallbackOnBody
           swapThreshold={0.65}
+          id={group.id}
+          onEnd={(evt) => {
+            const itemEl = evt.item; // dragged HTMLElement
+
+            onDragEnd(itemEl.id, evt.from.id, evt.to.id, evt.newIndex);
+          }}
         >
           {currentItems.map((item) => {
             return (
-              <div className="tile-content" key={item.id}>
+              <div
+                className="tile-content"
+                key={item.id}
+                id={`group-${type}-${item.value.id}`}
+              >
                 {item.value.display_name || item.value.name}{" "}
                 <img src={PlayIconSVG} alt="Play" />
               </div>

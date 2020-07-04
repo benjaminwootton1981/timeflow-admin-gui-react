@@ -9,6 +9,7 @@ const Sortable = ({
   setOpenGroup,
   type,
   ItemComponent,
+  onDragEnd,
 }) => {
   return (
     <ReactSortable
@@ -20,14 +21,20 @@ const Sortable = ({
       group={{ name: "root", put: true, pull: true }}
       handle=".handle"
       swapThreshold={0.5}
+      onEnd={(evt) => {
+        const itemEl = evt.item; // dragged HTMLElement
+
+        onDragEnd(itemEl.id, evt.from.id, evt.to.id, evt.newIndex);
+      }}
+      id={"group-0"}
     >
       {allItems.map((item) => {
-        const isGroup = !!allGroups[item.value];
-        if (isGroup) {
+        const group = allGroups[item.value];
+        if (group) {
           return (
             <div key={item.id} id={`group-${item.id}`}>
               <GroupCard
-                group={item.value}
+                group={group}
                 items={item[type]}
                 allItems={allItems}
                 setAllItems={setAllItems}
@@ -39,7 +46,7 @@ const Sortable = ({
         }
 
         return (
-          <div key={item.id}>
+          <div key={item.id} id={`${type}-${item.value.id}`}>
             <ItemComponent post={item.value} isDragging={item.chosen} />
           </div>
         );
