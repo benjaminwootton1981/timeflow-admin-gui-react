@@ -151,57 +151,55 @@ function ManageStream(props) {
   }
 
   return (
-    props.streams && (
-      <div className="wrapper">
-        <h2 className="project-name">{project.name}</h2>
-        <h2 className="dashboard__header">Manage Streams</h2>
-        <Sortable
-          allItems={allItems}
-          setAllItems={setAllItems}
-          allGroups={groups}
-          setOpenGroup={setOpenGroup}
-          type={"streams"}
-          ItemComponent={StreamValueCard}
-          onDragEnd={onDragEnd}
-        />
-        {props.streams.length === 0 && (
-          <div className="empty">
-            <span className="empty__text">No streams are available.</span>
-            <img
-              src={EmptyStreamsSVG}
-              width="155"
-              height="134"
-              alt="no data"
-              className="empty__image"
-            />
-          </div>
-        )}
-        <div
-          className="dashboard__footer"
-          style={{ borderTop: props.streams.length === 0 ? "none" : undefined }}
-        >
-          <a
-            className="btn"
-            href={`/projects/${props.match.params.id}/streams/new`}
-          >
-            Add Stream
-          </a>
-          {props.streams.length !== 0 && (
-            <button
-              className="btn create__group"
-              onClick={() => setVisibleModal(true)}
-            >
-              <span>+ Create a Group</span>
-            </button>
-          )}
+    <div className="wrapper">
+      <h2 className="project-name">{project.name}</h2>
+      <h2 className="dashboard__header">Manage Streams</h2>
+      <Sortable
+        allItems={allItems}
+        setAllItems={setAllItems}
+        allGroups={groups}
+        setOpenGroup={setOpenGroup}
+        type={"streams"}
+        ItemComponent={StreamValueCard}
+        onDragEnd={onDragEnd}
+      />
+      {allItems.length === 0 && (
+        <div className="empty">
+          <span className="empty__text">No streams are available.</span>
+          <img
+            src={EmptyStreamsSVG}
+            width="155"
+            height="134"
+            alt="no data"
+            className="empty__image"
+          />
         </div>
-        <CreateGroupModal
-          show={visibleModal}
-          closeModal={() => setVisibleModal(false)}
-          createGroup={createGroup}
-        />
+      )}
+      <div
+        className="dashboard__footer"
+        style={{ borderTop: props.streams.length === 0 ? "none" : undefined }}
+      >
+        <a
+          className="btn"
+          href={`/projects/${props.match.params.id}/streams/new`}
+        >
+          Add Stream
+        </a>
+        {allItems.length !== 0 && (
+          <button
+            className="btn create__group"
+            onClick={() => setVisibleModal(true)}
+          >
+            <span>+ Create a Group</span>
+          </button>
+        )}
       </div>
-    )
+      <CreateGroupModal
+        show={visibleModal}
+        closeModal={() => setVisibleModal(false)}
+        createGroup={createGroup}
+      />
+    </div>
   );
 }
 
