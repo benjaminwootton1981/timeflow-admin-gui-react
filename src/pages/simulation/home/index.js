@@ -10,6 +10,7 @@ import Sortable from "../../Sortable";
 import GroupView from "../../GroupView";
 import api from "../../../api";
 import { keyBy } from "lodash";
+import { message } from "antd";
 
 function ManageSimulation(props) {
   const [simulations, setSimulations] = useState([]);
@@ -88,6 +89,13 @@ function ManageSimulation(props) {
         setGroups({ ...groups, [name]: response.data });
         setAllGroups({ ...allGroups, [name]: [] });
         setVisibleModal(false);
+      })
+      .catch((e) => {
+        const data = e.response?.data;
+
+        if (data) {
+          message.error(data[0]);
+        }
       });
   };
 

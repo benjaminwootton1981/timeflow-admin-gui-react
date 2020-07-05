@@ -10,6 +10,7 @@ import { keyBy, omit, last } from "lodash";
 import GroupView from "../../GroupView";
 import Sortable from "../../Sortable";
 import api from "../../../api";
+import { message } from "antd";
 
 export const getMapped = (allGroups, type) => {
   const groups = Object.keys(omit(allGroups, "base"));
@@ -120,6 +121,13 @@ function ManageStream(props) {
         setGroups({ ...groups, [name]: response.data });
         setAllGroups({ ...allGroups, [name]: [] });
         setVisibleModal(false);
+      })
+      .catch((e) => {
+        const data = e.response?.data;
+
+        if (data) {
+          message.error(data[0]);
+        }
       });
   };
 

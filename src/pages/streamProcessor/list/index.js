@@ -10,6 +10,7 @@ import { getId, getItems, getMapped } from "../../stream/home";
 import GroupView from "../../GroupView";
 import Sortable from "../../Sortable";
 import { keyBy } from "lodash";
+import { message } from "antd";
 
 function ManageStreamProcessor(props) {
   const [streamProcessors, setStreamProcessors] = useState([]);
@@ -90,6 +91,13 @@ function ManageStreamProcessor(props) {
         setGroups({ ...groups, [name]: response.data });
         setAllGroups({ ...allGroups, [name]: [] });
         setVisibleModal(false);
+      })
+      .catch((e) => {
+        const data = e.response?.data;
+
+        if (data) {
+          message.error(data[0]);
+        }
       });
   };
 

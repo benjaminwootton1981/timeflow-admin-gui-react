@@ -13,6 +13,7 @@ import "bootstrap/dist/js/bootstrap.js";
 import * as serviceWorker from "./serviceWorker";
 import "./global.scss";
 import "antd/lib/notification/style/css";
+import "antd/lib/message/style/css";
 import App from "./App";
 
 ReactDOM.render(
