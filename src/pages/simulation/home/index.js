@@ -4,11 +4,12 @@ import { connect } from "react-redux";
 import { getSimulations } from "../../../store/actions/serviceAction";
 import EmptySimultionsSVG from "../../../assets/empty-simulations.svg";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
-import { getMapped } from "../../stream/home";
+import { getId, getItems, getMapped } from "../../stream/home";
 import SimulationValueCard from "../../../components/cards/SimulationValueCard";
 import Sortable from "../../Sortable";
 import GroupView from "../../GroupView";
 import api from "../../../api";
+import { keyBy } from "lodash";
 
 function ManageSimulation(props) {
   const [simulations, setSimulations] = useState([]);
@@ -21,6 +22,7 @@ function ManageSimulation(props) {
 
   const [project, setProject] = useState({});
   const projectId = props.match.params.id;
+  const [groups, setGroups] = useState({});
 
   useEffect(() => {
     props.onGetSimulations(projectId);
@@ -34,18 +36,36 @@ function ManageSimulation(props) {
 
   useEffect(() => {
     if (props.simulations) {
-      const simulations = props.simulations;
+      const simulations = props.simulations.filter(
+        (simulation) => !simulation.group
+      );
 
       const newState = {
         base: simulations,
       };
 
       const mapped = getMapped(newState, "simulations");
-      setAllGroups(newState);
+      setAllGroups((state) => ({ ...state, ...newState }));
       setAllItems(mapped);
       setSimulations(simulations);
     }
   }, [props.simulations]);
+
+  useEffect(() => {
+    api.get("simulation_groups").then((response) => {
+      const groups = response.data;
+      const groupMap = {};
+
+      groups.forEach((group) => {
+        groupMap[group.name] = group.simulations;
+      });
+      setAllGroups((state) => ({
+        ...state,
+        ...groupMap,
+      }));
+      setGroups(keyBy(groups, "name"));
+    });
+  }, []);
 
   useEffect(() => {
     const mapped = getMapped(allGroups, "simulations");
@@ -53,8 +73,29 @@ function ManageSimulation(props) {
   }, [allGroups]);
 
   const createGroup = (name) => {
-    setAllGroups({ ...allGroups, [name]: [] });
-    setVisibleModal(false);
+    api
+      .post("simulation_groups/", { name: name, created_by: 1 })
+      .then((response) => {
+        setGroups({ ...groups, [name]: response.data });
+        setAllGroups({ ...allGroups, [name]: [] });
+        setVisibleModal(false);
+      });
+  };
+
+  const onDragEnd = (simulationId, sourceId, destinationId, newIndex) => {
+    if (!simulationId.includes("simulation")) {
+      return;
+    }
+    const reorderedSimulations = getItems(allItems, "simulations", null);
+
+    api
+      .post(`simulations/reorder/`, {
+        id: getId(simulationId),
+        group: !getId(destinationId) ? null : getId(destinationId),
+        sort_order: newIndex,
+        items: reorderedSimulations,
+      })
+      .then((response) => console.log(response.data));
   };
 
   if (openGroup) {
@@ -76,12 +117,13 @@ function ManageSimulation(props) {
         <Sortable
           allItems={allItems}
           setAllItems={setAllItems}
-          allGroups={allGroups}
+          allGroups={groups}
           setOpenGroup={setOpenGroup}
           type={"simulations"}
           ItemComponent={SimulationValueCard}
+          onDragEnd={onDragEnd}
         />
-        {simulations.length === 0 && (
+        {allItems.length === 0 && (
           <div className="empty">
             <span className="empty__text">No simulations are available.</span>
             <img
@@ -95,7 +137,7 @@ function ManageSimulation(props) {
         )}
         <div
           className="dashboard__footer"
-          style={{ borderTop: simulations.length === 0 ? "none" : undefined }}
+          style={{ borderTop: allItems.length === 0 ? "none" : undefined }}
         >
           <a
             className="btn"
@@ -103,7 +145,7 @@ function ManageSimulation(props) {
           >
             Add Simulation
           </a>
-          {simulations.length !== 0 && (
+          {allItems.length !== 0 && (
             <button
               className="btn create__group"
               onClick={() => setVisibleModal(true)}

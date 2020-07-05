@@ -31,8 +31,8 @@ const GroupCard = ({
     setAllItems(allItems);
   };
 
-  const onDragEnd = (streamId, sourceId, destinationId, newIndex) => {
-    if (!streamId.includes("stream")) {
+  const onDragEnd = (itemId, sourceId, destinationId, newIndex) => {
+    if (!itemId.includes(type)) {
       return;
     }
 
@@ -40,7 +40,7 @@ const GroupCard = ({
 
     api
       .post(`${type}/reorder/`, {
-        id: getId(streamId),
+        id: getId(itemId),
         group: !getId(destinationId) ? null : getId(destinationId),
         sort_order: newIndex,
         items: reorderedItems,
