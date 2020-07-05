@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { setSchemasId } from "../../../store/streamProcessor/action";
+import { NameHelper } from "../../../helper/NameHelper";
 
 const InputTypeSelect = (props) => {
   const { elem, streams, isRelated, isRender } = props;
@@ -41,7 +42,7 @@ const InputTypeSelect = (props) => {
       props.setSchemasId(e.target.value);
     }
   };
-  console.log("DATA", typeChoices);
+
   return (
     <>
       {!isRelated ? (
@@ -53,10 +54,9 @@ const InputTypeSelect = (props) => {
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
               >
-                {typeChoices.map((sel, i) => {
-                  let val0 = sel.name === undefined ? sel[0] : sel.name;
-                  let val1 = sel.name === undefined ? sel[1] : sel.name;
-
+                {typeChoices.map((sel) => {
+                  const names = NameHelper(elem, sel);
+                  const { val0, val1 } = names;
                   return (
                     <option id={sel.id} value={val0}>
                       {val1}
@@ -72,10 +72,9 @@ const InputTypeSelect = (props) => {
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
               >
-                {props.typeChoicesEndpoint.map((sel, i) => {
-                  let val0 = sel.name === undefined ? sel[0] : sel.name;
-                  let val1 = sel.name === undefined ? sel[1] : sel.name;
-
+                {props.typeChoicesEndpoint.map((sel) => {
+                  const names = NameHelper(elem, sel);
+                  const { val0, val1 } = names;
                   return (
                     <option id={sel.id} value={val0}>
                       {val1}
@@ -95,7 +94,7 @@ const InputTypeSelect = (props) => {
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
               >
-                {typeChoices.map((sel, i) => {
+                {typeChoices.map((sel) => {
                   const val0 =
                     sel.name === undefined ? sel[0] : sel.display_name;
                   const val1 =
