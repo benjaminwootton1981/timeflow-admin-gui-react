@@ -82,7 +82,10 @@ const GroupCard = ({
             name: group.name,
             pull: group.name !== "Organisation Shared Streams",
             put: (_, __, element) => {
-              return !element.id.includes("group");
+              return (
+                !element.id.includes("group") &&
+                group.name !== "Organisation Shared Streams"
+              );
             },
           }}
           animation="150"
