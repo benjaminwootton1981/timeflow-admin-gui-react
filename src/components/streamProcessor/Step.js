@@ -71,13 +71,7 @@ const Step = (props) => {
   }
   const onChangeFields = (e) => {
     setFieldsKey(e.target.value);
-    const blockLength = values.blocks.length;
-    let blocksDell = values.blocks;
-    values.blocks.forEach((el, i) => {
-      if (blockLength !== 1) {
-        blocksDell.pop(blockLength);
-      }
-    });
+    props.setFieldValue(`blocks`, [{}]);
   };
   const setValueStep = (e) => {
     // SetValueSelect({...valueSelect, [e.name]: e.value});

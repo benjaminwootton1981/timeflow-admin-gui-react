@@ -54,7 +54,7 @@ const InputTypeSelect = (props) => {
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
               >
-                {typeChoices.map((sel) => {
+                {typeChoices.map((sel, i) => {
                   const names = NameHelper(elem, sel);
                   const { val0, val1 } = names;
                   return (
@@ -72,7 +72,7 @@ const InputTypeSelect = (props) => {
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
               >
-                {props.typeChoicesEndpoint.map((sel) => {
+                {props.typeChoicesEndpoint.map((sel, i) => {
                   const names = NameHelper(elem, sel);
                   const { val0, val1 } = names;
                   return (
@@ -94,7 +94,7 @@ const InputTypeSelect = (props) => {
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
               >
-                {typeChoices.map((sel) => {
+                {typeChoices.map((sel, i) => {
                   const val0 =
                     sel.name === undefined ? sel[0] : sel.display_name;
                   const val1 =
