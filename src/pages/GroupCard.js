@@ -80,11 +80,10 @@ const GroupCard = ({
           })}
           group={{
             name: group.name,
-            pull: group.name !== "Organisation Shared Streams",
+            pull: !group.is_organisation_shared,
             put: (_, __, element) => {
               return (
-                !element.id.includes("group") &&
-                group.name !== "Organisation Shared Streams"
+                !element.id.includes("group") && !group.is_organisation_shared
               );
             },
           }}
