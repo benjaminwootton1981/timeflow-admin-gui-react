@@ -67,7 +67,6 @@ function ManageStream(props) {
 
   useEffect(() => {
     if (props.streams) {
-      const orgStreams = props.streams.filter((stream) => stream.share);
       const streams = props.streams.filter(
         (stream) => !stream.share && !stream.group
       );
@@ -75,10 +74,6 @@ function ManageStream(props) {
       const newState = {
         base: streams,
       };
-
-      if (orgStreams.length) {
-        newState["Organisation Shared Streams"] = orgStreams;
-      }
 
       const mapped = getMapped(newState, "streams");
       setAllGroups((state) => ({ ...state, ...newState }));
