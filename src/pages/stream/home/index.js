@@ -177,7 +177,7 @@ function ManageStream(props) {
       )}
       <div
         className="dashboard__footer"
-        style={{ borderTop: props.streams.length === 0 ? "none" : undefined }}
+        style={{ borderTop: allItems.length === 0 ? "none" : undefined }}
       >
         <a
           className="btn"
