@@ -54,19 +54,25 @@ function ManageStreamProcessor(props) {
   }, [props.streamProcessors]);
 
   useEffect(() => {
-    api.get("streamprocessor_groups").then((response) => {
-      const groups = response.data;
-      const groupMap = {};
+    api
+      .get("streamprocessor_groups", {
+        params: {
+          project: projectId,
+        },
+      })
+      .then((response) => {
+        const groups = response.data;
+        const groupMap = {};
 
-      groups.forEach((group) => {
-        groupMap[group.name] = group.streamprocessors;
+        groups.forEach((group) => {
+          groupMap[group.name] = group.streamprocessors;
+        });
+        setAllGroups((state) => ({
+          ...state,
+          ...groupMap,
+        }));
+        setGroups(keyBy(groups, "name"));
       });
-      setAllGroups((state) => ({
-        ...state,
-        ...groupMap,
-      }));
-      setGroups(keyBy(groups, "name"));
-    });
   }, []);
 
   useEffect(() => {
@@ -76,7 +82,10 @@ function ManageStreamProcessor(props) {
 
   const createGroup = (name) => {
     api
-      .post("streamprocessor_groups/", { name: name, created_by: 1 })
+      .post("streamprocessor_groups/", {
+        name: name,
+        project: projectId,
+      })
       .then((response) => {
         setGroups({ ...groups, [name]: response.data });
         setAllGroups({ ...allGroups, [name]: [] });

@@ -87,20 +87,26 @@ function ManageStream(props) {
   }, [props.streams]);
 
   useEffect(() => {
-    api.get("stream_groups").then((response) => {
-      const groups = response.data;
-      const groupMap = {};
+    api
+      .get("stream_groups", {
+        params: {
+          project: projectId,
+        },
+      })
+      .then((response) => {
+        const groups = response.data;
+        const groupMap = {};
 
-      groups.forEach((group) => {
-        groupMap[group.name] = group.streams;
+        groups.forEach((group) => {
+          groupMap[group.name] = group.streams;
+        });
+        setAllGroups((state) => ({
+          ...state,
+          ...groupMap,
+        }));
+        setGroups(keyBy(groups, "name"));
       });
-      setAllGroups((state) => ({
-        ...state,
-        ...groupMap,
-      }));
-      setGroups(keyBy(groups, "name"));
-    });
-  }, []);
+  }, [projectId]);
 
   useEffect(() => {
     const mapped = getMapped(allGroups, "streams");
@@ -109,7 +115,7 @@ function ManageStream(props) {
 
   const createGroup = (name) => {
     api
-      .post("stream_groups/", { name: name, created_by: 1 })
+      .post("stream_groups/", { name: name, project: projectId })
       .then((response) => {
         setGroups({ ...groups, [name]: response.data });
         setAllGroups({ ...allGroups, [name]: [] });

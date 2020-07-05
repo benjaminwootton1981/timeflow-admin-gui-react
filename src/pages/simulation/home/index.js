@@ -52,20 +52,26 @@ function ManageSimulation(props) {
   }, [props.simulations]);
 
   useEffect(() => {
-    api.get("simulation_groups").then((response) => {
-      const groups = response.data;
-      const groupMap = {};
+    api
+      .get("simulation_groups", {
+        params: {
+          project: projectId,
+        },
+      })
+      .then((response) => {
+        const groups = response.data;
+        const groupMap = {};
 
-      groups.forEach((group) => {
-        groupMap[group.name] = group.simulations;
+        groups.forEach((group) => {
+          groupMap[group.name] = group.simulations;
+        });
+        setAllGroups((state) => ({
+          ...state,
+          ...groupMap,
+        }));
+        setGroups(keyBy(groups, "name"));
       });
-      setAllGroups((state) => ({
-        ...state,
-        ...groupMap,
-      }));
-      setGroups(keyBy(groups, "name"));
-    });
-  }, []);
+  }, [projectId]);
 
   useEffect(() => {
     const mapped = getMapped(allGroups, "simulations");
@@ -74,7 +80,10 @@ function ManageSimulation(props) {
 
   const createGroup = (name) => {
     api
-      .post("simulation_groups/", { name: name, created_by: 1 })
+      .post("simulation_groups/", {
+        name: name,
+        project: projectId,
+      })
       .then((response) => {
         setGroups({ ...groups, [name]: response.data });
         setAllGroups({ ...allGroups, [name]: [] });
