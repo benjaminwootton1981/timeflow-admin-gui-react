@@ -75,7 +75,7 @@ const StreamProcessor = (props) => {
     initialValues: {
       name: defaultInfoProject.name,
       description: defaultInfoProject.description,
-      replicas: defaultInfoProject.replicas,
+      replicas: defaultInfoProject.replicas ? defaultInfoProject.replicas : 1,
       project: defaultInfoProject.project,
       items: stepsStreamProcessor.map((el, i) => {
         return { ...el };
