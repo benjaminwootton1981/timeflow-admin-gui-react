@@ -10,7 +10,6 @@ const InputTypeBlock = (props) => {
     key_type_from: !isEmpty(block) ? block["key_type_from"] : "from_event",
     key_type: !isEmpty(block) ? block["key_type"] : "static_value",
   });
-
   if (schemas.length <= 0) {
     return false;
   }
@@ -63,7 +62,7 @@ const InputTypeBlock = (props) => {
                           return (
                             <option
                               value={val0}
-                              selected={block[blockElem.name]}
+                              selected={el[0] === valueSelect[blockElem.name]}
                             >
                               {val1}
                             </option>
@@ -87,7 +86,9 @@ const InputTypeBlock = (props) => {
                               return (
                                 <option
                                   value={val0}
-                                  selected={block[blockElem.name]}
+                                  selected={
+                                    el[0] === valueSelect[blockElem.name]
+                                  }
                                 >
                                   {val1}
                                 </option>
