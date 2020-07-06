@@ -18,7 +18,6 @@ const InputTypeBlock = (props) => {
   if (props.actualSchema.length <= 0) {
     schema = props.schemas[0];
   }
-
   const typeReturnEl = (e, blockElem) => {
     setFieldValue(blockElem.name, e.target.value);
     props.onChange(e);

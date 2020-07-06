@@ -5,9 +5,7 @@ import { NameHelper } from "../../../helper/NameHelper";
 
 const InputTypeSelect = (props) => {
   const { elem, streams, isRelated, isRender } = props;
-
   const [typeChoices, setTypeChoice] = useState([]);
-
   useEffect(() => {
     if (elem.choices.length === 0) {
       let choicesName = "";
@@ -19,12 +17,21 @@ const InputTypeSelect = (props) => {
         choicesName = elem.is_need_fetch;
       }
       //
-      setTypeChoice(props.itemsStepTypes[choicesName]);
+      if (elem.is_need_fetch === "schema_fields") {
+        let schema = props.itemsStepTypes.actualSchema[0];
+        if (props.itemsStepTypes.actualSchema.length <= 0) {
+          schema = props.itemsStepTypes[choicesName][0].schemafield_set;
+          setTypeChoice(schema);
+        } else {
+          setTypeChoice(props.itemsStepTypes.actualSchema[0].schemafield_set);
+        }
+      } else {
+        setTypeChoice(props.itemsStepTypes[choicesName]);
+      }
     } else {
       setTypeChoice(elem.choices);
     }
-  }, [elem.is_need_fetch]);
-
+  }, [elem.is_need_fetch, props.itemsStepTypes.actualSchema]);
   if (!streams) {
     return false;
   }
@@ -55,8 +62,14 @@ const InputTypeSelect = (props) => {
                 className="step"
               >
                 {typeChoices.map((sel, i) => {
-                  const names = NameHelper(elem, sel);
-                  const { val0, val1 } = names;
+                  const isDisplayName =
+                    sel.display_name === undefined
+                      ? sel.name
+                      : sel.display_name;
+                  const val0 =
+                    isDisplayName === undefined ? sel[0] : isDisplayName;
+                  const val1 =
+                    isDisplayName === undefined ? sel[1] : isDisplayName;
                   return (
                     <option id={sel.id} value={val0}>
                       {val1}
@@ -73,8 +86,15 @@ const InputTypeSelect = (props) => {
                 className="step"
               >
                 {props.typeChoicesEndpoint.map((sel, i) => {
-                  const names = NameHelper(elem, sel);
-                  const { val0, val1 } = names;
+                  const isDisplayName =
+                    sel.display_name === undefined
+                      ? sel.name
+                      : sel.display_name;
+
+                  const val0 =
+                    isDisplayName === undefined ? sel[0] : isDisplayName;
+                  const val1 =
+                    isDisplayName === undefined ? sel[1] : isDisplayName;
                   return (
                     <option id={sel.id} value={val0}>
                       {val1}
@@ -95,8 +115,14 @@ const InputTypeSelect = (props) => {
                 className="step"
               >
                 {typeChoices.map((sel, i) => {
-                  const val0 = sel.name === undefined ? sel[0] : sel.name;
-                  const val1 = sel.name === undefined ? sel[1] : sel.name;
+                  const isDisplayName =
+                    sel.display_name === undefined
+                      ? sel.name
+                      : sel.display_name;
+                  const val0 =
+                    isDisplayName === undefined ? sel[0] : isDisplayName;
+                  const val1 =
+                    isDisplayName === undefined ? sel[1] : isDisplayName;
                   return <option value={val0}>{val1}</option>;
                 })}
               </select>
