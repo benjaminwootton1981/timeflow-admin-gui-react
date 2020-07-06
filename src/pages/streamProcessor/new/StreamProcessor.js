@@ -41,7 +41,7 @@ const StreamProcessor = (props) => {
   const hideModal = () => {
     setModalVisible(false);
   };
-  const { stepsStreamProcessor } = props.itemsStepTypes;
+  const { stepsStreamProcessor, newStreamprocessors } = props.itemsStepTypes;
 
   let defaultInfoProject = {
     name: "",
@@ -66,12 +66,13 @@ const StreamProcessor = (props) => {
       props.getStreamProcessor(processorId);
     }
   }, []);
-
   if (!isNew && props.streams.streamprocessors !== null) {
     defaultInfoProject = props.streams.streamprocessors.filter(
       (item) => item.id === +processorId
     );
     defaultInfoProject = defaultInfoProject[0];
+  } else {
+    defaultInfoProject = newStreamprocessors;
   }
   let { values, setFieldValue, handleSubmit, handleChange } = useFormik({
     enableReinitialize: true,

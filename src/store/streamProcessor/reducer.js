@@ -15,6 +15,7 @@ const initialState = {
   functions: [],
   kpiData: [],
   function_endpoints: [],
+  newStreamprocessors: [],
 };
 
 export default function StreamProcessorReducer(state = initialState, action) {
@@ -109,6 +110,9 @@ export default function StreamProcessorReducer(state = initialState, action) {
 
     case CONSTANTS.STREAMS.GET_FUNCTION_ENDPOINT:
       return { ...state, function_endpoints: action.data };
+
+    case CONSTANTS.STREAMS.CREATE_STREAM_PROCESSOR_INFO:
+      return { ...state, newStreamprocessors: action.data };
 
     case CONSTANTS.STREAMS.ORDERING_STEP:
       let allSteps = [...state.stepsStreamProcessor];

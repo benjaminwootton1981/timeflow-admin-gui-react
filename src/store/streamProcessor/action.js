@@ -2,8 +2,6 @@ import { CONSTANTS } from "../constants";
 import {
   deleteStepRequest,
   getDataDictionaryRequest,
-  getDatadictionaryRequest,
-  getFunctionEndpoints,
   getFunctionEndpointsRequest,
   getFunctionRequest,
   getKpiRequest,
@@ -64,6 +62,23 @@ export const createStreamProcessor = (dataStep) => (dispatch) => {
   setStreamProcessorRequest(stringifyData)
     .then((resp) => {
       steps.forEach((step, i) => {
+        if (step.blocks.length > 0) {
+          step.blocks.forEach((block) => {
+            console.log("BLOCK", block);
+            const addId = Object.assign(block, {});
+            addId["parent"] = resp.data.id;
+            addId["ordering"] = i + 1;
+            const stringifyBlock = JSON.stringify(addId);
+
+            setStepTypeRequest(stringifyBlock)
+              .then((resp) => {
+                console.log("RESP CREATE BLOCK", resp);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          });
+        }
         const addId = Object.assign(step, {});
         addId["streamprocessor"] = resp.data.id;
         addId["ordering"] = i + 1;
@@ -90,15 +105,49 @@ export const saveStreamProcessor = (editStreamProcessor, processorId) => (
     const streamProcessorInfo = editStreamProcessor;
     delete streamProcessorInfo["items"];
     const stringifyDataInfo = JSON.stringify(streamProcessorInfo);
-    if (step["block"]) {
-      console.log("BLOCK");
-    }
+
     updateStreamProcessorInfoRequest(processorId, stringifyDataInfo)
       .then((resp) => {})
       .catch((err) => {
         console.log(err);
       });
 
+    if (step.blocks.length > 0) {
+      step.blocks.forEach((block) => {
+        console.log("BLOCK", block);
+        const addId = Object.assign(block, {});
+        addId["parent"] = step.id;
+        addId["ordering"] = i + 1;
+        const stringifyBlock = JSON.stringify(addId);
+
+        if (block.id !== null) {
+          updateStepTypeRequest(step.id, stringifyBlock)
+            .then((resp) => {
+              console.log("RESP uPDATE");
+              if (resp.status === 200) {
+              } else {
+                alert(resp.data.streamprocessor[0]);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          setStepTypeRequest(stringifyBlock)
+            .then((resp) => {
+              console.log("RESP uPDATE CREQATE");
+
+              if (resp.status === 201) {
+              } else {
+                alert(resp.data.streamprocessor[0]);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
+    }
     if (step.id !== null) {
       updateStepTypeRequest(step.id, stringifyDataStep)
         .then((resp) => {
@@ -179,10 +228,17 @@ export const updateDataInfo = (data, id) => {
     description: data.description,
     replicas: data.replicas,
   };
-  return {
-    type: CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR_INFO,
-    data: items,
-  };
+  if (id) {
+    return {
+      type: CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR_INFO,
+      data: items,
+    };
+  } else {
+    return {
+      type: CONSTANTS.STREAMS.CREATE_STREAM_PROCESSOR_INFO,
+      data: items,
+    };
+  }
 };
 
 export const deleteStep = (name, step_id) => (dispatch) => {
