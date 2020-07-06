@@ -112,7 +112,8 @@ function ManageSimulation(props) {
         sort_order: newIndex,
         items: reorderedSimulations,
       })
-      .then((response) => console.log(response.data));
+      .then((response) => console.log(response.data))
+      .catch((e) => console.log(e));
   };
 
   if (openGroup) {
