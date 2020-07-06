@@ -46,7 +46,6 @@ const Step = (props) => {
   };
 
   useEffect(() => {
-    console.log("props.itemsStepTypes", props.itemsStepTypes);
     if (props.itemsStepTypes["functions"].length > 0) {
       const filtered = props.itemsStepTypes["function_endpoints"].filter(
         (func) => +func.Function === +props.itemsStepTypes["functions"][0].id
@@ -205,6 +204,7 @@ const Step = (props) => {
                                   values={props.values}
                                   onChange={setValueStep}
                                   elem={elem}
+                                  block={block}
                                   indexBlock={i}
                                   setFieldValue={(name, e) =>
                                     setFieldValue(`blocks.${i}.${name}`, e)

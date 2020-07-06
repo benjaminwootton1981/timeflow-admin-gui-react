@@ -42,8 +42,8 @@ export default function StreamProcessorReducer(state = initialState, action) {
 
             //IN PROGRESS
             let setSchemaValue = "";
-            if (elBlock.changes_schema_block === 1) {
-            }
+            // if (elBlock.changes_schema_block === 1) {
+            // }
 
             Object.assign(block, {});
             if (elBlock.input_type === "select") {
@@ -51,7 +51,9 @@ export default function StreamProcessorReducer(state = initialState, action) {
                 elBlock[nameValue[elBlock.input_type]].length > 0
                   ? elBlock[nameValue[elBlock.input_type]][0][0]
                   : elBlock[nameValue[elBlock.input_type]];
-              block[elBlock.name] = valueSelect;
+              block[elBlock.name] = Array.isArray(valueSelect)
+                ? ""
+                : valueSelect;
             } else {
               block[elBlock.name] = elBlock[nameValue[elBlock.input_type]];
             }
@@ -62,7 +64,7 @@ export default function StreamProcessorReducer(state = initialState, action) {
             field[nameValue[field.input_type]].length > 0
               ? field[nameValue[field.input_type]][0][0]
               : field[nameValue[field.input_type]];
-          newStep[field.name] = valueSelect;
+          newStep[field.name] = Array.isArray(valueSelect) ? "" : valueSelect;
         } else {
           newStep[field.name] = field[nameValue[field.input_type]];
         }

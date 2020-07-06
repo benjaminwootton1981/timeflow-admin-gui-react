@@ -23,6 +23,7 @@ const ModalNewStep = (props) => {
   const selectStep = (stepData, index) => {
     setSelectedStepType(stepData);
     setSelectedStep(index);
+    props.updateDataStep();
   };
 
   const filteredStepTypes = step_types.filter(

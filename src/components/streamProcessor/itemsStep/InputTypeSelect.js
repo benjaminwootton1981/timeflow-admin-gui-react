@@ -95,10 +95,8 @@ const InputTypeSelect = (props) => {
                 className="step"
               >
                 {typeChoices.map((sel, i) => {
-                  const val0 =
-                    sel.name === undefined ? sel[0] : sel.display_name;
-                  const val1 =
-                    sel.name === undefined ? sel[1] : sel.display_name;
+                  const val0 = sel.name === undefined ? sel[0] : sel.name;
+                  const val1 = sel.name === undefined ? sel[1] : sel.name;
                   return <option value={val0}>{val1}</option>;
                 })}
               </select>

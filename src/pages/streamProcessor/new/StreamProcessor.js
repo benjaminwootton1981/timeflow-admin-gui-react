@@ -37,10 +37,6 @@ const StreamProcessor = (props) => {
   const projectId = props.match.params.id;
 
   const isNew = !processorId;
-
-  const hideModal = () => {
-    setModalVisible(false);
-  };
   const { stepsStreamProcessor, newStreamprocessors } = props.itemsStepTypes;
 
   let defaultInfoProject = {
@@ -87,10 +83,10 @@ const StreamProcessor = (props) => {
     },
     onSubmit: (values) => {
       if (isNew) {
-        props.createStreamProcessor(values);
+        props.createStreamProcessor(values, projectId);
         history.push(`/projects/${projectId}/streamprocessors`);
       } else {
-        props.saveStreamProcessor(values, processorId);
+        props.saveStreamProcessor(values, processorId, projectId);
         history.push(`/projects/${projectId}/streamprocessors`);
       }
     },
@@ -101,6 +97,13 @@ const StreamProcessor = (props) => {
       props.updateDataInfo(values, processorId);
     }
   }, [values]);
+  const hideModal = () => {
+    setModalVisible(false);
+  };
+  const updateDataStep = () => {
+    props.updateDataStreamProcessor(values.items);
+    props.updateDataInfo(values, processorId);
+  };
   if (!defaultInfoProject) {
     return false;
   }
@@ -189,7 +192,11 @@ const StreamProcessor = (props) => {
           </div>
         </div>
         {isModalVisible && (
-          <ModalNewStep hideModal={hideModal} isModalVisible={isModalVisible} />
+          <ModalNewStep
+            hideModal={hideModal}
+            isModalVisible={isModalVisible}
+            updateDataStep={updateDataStep}
+          />
         )}
       </div>
     </form>

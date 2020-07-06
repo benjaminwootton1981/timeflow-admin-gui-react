@@ -54,37 +54,43 @@ export const getStreamProcessor = (stream_processor_id) => (dispatch) => {
     });
 };
 
-export const createStreamProcessor = (dataStep) => (dispatch) => {
+export const createStreamProcessor = (dataStep, project_id) => (dispatch) => {
+  console.log("dataStep", dataStep);
+
   const steps = dataStep.items;
   const streamProcessorData = dataStep;
   delete streamProcessorData["items"];
-  const stringifyData = JSON.stringify(streamProcessorData);
+  const addIdStreamProcessorData = Object.assign(streamProcessorData, {});
+  addIdStreamProcessorData["project"] = project_id;
+  const stringifyData = JSON.stringify(addIdStreamProcessorData);
   setStreamProcessorRequest(stringifyData)
     .then((resp) => {
+      console.log("RESP CREATE PROJECT");
       steps.forEach((step, i) => {
-        if (step.blocks.length > 0) {
-          step.blocks.forEach((block) => {
-            console.log("BLOCK", block);
-            const addId = Object.assign(block, {});
-            addId["parent"] = resp.data.id;
-            addId["ordering"] = i + 1;
-            const stringifyBlock = JSON.stringify(addId);
-
-            setStepTypeRequest(stringifyBlock)
-              .then((resp) => {
-                console.log("RESP CREATE BLOCK", resp);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          });
-        }
         const addId = Object.assign(step, {});
         addId["streamprocessor"] = resp.data.id;
         addId["ordering"] = i + 1;
         const stringifyDataStep = JSON.stringify(addId);
         setStepTypeRequest(stringifyDataStep)
-          .then((resp) => {})
+          .then((resp) => {
+            console.log("ID", resp.data);
+            if (step.blocks.length > 0) {
+              step.blocks.forEach((block) => {
+                const addId = Object.assign(block, {});
+                addId["parent"] = resp.data.id;
+                addId["ordering"] = i + 1;
+                addId["name"] = step.name;
+                addId["steptype"] = step.steptype;
+                const stringifyBlock = JSON.stringify(addId);
+
+                setStepTypeRequest(stringifyBlock)
+                  .then((resp) => {})
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              });
+            }
+          })
           .catch((err) => {
             console.log(err);
           });
@@ -114,16 +120,16 @@ export const saveStreamProcessor = (editStreamProcessor, processorId) => (
 
     if (step.blocks.length > 0) {
       step.blocks.forEach((block) => {
-        console.log("BLOCK", block);
         const addId = Object.assign(block, {});
         addId["parent"] = step.id;
+        addId["name"] = step.name;
+        addId["steptype"] = step.steptype;
         addId["ordering"] = i + 1;
         const stringifyBlock = JSON.stringify(addId);
 
-        if (block.id !== null) {
-          updateStepTypeRequest(step.id, stringifyBlock)
+        if (block.id !== undefined && block.id !== null) {
+          updateStepTypeRequest(block.id, stringifyBlock)
             .then((resp) => {
-              console.log("RESP uPDATE");
               if (resp.status === 200) {
               } else {
                 alert(resp.data.streamprocessor[0]);
@@ -135,8 +141,6 @@ export const saveStreamProcessor = (editStreamProcessor, processorId) => (
         } else {
           setStepTypeRequest(stringifyBlock)
             .then((resp) => {
-              console.log("RESP uPDATE CREQATE");
-
               if (resp.status === 201) {
               } else {
                 alert(resp.data.streamprocessor[0]);
