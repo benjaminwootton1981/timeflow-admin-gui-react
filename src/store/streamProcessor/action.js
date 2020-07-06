@@ -2,8 +2,6 @@ import { CONSTANTS } from "../constants";
 import {
   deleteStepRequest,
   getDataDictionaryRequest,
-  getDatadictionaryRequest,
-  getFunctionEndpoints,
   getFunctionEndpointsRequest,
   getFunctionRequest,
   getKpiRequest,
@@ -56,20 +54,43 @@ export const getStreamProcessor = (stream_processor_id) => (dispatch) => {
     });
 };
 
-export const createStreamProcessor = (dataStep) => (dispatch) => {
+export const createStreamProcessor = (dataStep, project_id) => (dispatch) => {
+  console.log("dataStep", dataStep);
+
   const steps = dataStep.items;
   const streamProcessorData = dataStep;
   delete streamProcessorData["items"];
-  const stringifyData = JSON.stringify(streamProcessorData);
+  const addIdStreamProcessorData = Object.assign(streamProcessorData, {});
+  addIdStreamProcessorData["project"] = project_id;
+  const stringifyData = JSON.stringify(addIdStreamProcessorData);
   setStreamProcessorRequest(stringifyData)
     .then((resp) => {
+      console.log("RESP CREATE PROJECT");
       steps.forEach((step, i) => {
         const addId = Object.assign(step, {});
         addId["streamprocessor"] = resp.data.id;
         addId["ordering"] = i + 1;
         const stringifyDataStep = JSON.stringify(addId);
         setStepTypeRequest(stringifyDataStep)
-          .then((resp) => {})
+          .then((resp) => {
+            console.log("ID", resp.data);
+            if (step.blocks.length > 0) {
+              step.blocks.forEach((block) => {
+                const addId = Object.assign(block, {});
+                addId["parent"] = resp.data.id;
+                addId["ordering"] = i + 1;
+                addId["name"] = step.name;
+                addId["steptype"] = step.steptype;
+                const stringifyBlock = JSON.stringify(addId);
+
+                setStepTypeRequest(stringifyBlock)
+                  .then((resp) => {})
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              });
+            }
+          })
           .catch((err) => {
             console.log(err);
           });
@@ -90,15 +111,47 @@ export const saveStreamProcessor = (editStreamProcessor, processorId) => (
     const streamProcessorInfo = editStreamProcessor;
     delete streamProcessorInfo["items"];
     const stringifyDataInfo = JSON.stringify(streamProcessorInfo);
-    if (step["block"]) {
-      console.log("BLOCK");
-    }
+
     updateStreamProcessorInfoRequest(processorId, stringifyDataInfo)
       .then((resp) => {})
       .catch((err) => {
         console.log(err);
       });
 
+    if (step.blocks.length > 0) {
+      step.blocks.forEach((block) => {
+        const addId = Object.assign(block, {});
+        addId["parent"] = step.id;
+        addId["name"] = step.name;
+        addId["steptype"] = step.steptype;
+        addId["ordering"] = i + 1;
+        const stringifyBlock = JSON.stringify(addId);
+
+        if (block.id !== undefined && block.id !== null) {
+          updateStepTypeRequest(block.id, stringifyBlock)
+            .then((resp) => {
+              if (resp.status === 200) {
+              } else {
+                alert(resp.data.streamprocessor[0]);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          setStepTypeRequest(stringifyBlock)
+            .then((resp) => {
+              if (resp.status === 201) {
+              } else {
+                alert(resp.data.streamprocessor[0]);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
+    }
     if (step.id !== null) {
       updateStepTypeRequest(step.id, stringifyDataStep)
         .then((resp) => {
@@ -179,10 +232,17 @@ export const updateDataInfo = (data, id) => {
     description: data.description,
     replicas: data.replicas,
   };
-  return {
-    type: CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR_INFO,
-    data: items,
-  };
+  if (id) {
+    return {
+      type: CONSTANTS.STREAMS.UPDATE_STREAM_PROCESSOR_INFO,
+      data: items,
+    };
+  } else {
+    return {
+      type: CONSTANTS.STREAMS.CREATE_STREAM_PROCESSOR_INFO,
+      data: items,
+    };
+  }
 };
 
 export const deleteStep = (name, step_id) => (dispatch) => {

@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./blockStyles.scss";
 import { connect } from "react-redux";
+import { isEmpty } from "lodash";
 
 const InputTypeBlock = (props) => {
-  const { elem, indexBlock, schemas, setFieldValue } = props;
+  const { elem, indexBlock, schemas, setFieldValue, block } = props;
   const [valueSelect, SetValueSelect] = useState({
-    value: "=",
-    key_type_from: "from_event",
-    key_type: "static_value",
+    value: !isEmpty(block) ? block["value"] : "=",
+    key_type_from: !isEmpty(block) ? block["key_type_from"] : "from_event",
+    key_type: !isEmpty(block) ? block["key_type"] : "static_value",
   });
-
   if (schemas.length <= 0) {
     return false;
   }
@@ -17,7 +17,6 @@ const InputTypeBlock = (props) => {
   if (props.actualSchema.length <= 0) {
     schema = props.schemas[0];
   }
-
   const typeReturnEl = (e, blockElem) => {
     setFieldValue(blockElem.name, e.target.value);
     props.onChange(e);
@@ -33,7 +32,6 @@ const InputTypeBlock = (props) => {
           }
           let isRender = false;
           const isRelated = Array.isArray(blockElem.related_to.value);
-
           if (
             blockElem.related_to.value &&
             valueSelect[blockElem.related_to.field]
@@ -46,6 +44,7 @@ const InputTypeBlock = (props) => {
             });
             isRender = foundElem.length > 0;
           }
+
           return (
             <>
               {blockElem.input_type === "select" ? (
@@ -60,7 +59,14 @@ const InputTypeBlock = (props) => {
                         {choices.map((el) => {
                           const val0 = el.name === undefined ? el[0] : el.name;
                           const val1 = !el.name ? el[1] : el.name;
-                          return <option value={val0}>{val1}</option>;
+                          return (
+                            <option
+                              value={val0}
+                              selected={el[0] === valueSelect[blockElem.name]}
+                            >
+                              {val1}
+                            </option>
+                          );
                         })}
                       </select>
                     </div>
@@ -77,8 +83,16 @@ const InputTypeBlock = (props) => {
                               const val0 =
                                 el.name === undefined ? el[0] : el.name;
                               const val1 = !el.name ? el[1] : el.name;
-
-                              return <option value={val0}>{val1}</option>;
+                              return (
+                                <option
+                                  value={val0}
+                                  selected={
+                                    el[0] === valueSelect[blockElem.name]
+                                  }
+                                >
+                                  {val1}
+                                </option>
+                              );
                             })}
                           </select>
                         </div>
@@ -96,7 +110,7 @@ const InputTypeBlock = (props) => {
                       type="text"
                       name={blockElem.name}
                       placeholder={blockElem.name}
-                      value={props.values.block}
+                      value={block[blockElem.name]}
                     />
                   ) : (
                     <>
@@ -108,7 +122,7 @@ const InputTypeBlock = (props) => {
                           type="text"
                           name={blockElem.name}
                           placeholder={blockElem.name}
-                          value={props.values.block}
+                          value={block[blockElem.name]}
                         />
                       )}
                     </>

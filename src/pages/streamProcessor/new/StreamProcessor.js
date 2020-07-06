@@ -37,11 +37,7 @@ const StreamProcessor = (props) => {
   const projectId = props.match.params.id;
 
   const isNew = !processorId;
-
-  const hideModal = () => {
-    setModalVisible(false);
-  };
-  const { stepsStreamProcessor } = props.itemsStepTypes;
+  const { stepsStreamProcessor, newStreamprocessors } = props.itemsStepTypes;
 
   let defaultInfoProject = {
     name: "",
@@ -66,19 +62,20 @@ const StreamProcessor = (props) => {
       props.getStreamProcessor(processorId);
     }
   }, []);
-
   if (!isNew && props.streams.streamprocessors !== null) {
     defaultInfoProject = props.streams.streamprocessors.filter(
       (item) => item.id === +processorId
     );
     defaultInfoProject = defaultInfoProject[0];
+  } else {
+    defaultInfoProject = newStreamprocessors;
   }
   let { values, setFieldValue, handleSubmit, handleChange } = useFormik({
     enableReinitialize: true,
     initialValues: {
       name: defaultInfoProject.name,
       description: defaultInfoProject.description,
-      replicas: defaultInfoProject.replicas,
+      replicas: defaultInfoProject.replicas ? defaultInfoProject.replicas : 1,
       project: defaultInfoProject.project,
       items: stepsStreamProcessor.map((el, i) => {
         return { ...el };
@@ -86,10 +83,10 @@ const StreamProcessor = (props) => {
     },
     onSubmit: (values) => {
       if (isNew) {
-        props.createStreamProcessor(values);
+        props.createStreamProcessor(values, projectId);
         history.push(`/projects/${projectId}/streamprocessors`);
       } else {
-        props.saveStreamProcessor(values, processorId);
+        props.saveStreamProcessor(values, processorId, projectId);
         history.push(`/projects/${projectId}/streamprocessors`);
       }
     },
@@ -100,6 +97,13 @@ const StreamProcessor = (props) => {
       props.updateDataInfo(values, processorId);
     }
   }, [values]);
+  const hideModal = () => {
+    setModalVisible(false);
+  };
+  const updateDataStep = () => {
+    props.updateDataStreamProcessor(values.items);
+    props.updateDataInfo(values, processorId);
+  };
   if (!defaultInfoProject) {
     return false;
   }
@@ -188,7 +192,11 @@ const StreamProcessor = (props) => {
           </div>
         </div>
         {isModalVisible && (
-          <ModalNewStep hideModal={hideModal} isModalVisible={isModalVisible} />
+          <ModalNewStep
+            hideModal={hideModal}
+            isModalVisible={isModalVisible}
+            updateDataStep={updateDataStep}
+          />
         )}
       </div>
     </form>
