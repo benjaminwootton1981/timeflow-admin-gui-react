@@ -61,7 +61,7 @@ const StreamProcessorValueCard = ({ post: item, isDragging }) => {
       </div>
       <div className="cardFooter">
         <a
-          href={`/projects/${
+          href={`/react/projects/${
             item.project?.id || item.project
           }/streamprocessors/${item.id}/edit/`}
           className="edit"
