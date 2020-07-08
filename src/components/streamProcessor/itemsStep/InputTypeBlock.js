@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./blockStyles.scss";
 import { connect } from "react-redux";
 import { isEmpty } from "lodash";
+import { deleteBlock } from "../../../store/streamProcessor/action";
+import SelectFromBlock from "./SelectFormBlock";
 
 const InputTypeBlock = (props) => {
   const { elem, indexBlock, schemas, setFieldValue, block } = props;
@@ -10,10 +12,22 @@ const InputTypeBlock = (props) => {
     key_type_from: !isEmpty(block) ? block["key_type_from"] : "from_event",
     key_type: !isEmpty(block) ? block["key_type"] : "static_value",
   });
+  useEffect(() => {}, [props.actualSchema]);
   if (schemas.length <= 0) {
     return false;
   }
-  let schema = props.actualSchema[0];
+  let schema = [];
+  if (props.actualSchema) {
+    props.actualSchema.forEach((el) => {
+      schema = el[props.indexInheritsSchema];
+      if (schema) {
+        schema = schema[0];
+      } else {
+        schema = props.schemas[0];
+      }
+    });
+  }
+
   if (props.actualSchema.length <= 0) {
     schema = props.schemas[0];
   }
@@ -50,52 +64,23 @@ const InputTypeBlock = (props) => {
               {blockElem.input_type === "select" ? (
                 <>
                   {!isRelated ? (
-                    <div className="styled-select">
-                      <select
-                        name={blockElem.name}
-                        onChange={(e) => typeReturnEl(e, blockElem)}
-                        className="step"
-                      >
-                        {choices.map((el) => {
-                          const val0 = el.name === undefined ? el[0] : el.name;
-                          const val1 = !el.name ? el[1] : el.name;
-                          return (
-                            <option
-                              value={val0}
-                              selected={el[0] === valueSelect[blockElem.name]}
-                            >
-                              {val1}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
+                    <SelectFromBlock
+                      blockElem={blockElem}
+                      typeReturnEl={typeReturnEl}
+                      choices={choices}
+                      valueSelect={valueSelect}
+                      setFieldValue={setFieldValue}
+                    />
                   ) : (
                     <>
                       {isRender && (
-                        <div className="styled-select">
-                          <select
-                            name={blockElem.name}
-                            onChange={(e) => typeReturnEl(e, blockElem)}
-                            className="step"
-                          >
-                            {choices.map((el) => {
-                              const val0 =
-                                el.name === undefined ? el[0] : el.name;
-                              const val1 = !el.name ? el[1] : el.name;
-                              return (
-                                <option
-                                  value={val0}
-                                  selected={
-                                    el[0] === valueSelect[blockElem.name]
-                                  }
-                                >
-                                  {val1}
-                                </option>
-                              );
-                            })}
-                          </select>
-                        </div>
+                        <SelectFromBlock
+                          blockElem={blockElem}
+                          typeReturnEl={typeReturnEl}
+                          choices={choices}
+                          valueSelect={valueSelect}
+                          setFieldValue={setFieldValue}
+                        />
                       )}
                     </>
                   )}

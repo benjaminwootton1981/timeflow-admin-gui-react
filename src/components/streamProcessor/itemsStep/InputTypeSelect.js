@@ -4,8 +4,9 @@ import { setSchemasId } from "../../../store/streamProcessor/action";
 import { NameHelper } from "../../../helper/NameHelper";
 
 const InputTypeSelect = (props) => {
-  const { elem, streams, isRelated, isRender } = props;
+  const { elem, streams, isRelated, isRender, stepIndex } = props;
   const [typeChoices, setTypeChoice] = useState([]);
+
   useEffect(() => {
     if (elem.choices.length === 0) {
       let choicesName = "";
@@ -18,24 +19,54 @@ const InputTypeSelect = (props) => {
       }
       //
       if (elem.is_need_fetch === "schema_fields") {
-        let schema = props.itemsStepTypes.actualSchema[0];
-        if (props.itemsStepTypes.actualSchema.length <= 0) {
+        let schema = [];
+        if (props.itemsStepTypes.actualSchema.length > 0) {
+          props.itemsStepTypes.actualSchema.forEach((el) => {
+            schema = el[props.indexInheritsSchema];
+            if (schema) {
+              schema = schema[0].schemafield_set;
+              props.setFieldValue(elem.name, schema[0].name);
+              setTypeChoice(schema);
+            } else {
+              schema = props.itemsStepTypes[choicesName][0].schemafield_set;
+              props.setFieldValue(elem.name, schema[0].name);
+              setTypeChoice(schema);
+            }
+          });
+        } else if (props.itemsStepTypes.actualSchema.length === 0) {
           schema = props.itemsStepTypes[choicesName][0].schemafield_set;
           setTypeChoice(schema);
-        } else {
-          setTypeChoice(props.itemsStepTypes.actualSchema[0].schemafield_set);
+          props.setFieldValue(elem.name, schema[0].name);
         }
-      } else {
+      } else if (elem.name === "topic") {
         setTypeChoice(props.itemsStepTypes[choicesName]);
+        props.setFieldValue(
+          elem.name,
+          props.itemsStepTypes[choicesName][0].name
+        );
+        props.setSchemasId({
+          value: props.itemsStepTypes[choicesName][0].name,
+          stepIndex: stepIndex,
+        });
+      } else if (elem.name === "record_type") {
+        setTypeChoice(props.itemsStepTypes[choicesName]);
+        props.setFieldValue(
+          elem.name,
+          props.itemsStepTypes[choicesName][0].name
+        );
       }
     } else {
       setTypeChoice(elem.choices);
+      const checkName =
+        elem.choices[0].name === undefined
+          ? elem.choices[0][0]
+          : elem.choices[0].name;
+      props.setFieldValue(elem.name, checkName);
     }
-  }, [elem.is_need_fetch, props.itemsStepTypes.actualSchema]);
+  }, [elem.is_need_fetch]);
   if (!streams) {
     return false;
   }
-
   const setSchema = (e) => {
     props.changeFunctionEndpoints(e, elem);
 
@@ -45,8 +76,14 @@ const InputTypeSelect = (props) => {
     };
     props.setFieldValue(elem.name, e.target.value);
     props.onChange(element);
-    if (elem.name === "topic" || "record_type") {
-      props.setSchemasId(e.target.value);
+    if (elem.name === "topic") {
+      props.setSchemasId({ value: e.target.value, stepIndex: stepIndex });
+    }
+    if (elem.name === "record_type") {
+      props.setSchemasId({ value: e.target.value, stepIndex: stepIndex });
+    }
+    if (elem.name === "event_type") {
+      props.setSchemasId({ value: e.target.value, stepIndex: stepIndex });
     }
   };
 
@@ -66,12 +103,15 @@ const InputTypeSelect = (props) => {
                     sel.display_name === undefined
                       ? sel.name
                       : sel.display_name;
-                  const val0 =
-                    isDisplayName === undefined ? sel[0] : isDisplayName;
+                  const val0 = isDisplayName === undefined ? sel[0] : sel.name;
                   const val1 =
                     isDisplayName === undefined ? sel[1] : isDisplayName;
                   return (
-                    <option id={sel.id} value={val0}>
+                    <option
+                      id={sel.id}
+                      value={val0}
+                      // selected={props.values[elem.name] === sel.display_name}
+                    >
                       {val1}
                     </option>
                   );
@@ -91,12 +131,15 @@ const InputTypeSelect = (props) => {
                       ? sel.name
                       : sel.display_name;
 
-                  const val0 =
-                    isDisplayName === undefined ? sel[0] : isDisplayName;
+                  const val0 = isDisplayName === undefined ? sel[0] : sel.name;
                   const val1 =
                     isDisplayName === undefined ? sel[1] : isDisplayName;
                   return (
-                    <option id={sel.id} value={val0}>
+                    <option
+                      id={sel.id}
+                      value={val0}
+                      selected={val0 === sel.name}
+                    >
                       {val1}
                     </option>
                   );
@@ -119,8 +162,7 @@ const InputTypeSelect = (props) => {
                     sel.display_name === undefined
                       ? sel.name
                       : sel.display_name;
-                  const val0 =
-                    isDisplayName === undefined ? sel[0] : isDisplayName;
+                  const val0 = isDisplayName === undefined ? sel[0] : sel.name;
                   const val1 =
                     isDisplayName === undefined ? sel[1] : isDisplayName;
                   return <option value={val0}>{val1}</option>;

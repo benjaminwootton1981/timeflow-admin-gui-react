@@ -24,6 +24,7 @@ import {
 } from "../../../store/streamProcessor/action";
 import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
+import * as yup from "yup";
 
 const StreamProcessor = (props) => {
   let history = useHistory();
@@ -45,6 +46,7 @@ const StreamProcessor = (props) => {
     replicas: 1,
     project: projectId,
   };
+
   useEffect(() => {
     props.getStreamProcessorsList(projectId);
     props.getStepType();
@@ -62,6 +64,7 @@ const StreamProcessor = (props) => {
       props.getStreamProcessor(processorId);
     }
   }, []);
+
   if (!isNew && props.streams.streamprocessors !== null) {
     defaultInfoProject = props.streams.streamprocessors.filter(
       (item) => item.id === +processorId
@@ -70,17 +73,31 @@ const StreamProcessor = (props) => {
   } else {
     defaultInfoProject = newStreamprocessors;
   }
-  let { values, setFieldValue, handleSubmit, handleChange } = useFormik({
+  let {
+    values,
+    setFieldValue,
+    handleSubmit,
+    handleChange,
+    isSubmiting,
+    touched,
+  } = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: defaultInfoProject.name,
-      description: defaultInfoProject.description,
+      name: defaultInfoProject.name ? defaultInfoProject.name : "",
+      description: defaultInfoProject.description
+        ? defaultInfoProject.description
+        : "",
       replicas: defaultInfoProject.replicas ? defaultInfoProject.replicas : 1,
-      project: defaultInfoProject.project,
-      items: stepsStreamProcessor.map((el, i) => {
+      project: defaultInfoProject.project ? defaultInfoProject.replicas : 1,
+      items: stepsStreamProcessor.map((el) => {
         return { ...el };
       }),
     },
+    validationSchema: yup.object().shape({
+      name: yup.string().required("is empty"),
+      description: yup.string().required("is empty"),
+      replicas: yup.string().required("is empty"),
+    }),
     onSubmit: (values) => {
       if (isNew) {
         props.createStreamProcessor(values, projectId);
@@ -96,7 +113,7 @@ const StreamProcessor = (props) => {
       props.updateDataStreamProcessor(values.items);
       props.updateDataInfo(values, processorId);
     }
-  }, [values]);
+  }, []);
   const hideModal = () => {
     setModalVisible(false);
   };
@@ -110,42 +127,53 @@ const StreamProcessor = (props) => {
   const title = isNew ? (
     <h2 className="dashboard__header">New Stream Processor</h2>
   ) : (
-    <h2 className="dashboard__header">Edit Stream Processor</h2>
+    <>
+      <h2 className="project-name">{values.name}</h2>
+      <h2 className="dashboard__header">Edit Stream Processor</h2>
+    </>
   );
   return (
     <form onSubmit={handleSubmit}>
       <div className="wrapper">
         {title}
-        <div className="row">
-          <div style={{ width: "50%" }}>
-            <input
-              type="text"
-              name="name"
-              placeholder="Stream Processor Name"
-              value={values.name}
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              name="replicas"
-              style={{ marginTop: "1%" }}
-              value={values.replicas}
-              onChange={handleChange}
-            />
-          </div>
-          <textarea
+        <div className="new-item__title">
+          <input
             type="text"
+            name="name"
+            className="new-item__name required"
+            placeholder="Stream Processor Name"
+            value={values.name}
+            onChange={handleChange}
+          />
+          <textarea
             name="description"
             placeholder="Stream Processor Description"
-            className="step"
-            style={{ width: "48%", marginLeft: "1%" }}
+            className="new-item__description"
+            // style={{width: "48%", marginLeft: "1%"}}
             value={values.description}
+            onChange={handleChange}
+            maxlength={200}
+            id="id_description"
+          />
+          <input
+            type="number"
+            name="replicas"
+            className="new-item__replicas required"
+            style={{ marginTop: "1%" }}
+            value={values.replicas}
             onChange={handleChange}
           />
         </div>
         <div className="marginTop-20 streamProcessorCardContainer">
           <div className="new-item__body">
             {values.items.map((el, i, arr) => {
+              const isStepType = el.steptype && el.steptype;
+              let isInherits_schema;
+              if (props.itemsStepTypes.stepData.step_types_data) {
+                isInherits_schema =
+                  props.itemsStepTypes.stepData.step_types_data[isStepType]
+                    .inherits_schema;
+              }
               const isSchemaBlock = arr.length - 1 === i;
               const items = {
                 stepIndex: i,
@@ -153,6 +181,7 @@ const StreamProcessor = (props) => {
                 isLastStep: arr.length - 1 === i,
                 stepEl: el,
               };
+              const indexInheritsSchema = isInherits_schema === 1 ? i : i;
               const schemas = props.itemsStepTypes.schemas;
               return (
                 <div className="newStep">
@@ -162,8 +191,15 @@ const StreamProcessor = (props) => {
                     }
                     values={values.items[i]}
                     items={items}
+                    indexInheritsSchema={indexInheritsSchema}
                   />
-                  {!isSchemaBlock && <SchemaBlock schemas={schemas} />}
+                  {!isSchemaBlock && (
+                    <SchemaBlock
+                      schemas={schemas}
+                      values={values.items[i]}
+                      indexInheritsSchema={indexInheritsSchema}
+                    />
+                  )}
                 </div>
               );
             })}

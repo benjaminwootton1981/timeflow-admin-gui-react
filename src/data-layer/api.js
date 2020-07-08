@@ -1,5 +1,6 @@
 // Api
 import { ax } from "./axios";
+import api from "../api";
 
 ax.interceptors.response.use(
   function (response) {
@@ -20,6 +21,9 @@ ax.interceptors.response.use(
  */
 export const getStreamsRequest = (project_id) =>
   ax.get(`streams/?project=${project_id}`);
+
+export const getProjectsRequest = (project_id) =>
+  ax.get(`projects/${project_id}`);
 
 export const getStreamProcessorsRequest = (project_id) =>
   ax.get(`streamprocessors/?project=${project_id}`);

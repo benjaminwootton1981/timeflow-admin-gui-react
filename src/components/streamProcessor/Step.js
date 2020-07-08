@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
+  deleteBlock,
   deleteStep,
   getStreams,
   orderingStep,
@@ -42,6 +43,7 @@ const Step = (props) => {
   };
   const deleteBlock = (index) => {
     let array = values.blocks.filter((n, i) => i !== index);
+    // props.deleteBlock(values.blocks[index].id);
     setFieldValue(`blocks`, array);
   };
 
@@ -58,19 +60,22 @@ const Step = (props) => {
     setFieldsKey(stepEl.steptype);
   }, [stepEl]);
 
-  useEffect(() => {}, [stepDataValue]);
+  // useEffect(() => {
+  // }, [stepDataValue]);
 
-  useEffect(() => {
-    if (JSON.stringify(props.values) !== JSON.stringify(values.items)) {
-      props.setFieldValue("blocks", values.blocks);
-    }
-  }, [values]);
+  // useEffect(() => {
+  //     if (JSON.stringify(props.values) !== JSON.stringify(values.items)) {
+  //         props.setFieldValue("blocks", values.blocks);
+  //     }
+  // }, [values]);
   if (!step_types) {
     return false;
   }
   const onChangeFields = (e) => {
     setFieldsKey(e.target.value);
-    props.setFieldValue(`blocks`, [{}]);
+    if (values.blocks.length > 1) {
+      props.setFieldValue(`blocks`, [values.blocks[0]]);
+    }
   };
   const setValueStep = (e) => {
     // SetValueSelect({...valueSelect, [e.name]: e.value});
@@ -111,7 +116,7 @@ const Step = (props) => {
     }
   };
   return (
-    <table className="new-item__step" id="steps-table">
+    <table className="new-item__step inbound" id="steps-table">
       <tbody>
         <tr>
           <th>Step Name</th>
@@ -119,16 +124,18 @@ const Step = (props) => {
           <th>Actions</th>
         </tr>
         <tr>
-          <td>
+          <td style={{ minWidth: 400 }}>
             <input
+              style={{ width: "100%" }}
               name="name"
               onChange={(e) => props.setFieldValue("name", e.target.value)}
               value={props.values?.name || ""}
-              className="required"
+              type="input"
+              className="textarea"
             />
           </td>
 
-          <td>
+          <td style={{ width: "55%" }}>
             <div className="styled-select">
               <select
                 name="steptype"
@@ -183,11 +190,14 @@ const Step = (props) => {
                     const typeElement = {
                       select: (
                         <InputTypeSelect
+                          stepIndex={stepIndex}
                           isRelated={isRelated}
                           isRender={isRender}
                           onChange={setValueStep}
+                          values={props.values}
                           streams={streams}
                           elem={elem}
+                          indexInheritsSchema={props.indexInheritsSchema}
                           changeFunctionEndpoints={changeFunctionEndpoints}
                           typeChoicesEndpoint={typeChoicesEndpoint}
                           setFieldValue={props.setFieldValue}
@@ -203,6 +213,9 @@ const Step = (props) => {
                                   addNewBlock={addNewBlock}
                                   values={props.values}
                                   onChange={setValueStep}
+                                  indexInheritsSchema={
+                                    props.indexInheritsSchema
+                                  }
                                   elem={elem}
                                   block={block}
                                   indexBlock={i}
@@ -243,42 +256,59 @@ const Step = (props) => {
               </div>
             </div>
           </td>
-          <td style={{ maxWidth: 250 }} className="new-item__actions">
+          <td
+            style={{
+              minWidth: 250,
+              justifyContent: "space-between",
+              display: "block",
+            }}
+            className="new-item__actions"
+          >
             <input
               type="hidden"
               name="ordering_new_0"
               value="1"
               className="ordering_new"
             />
-            {!isFirst && (
-              <>
-                {!isLastStep && (
-                  <>
-                    <button
-                      type={"button"}
-                      onClick={() => props.orderingStep("down", stepIndex)}
-                      className="card-action arrow-bot js-down"
-                    >
-                      {""}
-                    </button>
-                    <button
-                      type={"button"}
-                      onClick={() => props.orderingStep("up", stepIndex)}
-                      className="card-action arrow-top js-up"
-                    >
-                      {""}
-                    </button>
-                  </>
-                )}
+            <div
+              style={{
+                flexDirection: "row",
+                display: "flex",
+                justifyContent: "space-between",
+                visibility: `${isFirst ? "hidden" : "visible"}`,
+              }}
+            >
+              <div
+                style={{
+                  flexDirection: "row",
+                  display: "contents",
+                  justifyContent: "space-between",
+                  visibility: `${isLastStep || isFirst ? "hidden" : "visible"}`,
+                }}
+              >
                 <button
                   type={"button"}
-                  onClick={() => props.deleteStep(stepIndex, props.values.id)}
-                  className="card-btn card-btn--delete js-delete"
+                  onClick={() => props.orderingStep("down", stepIndex)}
+                  className="card-action arrow-bot js-down"
                 >
-                  Delete
+                  {""}
                 </button>
-              </>
-            )}
+                <button
+                  type={"button"}
+                  onClick={() => props.orderingStep("up", stepIndex)}
+                  className="card-action arrow-top js-up"
+                >
+                  {""}
+                </button>
+              </div>
+              <button
+                type={"button"}
+                onClick={() => props.deleteStep(stepIndex, props.values.id)}
+                className="card-btn card-btn--delete js-delete"
+              >
+                Delete
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -291,5 +321,5 @@ export default connect(
       itemsStepTypes: state.StreamProcessorReducer,
     };
   },
-  { deleteStep, getStreams, orderingStep }
+  { deleteStep, deleteBlock, getStreams, orderingStep }
 )(Step);

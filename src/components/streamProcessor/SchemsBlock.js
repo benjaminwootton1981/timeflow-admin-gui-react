@@ -6,12 +6,20 @@ const SchemaBlock = (props) => {
   const togglePolio = () => {
     setPolio(!polio);
   };
-  if (props.schemas && props.schemas.length <= 0) {
+  if (!props.schemas || props.schemas.length <= 0) {
     return false;
   }
-  let schema = props.actualSchema[0];
+  let schema = [];
+  props.actualSchema.forEach((el) => {
+    schema = el[props.indexInheritsSchema];
+    if (!schema) {
+      schema = props.schemas[0];
+    } else {
+      schema = schema[0];
+    }
+  });
   if (props.actualSchema.length <= 0) {
-    schema = props.schemas[0];
+    schema = props.schemas[props.indexInheritsSchema];
   }
 
   return (

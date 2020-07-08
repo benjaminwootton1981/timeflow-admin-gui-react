@@ -1,5 +1,6 @@
 import { CONSTANTS } from "../constants";
 import {
+  getProjectsRequest,
   getSimulationsRequest,
   getStreamProcessorsRequest,
   getStreamsRequest,
@@ -23,6 +24,18 @@ export const getStreamProcessors = (project_id) => (dispatch) => {
     .then((result) => {
       dispatch({
         type: CONSTANTS.STREAMS.GET_STREAM_PROCESSORS,
+        data: result.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+export const getProjects = (project_id) => (dispatch) => {
+  getProjectsRequest(project_id)
+    .then((result) => {
+      dispatch({
+        type: CONSTANTS.PROJECTS.GET_PROJECTS,
         data: result.data,
       });
     })

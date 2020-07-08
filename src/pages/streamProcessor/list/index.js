@@ -11,6 +11,7 @@ import GroupView from "../../GroupView";
 import Sortable from "../../Sortable";
 import { keyBy } from "lodash";
 import { message } from "antd";
+import { getProjects } from "../../../store/actions/serviceAction";
 
 function ManageStreamProcessor(props) {
   const [streamProcessors, setStreamProcessors] = useState([]);
@@ -22,19 +23,16 @@ function ManageStreamProcessor(props) {
   const [allItems, setAllItems] = useState([]);
   const [openGroup, setOpenGroup] = useState();
 
-  const [project, setProject] = useState({});
   const [groups, setGroups] = useState({});
-
   const projectId = props.match.params.id;
 
+  const { project } = props;
   useEffect(() => {
     props.getStreamProcessorsList(projectId);
   }, [projectId]);
 
   useEffect(() => {
-    api.get(`projects/${projectId}`).then((response) => {
-      setProject(response.data);
-    });
+    props.getProjects(projectId);
   }, [projectId]);
 
   useEffect(() => {
@@ -80,7 +78,6 @@ function ManageStreamProcessor(props) {
     const mapped = getMapped(allGroups, "streamprocessors");
     setAllItems(mapped);
   }, [allGroups]);
-
   const createGroup = (name) => {
     api
       .post("streamprocessor_groups/", {
@@ -195,7 +192,8 @@ export default connect(
   (state) => {
     return {
       streamProcessors: state.ServiceReducer.streamprocessors,
+      project: state.ServiceReducer.projects,
     };
   },
-  { getStreamProcessorsList }
+  { getStreamProcessorsList, getProjects }
 )(ManageStreamProcessor);

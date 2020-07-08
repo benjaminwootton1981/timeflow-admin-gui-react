@@ -4,12 +4,15 @@ const initialState = {
   streams: null,
   streamprocessors: null,
   simulations: null,
+  projects: {},
 };
 
 export default function ServiceReducer(state = initialState, action) {
   switch (action.type) {
     case CONSTANTS.STREAMS.GET_STREAMS:
       return { ...state, streams: action.data };
+    case CONSTANTS.PROJECTS.GET_PROJECTS:
+      return { ...state, projects: action.data };
     case CONSTANTS.STREAMS.GET_STREAM_PROCESSORS:
       return { ...state, streamprocessors: action.data };
     case CONSTANTS.STREAMS.GET_SIMULATIONS:
@@ -20,6 +23,7 @@ export default function ServiceReducer(state = initialState, action) {
       );
       filterStreamProcessors.push(action.data);
       return { ...state, streamprocessors: filterStreamProcessors };
+
     default:
       return state;
   }

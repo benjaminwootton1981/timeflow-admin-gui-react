@@ -55,7 +55,7 @@ export default function StreamProcessorReducer(state = initialState, action) {
                 ? ""
                 : valueSelect;
             } else {
-              block[elBlock.name] = elBlock[nameValue[elBlock.input_type]];
+              block[elBlock.name] = "";
             }
           });
           newStep["blocks"] = [block];
@@ -81,10 +81,29 @@ export default function StreamProcessorReducer(state = initialState, action) {
       return { ...state, stepData: action.data };
 
     case CONSTANTS.STREAMS.FILTERED_SCHEMAS:
+      const { value } = action.data;
       const filteredSchemas = [
-        ...state.schemas.filter((el) => el.name === action.data),
+        ...state.schemas.filter(
+          (el) => el.name === value.split("_").slice(2).join("_")
+        ),
       ];
-      return { ...state, actualSchema: filteredSchemas };
+      let setActualSchema;
+      if (state.actualSchema.length > 0) {
+        setActualSchema = [
+          ...state.actualSchema,
+          { [action.data.stepIndex]: filteredSchemas },
+        ];
+
+        state.actualSchema.forEach((schema) => {
+          // console.log('schema', Object.keys(schema))
+        });
+      } else {
+        setActualSchema = [
+          ...state.actualSchema,
+          { [action.data.stepIndex]: filteredSchemas },
+        ];
+      }
+      return { ...state, actualSchema: setActualSchema };
 
     case CONSTANTS.STREAMS.GET_STREAMS:
       return { ...state, streams: action.data };

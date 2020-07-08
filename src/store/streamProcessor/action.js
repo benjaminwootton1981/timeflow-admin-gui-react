@@ -55,8 +55,6 @@ export const getStreamProcessor = (stream_processor_id) => (dispatch) => {
 };
 
 export const createStreamProcessor = (dataStep, project_id) => (dispatch) => {
-  console.log("dataStep", dataStep);
-
   const steps = dataStep.items;
   const streamProcessorData = dataStep;
   delete streamProcessorData["items"];
@@ -73,7 +71,6 @@ export const createStreamProcessor = (dataStep, project_id) => (dispatch) => {
         const stringifyDataStep = JSON.stringify(addId);
         setStepTypeRequest(stringifyDataStep)
           .then((resp) => {
-            console.log("ID", resp.data);
             if (step.blocks.length > 0) {
               step.blocks.forEach((block) => {
                 const addId = Object.assign(block, {});
@@ -252,6 +249,18 @@ export const deleteStep = (name, step_id) => (dispatch) => {
         type: CONSTANTS.STREAMS.DELL_NEW_STEP,
         data: name,
       });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+export const deleteBlock = (block_id) => (dispatch) => {
+  deleteStepRequest(block_id)
+    .then((resp) => {
+      // dispatch({
+      //   type: CONSTANTS.STREAMS.DELL_NEW_STEP,
+      //   data: name,
+      // });
     })
     .catch((err) => {
       console.log(err);

@@ -22,7 +22,7 @@ export const def = {
   sum_fields: "",
   steptype: ``,
   ordering: 1,
-  topic: "1_1_new",
+  topic: "",
   field: null,
   value: null,
   event_field_name: null,
@@ -80,7 +80,7 @@ export const def = {
   rght: 2,
   tree_id: 1,
   mptt_level: 0,
-  streamprocessor: 1,
+  streamprocessor: null,
   parent: null,
 };
 
