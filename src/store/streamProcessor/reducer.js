@@ -83,10 +83,20 @@ export default function StreamProcessorReducer(state = initialState, action) {
     case CONSTANTS.STREAMS.FILTERED_SCHEMAS:
       const { value } = action.data;
       const filteredSchemas = [
-        ...state.schemas.filter(
-          (el) => el.name === value.split("_").slice(2).join("_")
-        ),
+        ...state.schemas.filter((el) => {
+          debugger;
+          let filteredData;
+          if (el.name.indexOf(" ") === 1) {
+            filteredData =
+              el.name.split(" ").slice(0).join("_") ===
+              value.split("_").slice(2).join("_");
+          } else {
+            filteredData = el.name === value.split("_").slice(2).join("_");
+          }
+          return filteredData;
+        }),
       ];
+      console.log("filteredSchemas", filteredSchemas);
       let setActualSchema;
       if (state.actualSchema.length > 0) {
         setActualSchema = [
