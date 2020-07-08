@@ -93,11 +93,12 @@ const StreamProcessor = (props) => {
         return { ...el };
       }),
     },
-    validationSchema: yup.object().shape({
-      name: yup.string().required("is empty"),
-      description: yup.string().required("is empty"),
-      replicas: yup.string().required("is empty"),
-    }),
+    // validationSchema: yup.object().shape({
+    //     name: yup.string().required("is empty"),
+    //     description: yup.string().required("is empty"),
+    //     replicas: yup.string().required("is empty"),
+    //
+    // }),
     onSubmit: (values) => {
       if (isNew) {
         props.createStreamProcessor(values, projectId);
@@ -222,7 +223,7 @@ const StreamProcessor = (props) => {
             <Button
               disabled={false}
               type={"submit"}
-              text={"submit"}
+              text={"Submit"}
               color={"dark"}
             />
           </div>
