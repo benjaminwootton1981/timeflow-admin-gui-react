@@ -88,7 +88,7 @@ const StreamProcessor = (props) => {
         ? defaultInfoProject.description
         : "",
       replicas: defaultInfoProject.replicas ? defaultInfoProject.replicas : 1,
-      project: defaultInfoProject.project && defaultInfoProject.replicas,
+      project: defaultInfoProject.project,
       items: stepsStreamProcessor.map((el) => {
         return { ...el };
       }),
