@@ -4,7 +4,9 @@ const SelectFromBlock = (props) => {
   const { blockElem, typeReturnEl, choices, valueSelect } = props;
   useEffect(() => {
     const val = choices[0].name === undefined ? choices[0][0] : choices[0].name;
-    props.setFieldValue(blockElem.name, val);
+    if (props.block.id === null) {
+      props.setFieldValue(blockElem.name, val);
+    }
   }, []);
   return (
     <div className="styled-select">

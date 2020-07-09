@@ -39,7 +39,7 @@ const Step = (props) => {
   });
 
   const addNewBlock = () => {
-    setFieldValue(`blocks.${values.blocks.length}.'id`, "null");
+    setFieldValue(`blocks.${values.blocks.length}.'id`, null);
   };
   const deleteBlock = (index) => {
     let array = values.blocks.filter((n, i) => i !== index);
@@ -60,14 +60,13 @@ const Step = (props) => {
     setFieldsKey(stepEl.steptype);
   }, [stepEl]);
 
-  // useEffect(() => {
-  // }, [stepDataValue]);
+  useEffect(() => {}, [stepDataValue]);
 
-  // useEffect(() => {
-  //     if (JSON.stringify(props.values) !== JSON.stringify(values.items)) {
-  //         props.setFieldValue("blocks", values.blocks);
-  //     }
-  // }, [values]);
+  useEffect(() => {
+    if (JSON.stringify(props.values.blocks) !== JSON.stringify(values.blocks)) {
+      props.setFieldValue("blocks", values.blocks);
+    }
+  }, [values.blocks]);
   if (!step_types) {
     return false;
   }

@@ -12,7 +12,7 @@ const InputTypeBlock = (props) => {
     key_type_from: !isEmpty(block) ? block["key_type_from"] : "from_event",
     key_type: !isEmpty(block) ? block["key_type"] : "static_value",
   });
-  useEffect(() => {}, [props.actualSchema]);
+  useEffect(() => {}, [props.actualSchema, props.values]);
   if (schemas.length <= 0) {
     return false;
   }
@@ -27,7 +27,6 @@ const InputTypeBlock = (props) => {
       }
     });
   }
-
   if (props.actualSchema.length <= 0) {
     schema = props.schemas[0];
   }
@@ -70,11 +69,13 @@ const InputTypeBlock = (props) => {
                       choices={choices}
                       valueSelect={valueSelect}
                       setFieldValue={setFieldValue}
+                      block={props.block}
                     />
                   ) : (
                     <>
                       {isRender && (
                         <SelectFromBlock
+                          block={props.block}
                           blockElem={blockElem}
                           typeReturnEl={typeReturnEl}
                           choices={choices}
