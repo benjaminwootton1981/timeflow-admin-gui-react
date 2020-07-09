@@ -63,7 +63,6 @@ export const createStreamProcessor = (dataStep, project_id) => (dispatch) => {
   const stringifyData = JSON.stringify(addIdStreamProcessorData);
   setStreamProcessorRequest(stringifyData)
     .then((resp) => {
-      console.log("RESP CREATE PROJECT");
       steps.forEach((step, i) => {
         const addId = Object.assign(step, {});
         addId["streamprocessor"] = resp.data.id;
@@ -122,6 +121,7 @@ export const saveStreamProcessor = (editStreamProcessor, processorId) => (
         addId["name"] = step.name;
         addId["steptype"] = step.steptype;
         addId["ordering"] = i + 1;
+
         const stringifyBlock = JSON.stringify(addId);
 
         if (block.id !== undefined && block.id !== null) {

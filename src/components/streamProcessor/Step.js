@@ -10,6 +10,7 @@ import InputTypeBlock from "./itemsStep/InputTypeBlock";
 import InputTypeSelect from "./itemsStep/InputTypeSelect";
 import { useFormik } from "formik";
 import InputTypeText from "./itemsStep/InputTypeText";
+import { isEmpty } from "lodash";
 
 const Step = (props) => {
   const { stepData, streams } = props.itemsStepTypes;
@@ -64,17 +65,50 @@ const Step = (props) => {
 
   useEffect(() => {
     if (JSON.stringify(props.values.blocks) !== JSON.stringify(values.blocks)) {
-      props.setFieldValue("blocks", values.blocks);
+      setTimeout(() => props.setFieldValue("blocks", values.blocks), 0);
     }
-  }, [values.blocks]);
+  }, [values]);
+
   if (!step_types) {
     return false;
   }
   const onChangeFields = (e) => {
     setFieldsKey(e.target.value);
-    if (values.blocks.length > 1) {
-      props.setFieldValue(`blocks`, [values.blocks[0]]);
-    }
+    // if (values.blocks.length > 1) {
+    props.setFieldValue(`blocks`, [
+      {
+        event_field_name:
+          !isEmpty(values.blocks) && !!values.blocks["event_field_name"]
+            ? values.blocks["event_field_name"]
+            : "",
+        field_name:
+          !isEmpty(values.blocks) && !!values.blocks["field_name"]
+            ? values.blocks["field_name"]
+            : "",
+        id: null,
+        percent:
+          !isEmpty(values.blocks) && !!values.blocks["percent"]
+            ? values.blocks["percent"]
+            : "",
+        static_value:
+          !isEmpty(values.blocks) && !!values.blocks["static_value"]
+            ? values.blocks["static_value"]
+            : "",
+        value:
+          !isEmpty(values.blocks) && !!values.blocks["value"]
+            ? values.blocks["value"]
+            : "=",
+        key_type_from:
+          !isEmpty(values.blocks) && !!values.blocks["key_type_from"]
+            ? values.blocks["key_type_from"]
+            : "from_event",
+        key_type:
+          !isEmpty(values.blocks) && !!values.blocks["key_type"]
+            ? values.blocks["key_type"]
+            : "static_value",
+      },
+    ]);
+    // }
   };
   const setValueStep = (e) => {
     // SetValueSelect({...valueSelect, [e.name]: e.value});

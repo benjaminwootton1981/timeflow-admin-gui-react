@@ -58,6 +58,7 @@ export default function StreamProcessorReducer(state = initialState, action) {
               block[elBlock.name] = "";
             }
           });
+          block["id"] = null;
           newStep["blocks"] = [block];
         } else if (field.input_type === "select") {
           const valueSelect =

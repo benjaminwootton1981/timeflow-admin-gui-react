@@ -2,15 +2,22 @@ import React, { useEffect, useState } from "react";
 import "./blockStyles.scss";
 import { connect } from "react-redux";
 import { isEmpty } from "lodash";
-import { deleteBlock } from "../../../store/streamProcessor/action";
 import SelectFromBlock from "./SelectFormBlock";
 
 const InputTypeBlock = (props) => {
   const { elem, indexBlock, schemas, setFieldValue, block } = props;
   const [valueSelect, SetValueSelect] = useState({
-    value: !isEmpty(block) ? block["value"] : "=",
-    key_type_from: !isEmpty(block) ? block["key_type_from"] : "from_event",
-    key_type: !isEmpty(block) ? block["key_type"] : "static_value",
+    value: !isEmpty(block) && !!block["value"] ? block["value"] : "=",
+    key_type_from:
+      !isEmpty(block) && !!block["key_type_from"]
+        ? block["key_type_from"]
+        : "from_event",
+    key_type: !isEmpty(block) && !!block["key_type"] ? block["key_type"] : "",
+    event_field_name: !isEmpty(block) ? block["event_field_name"] : "",
+    field_name: !isEmpty(block) ? block["field_name"] : "",
+    event_field_name_from: !isEmpty(block)
+      ? block["event_field_name_from"]
+      : "",
   });
   useEffect(() => {}, [props.actualSchema, props.values]);
   if (schemas.length <= 0) {
@@ -57,7 +64,6 @@ const InputTypeBlock = (props) => {
             });
             isRender = foundElem.length > 0;
           }
-
           return (
             <>
               {blockElem.input_type === "select" ? (

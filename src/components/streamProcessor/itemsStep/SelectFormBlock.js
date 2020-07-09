@@ -2,31 +2,31 @@ import React, { useEffect } from "react";
 
 const SelectFromBlock = (props) => {
   const { blockElem, typeReturnEl, choices, valueSelect } = props;
+  const val = choices[0].name === undefined ? choices[0][0] : choices[0].name;
   useEffect(() => {
-    const val = choices[0].name === undefined ? choices[0][0] : choices[0].name;
-    if (props.block.id === null) {
-      props.setFieldValue(blockElem.name, val);
-    }
+    props.setFieldValue(blockElem.name, val);
   }, []);
+  const options = (
+    <>
+      {choices.map((el) => {
+        const isDisplayName =
+          el.display_name === undefined ? el.name : el.display_name;
+        const val0 = isDisplayName === undefined ? el[0] : el.name;
+        const val1 = isDisplayName === undefined ? el[1] : isDisplayName;
+        return <option value={val0}>{val1}</option>;
+      })}
+    </>
+  );
+
   return (
     <div className="styled-select">
       <select
         name={blockElem.name}
         onChange={(e) => typeReturnEl(e, blockElem)}
         className="step"
+        value={valueSelect[blockElem.name]}
       >
-        {choices.map((el) => {
-          const val0 = el.name === undefined ? el[0] : el.name;
-          const val1 = !el.name ? el[1] : el.name;
-          return (
-            <option
-              value={val0}
-              selected={el[0] === valueSelect[blockElem.name]}
-            >
-              {val1}
-            </option>
-          );
-        })}
+        {options}
       </select>
     </div>
   );

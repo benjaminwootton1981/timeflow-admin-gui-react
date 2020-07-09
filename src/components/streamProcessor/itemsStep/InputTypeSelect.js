@@ -40,6 +40,9 @@ const InputTypeSelect = (props) => {
         }
       } else if (elem.name === "topic") {
         setTypeChoice(props.itemsStepTypes[choicesName]);
+        if (!elem.name) {
+          return <div>sorry error, please reload page...</div>;
+        }
         props.setFieldValue(
           elem.name,
           props.itemsStepTypes[choicesName][0].name
@@ -86,7 +89,12 @@ const InputTypeSelect = (props) => {
       props.setSchemasId({ value: e.target.value, stepIndex: stepIndex });
     }
   };
-
+  let initialName;
+  if (props.values[elem.name].indexOf("_") !== -1) {
+    initialName = props.values[elem.name].split("_").slice(2).join("_");
+  } else {
+    initialName = props.values[elem.name];
+  }
   return (
     <>
       {!isRelated ? (
@@ -107,11 +115,7 @@ const InputTypeSelect = (props) => {
                   const val1 =
                     isDisplayName === undefined ? sel[1] : isDisplayName;
                   return (
-                    <option
-                      id={sel.id}
-                      value={val0}
-                      // selected={props.values[elem.name] === sel.display_name}
-                    >
+                    <option id={sel.id} value={val0} selected={initialName}>
                       {val1}
                     </option>
                   );
@@ -124,6 +128,7 @@ const InputTypeSelect = (props) => {
                 name={elem.name}
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
+                // value={initialName}
               >
                 {props.typeChoicesEndpoint.map((sel, i) => {
                   const isDisplayName =
@@ -135,11 +140,7 @@ const InputTypeSelect = (props) => {
                   const val1 =
                     isDisplayName === undefined ? sel[1] : isDisplayName;
                   return (
-                    <option
-                      id={sel.id}
-                      value={val0}
-                      selected={val0 === sel.name}
-                    >
+                    <option id={sel.id} value={val0} selected={initialName}>
                       {val1}
                     </option>
                   );
@@ -156,6 +157,7 @@ const InputTypeSelect = (props) => {
                 name={elem.name}
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
+                value={initialName}
               >
                 {typeChoices.map((sel, i) => {
                   const isDisplayName =
@@ -165,7 +167,11 @@ const InputTypeSelect = (props) => {
                   const val0 = isDisplayName === undefined ? sel[0] : sel.name;
                   const val1 =
                     isDisplayName === undefined ? sel[1] : isDisplayName;
-                  return <option value={val0}>{val1}</option>;
+                  return (
+                    <option selected={initialName} value={val0}>
+                      {val1}
+                    </option>
+                  );
                 })}
               </select>
             </div>

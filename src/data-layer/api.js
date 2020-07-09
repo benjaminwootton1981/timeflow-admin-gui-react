@@ -40,8 +40,11 @@ export const getSimulationsRequest = (project_id) =>
 export const getStepTypeRequest = () =>
   ax.get(`streamprocessorstep/step-types`);
 
-export const setStepTypeRequest = (data) =>
-  ax.post(`streamprocessorstep/`, data);
+export const setStepTypeRequest = (data) => {
+  console.log("ADD ID", data);
+
+  return ax.post(`streamprocessorstep/`, data);
+};
 
 export const updateStepTypeRequest = (step_id, data) =>
   ax.patch(`streamprocessorstep/${step_id}/`, data);
