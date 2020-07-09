@@ -84,19 +84,18 @@ export default function StreamProcessorReducer(state = initialState, action) {
       const { value } = action.data;
       const filteredSchemas = [
         ...state.schemas.filter((el) => {
-          debugger;
           let filteredData;
-          if (el.name.indexOf(" ") === 1) {
+          if (el.name.indexOf(" ") === -1) {
+            filteredData = el.name === value.split("_").slice(2).join("_");
+          } else {
             filteredData =
               el.name.split(" ").slice(0).join("_") ===
               value.split("_").slice(2).join("_");
-          } else {
-            filteredData = el.name === value.split("_").slice(2).join("_");
           }
+
           return filteredData;
         }),
       ];
-      console.log("filteredSchemas", filteredSchemas);
       let setActualSchema;
       if (state.actualSchema.length > 0) {
         setActualSchema = [
@@ -104,9 +103,7 @@ export default function StreamProcessorReducer(state = initialState, action) {
           { [action.data.stepIndex]: filteredSchemas },
         ];
 
-        state.actualSchema.forEach((schema) => {
-          // console.log('schema', Object.keys(schema))
-        });
+        state.actualSchema.forEach((schema) => {});
       } else {
         setActualSchema = [
           ...state.actualSchema,

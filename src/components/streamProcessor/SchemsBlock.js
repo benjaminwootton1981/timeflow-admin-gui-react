@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const SchemaBlock = (props) => {
   const [polio, setPolio] = useState(false);
@@ -22,6 +23,20 @@ const SchemaBlock = (props) => {
     schema = props.schemas[props.indexInheritsSchema];
   }
 
+  if (!schema) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          alignItems: "center",
+          marginTop: 10,
+          marginBottom: 10,
+        }}
+      >
+        <CircularProgress color="#803c8a" />
+      </div>
+    );
+  }
   return (
     <div className="schema-additional-info">
       <button
@@ -29,7 +44,7 @@ const SchemaBlock = (props) => {
         className="schema-btn"
         onClick={() => togglePolio()}
       >
-        {schema.name}
+        {schema?.name}
       </button>
 
       <div
@@ -46,7 +61,7 @@ const SchemaBlock = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {schema.schemafield_set.map((el) => {
+                {schema?.schemafield_set.map((el) => {
                   return (
                     <tr style={{ width: 400 }}>
                       <td> {el.name} </td>
