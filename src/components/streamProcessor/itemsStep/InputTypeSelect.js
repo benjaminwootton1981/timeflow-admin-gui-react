@@ -36,25 +36,35 @@ const InputTypeSelect = (props) => {
         let schema = [];
         if (props.itemsStepTypes.actualSchema.length > 0) {
           props.itemsStepTypes.actualSchema.forEach((el) => {
+            if (!elName) {
+              return errorData;
+            }
+
             schema = el[props.indexInheritsSchema];
             if (schema) {
               if (!schema[0]) {
                 return errorData;
               }
               schema = schema[0].schemafield_set;
-              props.setFieldValue(elName, schema[0].name);
+              const setValue = !!props.values[elName]
+                ? props.values[elName]
+                : schema[0].name;
+              props.setFieldValue(elName, setValue);
               setTypeChoice(schema);
             } else {
               if (!props.itemsStepTypes[choicesName][0]) {
                 return errorData;
               }
               schema = props.itemsStepTypes[choicesName][0].schemafield_set;
-              props.setFieldValue(elName, schema[0].name);
+              const setValue = !!props.values[elName]
+                ? props.values[elName]
+                : schema[0].name;
+              props.setFieldValue(elName, setValue);
               setTypeChoice(schema);
             }
           });
         } else if (props.itemsStepTypes.actualSchema.length === 0) {
-          if (!elem.choices || props.itemsStepTypes[choicesName][0]) {
+          if (!elem.choices || !props.itemsStepTypes[choicesName][0]) {
             return errorData;
           }
           if (!elName || elName === "") {
@@ -63,7 +73,10 @@ const InputTypeSelect = (props) => {
           schema = props.itemsStepTypes[choicesName][0].schemafield_set;
           setTypeChoice(schema);
           if (schema[0]) {
-            props.setFieldValue(elName, schema[0].name);
+            const setValue = !!props.values[elName]
+              ? props.values[elName]
+              : schema[0].name;
+            props.setFieldValue(elName, setValue);
           }
         }
       } else if (elName === "topic") {
@@ -71,7 +84,10 @@ const InputTypeSelect = (props) => {
         if (!elName) {
           return errorData;
         }
-        props.setFieldValue(elName, props.itemsStepTypes[choicesName][0].name);
+        const setValue = !!props.values.topic
+          ? props.values.topic
+          : props.itemsStepTypes[choicesName][0].name;
+        props.setFieldValue(elName, setValue);
         props.setSchemasId({
           value: props.itemsStepTypes[choicesName][0].name,
           stepIndex: stepIndex,
@@ -80,8 +96,11 @@ const InputTypeSelect = (props) => {
         if (!elName) {
           return errorData;
         }
+        const setValue = !!props.values.record_type
+          ? props.values.topic
+          : props.itemsStepTypes[choicesName][0].name;
         setTypeChoice(props.itemsStepTypes[choicesName]);
-        props.setFieldValue(elName, props.itemsStepTypes[choicesName][0].name);
+        props.setFieldValue(elName, setValue);
       }
     } else {
       if (!elem.choices) {
@@ -92,7 +111,11 @@ const InputTypeSelect = (props) => {
         elem.choices[0].name === undefined
           ? elem.choices[0][0]
           : elem.choices[0].name;
-      props.setFieldValue(elName, checkName);
+
+      const setValue = !!props.values[elName]
+        ? props.values[elName]
+        : checkName;
+      props.setFieldValue(elName, setValue);
     }
   }, [elem.is_need_fetch]);
   if (!streams) {
@@ -139,7 +162,11 @@ const InputTypeSelect = (props) => {
                   const val1 =
                     isDisplayName === undefined ? sel[1] : isDisplayName;
                   return (
-                    <option id={sel.id} value={val0} selected={initialName}>
+                    <option
+                      id={sel.id}
+                      value={val0}
+                      selected={props.values[elName] === val0}
+                    >
                       {val1}
                     </option>
                   );
@@ -152,7 +179,6 @@ const InputTypeSelect = (props) => {
                 name={elName}
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
-                // value={initialName}
               >
                 {props.typeChoicesEndpoint.map((sel, i) => {
                   const isDisplayName =
@@ -164,7 +190,11 @@ const InputTypeSelect = (props) => {
                   const val1 =
                     isDisplayName === undefined ? sel[1] : isDisplayName;
                   return (
-                    <option id={sel.id} value={val0} selected={initialName}>
+                    <option
+                      id={sel.id}
+                      value={val0}
+                      selected={props.values[elName] === val0}
+                    >
                       {val1}
                     </option>
                   );
@@ -181,7 +211,6 @@ const InputTypeSelect = (props) => {
                 name={elName}
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
-                value={initialName}
               >
                 {typeChoices.map((sel, i) => {
                   const isDisplayName =
@@ -192,7 +221,11 @@ const InputTypeSelect = (props) => {
                   const val1 =
                     isDisplayName === undefined ? sel[1] : isDisplayName;
                   return (
-                    <option selected={initialName} value={val0}>
+                    <option
+                      id={sel.id}
+                      value={val0}
+                      selected={props.values[elName] === val0}
+                    >
                       {val1}
                     </option>
                   );

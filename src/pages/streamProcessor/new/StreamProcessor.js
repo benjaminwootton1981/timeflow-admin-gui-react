@@ -118,6 +118,7 @@ const StreamProcessor = (props) => {
       }
     },
   });
+
   useEffect(() => {
     if (JSON.stringify(stepsStreamProcessor) !== JSON.stringify(values.items)) {
       props.updateDataStreamProcessor(values.items);

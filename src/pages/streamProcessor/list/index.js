@@ -25,7 +25,6 @@ function ManageStreamProcessor(props) {
 
   const [groups, setGroups] = useState({});
   const projectId = props.match.params.id;
-
   const { project } = props;
   useEffect(() => {
     props.getStreamProcessorsList(projectId);
