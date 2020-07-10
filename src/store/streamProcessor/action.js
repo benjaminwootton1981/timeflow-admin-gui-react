@@ -16,6 +16,7 @@ import {
   updateStepTypeRequest,
   updateStreamProcessorInfoRequest,
 } from "../../data-layer/api";
+import { negativeResponse, positiveResponse } from "../loader/action";
 
 export const getStreamProcessorsList = (project_id) => (dispatch) => {
   getStreamProcessorListRequest(project_id)
@@ -61,40 +62,63 @@ export const createStreamProcessor = (dataStep, project_id) => (dispatch) => {
   const addIdStreamProcessorData = Object.assign(streamProcessorData, {});
   addIdStreamProcessorData["project"] = project_id;
   const stringifyData = JSON.stringify(addIdStreamProcessorData);
+  let statusResponse = [];
   setStreamProcessorRequest(stringifyData)
-    .then((resp) => {
-      steps.forEach((step, i) => {
-        const addId = Object.assign(step, {});
-        addId["streamprocessor"] = resp.data.id;
-        addId["ordering"] = i + 1;
-        const stringifyDataStep = JSON.stringify(addId);
-        setStepTypeRequest(stringifyDataStep)
-          .then((resp) => {
-            if (step.blocks.length > 0) {
-              step.blocks.forEach((block) => {
-                const addId = Object.assign(block, {});
-                addId["parent"] = resp.data.id;
-                addId["ordering"] = i + 1;
-                addId["name"] = step.name;
-                addId["steptype"] = step.steptype;
-                const stringifyBlock = JSON.stringify(addId);
+    .then((respCreateStreamProcessor) => {
+      if (respCreateStreamProcessor.status === 201) {
+        statusResponse.push("true");
+        steps.forEach((step, i) => {
+          const addId = Object.assign(step, {});
+          addId["streamprocessor"] = respCreateStreamProcessor.data.id;
+          addId["ordering"] = i + 1;
+          const stringifyDataStep = JSON.stringify(addId);
+          setStepTypeRequest(stringifyDataStep)
+            .then((resp) => {
+              if (resp.status === 201) {
+                statusResponse.push("true");
+                if (step.blocks.length > 0) {
+                  step.blocks.forEach((block) => {
+                    const addId = Object.assign(block, {});
+                    addId["parent"] = resp.data.id;
+                    addId["ordering"] = i + 1;
+                    addId["name"] = step.name;
+                    addId["steptype"] = step.steptype;
+                    const stringifyBlock = JSON.stringify(addId);
 
-                setStepTypeRequest(stringifyBlock)
-                  .then((resp) => {})
-                  .catch((err) => {
-                    console.log(err);
+                    setStepTypeRequest(stringifyBlock)
+                      .then((resp) => {
+                        if (resp.status === 201) {
+                          statusResponse.push("true");
+                        } else {
+                          statusResponse.push("false");
+                        }
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                      });
                   });
-              });
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      });
+                }
+              } else {
+                statusResponse.push("false");
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+      } else {
+        statusResponse.push("false");
+      }
     })
     .catch((err) => {
       console.log(err);
     });
+
+  if (statusResponse.indexOf("false") === 0) {
+    negativeResponse();
+  } else {
+    positiveResponse();
+  }
 };
 export const saveStreamProcessor = (editStreamProcessor, processorId) => (
   dispatch
@@ -124,7 +148,11 @@ export const saveStreamProcessor = (editStreamProcessor, processorId) => (
 
         const stringifyBlock = JSON.stringify(addId);
 
-        if (block.id !== undefined && block.id !== null) {
+        if (
+          block.id !== undefined &&
+          block.id !== null &&
+          step.blocks.length > 0
+        ) {
           updateStepTypeRequest(block.id, stringifyBlock)
             .then((resp) => {
               if (resp.status === 200) {

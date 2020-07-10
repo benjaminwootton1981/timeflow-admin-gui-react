@@ -27,8 +27,8 @@ import { useHistory } from "react-router-dom";
 import * as yup from "yup";
 
 const StreamProcessor = (props) => {
+  const { loading, isRedirect } = props.loaderData;
   let history = useHistory();
-
   const [isModalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
@@ -102,10 +102,19 @@ const StreamProcessor = (props) => {
     onSubmit: (values) => {
       if (isNew) {
         props.createStreamProcessor(values, projectId);
+
+        // if (isRedirect) {
         history.push(`/projects/${projectId}/streamprocessors`);
+        // } else {
+        //     alert('ERROR')
+        // }
       } else {
         props.saveStreamProcessor(values, processorId, projectId);
+        // if (isRedirect) {
         history.push(`/projects/${projectId}/streamprocessors`);
+        // } else {
+        //     alert('ERROR')
+        // }
       }
     },
   });
@@ -244,6 +253,7 @@ export default connect(
     return {
       itemsStepTypes: state.StreamProcessorReducer,
       streams: state.ServiceReducer,
+      loaderData: state.loader,
     };
   },
   {

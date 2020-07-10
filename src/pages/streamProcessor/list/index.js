@@ -24,7 +24,6 @@ function ManageStreamProcessor(props) {
   const [openGroup, setOpenGroup] = useState();
 
   const [groups, setGroups] = useState({});
-
   const projectId = props.match.params.id;
 
   const { project } = props;

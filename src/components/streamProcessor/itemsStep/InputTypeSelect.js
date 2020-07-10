@@ -20,7 +20,6 @@ const InputTypeSelect = (props) => {
     </div>
   );
   const elName = elem.name ? elem.name : "";
-
   useEffect(() => {
     if (elem.choices.length === 0) {
       let choicesName = "";
@@ -58,9 +57,14 @@ const InputTypeSelect = (props) => {
           if (!elem.choices || props.itemsStepTypes[choicesName][0]) {
             return errorData;
           }
+          if (!elName || elName === "") {
+            return errorData;
+          }
           schema = props.itemsStepTypes[choicesName][0].schemafield_set;
           setTypeChoice(schema);
-          props.setFieldValue(elName, schema[0].name);
+          if (schema[0]) {
+            props.setFieldValue(elName, schema[0].name);
+          }
         }
       } else if (elName === "topic") {
         setTypeChoice(props.itemsStepTypes[choicesName]);

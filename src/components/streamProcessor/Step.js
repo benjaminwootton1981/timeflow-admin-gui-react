@@ -44,7 +44,7 @@ const Step = (props) => {
   };
   const deleteBlock = (index) => {
     let array = values.blocks.filter((n, i) => i !== index);
-    // props.deleteBlock(values.blocks[index].id);
+    props.deleteBlock(values.blocks[index].id);
     setFieldValue(`blocks`, array);
   };
 

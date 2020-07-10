@@ -41,8 +41,6 @@ export const getStepTypeRequest = () =>
   ax.get(`streamprocessorstep/step-types`);
 
 export const setStepTypeRequest = (data) => {
-  console.log("ADD ID", data);
-
   return ax.post(`streamprocessorstep/`, data);
 };
 
