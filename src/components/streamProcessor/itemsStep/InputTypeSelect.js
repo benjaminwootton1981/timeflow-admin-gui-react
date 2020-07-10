@@ -2,10 +2,24 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { setSchemasId } from "../../../store/streamProcessor/action";
 import { NameHelper } from "../../../helper/NameHelper";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const InputTypeSelect = (props) => {
   const { elem, streams, isRelated, isRender, stepIndex } = props;
   const [typeChoices, setTypeChoice] = useState([]);
+  const errorData = (
+    <div
+      style={{
+        width: "100%",
+        alignItems: "center",
+        marginTop: 10,
+        marginBottom: 10,
+      }}
+    >
+      sorry data error...
+    </div>
+  );
+  const elName = elem.name ? elem.name : "";
 
   useEffect(() => {
     if (elem.choices.length === 0) {
@@ -18,53 +32,63 @@ const InputTypeSelect = (props) => {
         choicesName = elem.is_need_fetch;
       }
       //
+
       if (elem.is_need_fetch === "schema_fields") {
         let schema = [];
         if (props.itemsStepTypes.actualSchema.length > 0) {
           props.itemsStepTypes.actualSchema.forEach((el) => {
             schema = el[props.indexInheritsSchema];
             if (schema) {
+              if (!schema[0]) {
+                return errorData;
+              }
               schema = schema[0].schemafield_set;
-              props.setFieldValue(elem.name, schema[0].name);
+              props.setFieldValue(elName, schema[0].name);
               setTypeChoice(schema);
             } else {
+              if (!props.itemsStepTypes[choicesName][0]) {
+                return errorData;
+              }
               schema = props.itemsStepTypes[choicesName][0].schemafield_set;
-              props.setFieldValue(elem.name, schema[0].name);
+              props.setFieldValue(elName, schema[0].name);
               setTypeChoice(schema);
             }
           });
         } else if (props.itemsStepTypes.actualSchema.length === 0) {
+          if (!elem.choices || props.itemsStepTypes[choicesName][0]) {
+            return errorData;
+          }
           schema = props.itemsStepTypes[choicesName][0].schemafield_set;
           setTypeChoice(schema);
-          props.setFieldValue(elem.name, schema[0].name);
+          props.setFieldValue(elName, schema[0].name);
         }
-      } else if (elem.name === "topic") {
+      } else if (elName === "topic") {
         setTypeChoice(props.itemsStepTypes[choicesName]);
-        if (!elem.name) {
-          return <div>sorry error, please reload page...</div>;
+        if (!elName) {
+          return errorData;
         }
-        props.setFieldValue(
-          elem.name,
-          props.itemsStepTypes[choicesName][0].name
-        );
+        props.setFieldValue(elName, props.itemsStepTypes[choicesName][0].name);
         props.setSchemasId({
           value: props.itemsStepTypes[choicesName][0].name,
           stepIndex: stepIndex,
         });
-      } else if (elem.name === "record_type") {
+      } else if (elName === "record_type") {
+        if (!elName) {
+          return errorData;
+        }
         setTypeChoice(props.itemsStepTypes[choicesName]);
-        props.setFieldValue(
-          elem.name,
-          props.itemsStepTypes[choicesName][0].name
-        );
+        props.setFieldValue(elName, props.itemsStepTypes[choicesName][0].name);
       }
     } else {
+      if (!elem.choices) {
+        return errorData;
+      }
       setTypeChoice(elem.choices);
       const checkName =
         elem.choices[0].name === undefined
           ? elem.choices[0][0]
           : elem.choices[0].name;
-      props.setFieldValue(elem.name, checkName);
+      props.setFieldValue(elName, checkName);
     }
   }, [elem.is_need_fetch]);
   if (!streams) {
@@ -74,27 +98,23 @@ const InputTypeSelect = (props) => {
     props.changeFunctionEndpoints(e, elem);
 
     const element = {
-      name: elem.name,
+      name: elName,
       value: e.target.value,
     };
-    props.setFieldValue(elem.name, e.target.value);
+    props.setFieldValue(elName, e.target.value);
     props.onChange(element);
-    if (elem.name === "topic") {
+    if (elName === "topic") {
       props.setSchemasId({ value: e.target.value, stepIndex: stepIndex });
     }
-    if (elem.name === "record_type") {
+    if (elName === "record_type") {
       props.setSchemasId({ value: e.target.value, stepIndex: stepIndex });
     }
-    if (elem.name === "event_type") {
+    if (elName === "event_type") {
       props.setSchemasId({ value: e.target.value, stepIndex: stepIndex });
     }
   };
-  let initialName;
-  if (props.values[elem.name].indexOf("_") !== -1) {
-    initialName = props.values[elem.name].split("_").slice(2).join("_");
-  } else {
-    initialName = props.values[elem.name];
-  }
+  let initialName = props.values[elName];
+
   return (
     <>
       {!isRelated ? (
@@ -102,7 +122,7 @@ const InputTypeSelect = (props) => {
           {elem.is_need_fetch !== "function_endpoints" ? (
             <div className="styled-select">
               <select
-                name={elem.name}
+                name={elName}
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
               >
@@ -125,7 +145,7 @@ const InputTypeSelect = (props) => {
           ) : (
             <div className="styled-select">
               <select
-                name={elem.name}
+                name={elName}
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
                 // value={initialName}
@@ -154,7 +174,7 @@ const InputTypeSelect = (props) => {
           {isRender && (
             <div className="styled-select">
               <select
-                name={elem.name}
+                name={elName}
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
                 value={initialName}
