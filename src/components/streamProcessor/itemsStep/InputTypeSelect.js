@@ -97,7 +97,7 @@ const InputTypeSelect = (props) => {
           return errorData;
         }
         const setValue = !!props.values.record_type
-          ? props.values.topic
+          ? props.values.record_type
           : props.itemsStepTypes[choicesName][0].name;
         setTypeChoice(props.itemsStepTypes[choicesName]);
         props.setFieldValue(elName, setValue);

@@ -277,9 +277,10 @@ const Step = (props) => {
                         <InputTypeText
                           isRelated={isRelated}
                           isRender={isRender}
-                          // onChange={setValueStep}
+                          onChange={setValueStep}
                           streams={streams}
                           elem={elem}
+                          values={props.values}
                           setFieldValue={props.setFieldValue}
                           stepDataValue={stepDataValue}
                         />
