@@ -206,6 +206,8 @@ const Step = (props) => {
                     }
                     const isRelated = Array.isArray(elem.related_to.value);
                     let isRender = false;
+                    const isReplace =
+                      stepDataValue.result_placement === "replace";
                     if (
                       elem.related_to.value &&
                       valueSelect[elem.related_to.field]
@@ -218,7 +220,7 @@ const Step = (props) => {
                           );
                         }
                       );
-                      isRender = foundElem.length > 0;
+                      isRender = foundElem.length > 0 && !isReplace;
                     }
                     const typeElement = {
                       select: (
