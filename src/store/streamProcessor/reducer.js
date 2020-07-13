@@ -16,6 +16,7 @@ const initialState = {
   kpiData: [],
   function_endpoints: [],
   newStreamprocessors: [],
+  searches: [],
 };
 
 export default function StreamProcessorReducer(state = initialState, action) {
@@ -86,9 +87,13 @@ export default function StreamProcessorReducer(state = initialState, action) {
       const filteredSchemas = [
         ...state.schemas.filter((el) => {
           let filteredData;
+          debugger;
+
           if (el.name.indexOf(" ") === -1) {
             filteredData = el.name === value.split("_").slice(2).join("_");
           } else {
+            debugger;
+
             filteredData =
               el.name.split(" ").slice(0).join("_") ===
               value.split("_").slice(2).join("_");
@@ -115,6 +120,8 @@ export default function StreamProcessorReducer(state = initialState, action) {
 
     case CONSTANTS.STREAMS.GET_STREAMS:
       return { ...state, streams: action.data };
+    case CONSTANTS.STREAMS.GET_SEARCHES:
+      return { ...state, searches: action.data };
 
     case CONSTANTS.STREAMS.GET_SCHEMAS:
       return { ...state, schemas: action.data };

@@ -7,6 +7,7 @@ import {
   getKpiRequest,
   getRecipientListRequest,
   getSchemasRequest,
+  getSearchRequest,
   getStepTypeRequest,
   getStreamProcessorListRequest,
   getStreamProcessorRequest,
@@ -207,6 +208,18 @@ export const getSchemas = (project_id) => (dispatch) => {
     .then((resp) => {
       dispatch({
         type: CONSTANTS.STREAMS.GET_SCHEMAS,
+        data: resp.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+export const getSearches = (project_id) => (dispatch) => {
+  getSearchRequest(project_id)
+    .then((resp) => {
+      dispatch({
+        type: CONSTANTS.STREAMS.GET_SEARCHES,
         data: resp.data,
       });
     })

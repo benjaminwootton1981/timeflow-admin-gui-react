@@ -27,6 +27,8 @@ const InputTypeSelect = (props) => {
         choicesName = "function_endpoints";
       } else if (elem.is_need_fetch === "schema_fields") {
         choicesName = "schemas";
+      } else if (elem.is_need_fetch === "users") {
+        choicesName = "recipientList";
       } else {
         choicesName = elem.is_need_fetch;
       }
@@ -92,6 +94,15 @@ const InputTypeSelect = (props) => {
           value: props.itemsStepTypes[choicesName][0].name,
           stepIndex: stepIndex,
         });
+      } else if (elName === "task_recipient_id") {
+        setTypeChoice(props.itemsStepTypes["recipientList"]);
+        if (!elName) {
+          return errorData;
+        }
+        const setValue = !!props.values.topic
+          ? props.values.recipientList
+          : props.itemsStepTypes["recipientList"][0].name;
+        props.setFieldValue(elName, setValue);
       } else if (elName === "record_type") {
         if (!elName) {
           return errorData;

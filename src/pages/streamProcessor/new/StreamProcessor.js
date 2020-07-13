@@ -13,6 +13,7 @@ import {
   getKpi,
   getRecipientList,
   getSchemas,
+  getSearches,
   getStepType,
   getStreamProcessor,
   getStreamProcessorsList,
@@ -51,6 +52,7 @@ const StreamProcessor = (props) => {
     props.getStreamProcessorsList(projectId);
     props.getStepType();
     props.getSchemas(projectId);
+    props.getSearches(projectId);
     props.getStreams(projectId);
     props.getRecipientList();
     props.getDataDictionary(projectId);
@@ -143,6 +145,7 @@ const StreamProcessor = (props) => {
       <h2 className="dashboard__header">Edit Stream Processor</h2>
     </>
   );
+  console.log("PROPS", props);
   return (
     <form onSubmit={handleSubmit}>
       <div className="wrapper">
@@ -273,5 +276,6 @@ export default connect(
     getFunctionData,
     getKpi,
     geFunctionEndpoint,
+    getSearches,
   }
 )(StreamProcessor);
