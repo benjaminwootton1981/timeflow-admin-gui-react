@@ -93,7 +93,7 @@ const Step = (props) => {
   const onChangeFields = (e) => {
     setFieldsKey(e.target.value);
     props.setFieldValue("result_placement", "aggregate");
-    props.setFieldValue(`items`, [
+    props.setFieldValue(`block`, [
       {
         event_field_name:
           !isEmpty(values.blocks) && !!values.blocks["event_field_name"]
