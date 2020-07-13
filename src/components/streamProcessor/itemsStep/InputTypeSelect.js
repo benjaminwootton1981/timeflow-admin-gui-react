@@ -129,6 +129,7 @@ const InputTypeSelect = (props) => {
       value: e.target.value,
     };
     props.setFieldValue(elName, e.target.value);
+    props.SetValueSelect({ ...props.valueSelect, [elem.name]: e.target.value });
     props.onChange(element);
     if (elName === "topic") {
       props.setSchemasId({ value: e.target.value, stepIndex: stepIndex });
@@ -140,8 +141,6 @@ const InputTypeSelect = (props) => {
       props.setSchemasId({ value: e.target.value, stepIndex: stepIndex });
     }
   };
-  let initialName = props.values[elName];
-
   return (
     <>
       {!isRelated ? (

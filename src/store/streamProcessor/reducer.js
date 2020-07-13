@@ -67,7 +67,7 @@ export default function StreamProcessorReducer(state = initialState, action) {
               : field[nameValue[field.input_type]];
           newStep[field.name] = Array.isArray(valueSelect) ? "" : valueSelect;
         } else {
-          newStep[field.name] = field[nameValue[field.input_type]];
+          newStep[field.name] = "";
         }
       });
       steps.push(newStep);

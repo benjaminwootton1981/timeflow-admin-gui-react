@@ -18,12 +18,30 @@ const Step = (props) => {
   const { stepEl, stepIndex, lastStep, isLastStep } = items;
   const { step_types, step_types_data } = stepData;
   const [valueSelect, SetValueSelect] = useState({
-    value: "=",
-    key_type_from: "from_event",
-    key_type: "static_value",
-    destinations: "event",
-    result_placement: "aggregate",
-    last_event_type: "time_window",
+    value:
+      !isEmpty(props.values) && !!props.values["value"]
+        ? props.values["value"]
+        : "=",
+    key_type_from:
+      !isEmpty(props.values) && !!props.values["key_type_from"]
+        ? props.values["key_type_from"]
+        : "from_event",
+    key_type:
+      !isEmpty(props.values) && !!props.values["key_type"]
+        ? props.values["key_type"]
+        : "static_value",
+    destinations:
+      !isEmpty(props.values) && !!props.values["destinations"]
+        ? props.values["destinations"]
+        : "event",
+    result_placement:
+      !isEmpty(props.values) && !!props.values["result_placement"]
+        ? props.values["result_placement"]
+        : "aggregate",
+    last_event_type:
+      !isEmpty(props.values) && !!props.values["last_event_type"]
+        ? props.values["last_event_type"]
+        : "time_window",
   });
   const [fieldsKey, setFieldsKey] = useState(stepEl.steptype);
   const [typeChoicesEndpoint, setTypeChoiceEndpoint] = useState([]);
@@ -74,8 +92,8 @@ const Step = (props) => {
   }
   const onChangeFields = (e) => {
     setFieldsKey(e.target.value);
-    // if (values.blocks.length > 1) {
-    props.setFieldValue(`blocks`, [
+    props.setFieldValue("result_placement", "aggregate");
+    props.setFieldValue(`items`, [
       {
         event_field_name:
           !isEmpty(values.blocks) && !!values.blocks["event_field_name"]
@@ -108,7 +126,6 @@ const Step = (props) => {
             : "static_value",
       },
     ]);
-    // }
   };
   const setValueStep = (e) => {
     // SetValueSelect({...valueSelect, [e.name]: e.value});
@@ -206,8 +223,6 @@ const Step = (props) => {
                     }
                     const isRelated = Array.isArray(elem.related_to.value);
                     let isRender = false;
-                    const isReplace =
-                      stepDataValue.result_placement === "replace";
                     if (
                       elem.related_to.value &&
                       valueSelect[elem.related_to.field]
@@ -220,7 +235,11 @@ const Step = (props) => {
                           );
                         }
                       );
-                      isRender = foundElem.length > 0 && !isReplace;
+                      if (props.values.result_placement === "replace") {
+                        isRender = false;
+                      } else {
+                        isRender = foundElem.length > 0;
+                      }
                     }
                     const typeElement = {
                       select: (
@@ -229,6 +248,7 @@ const Step = (props) => {
                           isRelated={isRelated}
                           isRender={isRender}
                           onChange={setValueStep}
+                          SetValueSelect={SetValueSelect}
                           values={props.values}
                           streams={streams}
                           elem={elem}
@@ -236,6 +256,7 @@ const Step = (props) => {
                           changeFunctionEndpoints={changeFunctionEndpoints}
                           typeChoicesEndpoint={typeChoicesEndpoint}
                           setFieldValue={props.setFieldValue}
+                          valueSelect={valueSelect}
                         />
                       ),
                       block: (
