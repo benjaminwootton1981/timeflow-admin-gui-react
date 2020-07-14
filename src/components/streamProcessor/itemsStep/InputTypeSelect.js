@@ -283,13 +283,15 @@ const InputTypeSelect = (props) => {
 
                   let val0 = "";
                   let val1 = "";
-
                   if (elName === "category_name") {
                     val0 = sel.category === undefined ? sel[0] : sel.category;
                     val1 = sel.category === undefined ? sel[1] : sel.category;
                   } else if (elName === "metric") {
                     val0 = sel.metric === undefined ? sel[0] : sel.metric;
                     val1 = sel.metric === undefined ? sel[1] : sel.metric;
+                  } else if (kpiKeyTypeLength === 0 && elName === "key_type") {
+                    val0 = sel.value === undefined ? sel[0] : sel.value;
+                    val1 = sel.name === undefined ? sel[1] : isDisplayName;
                   } else {
                     val0 = isDisplayName === undefined ? sel[0] : sel.name;
                     val1 = isDisplayName === undefined ? sel[1] : isDisplayName;
@@ -325,13 +327,15 @@ const InputTypeSelect = (props) => {
 
                   let val0 = "";
                   let val1 = "";
-
                   if (elName === "category_name") {
                     val0 = sel.category === undefined ? sel[0] : sel.category;
                     val1 = sel.category === undefined ? sel[1] : sel.category;
                   } else if (elName === "metric") {
                     val0 = sel.metric === undefined ? sel[0] : sel.metric;
                     val1 = sel.metric === undefined ? sel[1] : sel.metric;
+                  } else if (kpiKeyTypeLength === 0 && elName === "key_type") {
+                    val0 = sel.value === undefined ? sel[0] : sel.value;
+                    val1 = sel.name === undefined ? sel[1] : isDisplayName;
                   } else {
                     val0 = isDisplayName === undefined ? sel[0] : sel.name;
                     val1 = isDisplayName === undefined ? sel[1] : isDisplayName;
