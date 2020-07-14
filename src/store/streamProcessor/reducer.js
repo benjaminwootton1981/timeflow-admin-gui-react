@@ -87,13 +87,9 @@ export default function StreamProcessorReducer(state = initialState, action) {
       const filteredSchemas = [
         ...state.schemas.filter((el) => {
           let filteredData;
-          debugger;
-
           if (el.name.indexOf(" ") === -1) {
             filteredData = el.name === value.split("_").slice(2).join("_");
           } else {
-            debugger;
-
             filteredData =
               el.name.split(" ").slice(0).join("_") ===
               value.split("_").slice(2).join("_");

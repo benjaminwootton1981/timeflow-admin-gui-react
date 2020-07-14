@@ -145,7 +145,6 @@ const StreamProcessor = (props) => {
       <h2 className="dashboard__header">Edit Stream Processor</h2>
     </>
   );
-  console.log("PROPS", props);
   return (
     <form onSubmit={handleSubmit}>
       <div className="wrapper">

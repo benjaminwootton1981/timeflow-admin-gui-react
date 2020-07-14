@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { setSchemasId } from "../../../store/streamProcessor/action";
-import { NameHelper } from "../../../helper/NameHelper";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import _ from "lodash";
 
 const InputTypeSelect = (props) => {
   const { elem, streams, isRelated, isRender, stepIndex } = props;
@@ -19,6 +18,15 @@ const InputTypeSelect = (props) => {
       sorry data error...
     </div>
   );
+  let kpiKeyTypeLength = 0;
+  _.find(
+    props.itemsStepTypes["stepData"]["step_types_data"]["key"]["fields"],
+    (kpi) => {
+      if (kpi.name === "key_type") {
+        kpiKeyTypeLength = kpi.choices.length;
+      }
+    }
+  );
   const elName = elem.name ? elem.name : "";
   useEffect(() => {
     if (elem.choices.length === 0) {
@@ -27,13 +35,16 @@ const InputTypeSelect = (props) => {
         choicesName = "function_endpoints";
       } else if (elem.is_need_fetch === "schema_fields") {
         choicesName = "schemas";
+      } else if (
+        elem.is_need_fetch === "kpi_category" ||
+        elem.is_need_fetch === "kpi_metric"
+      ) {
+        choicesName = "kpiData";
       } else if (elem.is_need_fetch === "users") {
         choicesName = "recipientList";
       } else {
         choicesName = elem.is_need_fetch;
       }
-      //
-
       if (elem.is_need_fetch === "schema_fields") {
         let schema = [];
         if (props.itemsStepTypes.actualSchema.length > 0) {
@@ -99,10 +110,71 @@ const InputTypeSelect = (props) => {
         if (!elName) {
           return errorData;
         }
-        const setValue = !!props.values.topic
+        const setValue = !!props.values.recipientList
           ? props.values.recipientList
           : props.itemsStepTypes["recipientList"][0].name;
         props.setFieldValue(elName, setValue);
+      } else if (elName === "search_name") {
+        setTypeChoice(props.itemsStepTypes["searches"]);
+        if (!elName) {
+          return errorData;
+        }
+        if (props.itemsStepTypes["searches"].length > 0) {
+          const setValue = !!props.values.search_name
+            ? props.values.search_name
+            : props.itemsStepTypes["searches"][0].name;
+          props.setFieldValue(elName, setValue);
+        }
+      } else if (elName === "category_name") {
+        setTypeChoice(props.itemsStepTypes["kpiData"]);
+        if (!elName) {
+          return errorData;
+        }
+        if (props.itemsStepTypes["kpiData"].length > 0) {
+          const setValue = !!props.values.category_name
+            ? props.values.category_name
+            : props.itemsStepTypes["kpiData"][0].category;
+          props.setFieldValue(elName, setValue);
+        }
+      } else if (elName === "metric") {
+        const checkMetricName = !!props.values.category_name
+          ? props.values.category_name
+          : props.itemsStepTypes["kpiData"][0].category;
+        const selectArray = props.itemsStepTypes["kpiData"].filter(
+          (kpi) => kpi.category === checkMetricName
+        );
+        setTypeChoice(selectArray);
+        if (!elName) {
+          return errorData;
+        }
+        if (props.itemsStepTypes["kpiData"].length > 0) {
+          const setValue = !!props.values.metric
+            ? props.values.metric
+            : props.itemsStepTypes["kpiData"][0].metric;
+          props.setFieldValue(elName, setValue);
+        }
+      } else if (kpiKeyTypeLength === 0) {
+        const checkMetricName = !!props.values.category_name
+          ? props.values.category_name
+          : props.itemsStepTypes["kpiData"][0].category;
+
+        const selectArray = props.itemsStepTypes["kpiData"].filter(
+          (kpi) => kpi.category === checkMetricName
+        );
+        const selectIndicatorType = selectArray[0].indicator_type;
+        let metricKeyType = [];
+        if (selectIndicatorType === "kpi_type_measurement") {
+          setTypeChoice(props.itemsStepTypes["stepData"].update_key_types);
+          metricKeyType = props.itemsStepTypes["stepData"].update_key_types;
+        } else {
+          setTypeChoice(props.itemsStepTypes["stepData"].increment_key_types);
+          metricKeyType = props.itemsStepTypes["stepData"].increment_key_types;
+        }
+        const setValue = !!props.values.key_type
+          ? props.values.key_type
+          : metricKeyType[0].value;
+
+        // props.setFieldValue(elName, setValue);
       } else if (elName === "record_type") {
         if (!elName) {
           return errorData;
@@ -128,7 +200,7 @@ const InputTypeSelect = (props) => {
         : checkName;
       props.setFieldValue(elName, setValue);
     }
-  }, [elem.is_need_fetch]);
+  }, [elem.is_need_fetch, props.values]);
   if (!streams) {
     return false;
   }
@@ -168,9 +240,22 @@ const InputTypeSelect = (props) => {
                     sel.display_name === undefined
                       ? sel.name
                       : sel.display_name;
-                  const val0 = isDisplayName === undefined ? sel[0] : sel.name;
-                  const val1 =
-                    isDisplayName === undefined ? sel[1] : isDisplayName;
+
+                  let val0 = "";
+                  let val1 = "";
+                  if (elName === "category_name") {
+                    val0 = sel.category === undefined ? sel[0] : sel.category;
+                    val1 = sel.category === undefined ? sel[1] : sel.category;
+                  } else if (elName === "metric") {
+                    val0 = sel.metric === undefined ? sel[0] : sel.metric;
+                    val1 = sel.metric === undefined ? sel[1] : sel.metric;
+                  } else if (kpiKeyTypeLength === 0 && elName === "key_type") {
+                    val0 = sel.value === undefined ? sel[0] : sel.value;
+                    val1 = sel.name === undefined ? sel[1] : isDisplayName;
+                  } else {
+                    val0 = isDisplayName === undefined ? sel[0] : sel.name;
+                    val1 = isDisplayName === undefined ? sel[1] : isDisplayName;
+                  }
                   return (
                     <option
                       id={sel.id}
@@ -196,9 +281,19 @@ const InputTypeSelect = (props) => {
                       ? sel.name
                       : sel.display_name;
 
-                  const val0 = isDisplayName === undefined ? sel[0] : sel.name;
-                  const val1 =
-                    isDisplayName === undefined ? sel[1] : isDisplayName;
+                  let val0 = "";
+                  let val1 = "";
+
+                  if (elName === "category_name") {
+                    val0 = sel.category === undefined ? sel[0] : sel.category;
+                    val1 = sel.category === undefined ? sel[1] : sel.category;
+                  } else if (elName === "metric") {
+                    val0 = sel.metric === undefined ? sel[0] : sel.metric;
+                    val1 = sel.metric === undefined ? sel[1] : sel.metric;
+                  } else {
+                    val0 = isDisplayName === undefined ? sel[0] : sel.name;
+                    val1 = isDisplayName === undefined ? sel[1] : isDisplayName;
+                  }
                   return (
                     <option
                       id={sel.id}
@@ -227,9 +322,20 @@ const InputTypeSelect = (props) => {
                     sel.display_name === undefined
                       ? sel.name
                       : sel.display_name;
-                  const val0 = isDisplayName === undefined ? sel[0] : sel.name;
-                  const val1 =
-                    isDisplayName === undefined ? sel[1] : isDisplayName;
+
+                  let val0 = "";
+                  let val1 = "";
+
+                  if (elName === "category_name") {
+                    val0 = sel.category === undefined ? sel[0] : sel.category;
+                    val1 = sel.category === undefined ? sel[1] : sel.category;
+                  } else if (elName === "metric") {
+                    val0 = sel.metric === undefined ? sel[0] : sel.metric;
+                    val1 = sel.metric === undefined ? sel[1] : sel.metric;
+                  } else {
+                    val0 = isDisplayName === undefined ? sel[0] : sel.name;
+                    val1 = isDisplayName === undefined ? sel[1] : isDisplayName;
+                  }
                   return (
                     <option
                       id={sel.id}
