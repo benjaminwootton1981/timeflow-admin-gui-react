@@ -145,7 +145,7 @@ export const saveStreamProcessor = (editStreamProcessor, processorId) => (
           if (step.blocks.length > 0) {
             step.blocks.forEach((block) => {
               const addId = Object.assign(block, {});
-              // addId["parent"] = step.id;
+              addId["parent"] = resp.data.id;
               addId["name"] = step.name;
               addId["steptype"] = step.steptype;
               addId["ordering"] = i + 1;
