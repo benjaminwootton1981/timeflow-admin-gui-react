@@ -139,48 +139,49 @@ export const saveStreamProcessor = (editStreamProcessor, processorId) => (
         console.log(err);
       });
 
-    if (step.blocks.length > 0) {
-      step.blocks.forEach((block) => {
-        const addId = Object.assign(block, {});
-        addId["parent"] = step.id;
-        addId["name"] = step.name;
-        addId["steptype"] = step.steptype;
-        addId["ordering"] = i + 1;
-
-        const stringifyBlock = JSON.stringify(addId);
-
-        if (
-          block.id !== undefined &&
-          block.id !== null &&
-          step.blocks.length > 0
-        ) {
-          updateStepTypeRequest(block.id, stringifyBlock)
-            .then((resp) => {
-              if (resp.status === 200) {
-              } else {
-                alert(resp.data.streamprocessor[0]);
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        } else {
-          setStepTypeRequest(stringifyBlock)
-            .then((resp) => {
-              if (resp.status === 201) {
-              } else {
-                alert(resp.data.streamprocessor[0]);
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-      });
-    }
     if (step.id !== null) {
       updateStepTypeRequest(step.id, stringifyDataStep)
         .then((resp) => {
+          if (step.blocks.length > 0) {
+            step.blocks.forEach((block) => {
+              const addId = Object.assign(block, {});
+              // addId["parent"] = step.id;
+              addId["name"] = step.name;
+              addId["steptype"] = step.steptype;
+              addId["ordering"] = i + 1;
+
+              const stringifyBlock = JSON.stringify(addId);
+
+              if (
+                block.id !== undefined &&
+                block.id !== null &&
+                step.blocks.length > 0
+              ) {
+                updateStepTypeRequest(block.id, stringifyBlock)
+                  .then((resp) => {
+                    if (resp.status === 200) {
+                    } else {
+                      alert(resp.data.streamprocessor[0]);
+                    }
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              } else {
+                setStepTypeRequest(stringifyBlock)
+                  .then((resp) => {
+                    if (resp.status === 201) {
+                    } else {
+                      alert(resp.data.streamprocessor[0]);
+                    }
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }
+            });
+          }
+
           if (resp.status === 200) {
           } else {
             alert(resp.data.streamprocessor[0]);
@@ -193,6 +194,45 @@ export const saveStreamProcessor = (editStreamProcessor, processorId) => (
       setStepTypeRequest(stringifyDataStep)
         .then((resp) => {
           if (resp.status === 201) {
+            if (step.blocks.length > 0) {
+              step.blocks.forEach((block) => {
+                const addId = Object.assign(block, {});
+                addId["parent"] = resp.data.id;
+                addId["name"] = step.name;
+                addId["steptype"] = step.steptype;
+                addId["ordering"] = i + 1;
+
+                const stringifyBlock = JSON.stringify(addId);
+
+                if (
+                  block.id !== undefined &&
+                  block.id !== null &&
+                  step.blocks.length > 0
+                ) {
+                  updateStepTypeRequest(block.id, stringifyBlock)
+                    .then((resp) => {
+                      if (resp.status === 200) {
+                      } else {
+                        alert(resp.data.streamprocessor[0]);
+                      }
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                } else {
+                  setStepTypeRequest(stringifyBlock)
+                    .then((resp) => {
+                      if (resp.status === 201) {
+                      } else {
+                        alert(resp.data.streamprocessor[0]);
+                      }
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }
+              });
+            }
           } else {
             alert(resp.data.streamprocessor[0]);
           }
