@@ -64,7 +64,6 @@ const Step = (props) => {
     props.deleteBlock(values.blocks[index].id);
     setFieldValue(`blocks`, array);
   };
-
   useEffect(() => {
     if (props.itemsStepTypes["functions"].length > 0) {
       const filtered = props.itemsStepTypes["function_endpoints"].filter(

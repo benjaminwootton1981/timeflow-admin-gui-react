@@ -1,12 +1,28 @@
-export const NameHelper = (name, el) => {
-  let val0 = "";
-  let val1 = "";
-  if (name.name === "topic" || "record_type") {
-    val0 = el.display_name === undefined ? el[0] : el.display_name;
-    val1 = el.display_name === undefined ? el[1] : el.display_name;
+export const NameHelper = (
+  props,
+  elName,
+  sel,
+  isDisplayName,
+  kpiKeyTypeLength
+) => {
+  let value = "";
+  let name = "";
+  if (elName === "category_name") {
+    value = sel.category === undefined ? sel[0] : sel.category;
+    name = sel.category === undefined ? sel[1] : sel.category;
+  } else if (elName === "metric") {
+    value = sel.metric === undefined ? sel[0] : sel.metric;
+    name = sel.metric === undefined ? sel[1] : sel.metric;
+  } else if (
+    kpiKeyTypeLength === 0 &&
+    elName === "key_type" &&
+    props.values["steptype"] === "key"
+  ) {
+    value = sel.value === undefined ? sel[0] : sel.value;
+    name = sel.name === undefined ? sel[1] : isDisplayName;
   } else {
-    val0 = el.name === undefined ? el[0] : el.name;
-    val1 = el.name === undefined ? el[1] : el.name;
+    value = isDisplayName === undefined ? sel[0] : sel.name;
+    name = isDisplayName === undefined ? sel[1] : isDisplayName;
   }
-  return { val0: val0, val1: val1 };
+  return { value: value, name: name };
 };

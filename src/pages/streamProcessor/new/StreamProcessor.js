@@ -123,8 +123,10 @@ const StreamProcessor = (props) => {
 
   useEffect(() => {
     if (JSON.stringify(stepsStreamProcessor) !== JSON.stringify(values.items)) {
-      props.updateDataStreamProcessor(values.items);
-      props.updateDataInfo(values, processorId);
+      setTimeout(() => {
+        props.updateDataStreamProcessor(values.items);
+        props.updateDataInfo(values, processorId);
+      }, 0);
     }
   }, []);
   const hideModal = () => {

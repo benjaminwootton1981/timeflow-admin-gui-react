@@ -2,13 +2,11 @@ import React, { useEffect } from "react";
 
 const SelectFromBlock = (props) => {
   const { blockElem, typeReturnEl, choices, valueSelect, block } = props;
-
   let val = !!block[blockElem.name]
     ? block[blockElem.name]
     : choices[0].name === undefined
     ? choices[0][0]
     : choices[0].name;
-
   useEffect(() => {
     props.setFieldValue(blockElem.name, val);
   }, []);
