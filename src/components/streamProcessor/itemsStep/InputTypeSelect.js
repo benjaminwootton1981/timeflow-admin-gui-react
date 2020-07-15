@@ -114,6 +114,16 @@ const InputTypeSelect = (props) => {
           ? props.values.recipientList
           : props.itemsStepTypes["recipientList"][0].name;
         props.setFieldValue(elName, setValue);
+      } else if (elName === "data_dictionary_name") {
+        setTypeChoice(props.itemsStepTypes["data_dictionaries"]);
+        if (!elName) {
+          return errorData;
+        }
+        const setValue = !!props.values.data_dictionary_name
+          ? props.values.data_dictionary_name
+          : props.itemsStepTypes["data_dictionaries"].length > 0 &&
+            props.itemsStepTypes["data_dictionaries"][0].name;
+        props.setFieldValue(elName, setValue);
       } else if (elName === "search_name") {
         setTypeChoice(props.itemsStepTypes["searches"]);
         if (!elName) {
@@ -173,7 +183,6 @@ const InputTypeSelect = (props) => {
         const setValue = !!props.values.key_type
           ? props.values.key_type
           : metricKeyType[0].value;
-
         props.setFieldValue(elName, setValue);
         props.SetValueSelect({ ...props.valueSelect, [elName]: setValue });
       } else if (elName === "record_type") {
@@ -202,6 +211,29 @@ const InputTypeSelect = (props) => {
       props.setFieldValue(elName, setValue);
     }
   }, [elem.is_need_fetch, props.values]);
+  useEffect(() => {
+    if (kpiKeyTypeLength !== 0 && props.values["steptype"] === "key") {
+      const checkMetricName = !!props.values.category_name
+        ? props.values.category_name
+        : props.itemsStepTypes["kpiData"][0].category;
+
+      const selectArray = props.itemsStepTypes["kpiData"].filter(
+        (kpi) => kpi.category === checkMetricName
+      );
+      const selectIndicatorType = selectArray[0].indicator_type;
+      let metricKeyType = [];
+      if (selectIndicatorType === "kpi_type_measurement") {
+        setTypeChoice(props.itemsStepTypes["stepData"].update_key_types);
+        metricKeyType = props.itemsStepTypes["stepData"].update_key_types;
+      } else {
+        setTypeChoice(props.itemsStepTypes["stepData"].increment_key_types);
+        metricKeyType = props.itemsStepTypes["stepData"].increment_key_types;
+      }
+      const setValue = metricKeyType[0].value;
+      props.setFieldValue(elName, setValue);
+      props.SetValueSelect({ ...props.valueSelect, [elName]: setValue });
+    }
+  }, [elem.is_need_fetch, props.values, props.valueSelect]);
   if (!streams) {
     return false;
   }
