@@ -56,7 +56,6 @@ const Step = (props) => {
       }),
     },
   });
-
   const addNewBlock = () => {
     setFieldValue(`blocks.${values.blocks.length}.'id`, null);
   };

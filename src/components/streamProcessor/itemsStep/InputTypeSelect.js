@@ -174,7 +174,8 @@ const InputTypeSelect = (props) => {
           ? props.values.key_type
           : metricKeyType[0].value;
 
-        // props.setFieldValue(elName, setValue);
+        props.setFieldValue(elName, setValue);
+        props.SetValueSelect({ ...props.valueSelect, [elName]: setValue });
       } else if (elName === "record_type") {
         if (!elName) {
           return errorData;
