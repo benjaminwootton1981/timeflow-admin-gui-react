@@ -153,7 +153,7 @@ const InputTypeSelect = (props) => {
             : props.itemsStepTypes["kpiData"][0].metric;
           props.setFieldValue(elName, setValue);
         }
-      } else if (kpiKeyTypeLength === 0) {
+      } else if (kpiKeyTypeLength === 0 && props.values["steptype"] === "key") {
         const checkMetricName = !!props.values.category_name
           ? props.values.category_name
           : props.itemsStepTypes["kpiData"][0].category;
@@ -250,7 +250,11 @@ const InputTypeSelect = (props) => {
                   } else if (elName === "metric") {
                     val0 = sel.metric === undefined ? sel[0] : sel.metric;
                     val1 = sel.metric === undefined ? sel[1] : sel.metric;
-                  } else if (kpiKeyTypeLength === 0 && elName === "key_type") {
+                  } else if (
+                    kpiKeyTypeLength === 0 &&
+                    elName === "key_type" &&
+                    props.values["steptype"] === "key"
+                  ) {
                     val0 = sel.value === undefined ? sel[0] : sel.value;
                     val1 = sel.name === undefined ? sel[1] : isDisplayName;
                   } else {
@@ -290,7 +294,11 @@ const InputTypeSelect = (props) => {
                   } else if (elName === "metric") {
                     val0 = sel.metric === undefined ? sel[0] : sel.metric;
                     val1 = sel.metric === undefined ? sel[1] : sel.metric;
-                  } else if (kpiKeyTypeLength === 0 && elName === "key_type") {
+                  } else if (
+                    kpiKeyTypeLength === 0 &&
+                    elName === "key_type" &&
+                    props.values["steptype"] === "key"
+                  ) {
                     val0 = sel.value === undefined ? sel[0] : sel.value;
                     val1 = sel.name === undefined ? sel[1] : isDisplayName;
                   } else {
@@ -334,7 +342,11 @@ const InputTypeSelect = (props) => {
                   } else if (elName === "metric") {
                     val0 = sel.metric === undefined ? sel[0] : sel.metric;
                     val1 = sel.metric === undefined ? sel[1] : sel.metric;
-                  } else if (kpiKeyTypeLength === 0 && elName === "key_type") {
+                  } else if (
+                    kpiKeyTypeLength === 0 &&
+                    elName === "key_type" &&
+                    props.values["steptype"] === "key"
+                  ) {
                     val0 = sel.value === undefined ? sel[0] : sel.value;
                     val1 = sel.name === undefined ? sel[1] : isDisplayName;
                   } else {
