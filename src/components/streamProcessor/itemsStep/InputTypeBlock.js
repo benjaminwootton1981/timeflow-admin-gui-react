@@ -48,7 +48,7 @@ const InputTypeBlock = (props) => {
         {elem.fields.map((blockElem, i) => {
           let choices = blockElem.choices;
           if (blockElem.choices.length <= 0) {
-            choices = schema.schemafield_set;
+            choices = !!schema ? schema.schemafield_set : [];
           }
           let isRender = false;
           const isRelated = Array.isArray(blockElem.related_to.value);

@@ -105,6 +105,16 @@ const InputTypeSelect = (props) => {
           value: props.itemsStepTypes[choicesName][0].name,
           stepIndex: stepIndex,
         });
+      } else if (elName === "event_type") {
+        if (!elName) {
+          return errorData;
+        }
+        const setValue = !!props.values.event_type
+          ? props.values.event_type
+          : props.itemsStepTypes[choicesName][0].name;
+        setTypeChoice(props.itemsStepTypes[choicesName]);
+
+        props.setFieldValue(elName, setValue);
       } else if (elName === "task_recipient_id") {
         setTypeChoice(props.itemsStepTypes["recipientList"]);
         if (!elName) {
@@ -248,13 +258,25 @@ const InputTypeSelect = (props) => {
     props.SetValueSelect({ ...props.valueSelect, [elem.name]: e.target.value });
     props.onChange(element);
     if (elName === "topic") {
-      props.setSchemasId({ value: e.target.value, stepIndex: stepIndex });
+      props.setSchemasId({
+        value: e.target.value,
+        stepIndex: stepIndex,
+        typeSelect: elName,
+      });
     }
     if (elName === "record_type") {
-      props.setSchemasId({ value: e.target.value, stepIndex: stepIndex });
+      props.setSchemasId({
+        value: e.target.value,
+        stepIndex: stepIndex,
+        typeSelect: elName,
+      });
     }
     if (elName === "event_type") {
-      props.setSchemasId({ value: e.target.value, stepIndex: stepIndex });
+      props.setSchemasId({
+        value: e.target.value,
+        stepIndex: stepIndex,
+        typeSelect: elName,
+      });
     }
   };
   return (

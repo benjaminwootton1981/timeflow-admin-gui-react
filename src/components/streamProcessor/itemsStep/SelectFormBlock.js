@@ -9,7 +9,6 @@ const SelectFromBlock = (props) => {
     ? choices[0][0]
     : choices[0].name;
 
-  console.log("block[blockElem.name]", block[blockElem.name]);
   useEffect(() => {
     props.setFieldValue(blockElem.name, val);
   }, []);

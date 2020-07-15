@@ -83,19 +83,26 @@ export default function StreamProcessorReducer(state = initialState, action) {
       return { ...state, stepData: action.data };
 
     case CONSTANTS.STREAMS.FILTERED_SCHEMAS:
-      const { value } = action.data;
+      const { value, typeSelect } = action.data;
+      let checkValue;
+      if (typeSelect === "event_type") {
+        checkValue =
+          value.indexOf("_") === -1
+            ? value
+            : value.split("_").slice(0).join("_");
+      } else {
+        checkValue =
+          value.indexOf("_") === -1
+            ? value
+            : value.split("_").slice(2).join("_");
+      }
       const filteredSchemas = [
         ...state.schemas.filter((el) => {
-          let filteredData;
           if (el.name.indexOf(" ") === -1) {
-            filteredData = el.name === value.split("_").slice(2).join("_");
+            return el.name === checkValue;
           } else {
-            filteredData =
-              el.name.split(" ").slice(0).join("_") ===
-              value.split("_").slice(2).join("_");
+            return el.name.split(" ").slice(0).join("_") === checkValue;
           }
-
-          return filteredData;
         }),
       ];
       let setActualSchema;

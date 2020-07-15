@@ -285,9 +285,9 @@ export const addStep = (items) => ({
   type: CONSTANTS.STREAMS.ADD_NEW_STEP,
   data: items,
 });
-export const setSchemasId = (name) => ({
+export const setSchemasId = (items) => ({
   type: CONSTANTS.STREAMS.FILTERED_SCHEMAS,
-  data: name,
+  data: items,
 });
 
 export const orderingStep = (type, stepIndex) => ({
