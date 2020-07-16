@@ -14,8 +14,8 @@ export const NameHelper = (
     value = sel.metric === undefined ? sel[0] : sel.metric;
     name = sel.metric === undefined ? sel[1] : sel.metric;
   } else if (elName === "recipient") {
-    value = sel.metric === undefined ? sel[0] : sel.id;
-    name = sel.metric === undefined ? sel[1] : sel.name;
+    value = sel.id === undefined ? sel[0] : sel.id;
+    name = sel.name === undefined ? sel[1] : sel.name;
   } else if (
     kpiKeyTypeLength === 0 &&
     elName === "key_type" &&
