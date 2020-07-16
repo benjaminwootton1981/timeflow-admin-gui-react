@@ -117,8 +117,8 @@ const InputTypeSelect = (props) => {
                 className="step"
               >
                 {elName === "field_to_process" && (
-                  <option id={"null"} value={null}>
-                    {""}
+                  <option id={"null"} value={" "}>
+                    {" "}
                   </option>
                 )}
                 {typeChoices.map((sel, i) => {
