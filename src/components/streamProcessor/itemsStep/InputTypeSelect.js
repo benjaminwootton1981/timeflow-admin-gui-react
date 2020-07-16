@@ -116,11 +116,12 @@ const InputTypeSelect = (props) => {
                 onChange={(e) => setSchema(e, elem)}
                 className="step"
               >
-                {elName === "field_to_process" && (
-                  <option id={"null"} value={" "}>
-                    {" "}
-                  </option>
-                )}
+                {elName === "field_to_process" &&
+                  props.values["steptype"] === "key" && (
+                    <option id={"null"} value={" "}>
+                      {" "}
+                    </option>
+                  )}
                 {typeChoices.map((sel, i) => {
                   const isDisplayName =
                     sel.display_name === undefined
@@ -141,7 +142,11 @@ const InputTypeSelect = (props) => {
                     isDisplayName,
                     kpiKeyTypeLength
                   ).name;
-                  if (elName === "field_to_process" && val1 !== "") {
+                  if (
+                    elName === "field_to_process" &&
+                    props.values["steptype"] === "key" &&
+                    val1 !== ""
+                  ) {
                     val1 = `Slice by ${val1}`;
                   }
 

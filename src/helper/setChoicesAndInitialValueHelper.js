@@ -40,7 +40,10 @@ export const setChoicesAndInitialValueHelper = (
             setTypeChoice(schema);
           }
         });
-        if (elName === "field_to_process") {
+        if (
+          elName === "field_to_process" &&
+          props.values["steptype"] === "key"
+        ) {
           if (!elem.choices || !props.itemsStepTypes[choicesName][0]) {
             return errorData;
           }
