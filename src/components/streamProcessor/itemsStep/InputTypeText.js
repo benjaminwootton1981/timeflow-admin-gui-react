@@ -9,7 +9,7 @@ const InputTypeText = (props) => {
           name={elem.name}
           onChange={(e) => props.setFieldValue(elem.name, e.target.value)}
           placeholder={elem.name}
-          value={props.values[elem.name]}
+          value={!!props.values[elem.name] ? props.values[elem.name] : ""}
           className="required"
         />
       ) : (
@@ -19,7 +19,7 @@ const InputTypeText = (props) => {
               name={elem.name}
               onChange={(e) => props.setFieldValue(elem.name, e.target.value)}
               placeholder={elem.name}
-              value={props.values[elem.name]}
+              value={!!props.values[elem.name] ? props.values[elem.name] : ""}
               className="required"
             />
           )}

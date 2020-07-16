@@ -50,7 +50,7 @@ export const updateStepTypeRequest = (step_id, data) =>
 export const createWorkFlowStepRequest = (data) =>
   ax.post(`workflowtask/`, data);
 
-export const updateWorkFlowStepRequest = (workFlowId, data) =>
+export const updateWorkFlowStepRequest = (data, workFlowId) =>
   ax.patch(`workflowtask/${workFlowId}/`, data);
 
 export const updateStreamProcessorInfoRequest = (step_id, data) =>
@@ -80,5 +80,5 @@ export const getFunctionRequest = (step_id) =>
   ax.get(`function/?project=${step_id}`);
 
 export const getKpiRequest = (step_id) => ax.get(`kpi/?project=${step_id}`);
-export const getFunctionEndpointsRequest = (step_id) =>
-  ax.get(`function-endpoint/`);
+
+export const getFunctionEndpointsRequest = () => ax.get(`function-endpoint/`);

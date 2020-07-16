@@ -96,7 +96,7 @@ export const createStreamProcessor = (dataStep, project_id) => (dispatch) => {
             .then((resp) => {
               let addWorkFlowTask = {};
               if (step.steptype === "workflow") {
-                addWorkFlowTask = Object.assign(step, {});
+                addWorkFlowTask = Object.assign(step.workflow_task[0], {});
                 addWorkFlowTask["streamprocessor_step"] = resp.data.id;
                 const stringifyWorkflowTask = JSON.stringify(addWorkFlowTask);
                 createWorkFlowStepRequest(stringifyWorkflowTask)
@@ -176,7 +176,8 @@ export const saveStreamProcessor = (editStreamProcessor, processorId) => (
     const stringifyDataInfo = JSON.stringify(streamProcessorInfo);
 
     const sendData =
-      step.steptype === "workflow" ? stringifyWorkFlowStep : stringifyDataInfo;
+      step.steptype === "workflow" ? stringifyWorkFlowStep : stringifyDataStep;
+
     updateStreamProcessorInfoRequest(processorId, stringifyDataInfo)
       .then((resp) => {})
       .catch((err) => {
@@ -186,16 +187,21 @@ export const saveStreamProcessor = (editStreamProcessor, processorId) => (
     if (step.id !== null) {
       updateStepTypeRequest(step.id, sendData)
         .then((resp) => {
-          let updateWorkFlowTask = {};
           if (step.steptype === "workflow") {
-            updateWorkFlowTask = Object.assign(step, {});
+            const updateWorkFlowTask = Object.assign(step.workflow_task[0], {});
             updateWorkFlowTask["streamprocessor_step"] = resp.data.id;
             const stringifyWorkflowTask = JSON.stringify(updateWorkFlowTask);
-            updateWorkFlowStepRequest(stringifyWorkflowTask)
+
+            updateWorkFlowStepRequest(
+              stringifyWorkflowTask,
+              updateWorkFlowTask.id
+            )
               .then((respWorkFlow) => {
                 console.log("respWorkFlow", respWorkFlow);
               })
-              .catch((err) => console.log("Err", err));
+              .catch((err) => {
+                console.log(err);
+              });
           }
 
           if (step.blocks.length > 0) {
@@ -251,7 +257,7 @@ export const saveStreamProcessor = (editStreamProcessor, processorId) => (
         .then((resp) => {
           let addWorkFlowTask = {};
           if (step.steptype === "workflow") {
-            addWorkFlowTask = Object.assign(step, {});
+            addWorkFlowTask = Object.assign(step.workflow_task[0], {});
             addWorkFlowTask["streamprocessor_step"] = resp.data.id;
             const stringifyWorkflowTask = JSON.stringify(addWorkFlowTask);
             createWorkFlowStepRequest(stringifyWorkflowTask)

@@ -104,7 +104,6 @@ const InputTypeSelect = (props) => {
       });
     }
   };
-
   return (
     <>
       {!isRelated ? (
@@ -149,13 +148,14 @@ const InputTypeSelect = (props) => {
                   ) {
                     val1 = `Slice by ${val1}`;
                   }
-
+                  let isSelected = false;
+                  if (elName === "recipient") {
+                    isSelected = +props.values[elName] === +val0;
+                  } else {
+                    isSelected = props.values[elName] === val0;
+                  }
                   return (
-                    <option
-                      id={sel.id}
-                      value={val0}
-                      selected={props.values[elName] === val0}
-                    >
+                    <option id={sel.id} value={val0} selected={isSelected}>
                       {val1}
                     </option>
                   );

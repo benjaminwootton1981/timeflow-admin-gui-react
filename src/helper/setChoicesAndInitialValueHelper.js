@@ -104,7 +104,7 @@ export const setChoicesAndInitialValueHelper = (
       }
       const setValue = !!props.values.recipient
         ? props.values.recipient
-        : props.itemsStepTypes["recipientList"][0]?.id;
+        : +props.itemsStepTypes["recipientList"][0]?.id;
       setFieldValue(elName, setValue);
     } else if (elName === "data_dictionary_name") {
       setTypeChoice(props.itemsStepTypes["data_dictionaries"]);

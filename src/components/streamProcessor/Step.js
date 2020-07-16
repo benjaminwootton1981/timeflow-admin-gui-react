@@ -47,11 +47,22 @@ const Step = (props) => {
   const [typeChoicesEndpoint, setTypeChoiceEndpoint] = useState([]);
 
   const [stepDataValue, setStepDataValue] = useState(stepEl);
-
+  const workFlowMaperData =
+    props.values?.workflow_task?.length > 0
+      ? props.values?.workflow_task
+      : [
+          {
+            recipient: "",
+            type: "",
+          },
+        ];
   let { values, setFieldValue } = useFormik({
     enableReinitialize: true,
     initialValues: {
-      blocks: props.values.blocks.map((el, i) => {
+      blocks: props.values.blocks.map((el) => {
+        return { ...el };
+      }),
+      workflow_task: workFlowMaperData.map((el) => {
         return { ...el };
       }),
     },
@@ -82,6 +93,15 @@ const Step = (props) => {
   useEffect(() => {
     if (JSON.stringify(props.values.blocks) !== JSON.stringify(values.blocks)) {
       setTimeout(() => props.setFieldValue("blocks", values.blocks), 0);
+    }
+    if (
+      JSON.stringify(props.values.workflow_task) !==
+      JSON.stringify(values.workflow_task)
+    ) {
+      setTimeout(
+        () => props.setFieldValue("workflow_task", values.workflow_task),
+        0
+      );
     }
   }, [values]);
 
@@ -214,7 +234,7 @@ const Step = (props) => {
             <div className="add-selects" data-step_id={`new_${stepIndex}`}>
               <div>
                 {step_types_data &&
-                  step_types_data[fieldsKey].fields.map((elem) => {
+                  step_types_data[fieldsKey].fields.map((elem, i) => {
                     let block = values.blocks;
                     if (elem.input_type === "block") {
                       // block = values.blocks.length <= 0 ? [{}] : values.blocks;
@@ -243,72 +263,112 @@ const Step = (props) => {
                         isRender = foundElem.length > 0;
                       }
                     }
-                    const typeElement = {
-                      select: (
-                        <InputTypeSelect
-                          stepIndex={stepIndex}
-                          isRelated={isRelated}
-                          isRender={isRender}
-                          onChange={setValueStep}
-                          SetValueSelect={SetValueSelect}
-                          values={props.values}
-                          streams={streams}
-                          elem={elem}
-                          indexInheritsSchema={props.indexInheritsSchema}
-                          changeFunctionEndpoints={changeFunctionEndpoints}
-                          typeChoicesEndpoint={typeChoicesEndpoint}
-                          setFieldValue={props.setFieldValue}
-                          valueSelect={valueSelect}
-                        />
-                      ),
-                      block: (
-                        <>
-                          {block.map((block, i) => {
-                            return (
-                              <>
-                                <InputTypeBlock
-                                  deleteBlock={deleteBlock}
-                                  addNewBlock={addNewBlock}
-                                  values={props.values}
-                                  onChange={setValueStep}
-                                  indexInheritsSchema={
-                                    props.indexInheritsSchema
-                                  }
-                                  elem={elem}
-                                  block={block}
-                                  indexBlock={i}
-                                  setFieldValue={(name, e) =>
-                                    setFieldValue(`blocks.${i}.${name}`, e)
-                                  }
-                                />
-                              </>
-                            );
-                          })}
-                          {elem.input_type === "block" && (
-                            <div
-                              onClick={() => {
-                                addNewBlock();
-                              }}
-                              className="card-btn card-btn--add-filter new_field_block "
-                            >
-                              New Filter
-                            </div>
-                          )}
-                        </>
-                      ),
-                      text: (
-                        <InputTypeText
-                          isRelated={isRelated}
-                          isRender={isRender}
-                          onChange={setValueStep}
-                          streams={streams}
-                          elem={elem}
-                          values={props.values}
-                          setFieldValue={props.setFieldValue}
-                          stepDataValue={stepDataValue}
-                        />
-                      ),
-                    };
+                    let typeElement = {};
+                    if (stepEl.steptype === "workflow") {
+                      typeElement = {
+                        select: (
+                          <InputTypeSelect
+                            stepIndex={stepIndex}
+                            isRelated={isRelated}
+                            isRender={isRender}
+                            onChange={setValueStep}
+                            SetValueSelect={SetValueSelect}
+                            values={values.workflow_task[0]}
+                            streams={streams}
+                            elem={elem}
+                            indexInheritsSchema={props.indexInheritsSchema}
+                            changeFunctionEndpoints={changeFunctionEndpoints}
+                            typeChoicesEndpoint={typeChoicesEndpoint}
+                            setFieldValue={(name, e) =>
+                              setFieldValue(`workflow_task.${0}.${name}`, e)
+                            }
+                            valueSelect={valueSelect}
+                          />
+                        ),
+                        text: (
+                          <InputTypeText
+                            isRelated={isRelated}
+                            isRender={isRender}
+                            onChange={setValueStep}
+                            streams={streams}
+                            elem={elem}
+                            values={values.workflow_task[0]}
+                            setFieldValue={(name, e) =>
+                              setFieldValue(`workflow_task.${0}.${name}`, e)
+                            }
+                            stepDataValue={stepDataValue}
+                          />
+                        ),
+                      };
+                    } else {
+                      typeElement = {
+                        select: (
+                          <InputTypeSelect
+                            stepIndex={stepIndex}
+                            isRelated={isRelated}
+                            isRender={isRender}
+                            onChange={setValueStep}
+                            SetValueSelect={SetValueSelect}
+                            values={props.values}
+                            streams={streams}
+                            elem={elem}
+                            indexInheritsSchema={props.indexInheritsSchema}
+                            changeFunctionEndpoints={changeFunctionEndpoints}
+                            typeChoicesEndpoint={typeChoicesEndpoint}
+                            setFieldValue={props.setFieldValue}
+                            valueSelect={valueSelect}
+                          />
+                        ),
+                        block: (
+                          <>
+                            {block.map((block, i) => {
+                              return (
+                                <>
+                                  <InputTypeBlock
+                                    deleteBlock={deleteBlock}
+                                    addNewBlock={addNewBlock}
+                                    values={props.values}
+                                    onChange={setValueStep}
+                                    indexInheritsSchema={
+                                      props.indexInheritsSchema
+                                    }
+                                    elem={elem}
+                                    block={block}
+                                    indexBlock={i}
+                                    setFieldValue={(name, e) =>
+                                      setFieldValue(`blocks.${i}.${name}`, e)
+                                    }
+                                  />
+                                </>
+                              );
+                            })}
+                            {elem.input_type === "block" && (
+                              <div
+                                onClick={() => {
+                                  addNewBlock();
+                                }}
+                                className="card-btn card-btn--add-filter new_field_block "
+                              >
+                                New Filter
+                              </div>
+                            )}
+                          </>
+                        ),
+                        text: (
+                          <InputTypeText
+                            isRelated={isRelated}
+                            isRender={isRender}
+                            onChange={setValueStep}
+                            streams={streams}
+                            elem={elem}
+                            values={props.values}
+                            setFieldValue={props.setFieldValue}
+                            stepDataValue={stepDataValue}
+                          />
+                        ),
+                      };
+                    }
+
                     const renderElem = typeElement[elem.input_type];
                     return <>{renderElem}</>;
                   })}
