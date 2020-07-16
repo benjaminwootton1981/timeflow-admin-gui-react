@@ -55,7 +55,7 @@ export const setChoicesAndInitialValueHelper = (
             const setValue = !!props.values[elName]
               ? props.values[elName]
               : schema[0]?.name;
-            setFieldValue(elName, " ");
+            setFieldValue(elName, setValue);
           }
         }
       } else if (props.itemsStepTypes.actualSchema.length === 0) {
@@ -97,14 +97,14 @@ export const setChoicesAndInitialValueHelper = (
       setTypeChoice(props.itemsStepTypes[choicesName]);
 
       setFieldValue(elName, setValue);
-    } else if (elName === "task_recipient_id") {
+    } else if (elName === "recipient") {
       setTypeChoice(props.itemsStepTypes["recipientList"]);
       if (!elName) {
         return errorData;
       }
-      const setValue = !!props.values.recipientList
-        ? props.values.recipientList
-        : props.itemsStepTypes["recipientList"][0]?.name;
+      const setValue = !!props.values.recipient
+        ? props.values.recipient
+        : props.itemsStepTypes["recipientList"][0]?.id;
       setFieldValue(elName, setValue);
     } else if (elName === "data_dictionary_name") {
       setTypeChoice(props.itemsStepTypes["data_dictionaries"]);

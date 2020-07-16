@@ -59,7 +59,6 @@ const StreamProcessor = (props) => {
     props.getFunctionData(projectId);
     props.getKpi(projectId);
     props.geFunctionEndpoint();
-
     if (isNew) {
       props.newStreamProcessor();
     } else {
@@ -147,6 +146,7 @@ const StreamProcessor = (props) => {
       <h2 className="dashboard__header">Edit Stream Processor</h2>
     </>
   );
+  console.log("`VALUES", values.items);
   return (
     <form onSubmit={handleSubmit}>
       <div className="wrapper">

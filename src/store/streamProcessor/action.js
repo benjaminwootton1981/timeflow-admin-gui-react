@@ -1,5 +1,6 @@
 import { CONSTANTS } from "../constants";
 import {
+  createWorkFlowStepRequest,
   deleteStepRequest,
   getDataDictionaryRequest,
   getFunctionEndpointsRequest,
@@ -64,26 +65,57 @@ export const createStreamProcessor = (dataStep, project_id) => (dispatch) => {
   addIdStreamProcessorData["project"] = project_id;
   const stringifyData = JSON.stringify(addIdStreamProcessorData);
   let statusResponse = [];
+
   setStreamProcessorRequest(stringifyData)
     .then((respCreateStreamProcessor) => {
       if (respCreateStreamProcessor.status === 201) {
         statusResponse.push("true");
+
         steps.forEach((step, i) => {
+          let addWorkFlowStep = {};
+          if (step.steptype === "workflow") {
+            addWorkFlowStep = Object.assign({}, {});
+            addWorkFlowStep["streamprocessor"] =
+              respCreateStreamProcessor.data.id;
+            addWorkFlowStep["ordering"] = i + 1;
+            addWorkFlowStep["name"] = step.name;
+            addWorkFlowStep["steptype"] = step.steptype;
+          }
+
           const addId = Object.assign(step, {});
           addId["streamprocessor"] = respCreateStreamProcessor.data.id;
           addId["ordering"] = i + 1;
           const stringifyDataStep = JSON.stringify(addId);
-          setStepTypeRequest(stringifyDataStep)
+          const stringifyWorkFlowStep = JSON.stringify(addWorkFlowStep);
+          const sendData =
+            step.steptype === "workflow"
+              ? stringifyWorkFlowStep
+              : stringifyDataStep;
+          setStepTypeRequest(sendData)
             .then((resp) => {
+              let addWorkFlowTask = {};
+              if (step.steptype === "workflow") {
+                addWorkFlowTask = Object.assign(step, {});
+                addWorkFlowTask["streamprocessor_step"] = resp.data.id;
+                const stringifyWorkflowTask = JSON.stringify(addWorkFlowTask);
+                createWorkFlowStepRequest(stringifyWorkflowTask)
+                  .then((respWorkFlow) => {
+                    console.log("respWorkFlow", respWorkFlow);
+                  })
+                  .catch((err) => console.log("Err", err));
+              }
               if (resp.status === 201) {
                 statusResponse.push("true");
+
                 if (step.blocks.length > 0) {
                   step.blocks.forEach((block) => {
                     const addId = Object.assign(block, {});
+
                     addId["parent"] = resp.data.id;
                     addId["ordering"] = i + 1;
                     addId["name"] = step.name;
                     addId["steptype"] = step.steptype;
+
                     const stringifyBlock = JSON.stringify(addId);
 
                     setStepTypeRequest(stringifyBlock)

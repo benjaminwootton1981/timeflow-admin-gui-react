@@ -32,7 +32,7 @@ function ManageStreamProcessor(props) {
 
   useEffect(() => {
     props.getProjects(projectId);
-  }, [projectId]);
+  }, [projectId, streamProcessors]);
 
   useEffect(() => {
     if (props.streamProcessors) {

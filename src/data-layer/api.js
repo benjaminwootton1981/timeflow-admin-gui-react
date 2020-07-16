@@ -47,6 +47,12 @@ export const setStepTypeRequest = (data) => {
 export const updateStepTypeRequest = (step_id, data) =>
   ax.patch(`streamprocessorstep/${step_id}/`, data);
 
+export const createWorkFlowStepRequest = (data) =>
+  ax.post(`workflowtask/`, data);
+
+export const updateWorkFlowStepRequest = (workFlowId, data) =>
+  ax.patch(`workflowtask/${workFlowId}/`, data);
+
 export const updateStreamProcessorInfoRequest = (step_id, data) =>
   ax.patch(`streamprocessor/${step_id}/`, data);
 
