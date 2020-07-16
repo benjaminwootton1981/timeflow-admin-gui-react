@@ -17,6 +17,12 @@ export const NameHelper = (
     value = sel.id === undefined ? sel[0] : sel.id;
     name = sel.name === undefined ? sel[1] : sel.name;
   } else if (
+    elName === "field_to_process" &&
+    props.values["steptype"] === "key"
+  ) {
+    value = sel.name === "null" ? "null" : sel.name;
+    name = sel.name === "null" ? " " : sel.name;
+  } else if (
     kpiKeyTypeLength === 0 &&
     elName === "key_type" &&
     props.values["steptype"] === "key"

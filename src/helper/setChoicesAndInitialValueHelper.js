@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export const setChoicesAndInitialValueHelper = (
   elem,
   choicesName,
@@ -12,6 +14,13 @@ export const setChoicesAndInitialValueHelper = (
   if (elem.choices.length === 0) {
     if (elem.is_need_fetch === "schema_fields") {
       let schema = [];
+      let fieldToProcess;
+      if (elName === "field_to_process" && props.values["steptype"] === "key") {
+        fieldToProcess = _.cloneDeep(props.itemsStepTypes["schemas"]);
+        fieldToProcess.forEach((element) => {
+          element.schemafield_set.unshift({ name: "null" });
+        });
+      }
       if (props.itemsStepTypes.actualSchema.length > 0) {
         props.itemsStepTypes.actualSchema.forEach((el) => {
           if (!elName) {
@@ -27,6 +36,7 @@ export const setChoicesAndInitialValueHelper = (
               ? props.values[elName]
               : schema[0]?.name;
             setFieldValue(elName, setValue);
+
             setTypeChoice(schema);
           } else {
             if (!props.itemsStepTypes[choicesName][0]) {
@@ -50,13 +60,30 @@ export const setChoicesAndInitialValueHelper = (
           if (!elName || elName === "") {
             return errorData;
           }
-          schema = props.itemsStepTypes[choicesName][0].schemafield_set;
           if (schema[0]) {
+            setTypeChoice(fieldToProcess[0].schemafield_set);
             const setValue = !!props.values[elName]
               ? props.values[elName]
-              : schema[0]?.name;
+              : fieldToProcess[0].schemafield_set[0].name;
             setFieldValue(elName, setValue);
           }
+        }
+      } else if (
+        elName === "field_to_process" &&
+        props.values["steptype"] === "key"
+      ) {
+        if (!elem.choices || !props.itemsStepTypes[choicesName][0]) {
+          return errorData;
+        }
+        if (!elName || elName === "") {
+          return errorData;
+        }
+        if (fieldToProcess[0]) {
+          setTypeChoice(fieldToProcess[0].schemafield_set);
+          const setValue = !!props.values[elName]
+            ? props.values[elName]
+            : fieldToProcess[0].schemafield_set[0].name;
+          setFieldValue(elName, setValue);
         }
       } else if (props.itemsStepTypes.actualSchema.length === 0) {
         if (!elem.choices || !props.itemsStepTypes[choicesName][0]) {
