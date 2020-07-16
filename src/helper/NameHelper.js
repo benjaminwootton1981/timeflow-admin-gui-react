@@ -13,7 +13,7 @@ export const NameHelper = (
   } else if (elName === "metric") {
     value = sel.metric === undefined ? sel[0] : sel.metric;
     name = sel.metric === undefined ? sel[1] : sel.metric;
-  } else if (elName === "recepient") {
+  } else if (elName === "recipient") {
     value = sel.metric === undefined ? sel[0] : sel.id;
     name = sel.metric === undefined ? sel[1] : sel.name;
   } else if (
