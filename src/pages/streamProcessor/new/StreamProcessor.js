@@ -37,7 +37,6 @@ const StreamProcessor = (props) => {
   };
   const processorId = props.match.params.processor_id;
   const projectId = props.match.params.id;
-
   const isNew = !processorId;
   const { stepsStreamProcessor, newStreamprocessors } = props.itemsStepTypes;
 
@@ -206,6 +205,7 @@ const StreamProcessor = (props) => {
                     values={values.items[i]}
                     items={items}
                     indexInheritsSchema={indexInheritsSchema}
+                    updateDataStep={updateDataStep}
                   />
                   {!isSchemaBlock && (
                     <SchemaBlock
