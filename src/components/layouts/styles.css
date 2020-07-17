@@ -77,9 +77,9 @@
 .addstep-label {
   /* font-family: Helvetica Neue; */
   font-style: normal;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 16px;
-  line-height: 20px;
+  line-height: 15px;
   color: #803c8a;
 }
 

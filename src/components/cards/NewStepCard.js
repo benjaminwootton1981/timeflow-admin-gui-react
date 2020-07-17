@@ -1,15 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
+import logo from "../../assets/add-step-icon.svg";
 
 const NewStepCard = (props) => {
   const { step } = props;
   return (
     <div className={`newStepCard ${props.selected}`}>
-      {/* <i className="fa fa-upload fa-3x purple padding-10"></i> */}
-      <div className="icon--addstep"></div>
-      <div style={{ width: "70%" }}>
+      <img style={{ width: "15%", height: "15%" }} alt={"img"} src={logo} />
+      <div
+        style={{
+          width: "70%",
+          alignItems: "flex-start",
+          display: "flex",
+          flexDirection: "column",
+          paddingLeft: 10,
+        }}
+      >
         <span className="addstep-label">{step.name}</span>
-        <p className="addstep-desc">Description for simle filter step card</p>
+        <span className="addstep-desc">{step.description}</span>
       </div>
     </div>
   );

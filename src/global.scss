@@ -2,6 +2,7 @@ body {
   font-size: 13px;
   font-family: Helvetica Neue, sans-serif;
 }
+
 @font-face {
   font-family: Helvetica Neue, sans-serif;
   font-style: normal;
@@ -250,7 +251,7 @@ body {
 
 //create group modal
 .custom-dialog {
-  width: 50%;
+  width: 60%;
   height: 90%;
   display: -webkit-box;
 }
@@ -326,7 +327,7 @@ body {
 
 .modal.show {
   display: flex !important;
-  text-align: center;
+  //text-align: center;
   align-items: center;
 }
 
