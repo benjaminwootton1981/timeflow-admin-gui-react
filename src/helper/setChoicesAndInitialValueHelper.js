@@ -15,6 +15,16 @@ export const setChoicesAndInitialValueHelper = (
     if (elem.is_need_fetch === "schema_fields") {
       let schema = [];
       let fieldToProcess;
+      let timeStampField;
+      if (
+        elName === "timestamp_field_name" &&
+        props.values["steptype"] === "reset"
+      ) {
+        timeStampField = _.cloneDeep(props.itemsStepTypes["schemas"]);
+        timeStampField.forEach((element) => {
+          element.schemafield_set.unshift({ name: "__time" });
+        });
+      }
       if (elName === "field_to_process" && props.values["steptype"] === "key") {
         fieldToProcess = _.cloneDeep(props.itemsStepTypes["schemas"]);
         fieldToProcess.forEach((element) => {
@@ -67,6 +77,41 @@ export const setChoicesAndInitialValueHelper = (
               : fieldToProcess[0].schemafield_set[0].name;
             setFieldValue(elName, setValue);
           }
+        }
+        if (
+          elName === "timestamp_field_name" &&
+          props.values["steptype"] === "reset"
+        ) {
+          if (!elem.choices || !props.itemsStepTypes[choicesName][0]) {
+            return errorData;
+          }
+          if (!elName || elName === "") {
+            return errorData;
+          }
+          if (timeStampField[0]) {
+            setTypeChoice(timeStampField[0].schemafield_set);
+            const setValue = !!props.values[elName]
+              ? props.values[elName]
+              : timeStampField[0].schemafield_set[0].name;
+            setFieldValue(elName, setValue);
+          }
+        }
+      } else if (
+        elName === "timestamp_field_name" &&
+        props.values["steptype"] === "reset"
+      ) {
+        if (!elem.choices || !props.itemsStepTypes[choicesName][0]) {
+          return errorData;
+        }
+        if (!elName || elName === "") {
+          return errorData;
+        }
+        if (timeStampField[0]) {
+          setTypeChoice(timeStampField[0].schemafield_set);
+          const setValue = !!props.values[elName]
+            ? props.values[elName]
+            : timeStampField[0].schemafield_set[0].name;
+          setFieldValue(elName, setValue);
         }
       } else if (
         elName === "field_to_process" &&
