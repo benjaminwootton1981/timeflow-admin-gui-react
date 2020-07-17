@@ -36,12 +36,18 @@ const ModalNewStep = (props) => {
     <Modal
       aria-labelledby="contained-modal-title-vcenter"
       centered
-      size="lg"
+      size="xl"
       show={props.isModalVisible}
       onHide={props.hideModal}
+      dialogClassName="custom-dialog"
     >
       <Modal.Header closeButton>
-        <Modal.Title className="modal-title">Add A New Step</Modal.Title>
+        <Modal.Title
+          style={{ fontWeight: "bold", fontSize: 30 }}
+          className="modal-title"
+        >
+          Add A New Step
+        </Modal.Title>
       </Modal.Header>
       <div className="bodyStepType">
         {filteredStepTypes.map((step, index) => {
@@ -57,7 +63,9 @@ const ModalNewStep = (props) => {
           );
         })}
       </div>
+
       <Modal.Footer>
+        <div className="boxShadow">{""}</div>
         <div
           onClick={() => addStep(selectedStepType)}
           style={{ width: "100%" }}

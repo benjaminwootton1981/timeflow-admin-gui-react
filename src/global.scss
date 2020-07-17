@@ -177,6 +177,7 @@ body {
 
         &:hover {
           background: #803c8a;
+
           span {
             color: #ffffff;
           }
@@ -248,6 +249,11 @@ body {
 }
 
 //create group modal
+.custom-dialog {
+  width: 50%;
+  height: 90%;
+  display: -webkit-box;
+}
 
 .create_group_modal {
   width: 630px;
@@ -323,6 +329,7 @@ body {
   text-align: center;
   align-items: center;
 }
+
 .ant-message {
   z-index: 2000 !important;
 }
