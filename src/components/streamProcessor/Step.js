@@ -163,7 +163,7 @@ const Step = (props) => {
     choicesFirstSelect = step_types.filter((el) =>
       el.value.includes("inbound")
     );
-  } else if (stepIndex === lastStep) {
+  } else if (stepIndex === lastStep && stepEl.steptype === "outbound") {
     choicesFirstSelect = step_types.filter((el) =>
       el.value.includes("outbound")
     );
