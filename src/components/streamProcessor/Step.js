@@ -422,7 +422,10 @@ const Step = (props) => {
               </div>
               <button
                 type={"button"}
-                onClick={() => props.deleteStep(stepIndex, props.values.id)}
+                onClick={() => {
+                  props.deleteStep(stepIndex, props.values.id);
+                  props.updateDataStep();
+                }}
                 className="card-btn card-btn--delete js-delete"
               >
                 Delete

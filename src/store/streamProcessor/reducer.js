@@ -124,19 +124,19 @@ export default function StreamProcessorReducer(state = initialState, action) {
         checkValue =
           value.indexOf("_") === -1
             ? value
-            : value.split("_").slice(0).join("_");
+            : value?.split("_").slice(0).join("_");
       } else {
         checkValue =
-          value.indexOf("_") === -1
+          value?.indexOf("_") === -1
             ? value
-            : value.split("_").slice(2).join("_");
+            : value?.split("_").slice(2).join("_");
       }
       const filteredSchemas = [
         ...state.schemas.filter((el) => {
-          if (el.name.indexOf(" ") === -1) {
+          if (el.name?.indexOf(" ") === -1) {
             return el.name === checkValue;
           } else {
-            return el.name.split(" ").slice(0).join("_") === checkValue;
+            return el.name?.split(" ").slice(0).join("_") === checkValue;
           }
         }),
       ];
