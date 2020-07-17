@@ -12,6 +12,7 @@ import Sortable from "../../Sortable";
 import { keyBy } from "lodash";
 import { message } from "antd";
 import { getProjects } from "../../../store/actions/serviceAction";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function ManageStreamProcessor(props) {
   const [streamProcessors, setStreamProcessors] = useState([]);
@@ -34,13 +35,13 @@ function ManageStreamProcessor(props) {
     if (
       JSON.stringify(streamProcessors) !==
       JSON.stringify(props.streamProcessorsProps)
-    )
+    ) {
       props.getStreamProcessorsList(projectId);
+    }
   }, [props.streamProcessorsProps]);
   useEffect(() => {
     props.getProjects(projectId);
   }, [projectId, streamProcessors]);
-  console.log("props.streamProcessorsProps", props.streamProcessorsProps);
   useEffect(() => {
     if (props.streamProcessorsProps) {
       const streamProcessorsFiltered = props.streamProcessorsProps.filter(
@@ -136,22 +137,25 @@ function ManageStreamProcessor(props) {
   }
 
   const isStreams = allItems.length > 0;
-  console.log("streamProcessors", streamProcessors);
+
   return (
     <div className="wrapper">
       <h2 className="project-name">{project.name}</h2>
 
       <h2 className="dashboard__header">Manage Stream Processors</h2>
-      <Sortable
-        allItems={allItems}
-        setAllItems={setAllItems}
-        allGroups={groups}
-        setOpenGroup={setOpenGroup}
-        type={"streamprocessors"}
-        ItemComponent={StreamProcessorValueCard}
-        onDragEnd={onDragEnd}
-      />
-      {!isStreams && (
+      {!props.loader.loading && (
+        <Sortable
+          allItems={allItems}
+          setAllItems={setAllItems}
+          allGroups={groups}
+          setOpenGroup={setOpenGroup}
+          type={"streamprocessors"}
+          ItemComponent={StreamProcessorValueCard}
+          onDragEnd={onDragEnd}
+        />
+      )}
+
+      {!isStreams && !props.loader.loading && (
         <div className="empty">
           <span className="empty__text">
             No stream processors are available.
@@ -165,7 +169,21 @@ function ManageStreamProcessor(props) {
           />
         </div>
       )}
-      {
+      {props.loader.loading && (
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: 10,
+            marginBottom: 10,
+          }}
+        >
+          <CircularProgress color="#803c8a" />
+        </div>
+      )}
+      {!props.loader.loading && (
         <div
           className="dashboard__footer"
           style={{ borderTop: !isStreams ? "none" : undefined }}
@@ -185,12 +203,14 @@ function ManageStreamProcessor(props) {
             </button>
           )}
         </div>
-      }
-      <CreateGroupModal
-        show={visibleModal}
-        closeModal={() => setVisibleModal(false)}
-        createGroup={createGroup}
-      />
+      )}
+      {!props.loader.loading && (
+        <CreateGroupModal
+          show={visibleModal}
+          closeModal={() => setVisibleModal(false)}
+          createGroup={createGroup}
+        />
+      )}
     </div>
   );
 }
@@ -200,7 +220,11 @@ export default connect(
     return {
       streamProcessorsProps: state.ServiceReducer.streamprocessors,
       project: state.ServiceReducer.projects,
+      loader: state.loader,
     };
   },
-  { getStreamProcessorsList, getProjects }
+  {
+    getStreamProcessorsList,
+    getProjects,
+  }
 )(ManageStreamProcessor);

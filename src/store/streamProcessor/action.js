@@ -22,14 +22,17 @@ import {
 import { negativeResponse, positiveResponse } from "../loader/action";
 
 export const getStreamProcessorsList = (project_id) => (dispatch) => {
+  dispatch({ type: CONSTANTS.LOADER.LOAD_ON });
   getStreamProcessorListRequest(project_id)
     .then((result) => {
+      dispatch({ type: CONSTANTS.LOADER.LOAD_OF });
       dispatch({
         type: CONSTANTS.STREAMS.GET_STREAM_PROCESSORS,
         data: result.data,
       });
     })
     .catch((err) => {
+      dispatch({ type: CONSTANTS.LOADER.LOAD_OF });
       console.log(err);
     });
 };
