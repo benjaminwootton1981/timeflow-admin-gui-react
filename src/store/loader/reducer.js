@@ -8,7 +8,6 @@ const initialState = {
 export default function loader(state = initialState, action) {
   switch (action.type) {
     case CONSTANTS.LOADER.LOAD_ON:
-      debugger;
       return { ...state, loading: true };
     case CONSTANTS.LOADER.LOAD_OF:
       return { ...state, loading: false };
