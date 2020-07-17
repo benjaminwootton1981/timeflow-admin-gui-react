@@ -31,25 +31,32 @@ function ManageStreamProcessor(props) {
   }, [projectId]);
 
   useEffect(() => {
+    if (
+      JSON.stringify(streamProcessors) !==
+      JSON.stringify(props.streamProcessorsProps)
+    )
+      props.getStreamProcessorsList(projectId);
+  }, [props.streamProcessorsProps]);
+  useEffect(() => {
     props.getProjects(projectId);
   }, [projectId, streamProcessors]);
-
+  console.log("props.streamProcessorsProps", props.streamProcessorsProps);
   useEffect(() => {
-    if (props.streamProcessors) {
-      const streamProcessors = props.streamProcessors.filter(
+    if (props.streamProcessorsProps) {
+      const streamProcessorsFiltered = props.streamProcessorsProps.filter(
         (streamProcessor) => !streamProcessor.group
       );
 
       const newState = {
-        base: streamProcessors,
+        base: streamProcessorsFiltered,
       };
 
       const mapped = getMapped(newState, "streamprocessors");
       setAllGroups((state) => ({ ...state, ...newState }));
       setAllItems(mapped);
-      setStreamProcessors(streamProcessors);
+      setStreamProcessors(streamProcessorsFiltered);
     }
-  }, [props.streamProcessors]);
+  }, [props.streamProcessorsProps]);
 
   useEffect(() => {
     api
@@ -98,7 +105,7 @@ function ManageStreamProcessor(props) {
   };
 
   const onDragEnd = (streamprocessorId, sourceId, destinationId, newIndex) => {
-    if (!streamprocessorId.includes("streamprocessor")) {
+    if (!streamprocessorId.includes("`streamprocessor`")) {
       return;
     }
     const reorderedStreamProcessors = getItems(
@@ -129,6 +136,7 @@ function ManageStreamProcessor(props) {
   }
 
   const isStreams = allItems.length > 0;
+  console.log("streamProcessors", streamProcessors);
   return (
     <div className="wrapper">
       <h2 className="project-name">{project.name}</h2>
@@ -190,7 +198,7 @@ function ManageStreamProcessor(props) {
 export default connect(
   (state) => {
     return {
-      streamProcessors: state.ServiceReducer.streamprocessors,
+      streamProcessorsProps: state.ServiceReducer.streamprocessors,
       project: state.ServiceReducer.projects,
     };
   },
