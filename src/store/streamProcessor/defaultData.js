@@ -2,6 +2,7 @@ export const def = {
   id: null,
   blocks: [],
   workflow_task: [],
+  name: "",
 };
 
 export const defInboundStep = {

@@ -46,7 +46,6 @@ const StreamProcessor = (props) => {
     replicas: 1,
     project: projectId,
   };
-
   useEffect(() => {
     props.getStreamProcessorsList(projectId);
     props.getStepType();
@@ -83,12 +82,12 @@ const StreamProcessor = (props) => {
   } = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: defaultInfoProject.name ? defaultInfoProject.name : "",
-      description: defaultInfoProject.description
-        ? defaultInfoProject.description
+      name: defaultInfoProject?.name ? defaultInfoProject?.name : "",
+      description: defaultInfoProject?.description
+        ? defaultInfoProject?.description
         : "",
-      replicas: defaultInfoProject.replicas ? defaultInfoProject.replicas : 1,
-      project: defaultInfoProject.project,
+      replicas: defaultInfoProject?.replicas ? defaultInfoProject.replicas : 1,
+      project: defaultInfoProject?.project,
       items: stepsStreamProcessor.map((el) => {
         return { ...el };
       }),
@@ -145,6 +144,14 @@ const StreamProcessor = (props) => {
       <h2 className="dashboard__header">Edit Stream Processor</h2>
     </>
   );
+
+  let isEmptyStepName = true;
+  const foundElem = values.items.filter((step, i) => {
+    return step.name === "";
+  });
+  isEmptyStepName = foundElem.length > 0;
+
+  const isDisabled = !isEmptyStepName && values.name !== "" ? 0 : 1;
   return (
     <form onSubmit={handleSubmit}>
       <div className="wrapper">
@@ -234,7 +241,7 @@ const StreamProcessor = (props) => {
           <div style={{ border: "solid 0.3px #333333" }} />
           <div>
             <Button
-              disabled={false}
+              disabled={isDisabled}
               type={"submit"}
               text={"Submit"}
               color={"dark"}
