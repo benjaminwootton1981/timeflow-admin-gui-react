@@ -6,16 +6,8 @@ const NewStepCard = (props) => {
   const { step } = props;
   return (
     <div className={`newStepCard ${props.selected}`}>
-      <img style={{ width: "15%", height: "15%" }} alt={"img"} src={logo} />
-      <div
-        style={{
-          width: "70%",
-          alignItems: "flex-start",
-          display: "flex",
-          flexDirection: "column",
-          paddingLeft: 10,
-        }}
-      >
+      <img className="iocnAddNewStep" alt={"img"} src={logo} />
+      <div className="textBlockNewStepModal">
         <span className="addstep-label">{step.name}</span>
         <span className="addstep-desc">{step.description}</span>
       </div>

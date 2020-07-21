@@ -535,10 +535,11 @@
 .newStepCard {
   border-radius: 5px;
   background-color: white;
-  padding: 10px;
+  padding: (5px 5px 5px 15px);
   display: flex;
   border: solid 1.5px #ffffff;
   justify-content: flex-start;
+  align-items: center;
   width: 100%;
   margin: 2%;
   box-shadow: 4px 4px 10px rgba(128, 60, 138, 0.22);

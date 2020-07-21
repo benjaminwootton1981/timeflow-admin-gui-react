@@ -5,7 +5,7 @@
   flex-direction: row;
   overflow-y: auto;
   overflow-x: hidden;
-  justify-content: space-between;
+  //justify-content: space-between;
   padding: (10px 25px 0 15px);
 }
 
@@ -18,7 +18,8 @@
 }
 
 .step_type {
-  width: 48%;
+  padding: (0 10px 0 10px);
+  width: 50%;
 }
 
 .selected {
