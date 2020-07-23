@@ -7,7 +7,7 @@ import { setChoicesAndInitialValueHelper } from "../../../helper/setChoicesAndIn
 import { NameHelper } from "../../../helper/NameHelper";
 
 const InputTypeSelect = (props) => {
-  const { elem, streams, isRelated, isRender, stepIndex } = props;
+  const { elem, streams, isRelated, isRender, stepIndex, allValues } = props;
   const [typeChoices, setTypeChoice] = useState([]);
   const errorData = (
     <div

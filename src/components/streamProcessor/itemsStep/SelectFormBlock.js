@@ -2,14 +2,23 @@ import React, { useEffect } from "react";
 
 const SelectFromBlock = (props) => {
   const { blockElem, typeReturnEl, choices, valueSelect, block } = props;
-  let val = !!block[blockElem.name]
-    ? block[blockElem.name]
-    : choices[0].name === undefined
-    ? choices[0][0]
-    : choices[0].name;
+  let val;
+  if (!!block[blockElem?.name]) {
+    val = choices[0]?.name;
+  } else {
+    if (!!Array.isArray(choices[0])) {
+      val = choices[0][0];
+    } else {
+      val = choices[0]?.name;
+    }
+  }
   useEffect(() => {
+    if (!choices || choices.length === 0) {
+      return false;
+    }
     props.setFieldValue(blockElem.name, val);
   }, []);
+
   const options = (
     <>
       {choices.map((el) => {
@@ -21,7 +30,6 @@ const SelectFromBlock = (props) => {
       })}
     </>
   );
-
   return (
     <div className="styled-select">
       <select

@@ -201,7 +201,23 @@ const StreamProcessor = (props) => {
                 isLastStep: arr.length - 1 === i,
                 stepEl: el,
               };
-              const indexInheritsSchema = isInherits_schema === 1 ? i : i;
+              if (el.steptype === "lookup") {
+                isInherits_schema = 0;
+              }
+              if (
+                el.steptype === "execute_search" &&
+                el["search_result_placement"] === "publish_another_stream"
+              ) {
+                isInherits_schema = 0;
+              }
+              if (el.steptype === "map_event") {
+                isInherits_schema = 0;
+              }
+              if (el.steptype === "transcribe") {
+                isInherits_schema = 1;
+              }
+              let indexInheritsSchema = isInherits_schema === 1 ? i - 1 : i;
+
               const schemas = props.itemsStepTypes.schemas;
               return (
                 <div className="newStep">
@@ -210,14 +226,16 @@ const StreamProcessor = (props) => {
                       setFieldValue(`items.${i}.${name}`, e)
                     }
                     values={values.items[i]}
+                    allValues={values.items}
                     items={items}
                     indexInheritsSchema={indexInheritsSchema}
                     updateDataStep={updateDataStep}
                   />
                   {!isSchemaBlock && (
                     <SchemaBlock
+                      allValues={values.items}
                       schemas={schemas}
-                      values={values.items[i]}
+                      step={values.items[i]}
                       indexInheritsSchema={indexInheritsSchema}
                     />
                   )}

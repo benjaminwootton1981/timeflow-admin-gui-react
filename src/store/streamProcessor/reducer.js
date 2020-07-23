@@ -1,6 +1,7 @@
 import { CONSTANTS } from "../constants";
 import { setValueStep } from "./setValueStep";
 import { defInboundStep, defOutboundStep } from "./defaultData";
+import _ from "lodash";
 
 const initialState = {
   stepData: [],
@@ -73,11 +74,6 @@ export default function StreamProcessorReducer(state = initialState, action) {
                 select: "choices",
               };
 
-              //IN PROGRESS
-              let setSchemaValue = "";
-              // if (elBlock.changes_schema_block === 1) {
-              // }
-
               Object.assign(block, {});
               if (elBlock.input_type === "select") {
                 const valueSelect =
@@ -91,6 +87,9 @@ export default function StreamProcessorReducer(state = initialState, action) {
                 block[elBlock.name] = "";
               }
             });
+            if (block.hasOwnProperty("name") === false) {
+              block["name"] = "";
+            }
             block["id"] = null;
             newStep["blocks"] = [block];
           } else if (field.input_type === "select") {
@@ -140,18 +139,24 @@ export default function StreamProcessorReducer(state = initialState, action) {
           }
         }),
       ];
-      let setActualSchema;
+      let setActualSchema = [...state.actualSchema];
       if (state.actualSchema.length > 0) {
-        setActualSchema = [
-          ...state.actualSchema,
-          { [action.data.stepIndex]: filteredSchemas },
-        ];
-
-        state.actualSchema.forEach((schema) => {});
+        setActualSchema.forEach((el, i) => {
+          if (el.stepIndex === action.data.stepIndex) {
+            setActualSchema.splice(i, 1);
+          }
+        });
+        setActualSchema.push({
+          [action.data.stepIndex]: filteredSchemas,
+          stepIndex: action.data.stepIndex,
+        });
       } else {
         setActualSchema = [
           ...state.actualSchema,
-          { [action.data.stepIndex]: filteredSchemas },
+          {
+            [action.data.stepIndex]: filteredSchemas,
+            stepIndex: action.data.stepIndex,
+          },
         ];
       }
       return { ...state, actualSchema: setActualSchema };

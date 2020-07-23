@@ -10,7 +10,7 @@ import InputTypeBlock from "./itemsStep/InputTypeBlock";
 import InputTypeSelect from "./itemsStep/InputTypeSelect";
 import { useFormik } from "formik";
 import InputTypeText from "./itemsStep/InputTypeText";
-import { isEmpty } from "lodash";
+import _ from "lodash";
 
 const Step = (props) => {
   const { stepData, streams } = props.itemsStepTypes;
@@ -19,27 +19,27 @@ const Step = (props) => {
   const { step_types, step_types_data } = stepData;
   const [valueSelect, SetValueSelect] = useState({
     value:
-      !isEmpty(props.values) && !!props.values["value"]
+      !_.isEmpty(props.values) && !!props.values["value"]
         ? props.values["value"]
         : "=",
     key_type_from:
-      !isEmpty(props.values) && !!props.values["key_type_from"]
+      !_.isEmpty(props.values) && !!props.values["key_type_from"]
         ? props.values["key_type_from"]
         : "from_event",
     key_type:
-      !isEmpty(props.values) && !!props.values["key_type"]
+      !_.isEmpty(props.values) && !!props.values["key_type"]
         ? props.values["key_type"]
         : "static_value",
     destinations:
-      !isEmpty(props.values) && !!props.values["destinations"]
+      !_.isEmpty(props.values) && !!props.values["destinations"]
         ? props.values["destinations"]
         : "event",
     result_placement:
-      !isEmpty(props.values) && !!props.values["result_placement"]
+      !_.isEmpty(props.values) && !!props.values["result_placement"]
         ? props.values["result_placement"]
         : "aggregate",
     last_event_type:
-      !isEmpty(props.values) && !!props.values["last_event_type"]
+      !_.isEmpty(props.values) && !!props.values["last_event_type"]
         ? props.values["last_event_type"]
         : "time_window",
   });
@@ -110,36 +110,37 @@ const Step = (props) => {
   }
   const onChangeFields = (e) => {
     setFieldsKey(e.target.value);
+    props.setFieldValue({});
     props.setFieldValue("result_placement", "aggregate");
-    props.setFieldValue(`block`, [
+    props.setFieldValue(`blocks`, [
       {
         event_field_name:
-          !isEmpty(values.blocks) && !!values.blocks["event_field_name"]
+          !_.isEmpty(values.blocks) && !!values.blocks["event_field_name"]
             ? values.blocks["event_field_name"]
             : "",
         field_name:
-          !isEmpty(values.blocks) && !!values.blocks["field_name"]
+          !_.isEmpty(values.blocks) && !!values.blocks["field_name"]
             ? values.blocks["field_name"]
             : "",
         id: null,
         percent:
-          !isEmpty(values.blocks) && !!values.blocks["percent"]
+          !_.isEmpty(values.blocks) && !!values.blocks["percent"]
             ? values.blocks["percent"]
             : "",
         static_value:
-          !isEmpty(values.blocks) && !!values.blocks["static_value"]
+          !_.isEmpty(values.blocks) && !!values.blocks["static_value"]
             ? values.blocks["static_value"]
             : "",
         value:
-          !isEmpty(values.blocks) && !!values.blocks["value"]
+          !_.isEmpty(values.blocks) && !!values.blocks["value"]
             ? values.blocks["value"]
             : "=",
         key_type_from:
-          !isEmpty(values.blocks) && !!values.blocks["key_type_from"]
+          !_.isEmpty(values.blocks) && !!values.blocks["key_type_from"]
             ? values.blocks["key_type_from"]
             : "from_event",
         key_type:
-          !isEmpty(values.blocks) && !!values.blocks["key_type"]
+          !_.isEmpty(values.blocks) && !!values.blocks["key_type"]
             ? values.blocks["key_type"]
             : "static_value",
       },
@@ -317,6 +318,8 @@ const Step = (props) => {
                             typeChoicesEndpoint={typeChoicesEndpoint}
                             setFieldValue={props.setFieldValue}
                             valueSelect={valueSelect}
+                            allValues={props.allValues}
+                            a
                           />
                         ),
                         block: (
@@ -328,6 +331,7 @@ const Step = (props) => {
                                     deleteBlock={deleteBlock}
                                     addNewBlock={addNewBlock}
                                     values={props.values}
+                                    allValues={props.allValues}
                                     onChange={setValueStep}
                                     indexInheritsSchema={
                                       props.indexInheritsSchema

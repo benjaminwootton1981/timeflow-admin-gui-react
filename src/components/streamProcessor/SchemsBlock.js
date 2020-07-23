@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { sliceValueHelper } from "../../helper/sliceVaueHelper";
 
 const SchemaBlock = (props) => {
+  const { step, schemas, actualSchema } = props;
   const [polio, setPolio] = useState(false);
   const togglePolio = () => {
     setPolio(!polio);
@@ -11,16 +13,65 @@ const SchemaBlock = (props) => {
     return false;
   }
   let schema = [];
-  props.actualSchema.forEach((el) => {
-    schema = el[props.indexInheritsSchema];
-    if (!schema) {
-      schema = props.schemas[0];
-    } else {
-      schema = schema[0];
+  let typeTopic = "topic";
+  if (props.allValues[props.indexInheritsSchema].steptype === "lookup") {
+    typeTopic = "record_type";
+  }
+  let topicValue = props.allValues[props.indexInheritsSchema][typeTopic];
+
+  let checkValue;
+  if (step.steptype === "lookup") {
+    topicValue = props.allValues[props.indexInheritsSchema]["record_type"];
+    if (topicValue === "" || !topicValue) {
+      return false;
     }
-  });
-  if (props.actualSchema.length <= 0) {
-    schema = props.schemas[props.indexInheritsSchema];
+    checkValue =
+      topicValue.indexOf("_") === -1
+        ? topicValue
+        : topicValue?.split("_").slice(2).join("_");
+  } else if (step.steptype === "event") {
+    topicValue = props.allValues[props.indexInheritsSchema]["event_type"];
+    if (topicValue === "" || !topicValue) {
+      return false;
+    }
+    topicValue = props.allValues[props.indexInheritsSchema]["event_type"];
+    checkValue =
+      topicValue.indexOf("_") === -1
+        ? topicValue
+        : topicValue?.split("_").slice(0).join("_");
+  } else if (step.steptype === "map_event") {
+    topicValue = props.allValues[props.indexInheritsSchema]["event_type"];
+    if (!topicValue) {
+      return false;
+    }
+    checkValue =
+      topicValue.indexOf("_") === -1
+        ? topicValue
+        : topicValue?.split("_").slice(0).join("_");
+  } else {
+    if (!topicValue) {
+      return false;
+    }
+
+    checkValue =
+      topicValue.indexOf("_") === -1
+        ? topicValue
+        : topicValue?.split("_").slice(2).join("_");
+  }
+  if (schema) {
+    schema = schemas.filter((el) => {
+      if (el.name?.indexOf(" ") === -1) {
+        return el.name === checkValue;
+      } else {
+        return (
+          el.name?.split(" ").slice(0).join("_") ===
+          checkValue.split(" ").slice(0).join("_")
+        );
+      }
+    });
+    schema = schema[0];
+  } else {
+    schema = schemas[0];
   }
 
   if (!schema) {

@@ -20,21 +20,44 @@ const InputTypeBlock = (props) => {
       : "",
   });
   useEffect(() => {}, [props.actualSchema, props.values]);
-  if (schemas.length <= 0) {
+  if (props.schemas.length <= 0) {
     return false;
   }
   let schema = [];
-  if (props.actualSchema) {
-    props.actualSchema.forEach((el) => {
-      schema = el[props.indexInheritsSchema];
-      if (schema) {
-        schema = schema[0];
+
+  let topicValue = props.allValues[props.indexInheritsSchema]["topic"];
+  let checkValue;
+  if (props.values.steptype === "lookup") {
+    if (props.allValues[props.indexInheritsSchema]["record_type"] === "") {
+      return false;
+    }
+    topicValue = props.allValues[props.indexInheritsSchema]["record_type"];
+    if (topicValue === "" || !topicValue) {
+      return false;
+    }
+    checkValue =
+      topicValue.indexOf("_") === -1
+        ? topicValue
+        : topicValue?.split("_").slice(2).join("_");
+  } else {
+    if (topicValue === "" || !topicValue) {
+      return false;
+    }
+    checkValue =
+      topicValue?.indexOf("_") === -1
+        ? topicValue
+        : topicValue?.split("_").slice(2).join("_");
+  }
+  if (schema) {
+    schema = props.schemas.filter((el) => {
+      if (el.name?.indexOf(" ") === -1) {
+        return el.name === checkValue;
       } else {
-        schema = props.schemas[0];
+        return el.name?.split(" ").slice(0).join("_") === checkValue;
       }
     });
-  }
-  if (props.actualSchema.length <= 0) {
+    schema = schema[0];
+  } else {
     schema = props.schemas[0];
   }
   const typeReturnEl = (e, blockElem) => {
@@ -46,8 +69,52 @@ const InputTypeBlock = (props) => {
     <>
       <div className="container_block">
         {elem.fields.map((blockElem, i) => {
+          if (
+            props.allValues[props.indexInheritsSchema].steptype ===
+              "map_event" &&
+            blockElem.name === "field_name"
+          ) {
+            if (topicValue === "" || !topicValue) {
+              return false;
+            }
+            topicValue =
+              props.allValues[props.indexInheritsSchema - 1]["topic"];
+            checkValue =
+              topicValue?.indexOf("_") === -1
+                ? topicValue
+                : topicValue?.split("_").slice(2).join("_");
+          } else if (
+            props.allValues[props.indexInheritsSchema].steptype ===
+              "map_event" &&
+            blockElem.name === "target_field_name"
+          ) {
+            if (topicValue === "" || !topicValue) {
+              return false;
+            }
+            topicValue =
+              props.allValues[props.indexInheritsSchema]["event_type"];
+            if (topicValue === "" || !topicValue) {
+              topicValue = props.schemas[0].name;
+            }
+            checkValue =
+              topicValue?.indexOf("_") === -1
+                ? topicValue
+                : topicValue?.split("_").slice(0).join("_");
+          }
+          schema = schemas.filter((el) => {
+            if (el.name?.indexOf(" ") === -1) {
+              return el.name === checkValue;
+            } else {
+              return (
+                el.name?.split(" ").slice(0).join("_") ===
+                checkValue?.split(" ").slice(0).join("_")
+              );
+            }
+          });
+          schema = schema[0];
+
           let choices = blockElem.choices;
-          if (blockElem.choices.length <= 0) {
+          if (blockElem.choices.length === 0) {
             choices = !!schema ? schema.schemafield_set : [];
           }
           let isRender = false;
@@ -139,7 +206,7 @@ const InputTypeBlock = (props) => {
 };
 export default connect((state) => {
   return {
-    actualSchema: state.StreamProcessorReducer.actualSchema,
     schemas: state.StreamProcessorReducer.schemas,
+    stepsStreamProcessor: state.StreamProcessorReducer.stepsStreamProcessor,
   };
 }, {})(InputTypeBlock);
