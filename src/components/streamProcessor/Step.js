@@ -319,7 +319,6 @@ const Step = (props) => {
                             setFieldValue={props.setFieldValue}
                             valueSelect={valueSelect}
                             allValues={props.allValues}
-                            a
                           />
                         ),
                         block: (

@@ -33,6 +33,7 @@ const InputTypeSelect = (props) => {
   const elName = !!elem.name ? elem.name : "";
   useEffect(() => {
     const choicesName = choiceNameHelper(elem);
+
     setChoicesAndInitialValueHelper(
       elem,
       choicesName,
@@ -42,10 +43,10 @@ const InputTypeSelect = (props) => {
       setTypeChoice,
       props.setFieldValue,
       kpiKeyTypeLength,
-      stepIndex
+      stepIndex,
+      allValues
     );
   }, [elem.is_need_fetch, props.values]);
-
   useEffect(() => {
     if (kpiKeyTypeLength !== 0 && props.values["steptype"] === "key") {
       const checkMetricName = !!props.values.category_name

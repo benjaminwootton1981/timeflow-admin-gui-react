@@ -24,8 +24,15 @@ const InputTypeBlock = (props) => {
     return false;
   }
   let schema = [];
+  let typeTopic = "topic";
+  if (props.allValues[props.indexInheritsSchema].steptype === "lookup") {
+    typeTopic = "record_type";
+  }
+  if (props.allValues[props.indexInheritsSchema].steptype === "map_event") {
+    typeTopic = "event_type";
+  }
 
-  let topicValue = props.allValues[props.indexInheritsSchema]["topic"];
+  let topicValue = props.allValues[props.indexInheritsSchema][typeTopic];
   let checkValue;
   if (props.values.steptype === "lookup") {
     if (props.allValues[props.indexInheritsSchema]["record_type"] === "") {

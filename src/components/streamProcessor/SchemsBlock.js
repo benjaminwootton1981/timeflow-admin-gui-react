@@ -17,6 +17,9 @@ const SchemaBlock = (props) => {
   if (props.allValues[props.indexInheritsSchema].steptype === "lookup") {
     typeTopic = "record_type";
   }
+  if (props.allValues[props.indexInheritsSchema].steptype === "map_event") {
+    typeTopic = "event_type";
+  }
   let topicValue = props.allValues[props.indexInheritsSchema][typeTopic];
 
   let checkValue;
