@@ -161,7 +161,6 @@ const StreamProcessor = (props) => {
     }
 
     if (steptype === "lookup") {
-      debugger;
       isInherits_schema = 0;
     }
     if (
