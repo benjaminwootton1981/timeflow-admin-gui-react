@@ -152,7 +152,6 @@ const StreamProcessor = (props) => {
   isEmptyStepName = foundElem.length > 0;
 
   const calculationisInheritsSchemaIndex = (i, items) => {
-    debugger;
     let isInherits_schema;
     const steptype = items[i].steptype;
     if (props.itemsStepTypes.stepData.step_types_data) {
@@ -183,7 +182,6 @@ const StreamProcessor = (props) => {
       return result;
     }
   };
-
   const isDisabled = !isEmptyStepName && values.name !== "" ? 0 : 1;
   return (
     <form onSubmit={handleSubmit}>
@@ -231,7 +229,6 @@ const StreamProcessor = (props) => {
                 i,
                 values.items
               );
-              debugger;
               const schemas = props.itemsStepTypes.schemas;
               return (
                 <div className="newStep">

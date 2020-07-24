@@ -46,7 +46,7 @@ const InputTypeSelect = (props) => {
       stepIndex,
       allValues
     );
-  }, [elem.is_need_fetch, props.values]);
+  }, [elem.is_need_fetch, props.values, allValues]);
   useEffect(() => {
     if (kpiKeyTypeLength !== 0 && props.values["steptype"] === "key") {
       const checkMetricName = !!props.values.category_name

@@ -160,8 +160,6 @@ const Step = (props) => {
 
   let choicesFirstSelect = [];
   const isFirst = stepIndex === 0;
-  console.log("stepEl.steptype", stepEl.steptype);
-
   if (stepIndex === 0) {
     choicesFirstSelect = step_types.filter((el) =>
       el.value.includes("inbound")
