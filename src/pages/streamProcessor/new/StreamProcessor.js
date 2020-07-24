@@ -151,6 +151,40 @@ const StreamProcessor = (props) => {
   });
   isEmptyStepName = foundElem.length > 0;
 
+  const calculationisInheritsSchemaIndex = (i, items) => {
+    debugger;
+    let isInherits_schema;
+    const steptype = items[i].steptype;
+    if (props.itemsStepTypes.stepData.step_types_data) {
+      isInherits_schema =
+        props.itemsStepTypes.stepData.step_types_data[steptype].inherits_schema;
+    }
+
+    if (steptype === "lookup") {
+      debugger;
+      isInherits_schema = 0;
+    }
+    if (
+      steptype === "execute_search" &&
+      items[i]["search_result_placement"] === "publish_another_stream"
+    ) {
+      isInherits_schema = 0;
+    }
+    if (steptype === "map_event") {
+      isInherits_schema = 0;
+    }
+    if (steptype === "transcribe") {
+      isInherits_schema = 1;
+    }
+    let result = i;
+    if (isInherits_schema > 0) {
+      result = i - 1;
+      return calculationisInheritsSchemaIndex(result, items);
+    } else {
+      return result;
+    }
+  };
+
   const isDisabled = !isEmptyStepName && values.name !== "" ? 0 : 1;
   return (
     <form onSubmit={handleSubmit}>
@@ -187,13 +221,6 @@ const StreamProcessor = (props) => {
         <div className="marginTop-20 streamProcessorCardContainer">
           <div className="new-item__body">
             {values.items.map((el, i, arr) => {
-              const isStepType = el.steptype && el.steptype;
-              let isInherits_schema;
-              if (props.itemsStepTypes.stepData.step_types_data) {
-                isInherits_schema =
-                  props.itemsStepTypes.stepData.step_types_data[isStepType]
-                    .inherits_schema;
-              }
               const isSchemaBlock = arr.length - 1 === i;
               const items = {
                 stepIndex: i,
@@ -201,23 +228,11 @@ const StreamProcessor = (props) => {
                 isLastStep: arr.length - 1 === i,
                 stepEl: el,
               };
-              if (el.steptype === "lookup") {
-                isInherits_schema = 0;
-              }
-              if (
-                el.steptype === "execute_search" &&
-                el["search_result_placement"] === "publish_another_stream"
-              ) {
-                isInherits_schema = 0;
-              }
-              if (el.steptype === "map_event") {
-                isInherits_schema = 0;
-              }
-              if (el.steptype === "transcribe") {
-                isInherits_schema = 1;
-              }
-              let indexInheritsSchema = isInherits_schema === 1 ? i - 1 : i;
-
+              const indexInheritsSchema = calculationisInheritsSchemaIndex(
+                i,
+                values.items
+              );
+              debugger;
               const schemas = props.itemsStepTypes.schemas;
               return (
                 <div className="newStep">
