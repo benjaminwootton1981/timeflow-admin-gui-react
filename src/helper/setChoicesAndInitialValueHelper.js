@@ -41,7 +41,9 @@ export const setChoicesAndInitialValueHelper = (
         ) {
           typeTopic = "event_type";
         }
-
+        if (props.allValues[props.indexInheritsSchema].steptype === "event") {
+          typeTopic = "event_type";
+        }
         let topicValue = props.allValues[props.indexInheritsSchema][typeTopic];
         let checkValue;
         if (props.values.steptype === "lookup") {

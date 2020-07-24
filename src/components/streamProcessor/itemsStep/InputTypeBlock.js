@@ -28,6 +28,9 @@ const InputTypeBlock = (props) => {
   if (props.allValues[props.indexInheritsSchema].steptype === "lookup") {
     typeTopic = "record_type";
   }
+  if (props.allValues[props.indexInheritsSchema].steptype === "event") {
+    typeTopic = "event_type";
+  }
   if (props.allValues[props.indexInheritsSchema].steptype === "map_event") {
     typeTopic = "event_type";
   }
