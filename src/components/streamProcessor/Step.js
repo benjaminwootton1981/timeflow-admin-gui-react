@@ -160,11 +160,17 @@ const Step = (props) => {
 
   let choicesFirstSelect = [];
   const isFirst = stepIndex === 0;
+  console.log("stepEl.steptype", stepEl.steptype);
+
   if (stepIndex === 0) {
     choicesFirstSelect = step_types.filter((el) =>
       el.value.includes("inbound")
     );
-  } else if (stepIndex === lastStep && stepEl.steptype === "outbound") {
+  } else if (
+    (stepIndex === lastStep && stepEl.steptype === "outbound") ||
+    (stepIndex === lastStep && stepEl.steptype === "outboundsms") ||
+    (stepIndex === lastStep && stepEl.steptype === "outboundemail")
+  ) {
     choicesFirstSelect = step_types.filter((el) =>
       el.value.includes("outbound")
     );
