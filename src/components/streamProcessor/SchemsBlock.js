@@ -76,7 +76,9 @@ const SchemaBlock = (props) => {
   } else {
     schema = schemas[0];
   }
-
+  if (!schema || schema.length === 0) {
+    schema = schemas[0];
+  }
   if (!schema) {
     return (
       <div
