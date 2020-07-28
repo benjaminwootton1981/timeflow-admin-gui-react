@@ -79,7 +79,6 @@ export const setChoicesAndInitialValueHelper = (
             ? props.values[elName]
             : schema[0]?.name;
           setFieldValue(elName, setValue);
-
           setTypeChoice(schema);
         } else {
           if (!props.itemsStepTypes[choicesName][0]) {
@@ -91,10 +90,78 @@ export const setChoicesAndInitialValueHelper = (
         fieldToProcess.forEach((element) => {
           element.schemafield_set.unshift({ name: "null" });
         });
-        // const setValue = !!props.values[elName]
-        //     ? props.values[elName]
-        //     : fieldToProcess[0].schemafield_set[0].name;
-        // setFieldValue(elName, setValue);
+      }
+      if (elName === "add_field_name") {
+        let typeTopic = "topic";
+        if (props.allValues[props.indexInheritsSchema].steptype === "lookup") {
+          typeTopic = "record_type";
+        }
+        if (
+          props.allValues[props.indexInheritsSchema].steptype === "map_event"
+        ) {
+          typeTopic = "event_type";
+        }
+        if (props.allValues[props.indexInheritsSchema].steptype === "event") {
+          typeTopic = "event_type";
+        }
+        let topicValue = props.allValues[props.indexInheritsSchema][typeTopic];
+        let checkValue;
+        if (props.values.steptype === "lookup") {
+          if (
+            props.allValues[props.indexInheritsSchema]["record_type"] === ""
+          ) {
+            return false;
+          }
+          topicValue =
+            props.allValues[props.indexInheritsSchema]["record_type"];
+          if (topicValue === "" || !topicValue) {
+            return false;
+          }
+          checkValue =
+            topicValue.indexOf("_") === -1
+              ? topicValue
+              : topicValue?.split("_").slice(2).join("_");
+        } else {
+          if (topicValue === "" || !topicValue) {
+            return false;
+          }
+          checkValue =
+            topicValue?.indexOf("_") === -1
+              ? topicValue
+              : topicValue?.split("_").slice(2).join("_");
+        }
+        if (schema) {
+          schema = props.itemsStepTypes.schemas.filter((el) => {
+            if (el.name?.indexOf(" ") === -1) {
+              return el.name === checkValue;
+            } else {
+              return (
+                el.name?.split(" ").slice(0).join("_") ===
+                checkValue.split(" ").slice(0).join("_")
+              );
+            }
+          });
+          if (!schema[0]) {
+            return false;
+          }
+          schema = schema[0].schemafield_set;
+          const setValue = !!props.values[elName]
+            ? props.values[elName]
+            : schema[0]?.name;
+          setFieldValue(elName, setValue);
+
+          setTypeChoice(schema);
+        } else {
+          if (!props.itemsStepTypes[choicesName][0]) {
+            return errorData;
+          }
+          schema = props.itemsStepTypes[choicesName][0].schemafield_set;
+          const setValue = !!props.values[elName]
+            ? props.values[elName]
+            : schema[0]?.name;
+          setFieldValue(elName, setValue);
+          setTypeChoice(schema);
+        }
       }
       if (props.itemsStepTypes.schemas.length > 0) {
         let typeTopic = "topic";
@@ -182,6 +249,7 @@ export const setChoicesAndInitialValueHelper = (
             setFieldValue(elName, setValue);
           }
         }
+
         if (
           elName === "timestamp_field_name" &&
           props.values["steptype"] === "reset"

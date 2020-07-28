@@ -111,6 +111,7 @@ const InputTypeBlock = (props) => {
                 ? topicValue
                 : topicValue?.split("_").slice(0).join("_");
           }
+
           schema = schemas.filter((el) => {
             if (el.name?.indexOf(" ") === -1) {
               return el.name === checkValue;
@@ -121,8 +122,10 @@ const InputTypeBlock = (props) => {
               );
             }
           });
+          if (schema?.length === 0) {
+            schema = schemas[0];
+          }
           schema = schema[0];
-
           let choices = blockElem.choices;
           if (blockElem.choices.length === 0) {
             choices = !!schema ? schema.schemafield_set : [];
