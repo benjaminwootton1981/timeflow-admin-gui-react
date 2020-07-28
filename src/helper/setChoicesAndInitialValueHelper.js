@@ -211,7 +211,10 @@ export const setChoicesAndInitialValueHelper = (
             if (el.name?.indexOf(" ") === -1) {
               return el.name === checkValue;
             } else {
-              return el.name?.split(" ").slice(0).join("_") === checkValue;
+              return (
+                el.name?.split(" ").slice(0).join("_") ===
+                checkValue.split(" ").slice(0).join("_")
+              );
             }
           });
           if (!schema[0]) {
