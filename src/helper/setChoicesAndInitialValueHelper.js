@@ -69,7 +69,10 @@ export const setChoicesAndInitialValueHelper = (
             if (el.name?.indexOf(" ") === -1) {
               return el.name === checkValue;
             } else {
-              return el.name?.split(" ").slice(0).join("_") === checkValue;
+              return (
+                el.name?.split(" ").slice(0).join("_") ===
+                checkValue.split(" ").slice(0).join("_")
+              );
             }
           });
           if (!schema[0]) {
@@ -79,7 +82,6 @@ export const setChoicesAndInitialValueHelper = (
             ? props.values[elName]
             : schema[0]?.name;
           setFieldValue(elName, setValue);
-          setTypeChoice(schema);
         } else {
           if (!props.itemsStepTypes[choicesName][0]) {
             return errorData;
@@ -90,6 +92,8 @@ export const setChoicesAndInitialValueHelper = (
         fieldToProcess.forEach((element) => {
           element.schemafield_set.unshift({ name: "null" });
         });
+        schema = fieldToProcess[0].schemafield_set;
+        setTypeChoice(schema);
       }
       if (elName === "add_field_name") {
         let typeTopic = "topic";
