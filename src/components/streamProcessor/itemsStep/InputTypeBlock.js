@@ -84,11 +84,30 @@ const InputTypeBlock = (props) => {
               "map_event" &&
             blockElem.name === "field_name"
           ) {
+            let typeTopicSingle = "topic";
+            if (
+              props.allValues[props.indexInheritsSchema - 1].steptype ===
+              "lookup"
+            ) {
+              typeTopicSingle = "record_type";
+            }
+            if (
+              props.allValues[props.indexInheritsSchema - 1].steptype ===
+              "event"
+            ) {
+              typeTopicSingle = "event_type";
+            }
+            if (
+              props.allValues[props.indexInheritsSchema - 1].steptype ===
+              "map_event"
+            ) {
+              typeTopicSingle = "event_type";
+            }
             if (topicValue === "" || !topicValue) {
               return false;
             }
             topicValue =
-              props.allValues[props.indexInheritsSchema - 1]["topic"];
+              props.allValues[props.indexInheritsSchema - 1][typeTopicSingle];
             checkValue =
               topicValue?.indexOf("_") === -1
                 ? topicValue
