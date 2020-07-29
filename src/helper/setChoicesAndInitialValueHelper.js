@@ -1,4 +1,6 @@
 import _ from "lodash";
+import typeTopicHelper from "./typeTopicHelper";
+import sliceVaueHelper from "./sliceVaueHelper";
 
 export const setChoicesAndInitialValueHelper = (
   elem,
@@ -11,6 +13,8 @@ export const setChoicesAndInitialValueHelper = (
   kpiKeyTypeLength,
   stepIndex
 ) => {
+  const stepType = props.allValues[props.indexInheritsSchema].steptype;
+  const stepToInherits = props.allValues[props.indexInheritsSchema];
   if (elem.choices.length === 0) {
     if (elem.is_need_fetch === "schema_fields") {
       let schema = [];
@@ -26,43 +30,27 @@ export const setChoicesAndInitialValueHelper = (
         });
       }
       if (elName === "field_to_process" && props.values["steptype"] === "key") {
-        let typeTopic = "topic";
-        if (props.allValues[props.indexInheritsSchema].steptype === "lookup") {
-          typeTopic = "record_type";
-        }
-        if (
-          props.allValues[props.indexInheritsSchema].steptype === "map_event"
-        ) {
-          typeTopic = "event_type";
-        }
-        if (props.allValues[props.indexInheritsSchema].steptype === "event") {
-          typeTopic = "event_type";
-        }
-        let topicValue = props.allValues[props.indexInheritsSchema][typeTopic];
+        const typeTopic = typeTopicHelper(stepType);
+        let topicValue = stepToInherits[typeTopic];
         let checkValue;
         if (props.values.steptype === "lookup") {
-          if (
-            props.allValues[props.indexInheritsSchema]["record_type"] === ""
-          ) {
+          if (stepToInherits["record_type"] === "") {
             return false;
           }
-          topicValue =
-            props.allValues[props.indexInheritsSchema]["record_type"];
+          topicValue = stepToInherits["record_type"];
           if (topicValue === "" || !topicValue) {
             return false;
           }
-          checkValue =
-            topicValue.indexOf("_") === -1
-              ? topicValue
-              : topicValue?.split("_").slice(2).join("_");
+          checkValue = sliceVaueHelper(topicValue, 2, "_");
         } else {
           if (topicValue === "" || !topicValue) {
             return false;
           }
-          checkValue =
-            topicValue?.indexOf("_") === -1
-              ? topicValue
-              : topicValue?.split("_").slice(2).join("_");
+          if (typeTopic === "topic" || typeTopic === "record_type") {
+            checkValue = sliceVaueHelper(topicValue, 2, "_");
+          } else {
+            checkValue = sliceVaueHelper(topicValue, 0, "_");
+          }
         }
         if (schema) {
           schema = props.itemsStepTypes.schemas.filter((el) => {
@@ -71,7 +59,7 @@ export const setChoicesAndInitialValueHelper = (
             } else {
               return (
                 el.name?.split(" ").slice(0).join("_") ===
-                checkValue.split(" ").slice(0).join("_")
+                checkValue?.split(" ").slice(0).join("_")
               );
             }
           });
@@ -96,43 +84,27 @@ export const setChoicesAndInitialValueHelper = (
         setTypeChoice(schema);
       }
       if (elName === "add_field_name") {
-        let typeTopic = "topic";
-        if (props.allValues[props.indexInheritsSchema].steptype === "lookup") {
-          typeTopic = "record_type";
-        }
-        if (
-          props.allValues[props.indexInheritsSchema].steptype === "map_event"
-        ) {
-          typeTopic = "event_type";
-        }
-        if (props.allValues[props.indexInheritsSchema].steptype === "event") {
-          typeTopic = "event_type";
-        }
-        let topicValue = props.allValues[props.indexInheritsSchema][typeTopic];
+        const typeTopic = typeTopicHelper(stepType);
+        let topicValue = stepToInherits[typeTopic];
         let checkValue;
-        if (props.values.steptype === "lookup") {
-          if (
-            props.allValues[props.indexInheritsSchema]["record_type"] === ""
-          ) {
+        if (stepType === "lookup") {
+          if (stepToInherits["record_type"] === "") {
             return false;
           }
-          topicValue =
-            props.allValues[props.indexInheritsSchema]["record_type"];
+          topicValue = stepToInherits["record_type"];
           if (topicValue === "" || !topicValue) {
             return false;
           }
-          checkValue =
-            topicValue.indexOf("_") === -1
-              ? topicValue
-              : topicValue?.split("_").slice(2).join("_");
+          checkValue = sliceVaueHelper(topicValue, 2, "_");
         } else {
           if (topicValue === "" || !topicValue) {
             return false;
           }
-          checkValue =
-            topicValue?.indexOf("_") === -1
-              ? topicValue
-              : topicValue?.split("_").slice(2).join("_");
+          if (typeTopic === "topic" || typeTopic === "record_type") {
+            checkValue = sliceVaueHelper(topicValue, 2, "_");
+          } else {
+            checkValue = sliceVaueHelper(topicValue, 0, "_");
+          }
         }
         if (schema) {
           schema = props.itemsStepTypes.schemas.filter((el) => {
@@ -168,43 +140,23 @@ export const setChoicesAndInitialValueHelper = (
         }
       }
       if (props.itemsStepTypes.schemas.length > 0) {
-        let typeTopic = "topic";
-        if (props.allValues[props.indexInheritsSchema].steptype === "lookup") {
-          typeTopic = "record_type";
-        }
-        if (
-          props.allValues[props.indexInheritsSchema].steptype === "map_event"
-        ) {
-          typeTopic = "event_type";
-        }
-        if (props.allValues[props.indexInheritsSchema].steptype === "event") {
-          typeTopic = "event_type";
-        }
-        let topicValue = props.allValues[props.indexInheritsSchema][typeTopic];
+        const typeTopic = typeTopicHelper(stepType);
+        let topicValue = stepToInherits[typeTopic];
         let checkValue;
         if (props.values.steptype === "lookup") {
-          if (
-            props.allValues[props.indexInheritsSchema]["record_type"] === ""
-          ) {
+          if (stepToInherits["record_type"] === "") {
             return false;
           }
-          topicValue =
-            props.allValues[props.indexInheritsSchema]["record_type"];
+          topicValue = stepToInherits["record_type"];
           if (topicValue === "" || !topicValue) {
             return false;
           }
-          checkValue =
-            topicValue.indexOf("_") === -1
-              ? topicValue
-              : topicValue?.split("_").slice(2).join("_");
+          checkValue = sliceVaueHelper(topicValue, 2, "_");
         } else {
           if (topicValue === "" || !topicValue) {
             return false;
           }
-          checkValue =
-            topicValue?.indexOf("_") === -1
-              ? topicValue
-              : topicValue?.split("_").slice(2).join("_");
+          checkValue = sliceVaueHelper(topicValue, 2, "_");
         }
         if (schema) {
           schema = props.itemsStepTypes.schemas.filter((el) => {
