@@ -1,7 +1,6 @@
 import _ from "lodash";
 import typeTopicHelper from "./typeTopicHelper";
 import sliceVaueHelper from "./sliceVaueHelper";
-
 export const setChoicesAndInitialValueHelper = (
   elem,
   choicesName,

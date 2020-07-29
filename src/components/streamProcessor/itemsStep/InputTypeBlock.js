@@ -15,7 +15,10 @@ const InputTypeBlock = (props) => {
       !isEmpty(block) && !!block["key_type_from"]
         ? block["key_type_from"]
         : "from_event",
-    key_type: !isEmpty(block) && !!block["key_type"] ? block["key_type"] : "",
+    key_type:
+      !isEmpty(block) && !!block["key_type"]
+        ? block["key_type"]
+        : "static_value",
     event_field_name: !isEmpty(block) ? block["event_field_name"] : "",
     field_name: !isEmpty(block) ? block["field_name"] : "",
     event_field_name_from: !isEmpty(block)
