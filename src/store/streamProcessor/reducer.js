@@ -195,7 +195,6 @@ export default function StreamProcessorReducer(state = initialState, action) {
 
     case CONSTANTS.STREAMS.ORDERING_STEP:
       let allSteps = [...state.stepsStreamProcessor];
-
       const { type, stepIndex } = action.data;
       const lastStep = state.stepsStreamProcessor.length - 1;
       const firstStep = 0;
@@ -205,11 +204,9 @@ export default function StreamProcessorReducer(state = initialState, action) {
         arr[a] = arr.splice(b, 1, arr[a])[0];
         allSteps = arr;
       };
-
       if (typeOperator !== lastStep && typeOperator !== firstStep) {
         swap(allSteps, stepIndex, typeOperator);
       }
-
       return { ...state, stepsStreamProcessor: allSteps };
 
     case CONSTANTS.STREAMS.CREATE_NEW_STREAM:

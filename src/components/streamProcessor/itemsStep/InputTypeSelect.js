@@ -33,7 +33,6 @@ const InputTypeSelect = (props) => {
   const elName = !!elem.name ? elem.name : "";
   useEffect(() => {
     const choicesName = choiceNameHelper(elem);
-
     setChoicesAndInitialValueHelper(
       elem,
       choicesName,

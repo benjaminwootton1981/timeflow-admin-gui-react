@@ -1,4 +1,4 @@
-export const sliceValueHelper = (value, countSlice, SearchSymbol) => {
+export default (value, countSlice, SearchSymbol) => {
   const resultValue =
     value.indexOf(SearchSymbol) === -1
       ? value

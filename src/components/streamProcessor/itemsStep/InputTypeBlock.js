@@ -3,6 +3,9 @@ import "./blockStyles.scss";
 import { connect } from "react-redux";
 import { isEmpty } from "lodash";
 import SelectFromBlock from "./SelectFormBlock";
+import typeTopicHelper from "../../../helper/typeTopicHelper";
+import isRenderHelper from "../../../helper/isRenderHelper";
+import sliceVaueHelper from "../../../helper/sliceVaueHelper";
 
 const InputTypeBlock = (props) => {
   const { elem, indexBlock, schemas, setFieldValue, block } = props;
@@ -24,39 +27,38 @@ const InputTypeBlock = (props) => {
     return false;
   }
   let schema = [];
-  let typeTopic = "topic";
-  if (props.allValues[props.indexInheritsSchema].steptype === "lookup") {
-    typeTopic = "record_type";
-  }
-  if (props.allValues[props.indexInheritsSchema].steptype === "event") {
-    typeTopic = "event_type";
-  }
-  if (props.allValues[props.indexInheritsSchema].steptype === "map_event") {
-    typeTopic = "event_type";
-  }
-
+  const stepType = props.allValues[props.indexInheritsSchema].steptype;
+  const stepToInherits = props.allValues[props.indexInheritsSchema];
+  const typeTopic = typeTopicHelper(stepType);
   let topicValue = props.allValues[props.indexInheritsSchema][typeTopic];
   let checkValue;
+
   if (props.values.steptype === "lookup") {
-    if (props.allValues[props.indexInheritsSchema]["record_type"] === "") {
+    if (stepToInherits["record_type"] === "") {
       return false;
     }
-    topicValue = props.allValues[props.indexInheritsSchema]["record_type"];
+    topicValue = stepToInherits["record_type"];
     if (topicValue === "" || !topicValue) {
       return false;
     }
-    checkValue =
-      topicValue.indexOf("_") === -1
-        ? topicValue
-        : topicValue?.split("_").slice(2).join("_");
+    checkValue = sliceVaueHelper(topicValue, 2, "_");
+  } else if (stepType === "event") {
+    topicValue = stepToInherits["event_type"];
+    if (topicValue === "" || !topicValue) {
+      return false;
+    }
+    checkValue = sliceVaueHelper(topicValue, 0, "_");
+  } else if (stepType === "map_event") {
+    topicValue = stepToInherits["event_type"];
+    if (!topicValue) {
+      return false;
+    }
+    checkValue = checkValue = sliceVaueHelper(topicValue, 0, "_");
   } else {
-    if (topicValue === "" || !topicValue) {
+    if (!topicValue) {
       return false;
     }
-    checkValue =
-      topicValue?.indexOf("_") === -1
-        ? topicValue
-        : topicValue?.split("_").slice(2).join("_");
+    checkValue = sliceVaueHelper(topicValue, 2, "_");
   }
   if (schema) {
     schema = props.schemas.filter((el) => {
@@ -79,49 +81,33 @@ const InputTypeBlock = (props) => {
     <>
       <div className="container_block">
         {elem.fields.map((blockElem, i) => {
-          if (
-            props.allValues[props.indexInheritsSchema].steptype ===
-              "map_event" &&
-            blockElem.name === "field_name"
-          ) {
-            let typeTopicSingle = "topic";
-            if (
-              props.allValues[props.indexInheritsSchema - 1].steptype ===
-              "lookup"
-            ) {
-              typeTopicSingle = "record_type";
-            }
-            if (
-              props.allValues[props.indexInheritsSchema - 1].steptype ===
-              "event"
-            ) {
-              typeTopicSingle = "event_type";
-            }
-            if (
-              props.allValues[props.indexInheritsSchema - 1].steptype ===
-              "map_event"
-            ) {
-              typeTopicSingle = "event_type";
-            }
+          if (stepType === "map_event" && blockElem.name === "field_name") {
+            const prevStepType =
+              props.allValues[props.indexInheritsSchema - 1].steptype;
+            const prevStepToInherits =
+              props.allValues[props.indexInheritsSchema - 1];
+            const typeTopicSingle = typeTopicHelper(prevStepType);
+
             if (topicValue === "" || !topicValue) {
               return false;
             }
-            topicValue =
-              props.allValues[props.indexInheritsSchema - 1][typeTopicSingle];
-            checkValue =
-              topicValue?.indexOf("_") === -1
-                ? topicValue
-                : topicValue?.split("_").slice(2).join("_");
+            topicValue = prevStepToInherits[typeTopicSingle];
+            if (
+              typeTopicSingle === "topic" ||
+              typeTopicSingle === "record_type"
+            ) {
+              checkValue = sliceVaueHelper(topicValue, 2, "_");
+            } else {
+              checkValue = sliceVaueHelper(topicValue, 0, "_");
+            }
           } else if (
-            props.allValues[props.indexInheritsSchema].steptype ===
-              "map_event" &&
+            stepType === "map_event" &&
             blockElem.name === "target_field_name"
           ) {
             if (topicValue === "" || !topicValue) {
               return false;
             }
-            topicValue =
-              props.allValues[props.indexInheritsSchema]["event_type"];
+            topicValue = stepToInherits["event_type"];
             if (topicValue === "" || !topicValue) {
               topicValue = props.schemas[0].name;
             }
@@ -149,20 +135,8 @@ const InputTypeBlock = (props) => {
           if (blockElem.choices.length === 0) {
             choices = !!schema ? schema.schemafield_set : [];
           }
-          let isRender = false;
           const isRelated = Array.isArray(blockElem.related_to.value);
-          if (
-            blockElem.related_to.value &&
-            valueSelect[blockElem.related_to.field]
-          ) {
-            const foundElem = blockElem.related_to.value.filter((el, i) => {
-              return (
-                valueSelect[blockElem.related_to.field] ===
-                blockElem.related_to.value[i]
-              );
-            });
-            isRender = foundElem.length > 0;
-          }
+          let isRender = isRenderHelper(blockElem, valueSelect);
           return (
             <>
               {blockElem.input_type === "select" ? (

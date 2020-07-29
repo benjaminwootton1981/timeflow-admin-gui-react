@@ -414,14 +414,20 @@ const Step = (props) => {
               >
                 <button
                   type={"button"}
-                  onClick={() => props.orderingStep("down", stepIndex)}
+                  onClick={() => {
+                    props.updateDataStep();
+                    props.orderingStep("down", stepIndex);
+                  }}
                   className="card-action arrow-bot js-down"
                 >
                   {""}
                 </button>
                 <button
                   type={"button"}
-                  onClick={() => props.orderingStep("up", stepIndex)}
+                  onClick={() => {
+                    props.updateDataStep();
+                    props.orderingStep("up", stepIndex);
+                  }}
                   className="card-action arrow-top js-up"
                 >
                   {""}

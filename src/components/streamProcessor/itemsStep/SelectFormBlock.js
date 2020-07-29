@@ -13,9 +13,9 @@ const SelectFromBlock = (props) => {
     }
   }
   useEffect(() => {
-    if (!choices || choices.length === 0) {
-      return false;
-    }
+    // if (!choices || choices.length === 0) {
+    //     //   return false;
+    //     // }
     props.setFieldValue(blockElem.name, val);
   }, []);
 

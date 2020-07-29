@@ -1,65 +1,49 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { sliceValueHelper } from "../../helper/sliceVaueHelper";
+import sliceVaueHelper, {
+  sliceValueHelper,
+} from "../../helper/sliceVaueHelper";
+import typeTopicHelper from "../../helper/typeTopicHelper";
 
 const SchemaBlock = (props) => {
-  const { step, schemas, actualSchema } = props;
+  const { schemas } = props;
   const [polio, setPolio] = useState(false);
   const togglePolio = () => {
     setPolio(!polio);
   };
-  if (!props.schemas || props.schemas.length <= 0) {
+  if (!props.schemas) {
     return false;
   }
   let schema = [];
-  let typeTopic = "topic";
-  if (props.allValues[props.indexInheritsSchema].steptype === "lookup") {
-    typeTopic = "record_type";
-  }
-  if (props.allValues[props.indexInheritsSchema].steptype === "map_event") {
-    typeTopic = "event_type";
-  }
+  const stepType = props.allValues[props.indexInheritsSchema].steptype;
+  const stepToInherits = props.allValues[props.indexInheritsSchema];
+  const typeTopic = typeTopicHelper(stepType);
   let topicValue = props.allValues[props.indexInheritsSchema][typeTopic];
-
   let checkValue;
-  if (step.steptype === "lookup") {
-    topicValue = props.allValues[props.indexInheritsSchema]["record_type"];
+  if (stepType === "lookup") {
+    topicValue = stepToInherits["record_type"];
     if (topicValue === "" || !topicValue) {
       return false;
     }
-    checkValue =
-      topicValue.indexOf("_") === -1
-        ? topicValue
-        : topicValue?.split("_").slice(2).join("_");
-  } else if (step.steptype === "event") {
-    topicValue = props.allValues[props.indexInheritsSchema]["event_type"];
+    checkValue = checkValue = sliceVaueHelper(topicValue, 2, "_");
+  } else if (stepType === "event") {
+    topicValue = stepToInherits["event_type"];
     if (topicValue === "" || !topicValue) {
       return false;
     }
-    topicValue = props.allValues[props.indexInheritsSchema]["event_type"];
-    checkValue =
-      topicValue.indexOf("_") === -1
-        ? topicValue
-        : topicValue?.split("_").slice(0).join("_");
-  } else if (step.steptype === "map_event") {
-    topicValue = props.allValues[props.indexInheritsSchema]["event_type"];
+    checkValue = sliceVaueHelper(topicValue, 0, "_");
+  } else if (stepType === "map_event") {
+    topicValue = stepToInherits["event_type"];
     if (!topicValue) {
       return false;
     }
-    checkValue =
-      topicValue.indexOf("_") === -1
-        ? topicValue
-        : topicValue?.split("_").slice(0).join("_");
+    checkValue = checkValue = sliceVaueHelper(topicValue, 0, "_");
   } else {
     if (!topicValue) {
       return false;
     }
-
-    checkValue =
-      topicValue.indexOf("_") === -1
-        ? topicValue
-        : topicValue?.split("_").slice(2).join("_");
+    checkValue = sliceVaueHelper(topicValue, 2, "_");
   }
   if (schema) {
     schema = schemas.filter((el) => {
