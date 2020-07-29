@@ -26,21 +26,15 @@ function ManageStreamProcessor(props) {
 
   const [groups, setGroups] = useState({});
   const projectId = props.match.params.id;
-  console.log("streamprocessors", props.streamProcessorsProps);
-  console.log("STATE treamprocessors", streamProcessors);
   const { project } = props;
+
   useEffect(() => {
     props.getStreamProcessorsList(projectId);
   }, [projectId]);
-
   useEffect(() => {
-    if (
-      JSON.stringify(streamProcessors) !==
-      JSON.stringify(props.streamProcessorsProps)
-    ) {
-      props.getStreamProcessorsList(projectId);
-    }
-  }, [props.streamProcessorsProps]);
+    props.getStreamProcessorsList(projectId);
+  }, []);
+
   useEffect(() => {
     props.getProjects(projectId);
   }, [projectId, streamProcessors]);
