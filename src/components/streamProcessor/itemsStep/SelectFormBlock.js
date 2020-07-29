@@ -4,7 +4,7 @@ const SelectFromBlock = (props) => {
   const { blockElem, typeReturnEl, choices, valueSelect, block } = props;
   let val;
   if (!!block[blockElem?.name]) {
-    val = choices[0]?.name;
+    val = valueSelect[blockElem.name];
   } else {
     if (!!Array.isArray(choices[0])) {
       val = choices[0][0];
@@ -18,7 +18,6 @@ const SelectFromBlock = (props) => {
     //     // }
     props.setFieldValue(blockElem.name, val);
   }, []);
-
   const options = (
     <>
       {choices.map((el) => {
@@ -43,5 +42,4 @@ const SelectFromBlock = (props) => {
     </div>
   );
 };
-
 export default SelectFromBlock;
