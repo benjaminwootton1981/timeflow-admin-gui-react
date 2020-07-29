@@ -28,17 +28,13 @@ function ManageStreamProcessor(props) {
   const projectId = props.match.params.id;
   const { project } = props;
   useEffect(() => {
-    props.getStreamProcessorsList(projectId);
-  }, [projectId]);
-
-  useEffect(() => {
     if (
       JSON.stringify(streamProcessors) !==
       JSON.stringify(props.streamProcessorsProps)
     ) {
       props.getStreamProcessorsList(projectId);
     }
-  }, [props.streamProcessorsProps]);
+  }, [projectId, props.streamProcessorsProps]);
   useEffect(() => {
     props.getProjects(projectId);
   }, [projectId, streamProcessors]);
