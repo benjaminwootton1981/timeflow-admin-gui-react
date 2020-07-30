@@ -1,6 +1,7 @@
 import _ from "lodash";
 import typeTopicHelper from "./typeTopicHelper";
 import sliceVaueHelper from "./sliceVaueHelper";
+
 export const setChoicesAndInitialValueHelper = (
   elem,
   choicesName,
@@ -12,8 +13,13 @@ export const setChoicesAndInitialValueHelper = (
   kpiKeyTypeLength,
   stepIndex
 ) => {
-  const stepType = props.allValues[props.indexInheritsSchema].steptype;
-  const stepToInherits = props.allValues[props.indexInheritsSchema];
+  let stepType;
+  let stepToInherits;
+  if (!!props.values.steptype) {
+    stepType = props.allValues[props.indexInheritsSchema].steptype;
+    stepToInherits = props.allValues[props.indexInheritsSchema];
+  }
+
   if (elem.choices.length === 0) {
     if (elem.is_need_fetch === "schema_fields") {
       let schema = [];
