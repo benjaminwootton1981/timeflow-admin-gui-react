@@ -250,11 +250,12 @@ body {
 }
 
 //create group modal
-.custom-dialog {
-  width: 42%;
-  min-width: 600px;
-  height: 90%;
-  display: -webkit-box;
+@media (min-width: 600px) {
+  .custom-dialog {
+    width: 800px;
+    height: 90%;
+    display: -webkit-box;
+  }
 }
 
 .create_group_modal {
