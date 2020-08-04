@@ -259,11 +259,7 @@ const Step = (props) => {
                         }
                       );
                       if (props.values.result_placement === "replace") {
-                        if (elem.name === valueSelect.last_event_type) {
-                          isRender = true;
-                        } else {
-                          isRender = false;
-                        }
+                        isRender = elem.name === valueSelect.last_event_type;
                       } else {
                         isRender = foundElem.length > 0;
                       }
