@@ -11,6 +11,7 @@ import InputTypeSelect from "./itemsStep/InputTypeSelect";
 import { useFormik } from "formik";
 import InputTypeText from "./itemsStep/InputTypeText";
 import _ from "lodash";
+import ScheduleInput from "./itemsStep/ScheduleInput";
 
 const Step = (props) => {
   const { stepData, streams } = props.itemsStepTypes;
@@ -300,6 +301,10 @@ const Step = (props) => {
                             stepDataValue={stepDataValue}
                           />
                         ),
+                      };
+                    } else if (stepEl.steptype === "inboundtimer") {
+                      typeElement = {
+                        select: <ScheduleInput />,
                       };
                     } else {
                       typeElement = {
