@@ -101,20 +101,10 @@ const StreamProcessor = (props) => {
     onSubmit: (values) => {
       if (isNew) {
         props.createStreamProcessor(values, projectId);
-
-        // if (isRedirect) {
-        history.push(`/projects/${projectId}/streamprocessors`);
-        // } else {
-        //     alert('ERROR')
-        // }
       } else {
         props.saveStreamProcessor(values, processorId, projectId);
-        // if (isRedirect) {
-        history.push(`/projects/${projectId}/streamprocessors`);
-        // } else {
-        //     alert('ERROR')
-        // }
       }
+      history.push(`/projects/${projectId}/streamprocessors`);
     },
   });
 
@@ -233,9 +223,9 @@ const StreamProcessor = (props) => {
               return (
                 <div className="newStep">
                   <Step
-                    setFieldValue={(name, e) =>
-                      setFieldValue(`items.${i}.${name}`, e)
-                    }
+                    setFieldValue={(name, e) => {
+                      setFieldValue(`items.${i}.${name}`, e);
+                    }}
                     values={values.items[i]}
                     allValues={values.items}
                     items={items}

@@ -82,21 +82,7 @@ const InputTypeSelect = (props) => {
     props.setFieldValue(elName, e.target.value);
     props.SetValueSelect({ ...props.valueSelect, [elem.name]: e.target.value });
     props.onChange(element);
-    if (elName === "topic") {
-      props.setSchemasId({
-        value: e.target.value,
-        stepIndex: stepIndex,
-        typeSelect: elName,
-      });
-    }
-    if (elName === "record_type") {
-      props.setSchemasId({
-        value: e.target.value,
-        stepIndex: stepIndex,
-        typeSelect: elName,
-      });
-    }
-    if (elName === "event_type") {
+    if (["topic", "record_type", "event_type"].includes(elName)) {
       props.setSchemasId({
         value: e.target.value,
         stepIndex: stepIndex,

@@ -304,7 +304,14 @@ const Step = (props) => {
                       };
                     } else if (stepEl.steptype === "inboundtimer") {
                       typeElement = {
-                        select: <ScheduleInput />,
+                        select: (
+                          <ScheduleInput
+                            onChange={setValueStep}
+                            stepIndex={stepIndex}
+                            setFieldValue={props.setFieldValue}
+                            values={props.values}
+                          />
+                        ),
                       };
                     } else {
                       typeElement = {

@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
-const ScheduleInput = () => {
-  const [value, setValue] = useState(1);
-  const [selectValue, setSelectValue] = useState("second");
+const ScheduleInput = ({ values, stepIndex, setFieldValue }) => {
+  const [value, setValue] = useState(values.schedule_value || 1);
+  const [selectValue, setSelectValue] = useState(
+    values.schedule_type || "every_x_second"
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(`Every ${value} ${selectValue}(s)`);
+    setFieldValue("schedule_value", value);
+    setFieldValue("schedule_type", selectValue);
   }, [value, selectValue]);
+
   return (
     <div>
       <input
@@ -22,11 +28,11 @@ const ScheduleInput = () => {
           className="step"
           onChange={(event) => setSelectValue(event.target.value)}
         >
-          <option value={"millisecond"}>Milliseconds</option>
-          <option value={"second"}>Seconds</option>
-          <option value={"minute"}>Minutes</option>
-          <option value={"hour"}>Hours</option>
-          <option value={"day"}>Days</option>
+          <option value={"every_x_millisecond"}>Milliseconds</option>
+          <option value={"every_x_second"}>Seconds</option>
+          <option value={"every_x_minute"}>Minutes</option>
+          <option value={"every_x_hour"}>Hours</option>
+          <option value={"every_x_day"}>Days</option>
         </select>
       </div>
     </div>

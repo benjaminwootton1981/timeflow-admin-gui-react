@@ -70,6 +70,8 @@ export const createStreamProcessor = (dataStep, project_id) => (dispatch) => {
   const stringifyData = JSON.stringify(addIdStreamProcessorData);
   let statusResponse = [];
 
+  console.log(steps);
+
   setStreamProcessorRequest(stringifyData)
     .then((respCreateStreamProcessor) => {
       if (respCreateStreamProcessor.status === 201) {
@@ -160,6 +162,7 @@ export const createStreamProcessor = (dataStep, project_id) => (dispatch) => {
 export const saveStreamProcessor = (editStreamProcessor, processorId) => (
   dispatch
 ) => {
+  console.log(editStreamProcessor);
   editStreamProcessor.items.forEach((step, i) => {
     const addId = Object.assign(step, {});
     addId["streamprocessor"] = processorId;
