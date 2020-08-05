@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import pluralize from "pluralize";
 
 const ScheduleInput = ({ values, stepIndex, setFieldValue }) => {
-  const [value, setValue] = useState(values.schedule_value || 1);
+  const [value, setValue] = useState(parseInt(values.schedule_value || 1));
   const [selectValue, setSelectValue] = useState(
     values.schedule_type || "every_x_second"
   );
@@ -28,11 +29,17 @@ const ScheduleInput = ({ values, stepIndex, setFieldValue }) => {
           className="step"
           onChange={(event) => setSelectValue(event.target.value)}
         >
-          <option value={"every_x_millisecond"}>Milliseconds</option>
-          <option value={"every_x_second"}>Seconds</option>
-          <option value={"every_x_minute"}>Minutes</option>
-          <option value={"every_x_hour"}>Hours</option>
-          <option value={"every_x_day"}>Days</option>
+          <option value={"every_x_millisecond"}>
+            {pluralize("Milliseconds", value)}
+          </option>
+          <option value={"every_x_second"}>
+            {pluralize("Seconds", value)}
+          </option>
+          <option value={"every_x_minute"}>
+            {pluralize("Minutes", value)}
+          </option>
+          <option value={"every_x_hour"}>{pluralize("Hours", value)}</option>
+          <option value={"every_x_hour"}>{pluralize("Days", value)}</option>
         </select>
       </div>
     </div>
