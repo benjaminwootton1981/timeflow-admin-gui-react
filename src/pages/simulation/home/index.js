@@ -123,6 +123,8 @@ function ManageSimulation(props) {
         items={openGroup.simulations}
         setOpenGroup={setOpenGroup}
         ItemComponent={SimulationValueCard}
+        type={"simulations"}
+        project={projectId}
       />
     );
   }

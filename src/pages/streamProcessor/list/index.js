@@ -128,6 +128,8 @@ function ManageStreamProcessor(props) {
         items={openGroup.streamprocessors}
         setOpenGroup={setOpenGroup}
         ItemComponent={StreamProcessorValueCard}
+        type={"streamprocessors"}
+        project={projectId}
       />
     );
   }

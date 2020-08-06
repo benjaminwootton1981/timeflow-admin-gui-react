@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
+import { capitalize } from "lodash";
 
-const GroupView = ({ name, items, setOpenGroup, ItemComponent }) => {
+const GroupView = ({
+  name,
+  items,
+  setOpenGroup,
+  ItemComponent,
+  type,
+  project,
+}) => {
   const [currentItems, setCurrentItems] = useState([]);
 
   useEffect(() => {
@@ -10,16 +18,8 @@ const GroupView = ({ name, items, setOpenGroup, ItemComponent }) => {
 
   return (
     <div className="wrapper group">
-      <h2 className="project-name">Manage Streams</h2>
+      <h2 className="project-name">Manage {capitalize(type)}</h2>
       <h2 className="dashboard__header">{name}</h2>
-      <div className="group__toggles">
-        <button
-          className={"btn create__group"}
-          onClick={() => setOpenGroup(undefined)}
-        >
-          Go back
-        </button>
-      </div>
       <ReactSortable
         list={currentItems}
         setList={setCurrentItems}
@@ -40,6 +40,18 @@ const GroupView = ({ name, items, setOpenGroup, ItemComponent }) => {
           );
         })}
       </ReactSortable>
+
+      <div className="group__toggles">
+        <a className="btn" href={`/react/projects/${project}/${type}/new`}>
+          Add {capitalize(type.slice(0, -1))}
+        </a>
+        <button
+          className={"btn create__group"}
+          onClick={() => setOpenGroup(undefined)}
+        >
+          Go back
+        </button>
+      </div>
     </div>
   );
 };

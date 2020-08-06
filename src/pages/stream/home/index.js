@@ -149,6 +149,8 @@ function ManageStream(props) {
         items={openGroup.streams}
         setOpenGroup={setOpenGroup}
         ItemComponent={StreamValueCard}
+        type={"streams"}
+        project={projectId}
       />
     );
   }

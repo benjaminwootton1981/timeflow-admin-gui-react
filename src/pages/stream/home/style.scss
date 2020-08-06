@@ -78,7 +78,17 @@
 
 .group {
   &__toggles {
-    border-bottom: 1px solid #803c8a;
-    padding-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    border-top: 1px solid #803c8a;
+    padding-top: 1rem;
+
+    button {
+      position: absolute;
+      right: 0;
+    }
   }
 }
