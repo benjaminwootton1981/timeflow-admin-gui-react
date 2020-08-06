@@ -102,7 +102,7 @@ function ManageStreamProcessor(props) {
   };
 
   const onDragEnd = (streamprocessorId, sourceId, destinationId, newIndex) => {
-    if (!streamprocessorId.includes("`streamprocessor`")) {
+    if (!streamprocessorId.includes("streamprocessor")) {
       return;
     }
     const reorderedStreamProcessors = getItems(
