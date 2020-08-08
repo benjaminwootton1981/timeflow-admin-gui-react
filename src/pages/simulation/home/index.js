@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./style.scss";
 import { connect } from "react-redux";
 import { getSimulations } from "../../../store/actions/serviceAction";
@@ -30,6 +30,22 @@ function ManageSimulation(props) {
   const projectId = props.match.params.id;
   const [groups, setGroups] = useState({});
 
+  const updateGroups = useCallback((newState, replace = false) => {
+    setAllGroups((state) => {
+      const all = replace
+        ? newState
+        : {
+            ...state,
+            ...newState,
+          };
+
+      const mapped = getMapped(all, "streams");
+
+      setAllItems(mapped);
+      return all;
+    });
+  }, []);
+
   useEffect(() => {
     props.onGetSimulations(projectId);
   }, [projectId]);
@@ -50,12 +66,10 @@ function ManageSimulation(props) {
         base: simulations,
       };
 
-      const mapped = getMapped(newState, "simulations");
-      setAllGroups((state) => ({ ...state, ...newState }));
-      setAllItems(mapped);
+      updateGroups(newState);
       setSimulations(simulations);
     }
-  }, [props.simulations]);
+  }, [props.simulations, updateGroups]);
 
   useEffect(() => {
     api
@@ -71,18 +85,10 @@ function ManageSimulation(props) {
         groups.forEach((group) => {
           groupMap[group.name] = group.simulations;
         });
-        setAllGroups((state) => ({
-          ...state,
-          ...groupMap,
-        }));
+        updateGroups(groupMap);
         setGroups(keyBy(groups, "name"));
       });
-  }, [projectId]);
-
-  useEffect(() => {
-    const mapped = getMapped(allGroups, "simulations");
-    setAllItems(mapped);
-  }, [allGroups]);
+  }, [projectId, updateGroups]);
 
   const createGroup = (name) => {
     api
@@ -91,8 +97,13 @@ function ManageSimulation(props) {
         project: projectId,
       })
       .then((response) => {
+        const group = response.data;
         setGroups({ ...groups, [name]: response.data });
         setAllGroups({ ...allGroups, [name]: [] });
+        setAllItems([
+          ...allItems,
+          { id: group.name, value: group.name, simulations: [] },
+        ]);
         setVisibleModal(false);
       })
       .catch((e) => {
@@ -107,7 +118,7 @@ function ManageSimulation(props) {
   const deleteGroup = (group) => {
     api.delete(`simulation_groups/${group.id}/`).then(() => {
       setGroups(omit(groups, group.name));
-      setAllGroups(omit(allGroups, group.name));
+      updateGroups(omit(allGroups, group.name), true);
     });
   };
 

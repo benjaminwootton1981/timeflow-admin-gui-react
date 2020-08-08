@@ -51,7 +51,7 @@ const GroupCard = ({
         items: reorderedItems,
       })
       .then((response) => {
-        if (destination) {
+        if (destination !== group.id) {
           reorderGroups();
         }
       });

@@ -71,6 +71,22 @@ function ManageStream(props) {
   const projectId = props.match.params.id;
   const [groups, setGroups] = useState({});
 
+  const updateGroups = useCallback((newState, replace = false) => {
+    setAllGroups((state) => {
+      const all = replace
+        ? newState
+        : {
+            ...state,
+            ...newState,
+          };
+
+      const mapped = getMapped(all, "streams");
+
+      setAllItems(mapped);
+      return all;
+    });
+  }, []);
+
   useEffect(() => {
     props.onGetStreams(projectId);
   }, [projectId]);
@@ -90,13 +106,10 @@ function ManageStream(props) {
       const newState = {
         base: streams,
       };
-
-      const mapped = getMapped(newState, "streams");
-      setAllGroups((state) => ({ ...state, ...newState }));
-      setAllItems(mapped);
+      updateGroups(newState);
       setStreams(streams);
     }
-  }, [props.streams]);
+  }, [props.streams, updateGroups]);
 
   useEffect(() => {
     api
@@ -112,25 +125,23 @@ function ManageStream(props) {
         groups.forEach((group) => {
           groupMap[group.name] = group.streams;
         });
-        setAllGroups((state) => ({
-          ...state,
-          ...groupMap,
-        }));
+        updateGroups(groupMap);
+
         setGroups(keyBy(groups, "name"));
       });
-  }, [projectId]);
-
-  useEffect(() => {
-    const mapped = getMapped(allGroups, "streams");
-    setAllItems(mapped);
-  }, [allGroups]);
+  }, [projectId, updateGroups]);
 
   const createGroup = (name) => {
     api
       .post("stream_groups/", { name: name, project: projectId })
       .then((response) => {
+        const group = response.data;
         setGroups({ ...groups, [name]: response.data });
         setAllGroups({ ...allGroups, [name]: [] });
+        setAllItems([
+          ...allItems,
+          { id: group.name, value: group.name, streams: [] },
+        ]);
         setVisibleModal(false);
       })
       .catch((e) => {
@@ -145,7 +156,7 @@ function ManageStream(props) {
   const deleteGroup = (group) => {
     api.delete(`stream_groups/${group.id}/`).then(() => {
       setGroups(omit(groups, group.name));
-      setAllGroups(omit(allGroups, group.name));
+      updateGroups(omit(allGroups, group.name), true);
     });
   };
 

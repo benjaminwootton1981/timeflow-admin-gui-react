@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StreamProcessorValueCard } from "../../../components";
 import "./style.scss";
 import { connect } from "react-redux";
@@ -33,6 +33,22 @@ function ManageStreamProcessor(props) {
   const projectId = props.match.params.id;
   const { project } = props;
 
+  const updateGroups = useCallback((newState, replace = false) => {
+    setAllGroups((state) => {
+      const all = replace
+        ? newState
+        : {
+            ...state,
+            ...newState,
+          };
+
+      const mapped = getMapped(all, "streamprocessors");
+
+      setAllItems(mapped);
+      return all;
+    });
+  }, []);
+
   useEffect(() => {
     props.getStreamProcessorsList(projectId);
   }, [projectId]);
@@ -52,10 +68,7 @@ function ManageStreamProcessor(props) {
       const newState = {
         base: streamProcessorsFiltered,
       };
-
-      const mapped = getMapped(newState, "streamprocessors");
-      setAllGroups((state) => ({ ...state, ...newState }));
-      setAllItems(mapped);
+      updateGroups(newState);
       setStreamProcessors(streamProcessorsFiltered);
     }
   }, [props.streamProcessorsProps]);
@@ -74,18 +87,11 @@ function ManageStreamProcessor(props) {
         groups.forEach((group) => {
           groupMap[group.name] = group.streamprocessors;
         });
-        setAllGroups((state) => ({
-          ...state,
-          ...groupMap,
-        }));
+        updateGroups(groupMap);
         setGroups(keyBy(groups, "name"));
       });
-  }, []);
+  }, [projectId, updateGroups]);
 
-  useEffect(() => {
-    const mapped = getMapped(allGroups, "streamprocessors");
-    setAllItems(mapped);
-  }, [allGroups]);
   const createGroup = (name) => {
     api
       .post("streamprocessor_groups/", {
@@ -93,8 +99,13 @@ function ManageStreamProcessor(props) {
         project: projectId,
       })
       .then((response) => {
+        const group = response.data;
         setGroups({ ...groups, [name]: response.data });
         setAllGroups({ ...allGroups, [name]: [] });
+        setAllItems([
+          ...allItems,
+          { id: group.name, value: group.name, streamprocessors: [] },
+        ]);
         setVisibleModal(false);
       })
       .catch((e) => {
@@ -109,7 +120,7 @@ function ManageStreamProcessor(props) {
   const deleteGroup = (group) => {
     api.delete(`streamprocessor_groups/${group.id}/`).then(() => {
       setGroups(omit(groups, group.name));
-      setAllGroups(omit(allGroups, group.name));
+      updateGroups(omit(allGroups, group.name), true);
     });
   };
 
