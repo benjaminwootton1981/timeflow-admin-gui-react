@@ -33,14 +33,12 @@ function ManageStreamProcessor(props) {
   const projectId = props.match.params.id;
   const { project } = props;
 
-  const updateGroups = useCallback((newState, replace = false) => {
+  const updateGroups = useCallback((newState) => {
     setAllGroups((state) => {
-      const all = replace
-        ? newState
-        : {
-            ...state,
-            ...newState,
-          };
+      const all = {
+        ...state,
+        ...newState,
+      };
 
       const mapped = getMapped(all, "streamprocessors");
 
@@ -120,7 +118,8 @@ function ManageStreamProcessor(props) {
   const deleteGroup = (group) => {
     api.delete(`streamprocessor_groups/${group.id}/`).then(() => {
       setGroups(omit(groups, group.name));
-      updateGroups(omit(allGroups, group.name), true);
+      setAllGroups(omit(allGroups, group.name));
+      setAllItems(allItems.filter((item) => item.id !== group.name));
     });
   };
 
