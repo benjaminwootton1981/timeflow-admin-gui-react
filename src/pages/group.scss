@@ -1,0 +1,37 @@
+@mixin flexCenter {
+  display: flex;
+  align-items: center;
+}
+
+.group {
+  &__header {
+    @include flexCenter;
+    justify-content: center;
+
+    &-right {
+      @include flexCenter;
+      justify-content: center;
+      position: absolute;
+      right: 10px;
+
+      & > *:not(:last-child) {
+        margin-right: 8px;
+      }
+
+      span {
+        font-size: 21px;
+      }
+
+      .empty-group {
+        position: relative;
+        z-index: 5;
+        cursor: pointer;
+        @include flexCenter;
+
+        & > *:not(:last-child) {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}

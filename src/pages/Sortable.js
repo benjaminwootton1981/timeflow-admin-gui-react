@@ -10,6 +10,8 @@ const Sortable = ({
   type,
   ItemComponent,
   onDragEnd,
+  onGroupDelete,
+  reorderGroups,
 }) => {
   return (
     <ReactSortable
@@ -40,6 +42,8 @@ const Sortable = ({
                 setAllItems={setAllItems}
                 setOpenGroup={setOpenGroup}
                 type={type}
+                onGroupDelete={onGroupDelete}
+                reorderGroups={reorderGroups}
               />
             </div>
           );

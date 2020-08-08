@@ -7,6 +7,8 @@ import PlayIconSVG from "../assets/play_icon.svg";
 import { capitalize } from "lodash";
 import api from "../api";
 import { getItems, getId } from "./stream/home";
+import { ReactComponent as DeleteIcon } from "./assets/delete-icon.svg";
+import "./group.scss";
 
 const GroupCard = ({
   group,
@@ -15,6 +17,8 @@ const GroupCard = ({
   setAllItems,
   setOpenGroup,
   type,
+  onGroupDelete,
+  reorderGroups,
 }) => {
   const [currentItems, setCurrentItems] = useState(items);
 
@@ -45,21 +49,29 @@ const GroupCard = ({
         sort_order: newIndex,
         items: reorderedItems,
       })
-      .then((response) => console.log(response.data));
+      .then((response) => reorderGroups());
   };
 
   return (
     <div className="group__card drag_card_container">
-      <h2 className="card__header handle">
-        {group.name}
-        <img
-          src={DragDropSelect}
-          className="card__header-right"
-          alt="Drag Drop Select"
-          onClick={() =>
-            setOpenGroup({ name: group.name, [type]: currentItems })
-          }
-        />
+      <h2 className="card__header handle group__header">
+        <span>{group.name}</span>
+        <div className="group__header-right">
+          {currentItems.length ? (
+            <img
+              src={DragDropSelect}
+              alt="Drag Drop Select"
+              onClick={() =>
+                setOpenGroup({ name: group.name, [type]: currentItems })
+              }
+            />
+          ) : (
+            <div className={"empty-group"}>
+              <span>+</span>
+              <DeleteIcon onClick={() => onGroupDelete(group)} />
+            </div>
+          )}
+        </div>
       </h2>
       <div className="card__body">
         {currentItems.length > 0 && (
