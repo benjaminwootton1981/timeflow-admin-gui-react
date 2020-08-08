@@ -1381,6 +1381,7 @@ main {
   position: absolute;
   right: 0;
   top: 41px;
+  color: #803c8a;
 }
 
 .dashboard__footer .create__group:hover span {

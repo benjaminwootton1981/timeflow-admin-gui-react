@@ -41,7 +41,7 @@ const GroupView = ({
         })}
       </ReactSortable>
 
-      <div className="group__toggles">
+      <div className="dashboard__footer">
         <a className="btn" href={`/react/projects/${project}/${type}/new`}>
           Add {capitalize(type.slice(0, -1))}
         </a>
