@@ -41,15 +41,20 @@ const GroupCard = ({
     }
 
     const reorderedItems = getItems(currentItems, type, group.id);
+    const destination = getId(destinationId) || null;
 
     api
       .post(`${type}/reorder/`, {
         id: getId(itemId),
-        group: !getId(destinationId) ? null : getId(destinationId),
+        group: destination,
         sort_order: newIndex,
         items: reorderedItems,
       })
-      .then((response) => reorderGroups());
+      .then((response) => {
+        if (destination) {
+          reorderGroups();
+        }
+      });
   };
 
   return (

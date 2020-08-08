@@ -154,20 +154,24 @@ function ManageStream(props) {
   };
 
   const onDragEnd = (streamId, sourceId, destinationId, newIndex) => {
-    console.log(streamId);
     if (!streamId.includes("stream")) {
       return;
     }
     const reorderedStreams = getItems(allItems, "streams", null);
 
+    const destination = getId(destinationId) || null;
     api
       .post(`streams/reorder/`, {
         id: getId(streamId),
-        group: !getId(destinationId) ? null : getId(destinationId),
+        group: destination,
         sort_order: newIndex,
         items: reorderedStreams,
       })
-      .then(reorderGroups)
+      .then(() => {
+        if (destination) {
+          reorderGroups();
+        }
+      })
       .catch((e) => console.log(e));
   };
 

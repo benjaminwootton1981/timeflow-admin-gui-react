@@ -127,14 +127,20 @@ function ManageStreamProcessor(props) {
       null
     );
 
+    const destination = getId(destinationId) || null;
+
     api
       .post(`streamprocessors/reorder/`, {
         id: getId(streamprocessorId),
-        group: !getId(destinationId) ? null : getId(destinationId),
+        group: destination,
         sort_order: newIndex,
         items: reorderedStreamProcessors,
       })
-      .then(reorderGroups);
+      .then(() => {
+        if (destination) {
+          reorderGroups();
+        }
+      });
   };
 
   if (openGroup) {

@@ -120,15 +120,20 @@ function ManageSimulation(props) {
       return;
     }
     const reorderedSimulations = getItems(allItems, "simulations", null);
+    const destination = getId(destinationId) || null;
 
     api
       .post(`simulations/reorder/`, {
         id: getId(simulationId),
-        group: !getId(destinationId) ? null : getId(destinationId),
+        group: destination,
         sort_order: newIndex,
         items: reorderedSimulations,
       })
-      .then(reorderGroups)
+      .then(() => {
+        if (destination) {
+          reorderGroups();
+        }
+      })
       .catch((e) => console.log(e));
   };
 
