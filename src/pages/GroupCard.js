@@ -72,7 +72,6 @@ const GroupCard = ({
             />
           ) : (
             <div className={"empty-group"}>
-              <span>+</span>
               <DeleteIcon onClick={() => onGroupDelete(group)} />
             </div>
           )}
