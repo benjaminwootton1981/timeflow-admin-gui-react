@@ -6,10 +6,15 @@ import EmptyStreamProcessorSVG from "../../../assets/empty-streamprocessor.svg";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
 import { getStreamProcessorsList } from "../../../store/streamProcessor/action";
 import api from "../../../api";
-import { getId, getItems, getMapped } from "../../stream/home";
+import {
+  getId,
+  getItems,
+  getMapped,
+  reorderAllGroups,
+} from "../../stream/home";
 import GroupView from "../../GroupView";
 import Sortable from "../../Sortable";
-import { keyBy } from "lodash";
+import { keyBy, omit } from "lodash";
 import { message } from "antd";
 import { getProjects } from "../../../store/actions/serviceAction";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -101,6 +106,17 @@ function ManageStreamProcessor(props) {
       });
   };
 
+  const deleteGroup = (group) => {
+    api.delete(`streamprocessor_groups/${group.id}/`).then(() => {
+      setGroups(omit(groups, group.name));
+      setAllGroups(omit(allGroups, group.name));
+    });
+  };
+
+  const reorderGroups = () => {
+    reorderAllGroups(allItems, allGroups, setAllGroups);
+  };
+
   const onDragEnd = (streamprocessorId, sourceId, destinationId, newIndex) => {
     if (!streamprocessorId.includes("streamprocessor")) {
       return;
@@ -118,7 +134,7 @@ function ManageStreamProcessor(props) {
         sort_order: newIndex,
         items: reorderedStreamProcessors,
       })
-      .then((response) => console.log(response.data));
+      .then(reorderGroups);
   };
 
   if (openGroup) {
@@ -150,6 +166,8 @@ function ManageStreamProcessor(props) {
           type={"streamprocessors"}
           ItemComponent={StreamProcessorValueCard}
           onDragEnd={onDragEnd}
+          onGroupDelete={deleteGroup}
+          reorderGroups={reorderGroups}
         />
       )}
 

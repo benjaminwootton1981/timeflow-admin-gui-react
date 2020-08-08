@@ -41,6 +41,22 @@ export const getItems = (allItems, type, group) => {
     .map((item, index) => ({ id: item.id, sort_order: index, group }));
 };
 
+export const reorderAllGroups = (allItems, allGroups, setAllGroups) => {
+  const updatedItems = keyBy(allItems, "id");
+  const base = filter(allItems, (item) => {
+    return !item.streams;
+  }).map((s) => s.value);
+  const groups = { ...allGroups, base };
+  Object.keys(groups).forEach((key) => {
+    const streams = updatedItems[key]?.streams;
+    if (streams) {
+      groups[key] = streams.map((s) => s.value);
+    }
+  });
+
+  setAllGroups(groups);
+};
+
 function ManageStream(props) {
   const [streams, setStreams] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
@@ -134,19 +150,7 @@ function ManageStream(props) {
   };
 
   const reorderGroups = () => {
-    const updatedItems = keyBy(allItems, "id");
-    const base = filter(allItems, (item) => {
-      return !item.streams;
-    }).map((s) => s.value);
-    const groups = { ...allGroups, base };
-    Object.keys(groups).forEach((key) => {
-      const streams = updatedItems[key]?.streams;
-      if (streams) {
-        groups[key] = streams.map((s) => s.value);
-      }
-    });
-
-    setAllGroups(groups);
+    reorderAllGroups(allItems, allGroups, setAllGroups);
   };
 
   const onDragEnd = (streamId, sourceId, destinationId, newIndex) => {
@@ -163,9 +167,8 @@ function ManageStream(props) {
         sort_order: newIndex,
         items: reorderedStreams,
       })
-      .then(() => {
-        reorderGroups();
-      });
+      .then(reorderGroups)
+      .catch((e) => console.log(e));
   };
 
   if (openGroup) {

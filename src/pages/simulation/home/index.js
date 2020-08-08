@@ -4,12 +4,17 @@ import { connect } from "react-redux";
 import { getSimulations } from "../../../store/actions/serviceAction";
 import EmptySimultionsSVG from "../../../assets/empty-simulations.svg";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
-import { getId, getItems, getMapped } from "../../stream/home";
+import {
+  getId,
+  getItems,
+  getMapped,
+  reorderAllGroups,
+} from "../../stream/home";
 import SimulationValueCard from "../../../components/cards/SimulationValueCard";
 import Sortable from "../../Sortable";
 import GroupView from "../../GroupView";
 import api from "../../../api";
-import { keyBy } from "lodash";
+import { keyBy, omit } from "lodash";
 import { message } from "antd";
 
 function ManageSimulation(props) {
@@ -99,6 +104,17 @@ function ManageSimulation(props) {
       });
   };
 
+  const deleteGroup = (group) => {
+    api.delete(`simulation_groups/${group.id}/`).then(() => {
+      setGroups(omit(groups, group.name));
+      setAllGroups(omit(allGroups, group.name));
+    });
+  };
+
+  const reorderGroups = () => {
+    reorderAllGroups(allItems, allGroups, setAllGroups);
+  };
+
   const onDragEnd = (simulationId, sourceId, destinationId, newIndex) => {
     if (!simulationId.includes("simulation")) {
       return;
@@ -112,7 +128,7 @@ function ManageSimulation(props) {
         sort_order: newIndex,
         items: reorderedSimulations,
       })
-      .then((response) => console.log(response.data))
+      .then(reorderGroups)
       .catch((e) => console.log(e));
   };
 
@@ -142,6 +158,8 @@ function ManageSimulation(props) {
           type={"simulations"}
           ItemComponent={SimulationValueCard}
           onDragEnd={onDragEnd}
+          onGroupDelete={deleteGroup}
+          reorderGroups={reorderGroups}
         />
         {allItems.length === 0 && (
           <div className="empty">
