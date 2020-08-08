@@ -6,7 +6,7 @@ import { getStreams } from "../../../store/actions/serviceAction";
 import EmptyStreamsSVG from "../../../assets/empty-streams.svg";
 import "./style.scss";
 import CreateGroupModal from "../../../modals/CreateGroupModal";
-import { keyBy, omit, last } from "lodash";
+import { keyBy, omit, last, filter } from "lodash";
 import GroupView from "../../GroupView";
 import Sortable from "../../Sortable";
 import api from "../../../api";
@@ -126,7 +126,31 @@ function ManageStream(props) {
       });
   };
 
+  const deleteGroup = (group) => {
+    api.delete(`stream_groups/${group.id}/`).then(() => {
+      setGroups(omit(groups, group.name));
+      setAllGroups(omit(allGroups, group.name));
+    });
+  };
+
+  const reorderGroups = () => {
+    const updatedItems = keyBy(allItems, "id");
+    const base = filter(allItems, (item) => {
+      return !item.streams;
+    }).map((s) => s.value);
+    const groups = { ...allGroups, base };
+    Object.keys(groups).forEach((key) => {
+      const streams = updatedItems[key]?.streams;
+      if (streams) {
+        groups[key] = streams.map((s) => s.value);
+      }
+    });
+
+    setAllGroups(groups);
+  };
+
   const onDragEnd = (streamId, sourceId, destinationId, newIndex) => {
+    console.log(streamId);
     if (!streamId.includes("stream")) {
       return;
     }
@@ -139,7 +163,9 @@ function ManageStream(props) {
         sort_order: newIndex,
         items: reorderedStreams,
       })
-      .then((response) => console.log(response.data));
+      .then(() => {
+        reorderGroups();
+      });
   };
 
   if (openGroup) {
@@ -167,6 +193,8 @@ function ManageStream(props) {
         type={"streams"}
         ItemComponent={StreamValueCard}
         onDragEnd={onDragEnd}
+        onGroupDelete={deleteGroup}
+        reorderGroups={reorderGroups}
       />
       {allItems.length === 0 && (
         <div className="empty">
