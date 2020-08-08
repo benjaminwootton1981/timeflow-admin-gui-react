@@ -41,16 +41,16 @@ export const getItems = (allItems, type, group) => {
     .map((item, index) => ({ id: item.id, sort_order: index, group }));
 };
 
-export const reorderAllGroups = (allItems, allGroups, setAllGroups) => {
+export const reorderAllGroups = (allItems, allGroups, setAllGroups, type) => {
   const updatedItems = keyBy(allItems, "id");
   const base = filter(allItems, (item) => {
     return !item.streams;
   }).map((s) => s.value);
   const groups = { ...allGroups, base };
   Object.keys(groups).forEach((key) => {
-    const streams = updatedItems[key]?.streams;
-    if (streams) {
-      groups[key] = streams.map((s) => s.value);
+    const items = updatedItems[key]?.[type];
+    if (items) {
+      groups[key] = items.map((s) => s.value);
     }
   });
 
@@ -150,7 +150,7 @@ function ManageStream(props) {
   };
 
   const reorderGroups = () => {
-    reorderAllGroups(allItems, allGroups, setAllGroups);
+    reorderAllGroups(allItems, allGroups, setAllGroups, "streams");
   };
 
   const onDragEnd = (streamId, sourceId, destinationId, newIndex) => {

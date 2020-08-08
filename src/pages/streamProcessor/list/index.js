@@ -114,7 +114,7 @@ function ManageStreamProcessor(props) {
   };
 
   const reorderGroups = () => {
-    reorderAllGroups(allItems, allGroups, setAllGroups);
+    reorderAllGroups(allItems, allGroups, setAllGroups, "streamprocessors");
   };
 
   const onDragEnd = (streamprocessorId, sourceId, destinationId, newIndex) => {

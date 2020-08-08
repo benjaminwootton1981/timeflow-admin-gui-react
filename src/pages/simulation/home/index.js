@@ -112,7 +112,7 @@ function ManageSimulation(props) {
   };
 
   const reorderGroups = () => {
-    reorderAllGroups(allItems, allGroups, setAllGroups);
+    reorderAllGroups(allItems, allGroups, setAllGroups, "simulations");
   };
 
   const onDragEnd = (simulationId, sourceId, destinationId, newIndex) => {
