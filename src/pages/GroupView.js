@@ -18,8 +18,8 @@ const GroupView = ({
 
   return (
     <div className="wrapper group">
-      <h2 className="project-name">Manage {capitalize(type)}</h2>
-      <h2 className="dashboard__header">{name}</h2>
+      <h2 className="project-name">{name}</h2>
+      <h2 className="dashboard__header">Manage {capitalize(type)}</h2>
       <ReactSortable
         list={currentItems}
         setList={setCurrentItems}
