@@ -29,17 +29,17 @@ const ScheduleInput = ({ values, stepIndex, setFieldValue }) => {
           className="step"
           onChange={(event) => setSelectValue(event.target.value)}
         >
-          <option value={"every_x_millisecond"}>
+          <option value={"every_x_milliseconds"}>
             {pluralize("Milliseconds", value)}
           </option>
-          <option value={"every_x_second"}>
+          <option value={"every_x_seconds"}>
             {pluralize("Seconds", value)}
           </option>
-          <option value={"every_x_minute"}>
+          <option value={"every_x_minutes"}>
             {pluralize("Minutes", value)}
           </option>
-          <option value={"every_x_hour"}>{pluralize("Hours", value)}</option>
-          <option value={"every_x_hour"}>{pluralize("Days", value)}</option>
+          <option value={"every_x_hours"}>{pluralize("Hours", value)}</option>
+          <option value={"every_x_days"}>{pluralize("Days", value)}</option>
         </select>
       </div>
     </div>
