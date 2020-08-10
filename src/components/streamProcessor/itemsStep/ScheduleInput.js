@@ -3,14 +3,14 @@ import { useDispatch } from "react-redux";
 import pluralize from "pluralize";
 
 const ScheduleInput = ({ values, stepIndex, setFieldValue }) => {
-  const [value, setValue] = useState(parseInt(values.schedule_value || 1));
+  const [value, setValue] = useState(parseInt(values.schedule || 1));
   const [selectValue, setSelectValue] = useState(
     values.schedule_type || "every_x_second"
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setFieldValue("schedule_value", value);
+    setFieldValue("schedule", value);
     setFieldValue("schedule_type", selectValue);
   }, [value, selectValue]);
 
