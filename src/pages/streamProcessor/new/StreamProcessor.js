@@ -92,12 +92,7 @@ const StreamProcessor = (props) => {
         return { ...el };
       }),
     },
-    // validationSchema: yup.object().shape({
-    //     name: yup.string().required("is empty"),
-    //     description: yup.string().required("is empty"),
-    //     replicas: yup.string().required("is empty"),
-    //
-    // }),
+
     onSubmit: (values) => {
       if (isNew) {
         props.createStreamProcessor(values, projectId);
@@ -135,11 +130,9 @@ const StreamProcessor = (props) => {
     </>
   );
 
-  let isEmptyStepName = true;
-  const foundElem = values.items.filter((step, i) => {
-    return step.name === "";
-  });
-  isEmptyStepName = foundElem.length > 0;
+  const isEmptyStepName = values.items.some((step) => !step.name);
+  const hasSameName =
+    new Set(values.items.map((s) => s.name)).size !== values.items.length;
 
   const calculationisInheritsSchemaIndex = (i, items) => {
     let isInherits_schema;
@@ -172,7 +165,8 @@ const StreamProcessor = (props) => {
       return result;
     }
   };
-  const isDisabled = !isEmptyStepName && values.name !== "" ? 0 : 1;
+  const isDisabled = isEmptyStepName || !values.name || hasSameName;
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="wrapper">
