@@ -106,6 +106,8 @@ const Step = (props) => {
     }
   }, [values]);
 
+  const [selectChanged, setSelectChanged] = useState(false);
+
   if (!step_types) {
     return false;
   }
@@ -147,16 +149,18 @@ const Step = (props) => {
       },
     ]);
   };
+
   const setValueStep = (e) => {
     // SetValueSelect({...valueSelect, [e.name]: e.value});
-
     let setValue;
+
     if (!e.target) {
       setValue = { ...stepDataValue, [e.name]: e.value };
     } else {
       setValue = { ...stepDataValue, [e.target.name]: e.target.value };
     }
     setStepDataValue(setValue);
+    setSelectChanged(true);
   };
 
   let choicesFirstSelect = [];
@@ -343,16 +347,23 @@ const Step = (props) => {
                                     addNewBlock={addNewBlock}
                                     values={props.values}
                                     allValues={props.allValues}
-                                    onChange={setValueStep}
+                                    onChange={(data) => {
+                                      setValueStep(data);
+                                      setFieldValue(
+                                        `blocks.${i}.${data.name}`,
+                                        data.value
+                                      );
+                                    }}
                                     indexInheritsSchema={
                                       props.indexInheritsSchema
                                     }
                                     elem={elem}
                                     block={block}
                                     indexBlock={i}
-                                    setFieldValue={(name, e) =>
-                                      setFieldValue(`blocks.${i}.${name}`, e)
-                                    }
+                                    selectChanged={selectChanged}
+                                    setFieldValue={(name, e) => {
+                                      setFieldValue(`blocks.${i}.${name}`, e);
+                                    }}
                                   />
                                 </>
                               );

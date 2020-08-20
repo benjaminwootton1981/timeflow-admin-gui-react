@@ -12,6 +12,7 @@ const SelectFromBlock = (props) => {
       val = choices[0]?.name;
     }
   }
+
   useEffect(() => {
     // if (!choices || choices.length === 0) {
     //     //   return false;
@@ -33,7 +34,9 @@ const SelectFromBlock = (props) => {
     <div className="styled-select">
       <select
         name={blockElem.name}
-        onChange={(e) => typeReturnEl(e, blockElem)}
+        onChange={(e) => {
+          typeReturnEl(e, blockElem);
+        }}
         className="step"
         value={valueSelect[blockElem.name]}
       >

@@ -25,7 +25,26 @@ const InputTypeBlock = (props) => {
       ? block["event_field_name_from"]
       : "",
   });
-  useEffect(() => {}, [props.actualSchema, props.values]);
+
+  useEffect(() => {
+    if (props.selectChanged) {
+      schema = props.schemas.filter((el) => {
+        if (el.name?.indexOf(" ") === -1) {
+          return el.name === checkValue;
+        } else {
+          return (
+            el.name?.split(" ").slice(0).join("_") ===
+            checkValue?.split(" ").slice(0).join("_")
+          );
+        }
+      });
+
+      const name = props.elem.fields[0].name;
+      const value = schema[0].schemafield_set[0].name;
+      typeReturnEl({ target: { value: value } }, { name: name });
+    }
+  }, [props.actualSchema, props.values, props.selectChanged]);
+
   if (props.schemas.length <= 0) {
     return false;
   }
@@ -76,8 +95,7 @@ const InputTypeBlock = (props) => {
     schema = props.schemas[0];
   }
   const typeReturnEl = (e, blockElem) => {
-    setFieldValue(blockElem.name, e.target.value);
-    props.onChange(e);
+    props.onChange({ name: blockElem.name, value: e.target.value });
     SetValueSelect({ ...valueSelect, [blockElem.name]: e.target.value });
   };
   return (

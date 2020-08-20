@@ -74,7 +74,6 @@ const InputTypeSelect = (props) => {
   }
   const setSchema = (e) => {
     props.changeFunctionEndpoints(e, elem);
-
     const element = {
       name: elName,
       value: e.target.value,
