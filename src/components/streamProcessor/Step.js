@@ -153,14 +153,12 @@ const Step = (props) => {
   const setValueStep = (e) => {
     // SetValueSelect({...valueSelect, [e.name]: e.value});
     let setValue;
-
     if (!e.target) {
       setValue = { ...stepDataValue, [e.name]: e.value };
     } else {
       setValue = { ...stepDataValue, [e.target.name]: e.target.value };
     }
     setStepDataValue(setValue);
-    setSelectChanged(true);
   };
 
   let choicesFirstSelect = [];
@@ -324,7 +322,10 @@ const Step = (props) => {
                             stepIndex={stepIndex}
                             isRelated={isRelated}
                             isRender={isRender}
-                            onChange={setValueStep}
+                            onChange={(data) => {
+                              setValueStep(data);
+                              setSelectChanged(true);
+                            }}
                             SetValueSelect={SetValueSelect}
                             values={props.values}
                             streams={streams}
