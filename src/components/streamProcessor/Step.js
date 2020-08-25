@@ -324,7 +324,9 @@ const Step = (props) => {
                             isRender={isRender}
                             onChange={(data) => {
                               setValueStep(data);
-                              setSelectChanged(true);
+                              if (elem.name === "record_type") {
+                                setSelectChanged(true);
+                              }
                             }}
                             SetValueSelect={SetValueSelect}
                             values={props.values}
