@@ -340,7 +340,7 @@ const Step = (props) => {
                         ),
                         block: (
                           <>
-                            {block.map((block, i) => {
+                            {block.map((block_element, i) => {
                               return (
                                 <>
                                   <InputTypeBlock
@@ -348,6 +348,7 @@ const Step = (props) => {
                                     addNewBlock={addNewBlock}
                                     values={props.values}
                                     allValues={props.allValues}
+                                    setSelectChanged={setSelectChanged}
                                     onChange={(data) => {
                                       setValueStep(data);
                                       setFieldValue(
@@ -359,8 +360,9 @@ const Step = (props) => {
                                       props.indexInheritsSchema
                                     }
                                     elem={elem}
-                                    block={block}
+                                    block={block_element}
                                     indexBlock={i}
+                                    blockCount={block.length}
                                     selectChanged={selectChanged}
                                     setFieldValue={(name, e) => {
                                       setFieldValue(`blocks.${i}.${name}`, e);

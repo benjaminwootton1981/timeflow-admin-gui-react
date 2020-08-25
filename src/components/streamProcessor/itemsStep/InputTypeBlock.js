@@ -44,6 +44,9 @@ const InputTypeBlock = (props) => {
       typeReturnEl({ target: { value: value } }, { name: name });
       console.log("Form values: ", props.values);
       console.log("Changed field ", name, " value to: ", value);
+      if (props.blockCount === indexBlock + 1) {
+        props.setSelectChanged(false);
+      }
     } else {
       console.log("Form values: ", props.allValues);
     }
