@@ -42,6 +42,10 @@ const InputTypeBlock = (props) => {
       const name = props.elem.fields[0].name;
       const value = schema[0].schemafield_set[0].name;
       typeReturnEl({ target: { value: value } }, { name: name });
+      console.log("Form values: ", props.allValues);
+      console.log("Changed field ", name, " value to: ", value);
+    } else {
+      console.log("Form values: ", props.allValues);
     }
   }, [props.actualSchema, props.values, props.selectChanged]);
 
