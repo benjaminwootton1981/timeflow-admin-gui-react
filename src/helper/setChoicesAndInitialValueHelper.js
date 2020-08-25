@@ -336,7 +336,14 @@ export const setChoicesAndInitialValueHelper = (
         props.setFieldValue(elName, setValue);
       }
     } else if (elName === "category_name") {
-      setTypeChoice(props.itemsStepTypes["kpiData"]);
+      const choices = Array.from(
+        new Set(props.itemsStepTypes["kpiData"].map((x) => x.category))
+      );
+      setTypeChoice(
+        choices.map((x) => {
+          return { category: x };
+        })
+      );
       if (!elName) {
         return errorData;
       }
@@ -364,9 +371,11 @@ export const setChoicesAndInitialValueHelper = (
         return errorData;
       }
       if (props.itemsStepTypes["kpiData"].length > 0) {
-        const setValue = !!props.values.metric
-          ? props.values.metric
-          : props.itemsStepTypes["kpiData"][0].metric;
+        const setValue =
+          !!props.values.metric &&
+          selectArray.some((x) => x.metric === props.values.metric)
+            ? props.values.metric
+            : selectArray[0].metric;
         setFieldValue(elName, setValue);
       }
     } else if (kpiKeyTypeLength === 0 && props.values["steptype"] === "key") {
@@ -376,7 +385,13 @@ export const setChoicesAndInitialValueHelper = (
       const selectArray = props.itemsStepTypes["kpiData"]?.filter(
         (kpi) => kpi.category === checkMetricName
       );
-      const selectIndicatorType = selectArray[0]?.indicator_type;
+      const selectedValue = selectArray.find(
+        (x) => x.metric === props.values.metric
+      );
+      const selectIndicatorType =
+        selectedValue !== undefined
+          ? selectedValue.indicator_type
+          : selectArray[0]?.indicator_type;
       let metricKeyType = [];
       if (selectIndicatorType === "kpi_type_measurement") {
         setTypeChoice(props.itemsStepTypes["stepData"]?.update_key_types);
@@ -385,9 +400,11 @@ export const setChoicesAndInitialValueHelper = (
         setTypeChoice(props.itemsStepTypes["stepData"]?.increment_key_types);
         metricKeyType = props.itemsStepTypes["stepData"]?.increment_key_types;
       }
-      const setValue = !!props.values.key_type
-        ? props.values.key_type
-        : metricKeyType[0].value;
+      const setValue =
+        !!props.values.key_type &&
+        metricKeyType.some((x) => x.value === props.values.key_type)
+          ? props.values.key_type
+          : metricKeyType[0].value;
       setFieldValue(elName, setValue);
       props.SetValueSelect({ ...props.valueSelect, [elName]: setValue });
     } else if (elName === "record_type") {

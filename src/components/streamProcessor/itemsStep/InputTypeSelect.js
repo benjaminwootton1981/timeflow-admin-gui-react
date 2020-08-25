@@ -21,6 +21,8 @@ const InputTypeSelect = (props) => {
       sorry data error...
     </div>
   );
+
+  // let kpiKeyTypeLength = props.itemsStepTypes["kpiData"].length
   let kpiKeyTypeLength = 0;
   _.find(
     props.itemsStepTypes["stepData"]["step_types_data"]["key"]["fields"],
@@ -51,7 +53,6 @@ const InputTypeSelect = (props) => {
       const checkMetricName = !!props.values.category_name
         ? props.values.category_name
         : props.itemsStepTypes["kpiData"][0].category;
-
       const selectArray = props.itemsStepTypes["kpiData"].filter(
         (kpi) => kpi.category === checkMetricName
       );
@@ -72,7 +73,7 @@ const InputTypeSelect = (props) => {
   if (!streams) {
     return false;
   }
-  const setSchema = (e) => {
+  const setSchema = (e, elem) => {
     props.changeFunctionEndpoints(e, elem);
     const element = {
       name: elName,
@@ -97,7 +98,9 @@ const InputTypeSelect = (props) => {
             <div className="styled-select">
               <select
                 name={elName}
-                onChange={(e) => setSchema(e, elem)}
+                onChange={(e) => {
+                  setSchema(e, elem);
+                }}
                 className="step"
               >
                 {typeChoices.map((sel, i) => {
@@ -145,7 +148,9 @@ const InputTypeSelect = (props) => {
             <div className="styled-select">
               <select
                 name={elName}
-                onChange={(e) => setSchema(e, elem)}
+                onChange={(e) => {
+                  setSchema(e, elem);
+                }}
                 className="step"
               >
                 {props.typeChoicesEndpoint.map((sel, i) => {
@@ -188,7 +193,9 @@ const InputTypeSelect = (props) => {
             <div className="styled-select">
               <select
                 name={elName}
-                onChange={(e) => setSchema(e, elem)}
+                onChange={(e) => {
+                  setSchema(e, elem);
+                }}
                 className="step"
               >
                 {typeChoices.map((sel, i) => {
