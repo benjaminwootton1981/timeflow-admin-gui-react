@@ -325,6 +325,8 @@ const Step = (props) => {
                             onChange={(data) => {
                               setValueStep(data);
                               setSelectChanged(true);
+                              console.log("onChange data: ", data);
+                              console.log("Form values: ", values);
                             }}
                             SetValueSelect={SetValueSelect}
                             values={props.values}
