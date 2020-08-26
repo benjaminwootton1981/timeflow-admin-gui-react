@@ -85,7 +85,6 @@ const Step = (props) => {
         typeChoicesEndpoint.length <= 0 ? filtered : typeChoicesEndpoint;
       setTypeChoiceEndpoint(isFirstRenderEndpoint);
     }
-
     setFieldsKey(stepEl.steptype);
   }, [stepEl]);
 
@@ -159,6 +158,15 @@ const Step = (props) => {
       setValue = { ...stepDataValue, [e.target.name]: e.target.value };
     }
     setStepDataValue(setValue);
+    if (e.name === "record_type" && stepEl.steptype === "lookup") {
+      const stepFields =
+        props.itemsStepTypes.stepData.step_types_data.lookup.fields;
+      stepFields.forEach((field) => {
+        if (field.name !== "record_type" && field.name !== "block") {
+          props.setFieldValue(field.name, field.choices[0]?.[0]);
+        }
+      });
+    }
   };
 
   let choicesFirstSelect = [];
