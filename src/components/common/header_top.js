@@ -43,6 +43,12 @@ function TopHeader(props) {
                   >
                     Collaborators
                   </a>
+                  <a
+                    className="submenu__link"
+                    href={`/projects/${id}/streamprocessors/logs/`}
+                  >
+                    Logs
+                  </a>
                 </li>
               </ul>
             </div>

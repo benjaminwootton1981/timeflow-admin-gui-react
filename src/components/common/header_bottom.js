@@ -23,14 +23,7 @@ export default function BottomHeader() {
       </div>
       <nav className="second-nav">
         <ul>
-          <li className="second-nav__item">
-            <a
-              className="second-nav__link"
-              href={`/projects/${projectId}/streamprocessors/all-logs/`}
-            >
-              All Logs
-            </a>
-          </li>
+          <li className="second-nav__item"></li>
           <li className="second-nav__item">
             <a
               className="second-nav__link"
