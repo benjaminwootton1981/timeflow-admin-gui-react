@@ -145,6 +145,14 @@ function TopHeader(props) {
                   <li className="submenu__item">
                     <a
                       className="submenu__link"
+                      href={`/projects/${id}/timeseries`}
+                    >
+                      Time Series
+                    </a>
+                  </li>
+                  <li className="submenu__item">
+                    <a
+                      className="submenu__link"
                       href={`/projects/${id}/streamprocessors/kpis/`}
                     >
                       Metrics & KPIs
