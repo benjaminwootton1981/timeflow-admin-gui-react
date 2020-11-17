@@ -56,6 +56,7 @@ const SimulationValueCard = ({ post: item, isDragging }) => {
           userId={item.created_by && item.created_by.id}
           requestedReplicas={item.replicas}
           eventType={"simulation"}
+          isComplete={item.completed}
         />
       </div>
       <div className="cardFooter">

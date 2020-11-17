@@ -4,14 +4,24 @@ import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
 
+const Status = {
+  healthy: "Healthy",
+  running: "Running",
+  complete: "Complete",
+  stopped: "stopped",
+  failed: "failed",
+  notDeployed: "Not Deployed",
+};
+
 const ReplicaInfo = ({
   projectId,
   eventId,
   userId,
   requestedReplicas,
   eventType,
+  isComplete,
 }) => {
-  const [replicas, setReplicas] = useState(0);
+  const [replicas, setReplicas] = useState(undefined);
   const websocketServer = useSelector((state) => state.config.websocket_server);
 
   useEffect(() => {
@@ -47,6 +57,24 @@ const ReplicaInfo = ({
     };
   }, [projectId, eventId, userId, eventType, websocketServer]);
 
+  const getStatus = () => {
+    if (isComplete) {
+      return Status.complete;
+    }
+    if (requestedReplicas === replicas) {
+      return Status.healthy;
+    }
+
+    if (replicas !== requestedReplicas) {
+      //TODO check for restarts
+      return Status.failed;
+    }
+
+    if (replicas === undefined) {
+      return Status.notDeployed;
+    }
+  };
+
   return (
     <Fragment>
       <div className="grid">
@@ -69,11 +97,7 @@ const ReplicaInfo = ({
         })}
         data-header="Status"
       >
-        {requestedReplicas === replicas
-          ? "Healthy"
-          : replicas !== requestedReplicas
-          ? "Unhealthy"
-          : "Not deployed"}
+        {getStatus()}
       </span>
     </Fragment>
   );
