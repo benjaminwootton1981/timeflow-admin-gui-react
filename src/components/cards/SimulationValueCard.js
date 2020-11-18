@@ -4,6 +4,13 @@ import api from "../../api";
 import { notification } from "antd";
 import DragIcon from "../../assets/drag-icon.svg";
 
+const SimulationStatus = {
+  notDeployed: "not_deployed",
+  running: "running",
+  stopped: "stopped",
+  ended: "ended",
+};
+
 const SimulationValueCard = ({ post: item, isDragging }) => {
   const handleAction = (action) => {
     return api.post(`simulation_action/${action}`, {
