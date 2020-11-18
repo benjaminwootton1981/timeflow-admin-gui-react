@@ -64,14 +64,13 @@ const ReplicaInfo = ({
     if (requestedReplicas === replicas) {
       return Status.healthy;
     }
+    if (replicas === undefined) {
+      return Status.notDeployed;
+    }
 
     if (replicas !== requestedReplicas) {
       //TODO check for restarts
       return Status.failed;
-    }
-
-    if (replicas === undefined) {
-      return Status.notDeployed;
     }
   };
 
@@ -92,7 +91,7 @@ const ReplicaInfo = ({
       <span
         className={classNames("cardInput", {
           greenOutline: requestedReplicas === replicas,
-          blueOutline: replicas === 0,
+          blueOutline: replicas === 0 || replicas === undefined,
           redOutline: requestedReplicas !== replicas,
         })}
         data-header="Status"
