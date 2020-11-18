@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReplicaInfo from "../managestream/ReplicaInfo";
 import api from "../../api";
 import { notification } from "antd";
@@ -12,6 +12,8 @@ const SimulationStatus = {
 };
 
 const SimulationValueCard = ({ post: item, isDragging }) => {
+  const [state, setState] = useState(item.state);
+
   const handleAction = (action) => {
     return api.post(`simulation_action/${action}`, {
       project_id: item.project?.id,
@@ -26,6 +28,8 @@ const SimulationValueCard = ({ post: item, isDragging }) => {
         notification.error({
           message: response.data.reason || "Simulation deployment failed.",
         });
+      } else {
+        setState(SimulationStatus.running);
       }
     });
   };
@@ -35,6 +39,8 @@ const SimulationValueCard = ({ post: item, isDragging }) => {
       const status = response.data.status;
 
       if (status === "success") {
+        setState(SimulationStatus.stopped);
+
         notification.success({
           message: "Simulation Stopped",
         });
@@ -63,7 +69,7 @@ const SimulationValueCard = ({ post: item, isDragging }) => {
           userId={item.created_by && item.created_by.id}
           requestedReplicas={item.replicas}
           eventType={"simulation"}
-          isComplete={item.completed}
+          state={state}
         />
       </div>
       <div className="cardFooter">
