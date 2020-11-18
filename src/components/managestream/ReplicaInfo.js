@@ -8,8 +8,8 @@ const Status = {
   healthy: "Healthy",
   running: "Running",
   complete: "Complete",
-  stopped: "stopped",
-  failed: "failed",
+  stopped: "Stopped",
+  failed: "Failed",
   notDeployed: "Not Deployed",
 };
 
