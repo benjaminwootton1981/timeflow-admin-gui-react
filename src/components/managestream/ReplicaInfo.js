@@ -12,6 +12,13 @@ const Status = {
   notDeployed: "not_deployed",
 };
 
+const StatusDisplay = {
+  running: "Running",
+  stopped: "Stopped",
+  ended: "Ended",
+  not_deployed: "Not Deployed",
+};
+
 const ReplicaInfo = ({
   projectId,
   eventId,
@@ -79,7 +86,7 @@ const ReplicaInfo = ({
         })}
         data-header="Status"
       >
-        {capitalize(upperCase(state))}
+        {StatusDisplay[state]}
       </span>
     </Fragment>
   );
