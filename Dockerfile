@@ -1,6 +1,7 @@
 # timeflow-admin-gui-react
 
-FROM node:alpine
+FROM node:14.15.1-alpine3.10
+
 WORKDIR /react-app
 COPY ./package.json ./
 RUN npm install
