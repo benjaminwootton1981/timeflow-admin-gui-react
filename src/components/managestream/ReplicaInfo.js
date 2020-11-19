@@ -3,14 +3,13 @@ import io from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
+import { capitalize, upperCase } from "lodash";
 
 const Status = {
-  healthy: "Healthy",
-  running: "Running",
-  complete: "Complete",
-  stopped: "Stopped",
-  failed: "Failed",
-  notDeployed: "Not Deployed",
+  running: "running",
+  stopped: "stopped",
+  ended: "ended",
+  notDeployed: "not_deployed",
 };
 
 const ReplicaInfo = ({
@@ -19,9 +18,9 @@ const ReplicaInfo = ({
   userId,
   requestedReplicas,
   eventType,
-  isComplete,
+  state,
 }) => {
-  const [replicas, setReplicas] = useState(undefined);
+  const [replicas, setReplicas] = useState(0);
   const websocketServer = useSelector((state) => state.config.websocket_server);
 
   useEffect(() => {
@@ -57,23 +56,6 @@ const ReplicaInfo = ({
     };
   }, [projectId, eventId, userId, eventType, websocketServer]);
 
-  const getStatus = () => {
-    if (isComplete) {
-      return Status.complete;
-    }
-    if (requestedReplicas === replicas) {
-      return Status.healthy;
-    }
-    if (replicas === undefined) {
-      return Status.notDeployed;
-    }
-
-    if (replicas !== requestedReplicas) {
-      //TODO check for restarts
-      return Status.failed;
-    }
-  };
-
   return (
     <Fragment>
       <div className="grid">
@@ -90,13 +72,14 @@ const ReplicaInfo = ({
       </div>
       <span
         className={classNames("cardInput", {
-          greenOutline: requestedReplicas === replicas,
-          blueOutline: replicas === 0 || replicas === undefined,
-          redOutline: requestedReplicas !== replicas,
+          greenOutline: state === Status.running,
+          blueOutline: state === Status.notDeployed,
+          redOutline:
+            requestedReplicas !== replicas || state === Status.stopped,
         })}
         data-header="Status"
       >
-        {getStatus()}
+        {capitalize(upperCase(state))}
       </span>
     </Fragment>
   );

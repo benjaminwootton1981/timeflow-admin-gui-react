@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import ReplicaInfo from "../managestream/ReplicaInfo";
 import { notification } from "antd";
 import api from "../../api";
 import DragIcon from "../../assets/drag-icon.svg";
 
+const StreamProcessorStatus = {
+  notDeployed: "not_deployed",
+  running: "running",
+  stopped: "stopped",
+};
+
 const StreamProcessorValueCard = ({ post: item, isDragging }) => {
+  const [state, setState] = useState(item.state);
+
   const handleAction = (action) => {
     return api.post(`streamprocessor_action/${action}`, {
       project_id: item.project?.id || item.project,
@@ -12,36 +20,32 @@ const StreamProcessorValueCard = ({ post: item, isDragging }) => {
     });
   };
   const handleRun = () => {
-    handleAction("run").then((response) => {
-      const status = response.data.status;
-
-      if (status === "success") {
-        notification.success({
-          message: "Stream Processor deployed successfully",
-        });
-      } else {
+    handleAction("run")
+      .then((response) => {
+        setState(StreamProcessorStatus.running);
+      })
+      .catch(() => {
         notification.error({
           message: "Stream Processor deployment failed.",
         });
-      }
-    });
+      });
   };
 
   const handleStop = () => {
-    handleAction("stop").then((response) => {
-      const status = response.data.status;
-
-      if (status === "success") {
+    handleAction("stop")
+      .then((response) => {
+        setState(StreamProcessorStatus.stopped);
         notification.success({
           message: "Stream Processor stopped",
         });
-      } else {
+      })
+      .catch(() => {
         notification.error({
-          message: "Stream Processor Stop failed, try again.",
+          message: "Stream Processor stop failed.",
         });
-      }
-    });
+      });
   };
+
   return (
     <div className="Valuecard">
       <h2 className="valueHeader handle">{item.name}</h2>
@@ -57,6 +61,7 @@ const StreamProcessorValueCard = ({ post: item, isDragging }) => {
           userId={item.owning_user?.id || item.owning_user}
           requestedReplicas={item.replicas}
           eventType={"streamprocessor"}
+          state={state}
         />
       </div>
       <div className="cardFooter">
