@@ -60,14 +60,6 @@ const StreamValueCard = ({ post: item, isDragging }) => {
         <a
           href={`/projects/${item.project && item.project.id}/streams/${
             item.id
-          }/monitor`}
-          className="monitor"
-        >
-          <span className="helper">Monitor</span>
-        </a>
-        <a
-          href={`/projects/${item.project && item.project.id}/streams/${
-            item.id
           }/analyse`}
           className="export"
         >
