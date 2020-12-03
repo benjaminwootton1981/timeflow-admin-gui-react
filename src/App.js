@@ -31,6 +31,7 @@ const App = ({ children }) => {
         if (data) {
           notification[data.type]({
             message: data.message,
+            description: data.description,
           });
         }
       });
