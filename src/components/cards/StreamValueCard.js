@@ -61,7 +61,7 @@ const StreamValueCard = ({ post: item, isDragging }) => {
           href={`/projects/${item.project && item.project.id}/streams/${
             item.id
           }/analyse`}
-          className="export"
+          className="analyze"
         >
           <span className="helper">Analyse</span>
         </a>
