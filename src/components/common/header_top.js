@@ -240,7 +240,7 @@ function TopHeader(props) {
                     className="submenu__link"
                     href={`/projects/${projectId}/searches/list`}
                   >
-                    Searches
+                    Saved Searches
                   </a>
                 </li>
               </ul>
