@@ -5,6 +5,7 @@ import DragIcon from "../../assets/drag-icon.svg";
 
 const StreamValueCard = ({ post: item, isDragging }) => {
   const [events, setEvents] = useState(0);
+  const [err, setErrors] = useState(0);
 
   useEffect(() => {
     if (item) {
@@ -12,6 +13,7 @@ const StreamValueCard = ({ post: item, isDragging }) => {
         .get(`${API_URL}stream_events`, { params: { stream: item.id } })
         .then((response) => {
           setEvents(response.data.eventCount);
+          setErrors(response.data.errorCount);
         })
         .catch((e) => {
           console.log(e);
@@ -40,7 +42,7 @@ const StreamValueCard = ({ post: item, isDragging }) => {
           </div>
           <div className="cardItem smallItem">
             <span className="cardInput" data-header="Number Of Errors">
-              0
+              {err}
             </span>
           </div>
         </div>
