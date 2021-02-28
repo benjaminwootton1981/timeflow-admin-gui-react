@@ -4,7 +4,7 @@ executors:
     environment:
       IMAGE_NAME: timeflowsystems/timeflow-admin-gui-react
     docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: cimg/base:2020.01
 jobs:
   build:
     executor: docker-publisher
