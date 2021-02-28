@@ -33,7 +33,7 @@ workflows:
               only: master
       - publish-latest:
           context:
-            - timeflow
+            - Timeflow
           requires:
             - build
           filters:
