@@ -2738,6 +2738,9 @@ main {
 .cardFooter a.export {
   background-image: url(../../assets/card_button/export.svg);
 }
+.cardFooter a.analyze {
+  background-image: url(../../assets/analyze.svg);
+}
 
 .cardFooter a.reset {
   background-image: url(../../assets/card_button/reset.svg);

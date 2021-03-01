@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 
 function TopHeader(props) {
   const currentUser = useSelector((state) => state.currentUser) || {};
-  const [id, setId] = useState(0);
+  const [projectId, setId] = useState(0);
 
   useEffect(() => {
     let id = props.location.pathname.split("/")[2];
@@ -34,18 +34,21 @@ function TopHeader(props) {
             <div className="submenu__wrapper">
               <ul className="submenu">
                 <li className="submenu__item">
-                  <a className="submenu__link" href={`/projects/${id}/details`}>
+                  <a
+                    className="submenu__link"
+                    href={`/projects/${projectId}/details`}
+                  >
                     Details
                   </a>
                   <a
                     className="submenu__link"
-                    href={`/projects/${id}/collaboration`}
+                    href={`/projects/${projectId}/collaboration`}
                   >
                     Collaborators
                   </a>
                   <a
                     className="submenu__link"
-                    href={`/projects/${id}/streamprocessors/logs/`}
+                    href={`/projects/${projectId}/streamprocessors/logs/`}
                   >
                     Logs
                   </a>
@@ -66,37 +69,37 @@ function TopHeader(props) {
                 <li className="submenu__item">
                   <a
                     className="submenu__link"
-                    href={`/projects/${id}/searches/search`}
+                    href={`/projects/${projectId}/searches/search`}
                   >
                     Search
                   </a>
                   <a
                     className="submenu__link"
-                    href={`/projects/${id}/integration/import`}
+                    href={`/projects/${projectId}/integration/import`}
                   >
                     Import
                   </a>
                   <a
                     className="submenu__link"
-                    href={`/projects/${id}/searches/extract`}
+                    href={`/projects/${projectId}/searches/extract`}
                   >
                     Extract
                   </a>
                   <a
                     className="submenu__link"
-                    href={`/react/projects/${id}/simulations/`}
+                    href={`/react/projects/${projectId}/simulations/`}
                   >
                     Simulate
                   </a>
                   <a
                     className="submenu__link"
-                    href={`/projects/${id}/api_endpoints`}
+                    href={`/projects/${projectId}/api_endpoints`}
                   >
                     API Connection Details
                   </a>
                   <a
                     className="submenu__link"
-                    href={`/projects/${id}/integration`}
+                    href={`/projects/${projectId}/integration`}
                   >
                     Timeflow Connector
                   </a>
@@ -115,21 +118,24 @@ function TopHeader(props) {
             <div className="submenu__wrapper">
               <ul className="submenu">
                 <li className="submenu__item">
-                  <a className="submenu__link" href={`/projects/${id}/schemas`}>
+                  <a
+                    className="submenu__link"
+                    href={`/projects/${projectId}/schemas`}
+                  >
                     Event Definitions
                   </a>
                 </li>
                 <li className="submenu__item">
                   <a
                     className="submenu__link"
-                    href={`/react/projects/${id}/streams`}
+                    href={`/react/projects/${projectId}/streams`}
                   >
                     Event Streams
                   </a>
                   <li className="submenu__item">
                     <a
                       className="submenu__link"
-                      href={`/react/projects/${id}/streamprocessors`}
+                      href={`/react/projects/${projectId}/streamprocessors`}
                     >
                       Stream Processors
                     </a>
@@ -137,7 +143,7 @@ function TopHeader(props) {
                   <li className="submenu__item">
                     <a
                       className="submenu__link"
-                      href={`/projects/${id}/searches`}
+                      href={`/projects/${projectId}/searches`}
                     >
                       Saved Searches
                     </a>
@@ -145,7 +151,7 @@ function TopHeader(props) {
                   <li className="submenu__item">
                     <a
                       className="submenu__link"
-                      href={`/projects/${id}/timeseries`}
+                      href={`/projects/${projectId}/timeseries`}
                     >
                       Time Series
                     </a>
@@ -153,7 +159,7 @@ function TopHeader(props) {
                   <li className="submenu__item">
                     <a
                       className="submenu__link"
-                      href={`/projects/${id}/streamprocessors/kpis/`}
+                      href={`/projects/${projectId}/streamprocessors/kpis/`}
                     >
                       Metrics & KPIs
                     </a>
@@ -161,7 +167,7 @@ function TopHeader(props) {
                   <li className="submenu__item">
                     <a
                       className="submenu__link"
-                      href={`/projects/${id}/functions`}
+                      href={`/projects/${projectId}/functions`}
                     >
                       Functions
                     </a>
@@ -169,7 +175,7 @@ function TopHeader(props) {
                   <li className="submenu__item">
                     <a
                       className="submenu__link"
-                      href={`/projects/${id}/analysis`}
+                      href={`/projects/${projectId}/analysis`}
                     >
                       Reports
                     </a>
@@ -178,7 +184,7 @@ function TopHeader(props) {
                   <li className="submenu__item">
                     <a
                       className="submenu__link"
-                      href={`/projects/${id}/timelines`}
+                      href={`/projects/${projectId}/timelines`}
                     >
                       Timelines
                     </a>
@@ -186,7 +192,7 @@ function TopHeader(props) {
                   <li className="submenu__item">
                     <a
                       className="submenu__link"
-                      href={`/projects/${id}/datadictionaries`}
+                      href={`/projects/${projectId}/datadictionaries`}
                     >
                       Data Dictionaries
                     </a>
@@ -220,21 +226,21 @@ function TopHeader(props) {
                 <li className="submenu__item">
                   <a
                     className="submenu__link"
-                    href={`/projects/${id}/analysis/list`}
+                    href={`/projects/${projectId}/analysis/list`}
                   >
                     Reports
                   </a>
                   <a
                     className="submenu__link"
-                    href={`/projects/${id}/streamprocessors/kpis/current`}
+                    href={`/projects/${projectId}/streamprocessors/kpis/current`}
                   >
                     Metrics & KPIs
                   </a>
                   <a
                     className="submenu__link"
-                    href={`/projects/${id}/searches/list`}
+                    href={`/projects/${projectId}/searches/list`}
                   >
-                    Searches
+                    Saved Searches
                   </a>
                 </li>
               </ul>
@@ -244,20 +250,13 @@ function TopHeader(props) {
           <li className="main-nav__item">
             <a
               className="main-nav__link"
-              href={`/account/${currentUser.id}/workflow/`}
+              href={`/account/${projectId}/workflow/`}
             >
               <span>
                 <img src={MenuIconWorkflowSVG} alt="Workflow" />
               </span>
               Workflow
             </a>
-            {/*<div className="submenu__wrapper">*/}
-            {/*  <ul className="submenu">*/}
-            {/*    <li className="submenu__item">*/}
-            {/*      <a className="submenu__link" href={``}>Inbox</a>*/}
-            {/*    </li>*/}
-            {/*  </ul>*/}
-            {/*</div>*/}
           </li>
 
           <li className="main-nav__item">
